@@ -1,0 +1,42 @@
+"use server";
+
+import {requireAdmin} from "@/app/data/admin/require-admin";
+import {ApiResponse} from "@/lib/types";
+import {lessonSchema, LessonSchema} from "@/lib/zodSchemas";
+import {prisma} from "@/lib/db";
+
+export async function updateLesson(values: LessonSchema, lessonId:string): Promise<ApiResponse> {
+    await requireAdmin();
+
+    try {
+        const result = lessonSchema.safeParse(values)
+        if (!result.success){
+            return {
+                status: "error",
+                message: "Invalid form data"
+            }
+        }
+
+        await prisma.lesson.update({
+            where:{
+                id: lessonId
+            },
+            data: {
+                title :result.data.title,
+                description: result.data.description,
+                thumbnailKey: result.data.thumbnailKey,
+                videoKey: result.data.videoKey,
+            }
+        });
+
+        return {
+            status: "success",
+            message: "Lesson updated successfully"
+        }
+    } catch {
+        return {
+            status: "error",
+            message: "Failed to update lesson"
+        }
+    }
+}

@@ -9,12 +9,12 @@ import {detectBot, fixedWindow, request} from "@arcjet/next";
 import {revalidatePath} from "next/cache";
 
 const aj = arcjet
-    .withRule(
+ /*   .withRule(
         detectBot({
             mode: "LIVE",
             allow: [],
         })
-    )
+    )*/
     .withRule(
         fixedWindow({
             mode: "LIVE",

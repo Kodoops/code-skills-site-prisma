@@ -8,12 +8,12 @@ import {headers} from "next/headers";
 import {requireAdmin} from "@/app/data/admin/require-admin";
 
 const aj = arcjet
-    .withRule(
-        detectBot({
-            mode: "LIVE",
-            allow: [],
-        })
-    )
+    // .withRule(
+    //     detectBot({
+    //         mode: "LIVE",
+    //         allow: [],
+    //     })
+    // )
     .withRule(
         fixedWindow({
             mode: "LIVE",

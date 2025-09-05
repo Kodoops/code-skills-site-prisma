@@ -9,7 +9,10 @@ import {RenderDescription} from "@/components/rich-text-editor/RenderDescription
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible";
 import {Card, CardContent} from "@/components/ui/card";
 import {CheckIcon} from "lucide-react";
-import {Button} from "@/components/ui/button";
+import {checkIfCourseBought} from "@/app/data/user/user-is-enrolled";
+import Link from 'next/link';
+import {EnrollmentButton} from "@/app/(root)/courses/[slug]/_components/EnrollmentButton";
+import {buttonVariants} from "@/components/ui/button";
 
 type Params = Promise<{ slug: string }>
 
@@ -17,6 +20,8 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
     const {slug} = await params;
     const course = await getCourse(slug);
     //  const thumbnail = useConstructUrl(data.fileKey);
+
+    const isEnrolled = await checkIfCourseBought(course.id);
 
     return (
         <div className={"grid grid-cols-1 gap-8 lg:grid-cols-3 mt-5"}>
@@ -63,14 +68,15 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                         <div className="">
                             {course.chapters.length} chapters |
                             {course.chapters.reduce((acc, chapter) => acc + chapter.lessons.length, 0)
-                                || 0 } lessons
+                                || 0} lessons
                         </div>
                     </div>
 
                     <div className="space-y-4">
                         {course.chapters.map((chapter, index) => (
-                            <Collapsible key={index} defaultOpen={index === 0} >
-                                <Card className={"p-0 overflow-hidden duration-200 border-2 transition-all hover:shadow-md gap-0"}>
+                            <Collapsible key={index} defaultOpen={index === 0}>
+                                <Card
+                                    className={"p-0 overflow-hidden duration-200 border-2 transition-all hover:shadow-md gap-0"}>
                                     <CollapsibleTrigger>
                                         <div className="">
                                             <CardContent className={"p-6 hover:bg-muted/50 transition-colors "}>
@@ -79,12 +85,12 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                                                         <p className={"flex size-10 items-center justify-center rounded-full bg-primary/10  text-primary font-semibold"}>{index + 1}</p>
                                                         <div className="">
                                                             <h3 className={"text-xl font-semibold text-left"}>{chapter.title}</h3>
-                                                            <p className={"text-sm text-muted-foreground mt-1 text-left"}>{chapter.lessons.length} lesson{chapter.lessons.length!==1 ? 's' :''}</p>
+                                                            <p className={"text-sm text-muted-foreground mt-1 text-left"}>{chapter.lessons.length} lesson{chapter.lessons.length !== 1 ? 's' : ''}</p>
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center gap-3">
                                                         <Badge variant={"outline"} className={"text-xs"}>
-                                                            {chapter.lessons.length} lesson{chapter.lessons.length!==1 ? 's' :''}
+                                                            {chapter.lessons.length} lesson{chapter.lessons.length !== 1 ? 's' : ''}
                                                         </Badge>
                                                         <IconChevronDown className={"size-5 text-muted-foreground"}/>
                                                     </div>
@@ -96,10 +102,13 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                                         <div className="border-t bg-muted/20">
                                             <div className="p-6 pt-4 space-y-3">
                                                 {chapter.lessons.map((lesson, index) => (
-                                                    <div key={index} className="flex items-center gap-4 rounded-lg hober:bg-muted/50 transition-colors">
-                                                      <div className="flex size-8 items-center justify-center rounded-full bg-background  border-2 border-primary/20">
-                                                          <IconPlayerPlay className={"size-4 text-muted-foreground group-hover:text-primary transition-colors"} />
-                                                      </div>
+                                                    <div key={index}
+                                                         className="flex items-center gap-4 rounded-lg hober:bg-muted/50 transition-colors">
+                                                        <div
+                                                            className="flex size-8 items-center justify-center rounded-full bg-background  border-2 border-primary/20">
+                                                            <IconPlayerPlay
+                                                                className={"size-4 text-muted-foreground group-hover:text-primary transition-colors"}/>
+                                                        </div>
                                                         <div className="flex-1">
                                                             <p className={"font-medium text-sm"}>{lesson.title}</p>
                                                             <p className={"text-xs text-muted-foreground mt-1"}>Lesson {index + 1}</p>
@@ -174,7 +183,7 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                                             <p className={"text-sm text-muted-foreground"}>
                                                 {course.chapters.length} chapters |
                                                 {course.chapters.reduce((acc, chapter) => acc + chapter.lessons.length, 0)
-                                                    || 0 } lessons
+                                                    || 0} lessons
                                             </p>
                                         </div>
                                     </div>
@@ -211,7 +220,14 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                                 </ul>
                             </div>
 
-                            <Button className={"w-full"}>Enroll Now!</Button>
+                            {isEnrolled ?
+                                <Link href={"dashboard"} className={buttonVariants({className: "w-full"})}  >
+                                    Watch Course
+                                </Link>
+                                :
+                               <EnrollmentButton courseId={course.id}/>
+                            }
+
                             <p className={"text-xs text-muted-foreground mt-4 text-center"}>
                                 30-day money-back guarantee.
                             </p>

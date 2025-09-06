@@ -221,16 +221,18 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                             </div>
 
                             {isEnrolled ?
-                                <Link href={"dashboard"} className={buttonVariants({className: "w-full"})}  >
+                                <Link href={"dashboard"} className={buttonVariants({className: "w-full"})}>
                                     Watch Course
                                 </Link>
                                 :
-                               <EnrollmentButton courseId={course.id}/>
+                                <>
+                                    <EnrollmentButton courseId={course.id}/>
+                                    <p className={"text-xs text-muted-foreground mt-4 text-center"}>
+                                        30-day money-back guarantee.
+                                    </p>
+                                </>
                             }
 
-                            <p className={"text-xs text-muted-foreground mt-4 text-center"}>
-                                30-day money-back guarantee.
-                            </p>
                         </CardContent>
                     </Card>
                 </div>

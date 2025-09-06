@@ -3,30 +3,29 @@ import "server-only";
 import {requireAdmin} from "@/app/data/admin/require-admin";
 import {prisma} from "@/lib/db";
 
-export async function adminGetCourses() {
+export async function adminGetRecentCourses() {
     //to delete
     await new Promise(resolve => setTimeout(resolve, 2000));
 
-    const session = await requireAdmin();
+    await requireAdmin();
 
     const data = await prisma.course.findMany({
-        orderBy:{
-            createdAt: "desc"
+        orderBy: {
+            createdAt: 'desc'
         },
+        take:2,
         select:{
-            id:true,
+            id: true,
             title:true,
             smallDescription:true,
             duration:true,
             level:true,
-            status:true,
+            status: true,
+            slug:true,
             price:true,
             fileKey:true,
-            slug:true,
-        }
+        },
     });
 
     return data;
 }
-
-export type AdminCourseType = Awaited <ReturnType<typeof adminGetCourses>>[0];

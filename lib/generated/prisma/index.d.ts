@@ -6223,6 +6223,7 @@ export namespace Prisma {
     category: string | null
     smallDescription: string | null
     slug: string | null
+    stripePriceId: string | null
     status: $Enums.CourseStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -6240,6 +6241,7 @@ export namespace Prisma {
     category: string | null
     smallDescription: string | null
     slug: string | null
+    stripePriceId: string | null
     status: $Enums.CourseStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -6257,6 +6259,7 @@ export namespace Prisma {
     category: number
     smallDescription: number
     slug: number
+    stripePriceId: number
     status: number
     createdAt: number
     updatedAt: number
@@ -6286,6 +6289,7 @@ export namespace Prisma {
     category?: true
     smallDescription?: true
     slug?: true
+    stripePriceId?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -6303,6 +6307,7 @@ export namespace Prisma {
     category?: true
     smallDescription?: true
     slug?: true
+    stripePriceId?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -6320,6 +6325,7 @@ export namespace Prisma {
     category?: true
     smallDescription?: true
     slug?: true
+    stripePriceId?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -6424,6 +6430,7 @@ export namespace Prisma {
     category: string
     smallDescription: string
     slug: string
+    stripePriceId: string
     status: $Enums.CourseStatus
     createdAt: Date
     updatedAt: Date
@@ -6460,6 +6467,7 @@ export namespace Prisma {
     category?: boolean
     smallDescription?: boolean
     slug?: boolean
+    stripePriceId?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -6481,6 +6489,7 @@ export namespace Prisma {
     category?: boolean
     smallDescription?: boolean
     slug?: boolean
+    stripePriceId?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -6499,6 +6508,7 @@ export namespace Prisma {
     category?: boolean
     smallDescription?: boolean
     slug?: boolean
+    stripePriceId?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -6517,13 +6527,14 @@ export namespace Prisma {
     category?: boolean
     smallDescription?: boolean
     slug?: boolean
+    stripePriceId?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "fileKey" | "price" | "duration" | "level" | "category" | "smallDescription" | "slug" | "status" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "fileKey" | "price" | "duration" | "level" | "category" | "smallDescription" | "slug" | "stripePriceId" | "status" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Course$userArgs<ExtArgs>
     chapters?: boolean | Course$chaptersArgs<ExtArgs>
@@ -6555,6 +6566,7 @@ export namespace Prisma {
       category: string
       smallDescription: string
       slug: string
+      stripePriceId: string
       status: $Enums.CourseStatus
       createdAt: Date
       updatedAt: Date
@@ -6995,6 +7007,7 @@ export namespace Prisma {
     readonly category: FieldRef<"Course", 'String'>
     readonly smallDescription: FieldRef<"Course", 'String'>
     readonly slug: FieldRef<"Course", 'String'>
+    readonly stripePriceId: FieldRef<"Course", 'String'>
     readonly status: FieldRef<"Course", 'CourseStatus'>
     readonly createdAt: FieldRef<"Course", 'DateTime'>
     readonly updatedAt: FieldRef<"Course", 'DateTime'>
@@ -10974,6 +10987,7 @@ export namespace Prisma {
     category: 'category',
     smallDescription: 'smallDescription',
     slug: 'slug',
+    stripePriceId: 'stripePriceId',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -11500,6 +11514,7 @@ export namespace Prisma {
     category?: StringFilter<"Course"> | string
     smallDescription?: StringFilter<"Course"> | string
     slug?: StringFilter<"Course"> | string
+    stripePriceId?: StringFilter<"Course"> | string
     status?: EnumCourseStatusFilter<"Course"> | $Enums.CourseStatus
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
@@ -11520,6 +11535,7 @@ export namespace Prisma {
     category?: SortOrder
     smallDescription?: SortOrder
     slug?: SortOrder
+    stripePriceId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -11532,6 +11548,7 @@ export namespace Prisma {
   export type CourseWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     slug?: string
+    stripePriceId?: string
     AND?: CourseWhereInput | CourseWhereInput[]
     OR?: CourseWhereInput[]
     NOT?: CourseWhereInput | CourseWhereInput[]
@@ -11550,7 +11567,7 @@ export namespace Prisma {
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     chapters?: ChapterListRelationFilter
     enrollment?: EnrollmentListRelationFilter
-  }, "id" | "slug">
+  }, "id" | "slug" | "stripePriceId">
 
   export type CourseOrderByWithAggregationInput = {
     id?: SortOrder
@@ -11563,6 +11580,7 @@ export namespace Prisma {
     category?: SortOrder
     smallDescription?: SortOrder
     slug?: SortOrder
+    stripePriceId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -11588,6 +11606,7 @@ export namespace Prisma {
     category?: StringWithAggregatesFilter<"Course"> | string
     smallDescription?: StringWithAggregatesFilter<"Course"> | string
     slug?: StringWithAggregatesFilter<"Course"> | string
+    stripePriceId?: StringWithAggregatesFilter<"Course"> | string
     status?: EnumCourseStatusWithAggregatesFilter<"Course"> | $Enums.CourseStatus
     createdAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
@@ -12196,6 +12215,7 @@ export namespace Prisma {
     category: string
     smallDescription: string
     slug: string
+    stripePriceId: string
     status?: $Enums.CourseStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12215,6 +12235,7 @@ export namespace Prisma {
     category: string
     smallDescription: string
     slug: string
+    stripePriceId: string
     status?: $Enums.CourseStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12234,6 +12255,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     smallDescription?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: StringFieldUpdateOperationsInput | string
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12253,6 +12275,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     smallDescription?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: StringFieldUpdateOperationsInput | string
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12272,6 +12295,7 @@ export namespace Prisma {
     category: string
     smallDescription: string
     slug: string
+    stripePriceId: string
     status?: $Enums.CourseStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12289,6 +12313,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     smallDescription?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: StringFieldUpdateOperationsInput | string
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12305,6 +12330,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     smallDescription?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: StringFieldUpdateOperationsInput | string
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12927,6 +12953,7 @@ export namespace Prisma {
     category?: SortOrder
     smallDescription?: SortOrder
     slug?: SortOrder
+    stripePriceId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -12949,6 +12976,7 @@ export namespace Prisma {
     category?: SortOrder
     smallDescription?: SortOrder
     slug?: SortOrder
+    stripePriceId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -12966,6 +12994,7 @@ export namespace Prisma {
     category?: SortOrder
     smallDescription?: SortOrder
     slug?: SortOrder
+    stripePriceId?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -13931,6 +13960,7 @@ export namespace Prisma {
     category: string
     smallDescription: string
     slug: string
+    stripePriceId: string
     status?: $Enums.CourseStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13949,6 +13979,7 @@ export namespace Prisma {
     category: string
     smallDescription: string
     slug: string
+    stripePriceId: string
     status?: $Enums.CourseStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14090,6 +14121,7 @@ export namespace Prisma {
     category?: StringFilter<"Course"> | string
     smallDescription?: StringFilter<"Course"> | string
     slug?: StringFilter<"Course"> | string
+    stripePriceId?: StringFilter<"Course"> | string
     status?: EnumCourseStatusFilter<"Course"> | $Enums.CourseStatus
     createdAt?: DateTimeFilter<"Course"> | Date | string
     updatedAt?: DateTimeFilter<"Course"> | Date | string
@@ -14500,6 +14532,7 @@ export namespace Prisma {
     category: string
     smallDescription: string
     slug: string
+    stripePriceId: string
     status?: $Enums.CourseStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14518,6 +14551,7 @@ export namespace Prisma {
     category: string
     smallDescription: string
     slug: string
+    stripePriceId: string
     status?: $Enums.CourseStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14584,6 +14618,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     smallDescription?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: StringFieldUpdateOperationsInput | string
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14602,6 +14637,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     smallDescription?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: StringFieldUpdateOperationsInput | string
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14703,6 +14739,7 @@ export namespace Prisma {
     category: string
     smallDescription: string
     slug: string
+    stripePriceId: string
     status?: $Enums.CourseStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14721,6 +14758,7 @@ export namespace Prisma {
     category: string
     smallDescription: string
     slug: string
+    stripePriceId: string
     status?: $Enums.CourseStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14796,6 +14834,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     smallDescription?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: StringFieldUpdateOperationsInput | string
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14814,6 +14853,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     smallDescription?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: StringFieldUpdateOperationsInput | string
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14905,6 +14945,7 @@ export namespace Prisma {
     category: string
     smallDescription: string
     slug: string
+    stripePriceId: string
     status?: $Enums.CourseStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15008,6 +15049,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     smallDescription?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: StringFieldUpdateOperationsInput | string
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15026,6 +15068,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     smallDescription?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: StringFieldUpdateOperationsInput | string
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15044,6 +15087,7 @@ export namespace Prisma {
     category?: StringFieldUpdateOperationsInput | string
     smallDescription?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: StringFieldUpdateOperationsInput | string
     status?: EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

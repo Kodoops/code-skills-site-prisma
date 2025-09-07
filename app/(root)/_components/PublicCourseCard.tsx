@@ -1,12 +1,13 @@
 import React from 'react';
 import {Card, CardContent} from "@/components/ui/card";
-import {Badge, SchoolIcon, TimerIcon} from "lucide-react";
+import {SchoolIcon, TimerIcon} from "lucide-react";
 import {PublicCourseType} from "@/app/data/course/get-all-courses";
 import {useConstructUrl} from "@/hooks/use-construct-url";
 import Image from "next/image";
 import Link from "next/link";
 import {buttonVariants} from "@/components/ui/button";
 import {Skeleton} from "@/components/ui/skeleton";
+import { Badge } from '@/components/ui/badge';
 
 interface Props {
     data: PublicCourseType
@@ -16,7 +17,7 @@ const PublicCourseCard = ({data}:Props) => {
     const thumbnailURl = useConstructUrl(data.fileKey);
     return (
         <Card className={"group relative py-0 gap-0"}>
-        <Badge className={"absolute top-2 right-2 bg-primary/10 text-primary z-10"}>
+        <Badge className={"absolute top-2 right-2 bg-primary/40 text-primary z-10"}>
             {data.level}
         </Badge>
             <Image src={thumbnailURl} alt={data.title} width={600} height={400} className={"w-full rounded-t-xl aspect-video h-full object-cover"}/>

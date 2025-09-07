@@ -6,7 +6,7 @@ import {Input} from "@/components/ui/input";
 import {Loader2, PlusIcon, SparkleIcon} from "lucide-react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {courseCategories, courseLevels, courseSchema, CourseSchema, courseStatus} from "@/lib/zodSchemas";
-import {useForm} from "react-hook-form";
+import {type Resolver, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {tryCatch} from "@/hooks/try-catch";
 import {toast} from "sonner";
@@ -30,7 +30,8 @@ const EditCourseForm = ({data}:EditCourseFormProps) => {
     const router = useRouter();
 
     const form = useForm<CourseSchema>({
-        resolver: zodResolver(courseSchema),
+       // resolver: zodResolver(courseSchema),
+        resolver: zodResolver(courseSchema) as Resolver<CourseSchema>,
         defaultValues: {
             title: data.title,
             description: data.description,

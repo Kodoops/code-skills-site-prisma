@@ -6,7 +6,7 @@ import {getSignedUrl} from "@aws-sdk/s3-request-presigner";
 import {S3} from "@/lib/S3Client";
 import {env} from "@/lib/env";
 import arcjet from "@/lib/arcjet";
-import {detectBot, fixedWindow} from "@arcjet/next";
+import { fixedWindow} from "@arcjet/next";
 import {requireAdmin} from "@/app/data/admin/require-admin";
 
 export const fileUploadSchema = z.object({
@@ -72,6 +72,7 @@ export async function POST(request: Request) {
         return NextResponse.json(response);
 
     } catch (e) {
+        console.log(e)
         return NextResponse.json(
             {error: "Failed to generate presigned URL for upload"},
             {status: 500}

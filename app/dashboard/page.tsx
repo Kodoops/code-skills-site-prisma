@@ -2,7 +2,6 @@ import {getEnrolledCourses} from "@/app/data/user/get-enrolled-courses";
 import {getAllCourses} from "@/app/data/course/get-all-courses";
 import EmptyState from "@/components/general/EmptyState";
 import PublicCourseCard from "@/app/(root)/_components/PublicCourseCard";
-import Link from "next/link";
 import CourseProgressCard from "@/app/dashboard/_components/CourseProgressCard";
 
 

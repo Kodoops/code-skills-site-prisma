@@ -7,6 +7,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {Button, buttonVariants} from "@/components/ui/button";
 import {courseCategories, courseLevels, courseSchema, CourseSchema, courseStatus} from "@/lib/zodSchemas";
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { Resolver } from "react-hook-form";
 import {useForm} from "react-hook-form"
 import {Input} from '@/components/ui/input';
 import {
@@ -35,7 +36,8 @@ const CreateCoursePage = () => {
     const {triggerConfetti} = useConfetti();
 
     const form = useForm<CourseSchema>({
-        resolver: zodResolver(courseSchema),
+        //resolver: zodResolver(courseSchema),
+        resolver: zodResolver(courseSchema) as Resolver<CourseSchema>,
         defaultValues: {
             title: "",
             description: "",

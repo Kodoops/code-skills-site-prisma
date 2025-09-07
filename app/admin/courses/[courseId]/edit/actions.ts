@@ -5,7 +5,7 @@ import {ApiResponse} from "@/lib/types";
 import {chapterSchema, ChapterSchema, courseSchema, CourseSchema, lessonSchema, LessonSchema} from "@/lib/zodSchemas";
 import {prisma} from "@/lib/db";
 import arcjet from "@/lib/arcjet";
-import {detectBot, fixedWindow, request} from "@arcjet/next";
+import { fixedWindow, request} from "@arcjet/next";
 import {revalidatePath} from "next/cache";
 
 const aj = arcjet

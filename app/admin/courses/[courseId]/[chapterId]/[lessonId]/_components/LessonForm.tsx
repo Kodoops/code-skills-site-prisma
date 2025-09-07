@@ -1,6 +1,6 @@
 "use client";
 
-import React, {startTransition, useState, useTransition} from 'react';
+import React, {useTransition} from 'react';
 import {AdminLessonType} from "@/app/data/admin/admin-get-lesson";
 import Link from 'next/link';
 import {ArrowLeft, Loader2} from "lucide-react";

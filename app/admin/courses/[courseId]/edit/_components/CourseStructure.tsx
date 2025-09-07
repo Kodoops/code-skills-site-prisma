@@ -20,7 +20,7 @@ import {CSS} from '@dnd-kit/utilities';
 import {AdminCourseSingularType} from "@/app/data/admin/admin-get-course";
 import {cn} from "@/lib/utils";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible";
-import {ChevronDownIcon, ChevronRightIcon, FileText, GripVertical, Trash2Icon} from "lucide-react";
+import {ChevronDownIcon, ChevronRightIcon, FileText, GripVertical} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import {toast} from "sonner";

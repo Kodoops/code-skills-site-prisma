@@ -19,6 +19,8 @@ interface Props {
 
 const CourseProgressCard = ({data}:Props) => {
     const thumbnailURl = useConstructUrl(data.Course.fileKey);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const {totalLessons, progressPercentage, completedLessons} = useCourseProgress({courseData : data.Course as any})
     return (
         <Card className={"group relative py-0 gap-0"}>

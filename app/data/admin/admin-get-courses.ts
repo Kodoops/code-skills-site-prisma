@@ -7,7 +7,7 @@ export async function adminGetCourses() {
     //to delete
     await new Promise(resolve => setTimeout(resolve, 2000));
 
-    const session = await requireAdmin();
+     await requireAdmin();
 
     const data = await prisma.course.findMany({
         orderBy:{

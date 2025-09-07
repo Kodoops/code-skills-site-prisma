@@ -5,9 +5,8 @@ import {prisma} from "@/lib/db";
 import {ApiResponse} from "@/lib/types";
 import {requireAdmin} from "@/app/data/admin/require-admin";
 import arcjet from "@/lib/arcjet";
-import {detectBot, fixedWindow, request} from "@arcjet/next";
+import { fixedWindow, request} from "@arcjet/next";
 import {stripe} from "@/lib/stripe";
-import {useConstructUrl} from "@/hooks/use-construct-url";
 import {env} from "@/lib/env";
 
 const aj = arcjet

@@ -22,9 +22,9 @@ export default function AuthLayout({
                 </Link>
                 {children}
                 <div className="text-balance text-center text-xs text-muted-foreground">
-                    By clicking contunue, you agree to our
+                    By clicking continue, you agree to our
                     <Link href={"/"} className={"hover:text-primary hover:underline cursor-pointer"}>Terms of Service</Link> and
-                    <Link href={"/"} className={"hover:text-primary hover:underline cursor-pointer"}>Privacy Policy</Link>"
+                    <Link href={"/"} className={"hover:text-primary hover:underline cursor-pointer"}>Privacy Policy</Link>
                 </div>
             </div>
         </div>

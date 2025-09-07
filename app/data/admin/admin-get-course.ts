@@ -7,7 +7,7 @@ import {notFound} from "next/navigation";
 
 export async function adminGetCourse(id: string) {
 
-    const session = await requireAdmin();
+    await requireAdmin();
 
     if (!id) return null;
 

@@ -38,7 +38,7 @@ const Navbar = () => {
                 {/*Desktop Nav*/}
                 <nav className={"hidden md:flex md:flex-1 md:items-center md:justify-between"}>
                     <div className={"flex items-center space-x-2"}>
-                        {navigationItems.map((item, index) => (
+                        {navigationItems.map((item) => (
                             <Link href={item.href} key={item.name}
                                   className={"text-sm font-medium transition-colors hover:text-primary"}>
                                 {item.name}

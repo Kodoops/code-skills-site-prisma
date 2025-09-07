@@ -1,10 +1,11 @@
 "use client"
 
 import React, {useMemo} from 'react';
-import {EditorContent, useEditor} from "@tiptap/react";
+import {EditorContent, JSONContent, useEditor} from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Menubar from "@/components/rich-text-editor/Menubar";
 import TextAlign from "@tiptap/extension-text-align";
+import {ControllerRenderProps, FieldValues, Path} from "react-hook-form";
 
 
 const DEFAULT_HTML = '<p>Your content here !</p>';
@@ -29,12 +30,18 @@ function toTiptapContent(raw: unknown) {
     }
 
     // déjà un objet (doc JSON)
-    if (typeof raw === 'object') return raw as any;
+    if (typeof raw === 'object') return raw as JSONContent;
 
     return DEFAULT_HTML;
 }
 
-const RichTextEditor = ({field}: { field: any }) => {
+type RichTextEditorProps<T extends FieldValues, N extends Path<T>> = {
+    field: ControllerRenderProps<T, N>;
+};
+//const RichTextEditor = ({field}: { field: any }) => {
+export default function RichTextEditor<T extends FieldValues, N extends Path<T>>(
+    { field }: RichTextEditorProps<T, N>
+) {
     const content = useMemo(() => toTiptapContent(field.value), [field.value]);
 
     const editor = useEditor({
@@ -70,4 +77,3 @@ const RichTextEditor = ({field}: { field: any }) => {
     );
 };
 
-export default RichTextEditor;

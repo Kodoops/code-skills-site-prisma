@@ -46,7 +46,9 @@ export function ChartAreaInteractive({data}: Props) {
 
     const totalEnrollmentsNumber =useMemo(() => {
         return data.reduce((acc, item) => acc + item.enrollments, 0)
-    },[]);
+    },[data]);
+
+    console.log(timeRange);
 
     return (
         <Card className="@container/card">

@@ -4,7 +4,6 @@ import React, {useTransition} from 'react';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import Link from "next/link";
 import {Button, buttonVariants} from '@/components/ui/button';
-import {CourseSchema} from "@/lib/zodSchemas";
 import {tryCatch} from "@/hooks/try-catch";
 import {toast} from "sonner";
 import {deleteCourse} from "@/app/admin/courses/[courseId]/delete/actions";

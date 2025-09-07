@@ -1,6 +1,5 @@
 import React from 'react';
 import {SidebarInset, SidebarProvider} from "@/components/ui/sidebar";
-import {AppSidebar} from "@/components/sidebar/app-sidebar";
 import {SiteHeader} from "@/components/sidebar/site-header";
 import {DashboardAppSidebar} from "@/app/dashboard/_components/DashboardAppSideBar";
 

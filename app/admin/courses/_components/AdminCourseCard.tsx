@@ -1,12 +1,11 @@
 import React from 'react';
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Card, CardContent} from "@/components/ui/card";
 import Image from "next/image";
 import {AdminCourseType} from "@/app/data/admin/admin-get-courses";
 import {useConstructUrl} from "@/hooks/use-construct-url";
 import Link from "next/link";
 import {
     ArrowRight,
-    ArrowRightIcon,
     EyeIcon,
     MoreVerticalIcon,
     PencilIcon,

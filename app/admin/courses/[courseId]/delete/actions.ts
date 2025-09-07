@@ -6,7 +6,7 @@ import { prisma } from "@/lib/db";
 import {ApiResponse} from "@/lib/types";
 import {revalidatePath} from "next/cache";
 import arcjet from "@/lib/arcjet";
-import {detectBot, fixedWindow, request} from "@arcjet/next";
+import {fixedWindow, request} from "@arcjet/next";
 
 const aj = arcjet
     /*.withRule(

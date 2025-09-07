@@ -21,6 +21,7 @@ export function RenderEmptyState({isDragActive}: { isDragActive: boolean }) {
 };
 
 export function RenderErrorState({error}: { error: string }) {
+    console.log(error);
     return (
         <div className={"text-center "}>
             <div className="flex items-center justify-center size-12 mx-auto rounded-full bg-destructive/30 mb-4">

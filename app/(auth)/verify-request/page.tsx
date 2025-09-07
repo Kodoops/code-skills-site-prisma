@@ -1,6 +1,6 @@
 "use client"
 
-import React, {startTransition, useState, useTransition} from 'react';
+import React, {Suspense, useState, useTransition} from 'react';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {InputOTP, InputOTPGroup, InputOTPSlot} from "@/components/ui/input-otp";
 import {Button} from "@/components/ui/button";
@@ -9,15 +9,32 @@ import {redirect, useRouter, useSearchParams} from "next/navigation";
 import {toast} from "sonner";
 import {Loader2} from "lucide-react";
 
-const VerifyRequest = () => {
+export default function VerifyRequestRoute(){
+
+    return (
+        <Suspense>
+            <VerifyRequest />
+        </Suspense>
+    );
+};
+
+function  VerifyRequest (
+//     {
+//                            searchParams,
+//                        }: {
+//     searchParams: Record<string, string | string[] | undefined>;
+// }
+) {
     const router = useRouter();
 
     const [otp, setOtp] = useState('');
-    const [emailPending, setEmailTransition] = useTransition();
+    const [emailPending, startTransition] = useTransition();
     const isOtpCompleted = otp.length === 6;
 
     const params = useSearchParams();
     const email = params.get("email");
+
+    //const email = (searchParams.email as string) ?? "";
 
     function verifyOtp() {
         if (!email) {
@@ -40,7 +57,7 @@ const VerifyRequest = () => {
                     },
                 },
             })
-        })
+        });
     }
 
     return (
@@ -86,4 +103,3 @@ const VerifyRequest = () => {
     );
 };
 
-export default VerifyRequest;

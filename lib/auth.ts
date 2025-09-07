@@ -21,7 +21,7 @@ export const auth = betterAuth({
 
     plugins: [
         emailOTP({
-            async sendVerificationOTP(email, otp) {
+            async sendVerificationOTP(email) {
                 await resend.emails.send({
                     from: 'LMS Code Skills <onboarding@resend.dev>',
                     to: [email.email],

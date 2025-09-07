@@ -2,6 +2,8 @@ import React, {Suspense} from 'react';
 import {getAllCourses} from "@/app/data/course/get-all-courses";
 import PublicCourseCard, {PublicCourseCardSkeleton} from "@/app/(root)/_components/PublicCourseCard";
 
+export const dynamic = "force-dynamic"
+
 const PublicCoursesPage = () => {
     return (
         <div className={"mt-5"}>

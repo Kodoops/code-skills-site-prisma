@@ -34,6 +34,7 @@ export const getCourseSidebarData = async (slug: string) => {
                             title: true,
                             position: true,
                             description: true,
+                            public:true,
                             lessonProgress:{
                                 where:{
                                     userId: session.id,
@@ -68,11 +69,11 @@ export const getCourseSidebarData = async (slug: string) => {
         }
     });
 
-    if(!enrollment || enrollment.status !='Active') {
-        return notFound();
-    }
+    // if(!enrollment || enrollment.status !='Active') {
+    //     return notFound();
+    // }
 
-    return { course };
+    return { course, enrollment };
 }
 
 export type CourseSidebarDataType = Awaited<ReturnType<typeof getCourseSidebarData>>;

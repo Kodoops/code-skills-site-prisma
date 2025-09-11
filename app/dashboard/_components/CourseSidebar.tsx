@@ -6,9 +6,10 @@ import {CourseSidebarDataType} from "@/app/data/course/get-course-sidebar-data";
 import {Progress} from "@/components/ui/progress";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible";
 import { Button } from '@/components/ui/button';
-import {LessonItem} from "@/app/dashboard/_components/LessonItem";
+import {LessonItem, LessonLinkItem} from "@/app/dashboard/_components/LessonItem";
 import {usePathname} from "next/navigation";
 import {useCourseProgress} from "@/hooks/use-course-progress";
+import { hasAccess } from '@/lib/access';
 
 interface CourseSidebarProps {
     course : CourseSidebarDataType["course"]
@@ -30,7 +31,7 @@ export function CourseSidebar({course}: CourseSidebarProps) {
 
                     <div className="flex-1 min-w-0">
                         <h1 className={"font-semibold text-base leading-tight truncate"}>{course.title}</h1>
-                        <p className={"text-xs text-muted-foreground mt-1"}>{course.category}</p>
+                        <p className={"text-xs text-muted-foreground mt-1"}>{course.category?.title}</p>
                     </div>
                 </div>
 
@@ -64,15 +65,25 @@ export function CourseSidebar({course}: CourseSidebarProps) {
                           </Button>
                       </CollapsibleTrigger>
                       <CollapsibleContent className={"pt-3 pl-6 border-l-2 space-y-3"}>
-                          {chapter.lessons.map((lesson) => (
-                              <LessonItem lesson={lesson}
+                          {chapter.lessons.map((lesson) => {
+
+                              if(hasAccess(lesson.public, course))
+                                  return  <LessonLinkItem lesson={lesson}
+                                                      slug={course.slug}
+                                                      key={lesson.id}
+                                                      isActive={currentLessonId === lesson.id}
+                                                      completed={lesson.lessonProgress.find((progress) =>
+                                                          progress.lessonId === lesson.id)?.completed || false}
+                                  />
+
+                              return <LessonItem lesson={lesson}
                                           slug={course.slug}
                                           key={lesson.id}
                                           isActive={currentLessonId === lesson.id}
                                           completed={lesson.lessonProgress.find((progress) =>
-                                              progress.lessonId === lesson.id)?.completed || false }
+                                              progress.lessonId === lesson.id)?.completed || false}
                               />
-                          ))}
+                          })}
                       </CollapsibleContent>
                   </Collapsible>
                 ))}

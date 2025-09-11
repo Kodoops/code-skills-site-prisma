@@ -5,7 +5,7 @@ import {prisma} from "@/lib/db";
 
 export async function adminGetCourses() {
     //to delete
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    //await new Promise(resolve => setTimeout(resolve, 2000));
 
      await requireAdmin();
 

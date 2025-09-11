@@ -2,11 +2,8 @@
 
 import * as React from "react"
 import {
-  IconCamera,
   IconChartBar,
   IconDashboard,
-  IconFileAi,
-  IconFileDescription,
   IconFolder,
   IconHelp,
   IconListDetails,
@@ -15,7 +12,6 @@ import {
   IconUsers,
 } from "@tabler/icons-react"
 
-import Image from "next/image"
 import { NavMain } from "@/components/sidebar/nav-main"
 import { NavSecondary } from "@/components/sidebar/nav-secondary"
 import { NavUser } from "@/components/sidebar/nav-user"
@@ -29,6 +25,12 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
+import AppLogoShape from "@/components/custom-ui/AppLogoShape";
+import AppLogoText from "@/components/custom-ui/AppLogoText";
+import {Separator} from "@/components/ui/separator";
+import { NavOrga } from "./nav-orga"
+import {RectangleEllipsis, SchoolIcon, TableOfContents, TagIcon} from "lucide-react";
+import {NavCS} from "@/components/sidebar/nav-cs";
 
 const data = {
 
@@ -59,54 +61,78 @@ const data = {
       icon: IconUsers,
     },
   ],
-  navClouds: [
+  navOrga:[
     {
-      title: "Capture",
-      icon: IconCamera,
-      isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
+      title: "Categories",
+      url: "/admin/categories",
+      icon: TableOfContents,
     },
     {
-      title: "Proposal",
-      icon: IconFileDescription,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
+      title: "Niveaux",
+      url: "/admin/levels",
+      icon: SchoolIcon,
     },
     {
-      title: "Prompts",
-      icon: IconFileAi,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
+      title: "Tags",
+      url: "/admin/tags",
+      icon: TagIcon,
     },
   ],
+  navCS:[
+    {
+      title: "Features",
+      url: "/admin/features",
+      icon: RectangleEllipsis,
+    },
+  ],
+  // navClouds: [
+  //   {
+  //     title: "Capture",
+  //     icon: IconCamera,
+  //     isActive: true,
+  //     url: "#",
+  //     items: [
+  //       {
+  //         title: "Active Proposals",
+  //         url: "#",
+  //       },
+  //       {
+  //         title: "Archived",
+  //         url: "#",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "Proposal",
+  //     icon: IconFileDescription,
+  //     url: "#",
+  //     items: [
+  //       {
+  //         title: "Active Proposals",
+  //         url: "#",
+  //       },
+  //       {
+  //         title: "Archived",
+  //         url: "#",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "Prompts",
+  //     icon: IconFileAi,
+  //     url: "#",
+  //     items: [
+  //       {
+  //         title: "Active Proposals",
+  //         url: "#",
+  //       },
+  //       {
+  //         title: "Archived",
+  //         url: "#",
+  //       },
+  //     ],
+  //   },
+  // ],
   navSecondary: [
     {
       title: "Settings",
@@ -134,22 +160,39 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
+              className="data-[slot=sidebar-menu-button]:!p-1.5 "
             >
-              <Link href="/public">
-               <Image src="/logos/logo.svg" alt="Logo" width={100} height={100} className="size-5" />
-                <span className="text-base font-semibold">CodeSkills</span>
+              <Link href="/" >
+                <AppLogoShape
+                    logo="/logo/code&skills-transparent.png"
+                    width={80}
+                    height={80}
+                    priority={ true}
+                />
+                <AppLogoText
+                    logo="/logo/CODE_SKILLS_cropped.png"
+                    alt="code and skills text"
+                    width={120}
+                    height={50}
+                    priority
+                />
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavMain items={data.navMain}/>
+        <Separator className="mt-4"/>
+        <span>Organisation</span>
+        <NavOrga items={data.navOrga}/>
+        <Separator className="mt-4"/>
+        <span>Code & Skills</span>
+        <NavCS items={data.navCS}/>
+        <NavSecondary items={data.navSecondary} className="mt-auto"/>
       </SidebarContent>
       <SidebarFooter>
-        <NavUser  />
+        <NavUser/>
       </SidebarFooter>
     </Sidebar>
   )

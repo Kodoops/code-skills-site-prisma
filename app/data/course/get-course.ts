@@ -32,6 +32,8 @@ export async function getCourse(slug: string) {
                         select: {
                             id: true,
                             title: true,
+                            public: true,
+                            duration:true,
                         },
                         orderBy:{
                             position:'asc',
@@ -46,3 +48,6 @@ export async function getCourse(slug: string) {
 
     return course;
 }
+
+
+export type CourseSingularType = Awaited<ReturnType<typeof getCourse>>;

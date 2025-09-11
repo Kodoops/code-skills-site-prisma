@@ -3,7 +3,7 @@
 import React, { useTransition } from 'react';
 import {LessonContentType} from "@/app/data/course/get-lesson-content";
 import { Button } from '@/components/ui/button';
-import {BookIcon, CheckCircle, Loader2} from "lucide-react";
+import { BookIcon, CheckCircle, Loader2} from "lucide-react";
 import { RenderDescription } from '@/components/rich-text-editor/RenderDescription';
 import {useConstructUrl} from "@/hooks/use-construct-url";
 import {tryCatch} from "@/hooks/try-catch";
@@ -52,7 +52,7 @@ const CourseContent = ({data}: CourseContentProps) => {
 
     function onSubmit() {
         startTransition(async () => {
-            const {data:result , error} = await tryCatch(markLessonComplete(data.id, data.Chapter.Course.slug));
+            const {data:result , error} = await tryCatch(markLessonComplete(data.id, data.chapter.course.slug));
 
             if (error) {
                 toast.error(error.message);
@@ -68,6 +68,7 @@ const CourseContent = ({data}: CourseContentProps) => {
 
     return (
         <div className={"flex flex-col min-h-lvh bg-background pl-6 py-4  md:py-6"}>
+
            <VideoPlayer videoKey={data.videoKey ?? ''} thumbnailKey={data.thumbnailKey ?? ''} />
 
             <div className="py-4 border-b">

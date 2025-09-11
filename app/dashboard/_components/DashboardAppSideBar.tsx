@@ -25,6 +25,8 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
+import AppLogoShape from "@/components/custom-ui/AppLogoShape";
+import AppLogoText from "@/components/custom-ui/AppLogoText";
 
 const data = {
 
@@ -114,9 +116,20 @@ export function DashboardAppSidebar({ ...props }: React.ComponentProps<typeof Si
                             asChild
                             className="data-[slot=sidebar-menu-button]:!p-1.5"
                         >
-                            <Link href="/public">
-                                <Image src="/logos/logo.svg" alt="Logo" width={100} height={100} className="size-5" />
-                                <span className="text-base font-semibold">CodeSkills</span>
+                            <Link href="/" >
+                                <AppLogoShape
+                                    logo="/logo/code&skills-transparent.png"
+                                    width={80}
+                                    height={80}
+                                    priority={ true}
+                                />
+                                <AppLogoText
+                                    logo="/logo/CODE_SKILLS_cropped.png"
+                                    alt="code and skills text"
+                                    width={120}
+                                    height={50}
+                                    priority
+                                />
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>

@@ -23,6 +23,6 @@ export default LessonContentPage;
 async function LessonContentLoader ({lessonId}: {lessonId: string}) {
     const lesson = await getLessonContent(lessonId);
 
-    return <CourseContent data={lesson}/>
+    return  <CourseContent data={lesson}/>
 
 }

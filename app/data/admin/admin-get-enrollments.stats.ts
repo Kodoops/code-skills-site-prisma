@@ -37,13 +37,5 @@ export async function adminGetEnrollmentsStats() {
         });
     }
 
-    // enrollments.forEach((enrollment) => {
-    //    const enrollmentDate = enrollment.createdAt.toISOString().split("T")[0];
-    //    const dayIndex = lastDays.findIndex(day => day.date === enrollmentDate);
-    //    if(dayIndex !== -1) {
-    //        lastDays[dayIndex].enrollments++;
-    //    }
-    // });
-
     return lastDays;
 }

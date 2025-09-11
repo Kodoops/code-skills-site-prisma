@@ -12,39 +12,40 @@ import { Badge } from '@/components/ui/badge';
 import {EnrolledCoursesType} from "@/app/data/user/get-enrolled-courses";
 import {useCourseProgress} from "@/hooks/use-course-progress";
 import {Progress} from "@/components/ui/progress";
+import {SchoolIcon, TimerIcon} from "lucide-react";
 
 interface Props {
     data:EnrolledCoursesType
 }
 
 const CourseProgressCard = ({data}:Props) => {
-    const thumbnailURl = useConstructUrl(data.Course.fileKey);
+    const thumbnailURl = useConstructUrl(data.course.fileKey);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const {totalLessons, progressPercentage, completedLessons} = useCourseProgress({courseData : data.Course as any})
+    const {totalLessons, progressPercentage, completedLessons} = useCourseProgress({courseData : data.course as any})
     return (
         <Card className={"group relative py-0 gap-0"}>
             <Badge className={"absolute top-2 right-2 bg-primary/40 text-primary z-10"}>
-                {data.Course.level}
+                {data.course.level}
             </Badge>
-            <Image src={thumbnailURl} alt={data.Course.title} width={600} height={400} className={"w-full rounded-t-xl aspect-video h-full object-cover"}/>
+            <Image src={thumbnailURl} alt={data.course.title} width={600} height={400} className={"w-full rounded-t-xl aspect-video h-full object-cover"}/>
             <CardContent className={"p-4"}>
-                <Link href={`/dashboard/${data.Course.slug}`} className={"text-lg font-medium line-clamp-2 hover:underline group-hover:text-primary transition-colors"}>
-                    {data.Course.title}
+                <Link href={`/dashboard/${data.course.slug}`} className={"text-lg font-medium line-clamp-2 hover:underline group-hover:text-primary transition-colors"}>
+                    {data.course.title}
                 </Link>
                 <p className={"line-clamp-2 text-sm text-muted-foreground leading-tight mt-2"}>
-                    {data.Course.smallDescription}
+                    {data.course.smallDescription}
                 </p>
-                {/*<div className="flex items-center gap-x-5 mt-4">*/}
-                {/*    <div className="flex items-center gap-x-2">*/}
-                {/*        <TimerIcon className={"size-6 p-1 rounded-md text-primary bg-primary/10"}/>*/}
-                {/*        <p className={"text-sm text-muted-foreground"}>{data.Course.duration}h</p>*/}
-                {/*    </div>*/}
-                {/*    <div className="flex items-center gap-x-2">*/}
-                {/*        <SchoolIcon className={"size-6 p-1 rounded-md text-primary bg-primary/10"}/>*/}
-                {/*        <p className={"text-sm text-muted-foreground"}>{data.Course.category}</p>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
+                <div className="flex items-center gap-x-5 mt-4">
+                    <div className="flex items-center gap-x-2">
+                        <TimerIcon className={"size-6 p-1 rounded-md text-primary bg-primary/10"}/>
+                        <p className={"text-sm text-muted-foreground"}>{data.course.duration}h</p>
+                    </div>
+                    <div className="flex items-center gap-x-2">
+                        <SchoolIcon className={"size-6 p-1 rounded-md text-primary bg-primary/10"}/>
+                        <p className={"text-sm text-muted-foreground"}>{data.course.category?.title}</p>
+                    </div>
+                </div>
                 <div className="space-y-4 mt-5">
                     <div className="flex justify-between items-center mb-1 text-sm">
                         <p className={"text-sm text-muted-foreground"}>
@@ -58,7 +59,7 @@ const CourseProgressCard = ({data}:Props) => {
                     </p>
                 </div>
 
-                <Link href={`/dashboard/${data.Course.slug}`} className={buttonVariants({className: "w-full mt-4"})}>Learn More</Link>
+                <Link href={`/dashboard/${data.course.slug}`} className={buttonVariants({className: "w-full mt-4"})}>Learn More</Link>
 
             </CardContent>
         </Card>

@@ -89,7 +89,6 @@ model Course {
   price            Int
   duration         Int
   level            CourseLevel @default(Beginner)
-  category         String
   smallDescription String
   slug             String      @unique
 
@@ -106,12 +105,18 @@ model Course {
   chapters Chapter[]
 
   enrollment Enrollment[]
+
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String
+
+  tags Tag[] @relation("CourseTags")
 }
 
 enum CourseLevel {
   Beginner
   Intermediate
   Advanced
+  Expert
 }
 
 enum CourseStatus {
@@ -129,7 +134,7 @@ model Chapter {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId String
 
   lessons Lesson[]
@@ -144,10 +149,13 @@ model Lesson {
   videoKey     String?
   position     Int
 
+  duration Int     @default(0)
+  public   Boolean @default(false)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
   chapterId String
 
   lessonProgress LessonProgress[]
@@ -162,10 +170,10 @@ model Enrollment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId String
 
-  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   @@unique([userId, courseId])
@@ -184,10 +192,50 @@ model LessonProgress {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  User     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   String
   Lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   lessonId String
 
   @@unique([userId, lessonId])
+}
+
+model Category {
+  id String @id @default(uuid())
+
+  title    String
+  slug     String  @unique
+  desc     String
+  color    String?
+  iconName String?
+  iconLib  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  courses Course[]
+}
+
+model Tag {
+  id String @id @default(uuid())
+
+  title String
+  slug  String  @unique
+  color String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  courses Course[] @relation("CourseTags")
+}
+
+model Feature {
+  id        String   @id @default(cuid())
+  title     String   @unique
+  desc      String
+  color     String
+  iconLib   String
+  iconName  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

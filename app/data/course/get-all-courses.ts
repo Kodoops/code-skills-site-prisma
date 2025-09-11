@@ -1,32 +1,84 @@
-import "server-only";
+import { prisma } from "@/lib/db";
+import {courseLevels} from "@/lib/zodSchemas";
+import {notFound} from "next/navigation";
 
-import {prisma} from "@/lib/db";
+export async function getAllCourses({
+                                        categorySlug,
+                                        level,
+                                        isFree,
+                                        page = 1,
+                                        perPage = 9,
+                                    }: {
+    categorySlug?: string;
+    level?: string;
+    isFree?: string;
+    page?: number;
+    perPage?: number;
+}) {
+    const where: any = {
+        status: "Published",
+    };
 
-export async function getAllCourses() {
-        //dalay to delete
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    if (categorySlug) {
+        where.category = {
+            isNot: null,
+            slug: categorySlug,
+        };
+    }
 
-    const data = await prisma.course.findMany({
-        where:{
-            status: "Published",
-        },
-        select:{
-            title:true,
-            price:true,
-            smallDescription: true,
-            slug: true,
-            fileKey :true,
-            id: true,
-            level: true,
-            duration: true,
-            category : true,
-        },
-        orderBy:{
-            createdAt : "desc",
-        }
-    });
+    if (level && level !== "all") {
+        where.level = level;
+    }
 
-    return data;
+    if (level && level !== "all" && !courseLevels.includes(level as any)) {
+       return notFound();
+    }
+
+    if (isFree && isFree !== "all") {
+        where.price = isFree === "true" ? 0 : { gt: 0 };
+    }
+
+    const [data, total] = await Promise.all([
+        prisma.course.findMany({
+            where,
+            take: perPage,
+            skip: (page - 1) * perPage,
+            orderBy: {
+                createdAt: "desc",
+            },
+            select: {
+                id: true,
+                title: true,
+                price: true,
+                smallDescription: true,
+                description:true,
+                slug: true,
+                fileKey: true,
+                level: true,
+                duration: true,
+                category: {
+                    select: {
+                        id: true,
+                        title: true,
+                        slug: true,
+                        desc: true,
+                        color: true,
+                        iconName: true,
+                        iconLib: true,
+                    },
+                },
+            },
+        }),
+        prisma.course.count({ where }),
+    ]);
+
+    return {
+        data,
+        total,
+        page,
+        perPage,
+        totalPages: Math.ceil(total / perPage),
+    };
 }
 
-export type PublicCourseType = Awaited<ReturnType<typeof getAllCourses>>[0];
+export type PublicCourseType = Awaited<ReturnType<typeof getAllCourses>>["data"][0];

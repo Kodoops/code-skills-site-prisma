@@ -12,7 +12,7 @@ export async function getEnrolledCourses() {
             status: 'Active'
         },
         select: {
-            Course: {
+            course: {
                 select: {
                     id: true,
                     smallDescription: true,

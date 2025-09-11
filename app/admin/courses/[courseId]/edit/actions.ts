@@ -1,20 +1,14 @@
 "use server";
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
-import {ApiResponse} from "@/lib/types";
+import {ApiResponse, TagItem} from "@/lib/types";
 import {chapterSchema, ChapterSchema, courseSchema, CourseSchema, lessonSchema, LessonSchema} from "@/lib/zodSchemas";
 import {prisma} from "@/lib/db";
 import arcjet from "@/lib/arcjet";
-import { fixedWindow, request} from "@arcjet/next";
+import {fixedWindow, request} from "@arcjet/next";
 import {revalidatePath} from "next/cache";
 
 const aj = arcjet
- /*   .withRule(
-        detectBot({
-            mode: "LIVE",
-            allow: [],
-        })
-    )*/
     .withRule(
         fixedWindow({
             mode: "LIVE",
@@ -53,6 +47,13 @@ export async function updateCourse(data: CourseSchema, courseId: string): Promis
             };
         }
 
+        const category = await prisma.category.findUnique({
+            where: {
+                slug: result.data.category,
+            },
+            select: {id: true}
+        });
+
         await prisma.course.update({
             where: {
                 id: courseId,
@@ -60,6 +61,11 @@ export async function updateCourse(data: CourseSchema, courseId: string): Promis
             },
             data: {
                 ...result.data,
+                category: {
+                    connect: {
+                        id: category?.id,
+                    }
+                }
             }
         })
 
@@ -235,8 +241,8 @@ export async function createLesson(values: LessonSchema): Promise<ApiResponse> {
                 data: {
                     title: result.data.title,
                     description: result.data.description,
-                    videoKey : result.data.videoKey,
-                    thumbnailKey : result.data.thumbnailKey,
+                    videoKey: result.data.videoKey,
+                    thumbnailKey: result.data.thumbnailKey,
                     chapterId: result.data.chapterId,
                     position: (maxPos?.position ?? 0) + 1
                 }
@@ -257,7 +263,7 @@ export async function createLesson(values: LessonSchema): Promise<ApiResponse> {
     }
 }
 
-export async function deleteLesson(chapterId:string, courseId: string,  lessonId: string): Promise<ApiResponse> {
+export async function deleteLesson(chapterId: string, courseId: string, lessonId: string): Promise<ApiResponse> {
     await requireAdmin();
 
     try {
@@ -269,17 +275,17 @@ export async function deleteLesson(chapterId:string, courseId: string,  lessonId
             select: {
                 lessons: {
                     orderBy: {
-                        position:"asc"
+                        position: "asc"
                     },
-                    select:{
-                        id:true,
-                        position:true,
+                    select: {
+                        id: true,
+                        position: true,
                     }
                 },
             }
         });
 
-        if(!chapterWithLessons){
+        if (!chapterWithLessons) {
             return {
                 status: "error",
                 message: "Invalid chapter"
@@ -288,7 +294,7 @@ export async function deleteLesson(chapterId:string, courseId: string,  lessonId
 
         const lessons = chapterWithLessons.lessons;
         const lessonToDelete = lessons.find(lesson => lesson.id === lessonId);
-        if(!lessonToDelete){
+        if (!lessonToDelete) {
             return {
                 status: "error",
                 message: "Lesson not found !"
@@ -324,7 +330,7 @@ export async function deleteLesson(chapterId:string, courseId: string,  lessonId
             status: "success",
             message: "Lesson deleted successfully"
         }
-    }catch {
+    } catch {
         return {
             status: "error",
             message: "Failed to delete lesson"
@@ -332,7 +338,7 @@ export async function deleteLesson(chapterId:string, courseId: string,  lessonId
     }
 }
 
-export async function deleteChapter(chapterId:string, courseId: string): Promise<ApiResponse> {
+export async function deleteChapter(chapterId: string, courseId: string): Promise<ApiResponse> {
     await requireAdmin();
 
     try {
@@ -343,17 +349,17 @@ export async function deleteChapter(chapterId:string, courseId: string): Promise
             select: {
                 chapters: {
                     orderBy: {
-                        position:"asc"
+                        position: "asc"
                     },
-                    select:{
-                        id:true,
-                        position:true,
+                    select: {
+                        id: true,
+                        position: true,
                     }
                 },
             }
         });
 
-        if(!courseWithChapters){
+        if (!courseWithChapters) {
             return {
                 status: "error",
                 message: "Course not found !"
@@ -362,7 +368,7 @@ export async function deleteChapter(chapterId:string, courseId: string): Promise
 
         const chapters = courseWithChapters.chapters;
         const chapterToDelete = chapters.find(chapter => chapter.id === chapterId);
-        if(!chapterToDelete){
+        if (!chapterToDelete) {
             return {
                 status: "error",
                 message: "Chapter not found !"
@@ -381,27 +387,27 @@ export async function deleteChapter(chapterId:string, courseId: string): Promise
         //     });
         // });
 
-       // await prisma.$transaction([
-       //      ...updatedChapters,
-       //      prisma.chapter.delete({
-       //          where: {
-       //              id: chapterId,
-       //          }
-       //      })
-       //  ]);
+        // await prisma.$transaction([
+        //      ...updatedChapters,
+        //      prisma.chapter.delete({
+        //          where: {
+        //              id: chapterId,
+        //          }
+        //      })
+        //  ]);
 
         await prisma.$transaction(async (tx) => {
             // 1) Supprimer les leçons du chapitre
-            await tx.lesson.deleteMany({ where: { chapterId } });
+            await tx.lesson.deleteMany({where: {chapterId}});
 
             // 2) Supprimer le chapitre
-            await tx.chapter.delete({ where: { id: chapterId } });
+            await tx.chapter.delete({where: {id: chapterId}});
 
-           // 3) Réordonner les chapitres restants
+            // 3) Réordonner les chapitres restants
             for (let i = 0; i < remainingChapters.length; i++) {
                 await tx.chapter.update({
-                    where: { id: remainingChapters[i].id },
-                    data: { position: i + 1 },
+                    where: {id: remainingChapters[i].id},
+                    data: {position: i + 1},
                 });
             }
         });
@@ -412,10 +418,41 @@ export async function deleteChapter(chapterId:string, courseId: string): Promise
             status: "success",
             message: "Chapter deleted successfully"
         }
-    }catch {
+    } catch {
         return {
             status: "error",
             message: "Failed to delete chapter"
+        }
+    }
+}
+
+
+export async function updateCourseTags(courseId: string, tagIds: string[]): Promise<ApiResponse> {
+
+    await requireAdmin();
+
+    try {
+        await prisma.course.update({
+            where: { id: courseId },
+            data: {
+                tags: {
+                    set: [], // remove all
+                    connect: tagIds.map(id => ({ id })), // reattach
+                },
+            },
+        });
+
+        revalidatePath(`/admin/courses/${courseId}/edit`)
+
+        return {
+            status: "success",
+            message: "Tags updated successfully"
+        }
+    } catch {
+
+        return {
+            status: "error",
+            message: "Failed to update tags"
         }
     }
 }

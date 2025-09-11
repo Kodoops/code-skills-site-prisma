@@ -18,6 +18,7 @@ export async function getLessonContent(lessonId: string) {
             position: true,
             thumbnailKey: true,
             videoKey: true,
+            public: true,
             lessonProgress:{
                 where:{
                     userId: session.id,
@@ -29,10 +30,10 @@ export async function getLessonContent(lessonId: string) {
                     lessonId: true,
                 }
             },
-            Chapter: {
+            chapter: {
                 select: {
                    courseId: true,
-                    Course:{
+                    course:{
                        select: {
                             slug: true,
                        }
@@ -48,7 +49,7 @@ export async function getLessonContent(lessonId: string) {
         where:{
             userId_courseId:{
                 userId: session.id,
-                courseId: lesson.Chapter.courseId
+                courseId: lesson.chapter.courseId
             }
         },
         select: {
@@ -56,6 +57,9 @@ export async function getLessonContent(lessonId: string) {
             status: true,
         }
     });
+
+    if(lesson.public)
+        return lesson;
 
     if (!enrollment || enrollment.status !== 'Active') return notFound();
 

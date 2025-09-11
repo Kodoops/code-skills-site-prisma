@@ -21,9 +21,12 @@ import slugify from 'slugify';
 
 interface EditCourseFormProps {
     data   :AdminCourseSingularType
+    categories: { id: string; slug: string; title: string }[];
 }
 
-const EditCourseForm = ({data}:EditCourseFormProps) => {
+
+
+const EditCourseForm = ({data, categories}:EditCourseFormProps) => {
     if (!data) notFound();
 
     const [pending, startTransition] = useTransition();
@@ -39,7 +42,7 @@ const EditCourseForm = ({data}:EditCourseFormProps) => {
             price: data.price,
             duration: data.duration,
             level: data.level,
-            category: data.category as CourseSchema["category"],
+            category: data.category?.slug,
             status: data.status,
             slug: data.slug,
             smallDescription: data.smallDescription
@@ -167,9 +170,9 @@ const EditCourseForm = ({data}:EditCourseFormProps) => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        {courseCategories.map((category) => (
-                                            <SelectItem key={category} value={category}>
-                                                {category}
+                                        {categories.map((category) => (
+                                            <SelectItem key={category.id} value={category.slug} >
+                                                {category.title}
                                             </SelectItem>
                                         ))}
                                     </SelectContent>

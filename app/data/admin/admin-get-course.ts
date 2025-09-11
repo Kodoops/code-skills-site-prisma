@@ -44,7 +44,8 @@ export async function adminGetCourse(id: string) {
                     }
 
                 }
-            }
+            },
+            tags: true,
         }
     });
 

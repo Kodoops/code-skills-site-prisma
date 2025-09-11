@@ -13,14 +13,13 @@ import {checkIfCourseBought} from "@/app/data/user/user-is-enrolled";
 import Link from 'next/link';
 import {EnrollmentButton} from "@/app/(root)/courses/[slug]/_components/EnrollmentButton";
 import {buttonVariants} from "@/components/ui/button";
+import {hasAccess} from "@/lib/access";
 
 type Params = Promise<{ slug: string }>
 
 const SingleCoursePage = async ({params}: { params: Params }) => {
     const {slug} = await params;
     const course = await getCourse(slug);
-    //  const thumbnail = useConstructUrl(data.fileKey);
-
     const isEnrolled = await checkIfCourseBought(course.id);
 
     return (
@@ -47,7 +46,7 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                         </Badge>
                         <Badge className={"flex items-center gap-1 px-3 py-1"}>
                             <IconCategory className={"size-4"}/>
-                            <span>{course.category}</span>
+                            <span>{course.category?.title}</span>
                         </Badge>
                         <Badge className={"flex items-center gap-1 px-3 py-1"}>
                             <IconClock className={"size-4"}/>
@@ -65,10 +64,10 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                 <div className="mt-12 space-y-6">
                     <div className="flex items-center justify-between">
                         <h2 className={"text-3xl font-semibold tracking-tight"}>Course Content</h2>
-                        <div className="">
-                            {course.chapters.length} chapters |
-                            {course.chapters.reduce((acc, chapter) => acc + chapter.lessons.length, 0)
-                                || 0} lessons
+                        <div className="text-xs italic text-muted-foreground">
+                            ( {course.chapters.length} ) chapters :
+                            ( {course.chapters.reduce((acc, chapter) => acc + chapter.lessons.length, 0)
+                            || 0} ) lessons
                         </div>
                     </div>
 
@@ -101,20 +100,14 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                                     <CollapsibleContent>
                                         <div className="border-t bg-muted/20">
                                             <div className="p-6 pt-4 space-y-3">
-                                                {chapter.lessons.map((lesson, index) => (
-                                                    <div key={index}
-                                                         className="flex items-center gap-4 rounded-lg hober:bg-muted/50 transition-colors">
-                                                        <div
-                                                            className="flex size-8 items-center justify-center rounded-full bg-background  border-2 border-primary/20">
-                                                            <IconPlayerPlay
-                                                                className={"size-4 text-muted-foreground group-hover:text-primary transition-colors"}/>
-                                                        </div>
-                                                        <div className="flex-1">
-                                                            <p className={"font-medium text-sm"}>{lesson.title}</p>
-                                                            <p className={"text-xs text-muted-foreground mt-1"}>Lesson {index + 1}</p>
-                                                        </div>
-                                                    </div>
-                                                ))}
+                                                {chapter.lessons.map((lesson, index) => {
+
+                                                 return (hasAccess(lesson.public, course) ?
+                                                     <RenderLessonLinkItemList lesson={lesson} index={index} chapter={chapter} key={index} slug={course.slug} />
+                                                     :
+                                                     <RenderLessonItemList lesson={lesson} index={index} chapter={chapter} key={index} />
+                                                 )
+                                                })}
                                             </div>
                                         </div>
                                     </CollapsibleContent>
@@ -122,7 +115,6 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                             </Collapsible>
                         ))}
                     </div>
-
                 </div>
             </div>
 
@@ -170,7 +162,7 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                                         </div>
                                         <div className="">
                                             <p className={"text-sm font-medium"}>Category</p>
-                                            <p className={"text-sm text-muted-foreground"}>{course.category} </p>
+                                            <p className={"text-sm text-muted-foreground"}>{course.category?.title} </p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-3">
@@ -242,3 +234,55 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
 };
 
 export default SingleCoursePage;
+
+
+function RenderLessonItemList({lesson, index, chapter}:{lesson:any, index:number, chapter:any}){
+    const isLast = index === chapter.lessons.length - 1;
+    const baseClasses =
+        "flex items-center gap-4 p-2  rounded-lg bg-muted/50  transition-colors";
+    const borderClass = isLast ? "" : "border-b border-dashed";
+    const isPublicClass = lesson.public ? "hover:bg-green-300/10 cursor-pointer" : "hover:bg-muted/50";
+    const sharedClasses = `${baseClasses} ${borderClass} ${isPublicClass}`;
+
+    return <div key={index} className={sharedClasses}>
+        <div
+            className={` flex size-8 items-center justify-center rounded-full bg-background  border-2 ${lesson.public ? "border-green-800" : "border-primary/20"}`}>
+            <IconPlayerPlay
+                className={`size-4 ${lesson.public ? " text-green-600" : "text-muted-foreground"}  group-hover:text-primary transition-colors `}/>
+        </div>
+        <div className="flex-1">
+            <p className={"font-medium text-sm"}>{lesson.title}</p>
+            <p className={"text-xs text-muted-foreground mt-1"}>Lesson {index + 1}</p>
+        </div>
+        <div className="text-xs text-muted-foreground">
+            {lesson.duration} sec
+        </div>
+    </div>
+
+}
+
+function RenderLessonLinkItemList({lesson, index, chapter, slug}:{lesson:any, index:number, chapter:any, slug:string}){
+    const isLast = index === chapter.lessons.length - 1;
+    const baseClasses =
+        "flex items-center gap-4 p-2  rounded-lg bg-muted/50  transition-colors";
+    const borderClass = isLast ? "" : "border-b border-dashed";
+    const isPublicClass = lesson.public ? "hover:bg-green-300/10 cursor-pointer" : "hover:bg-muted/50";
+    const sharedClasses = `${baseClasses} ${borderClass} ${isPublicClass}`;
+
+    return <Link href={`/dashboard/${slug}/${lesson.id}`}
+                 key={index} className={sharedClasses}>
+        <div
+            className={` flex size-8 items-center justify-center rounded-full bg-background  border-2 ${lesson.public ? "border-green-800" : "border-primary/20"}`}>
+            <IconPlayerPlay
+                className={`size-4 ${lesson.public ? " text-green-600" : "text-muted-foreground"}  group-hover:text-primary transition-colors `}/>
+        </div>
+        <div className="flex-1">
+            <p className={"font-medium text-sm"}>{lesson.title}</p>
+            <p className={"text-xs text-muted-foreground mt-1"}>Lesson {index + 1}</p>
+        </div>
+        <div className="text-xs text-muted-foreground">
+            {lesson.duration} sec
+        </div>
+    </Link>
+
+}

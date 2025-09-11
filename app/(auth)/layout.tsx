@@ -3,7 +3,7 @@ import React from 'react';
 import {ArrowLeft} from "lucide-react";
 import { buttonVariants} from "@/components/ui/button";
 import Image from "next/image";
-import logo from "@/public/assets/logo.png";
+import logo from "@/public/assets-to-delete/logo.png";
 
 export default function AuthLayout({
                                        children,

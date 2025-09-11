@@ -1,10 +1,18 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import {notFound} from "next/navigation";
 import {adminGetCourse} from "@/app/data/admin/admin-get-course";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import EditCourseForm from "@/app/admin/courses/[courseId]/edit/_components/EditCourseForm";
 import CourseStructure from "@/app/admin/courses/[courseId]/edit/_components/CourseStructure";
+import {getAllCategories} from "@/app/data/course/get-all-categories";
+import AdminTagCard from "@/app/admin/tags/_components/AdminTagCard";
+import {AdminCategoryCardSkeleton} from "@/app/admin/categories/_components/AdminCategoryCard";
+import {TagItem} from "@/lib/types";
+import {Ban} from "lucide-react";
+import UpdateTagsList from "@/app/admin/courses/[courseId]/edit/_components/TagsLis";
+import {adminGetTags} from "@/app/data/admin/admin-get-all-tags";
+import {Button} from "@/components/ui/button";
 
 type Params = Promise<{ courseId: string }>;
 
@@ -16,18 +24,28 @@ const Page = async ({params}: { params: Params }) => {
     const data = await adminGetCourse(courseId);
     if (!data) notFound();
 
+    const catData = await getAllCategories();
+    const categories = catData.map(category => ({
+        id: category.id,
+        title: category.title,
+        slug: category.slug,
+    }))
+
     return (
         <div>
             <h1 className={"text-xl font-bold mb-8"}>
                 Edit Course : <span className={"text-primary underline"}>{data.title}</span>
             </h1>
             <Tabs defaultValue={"basic-info"} className={"w-full"}>
-                <TabsList className={"grid grid-cols-2 w-full "}>
+                <TabsList className={"grid grid-cols-3 w-full "}>
                     <TabsTrigger value={"basic-info"}>
                         Basic Infos
                     </TabsTrigger>
                     <TabsTrigger value={"course-structure"}>
                         Course Structure
+                    </TabsTrigger>
+                    <TabsTrigger value={"course-settings"}>
+                        Course settings
                     </TabsTrigger>
                 </TabsList>
                 <TabsContent value={"basic-info"}>
@@ -39,7 +57,7 @@ const Page = async ({params}: { params: Params }) => {
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <EditCourseForm  data={data}/>
+                            <EditCourseForm data={data} categories={categories}/>
                         </CardContent>
                     </Card>
                 </TabsContent>
@@ -52,7 +70,25 @@ const Page = async ({params}: { params: Params }) => {
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <CourseStructure data={data} />
+                            <CourseStructure data={data}/>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+                <TabsContent value={"course-settings"}>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle> Course settings and options</CardTitle>
+                            <CardDescription>
+                                Here you can update your course options and settings.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className=" space-y-3">
+                                <h2>Attached tags :</h2>
+                                <Suspense fallback={<AdminTagCardSkeletonLayout />}>
+                                    <RenderTags courseId={data.id} tags={data.tags} />
+                                </Suspense>
+                            </div>
                         </CardContent>
                     </Card>
                 </TabsContent>
@@ -62,3 +98,49 @@ const Page = async ({params}: { params: Params }) => {
 };
 
 export default Page;
+
+
+async function RenderTags({tags, courseId}:{tags: TagItem[], courseId:string}) {
+
+    const allTags = await adminGetTags();
+
+    return (
+        <>
+            <div>
+                {!tags || tags.length === 0 ? (
+                    <div
+                        className="flex flex-col items-center justify-center h-full p-8 text-center border rounded-md border-dashed">
+                        <div className="flex items-center justify-center w-20 h-20 rounded-full bg-primary/10">
+                            <Ban className="w-10 h-10 text-primary"/>
+                        </div>
+                        <p className="mt-2 mb-8 text-sm text-muted-foreground">No tags attached to this course.</p>
+                    </div>
+                ) : (
+                    <div className="flex flex-wrap gap-2 mb-4">
+                        {tags.map(tag => (
+                            <Card
+                                key={tag.id}
+                                className={`border border-border px-4 py-2 rounded-md bg-primary text-muted`}
+                            >
+                                {tag.title}
+                            </Card>
+                        ))}
+                    </div>
+                )
+                }
+                <UpdateTagsList listTags={allTags} courseId={courseId} existingTags={tags}/>
+            </div>
+
+        </>
+    )
+}
+
+function AdminTagCardSkeletonLayout() {
+    return (
+        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 gap-4">
+            {Array.from({length: 4}).map((_, index) => (
+                <AdminCategoryCardSkeleton key={index}/>
+            ))}
+        </div>
+    )
+}

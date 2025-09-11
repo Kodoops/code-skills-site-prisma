@@ -1,86 +1,211 @@
-import { buttonVariants} from "@/components/ui/button";
-import {Badge} from "@/components/ui/badge";
+import {Button} from "@/components/ui/button";
 import Link from "next/link";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import SectionTitle from "@/components/sections/SectionTitle";
+import Section from "@/components/sections/Section";
+import React, {Suspense} from "react";
+import FeaturedCarouselClient from "@/components/sections/FeaturedCarousel.client";
+import { Testimonial} from "@/lib/types";
+import SectionHeader from "@/components/sections/SectionHeader";
+import CategoriesCarouselClient from "@/components/sections/CategoriesCarousel.client";
+import CoursesCarouselClient from "@/components/sections/CoursesCarousel.client";
+import TestimonialCarouselClient from "@/components/sections/TestimonialCarousel.client";
+import BannerPartner from "@/components/sections/BannerPartner";
+import NewsLetterForm from "@/components/sections/NewsLetterForm";
+import {getFeaturedCourses} from "@/app/data/course/get-featured-courses";
+import {getAllCategories} from "@/app/data/course/get-all-categories";
+import {CategoryCardSkeleton} from "@/app/(root)/_components/CategoryCard";
+import AppHero from "@/app/(root)/_components/AppHero";
+import AppLogoText from "@/components/custom-ui/AppLogoText";
+import {getAllFeatures} from "@/app/data/feature/get-all-features";
+import {FeatureCardSkeleton} from "@/app/(root)/_components/FeatureCard";
+import {PublicCourseCardSkeleton} from "@/app/(root)/_components/PublicCourseCard";
 
-interface Feature {
-    title: string;
-    description: string;
-    icon: string;
-}
-
-const features: Feature[] = [
+const TESTIMONIALS: Testimonial[] = [
     {
-        title: "Interactive Learning",
-        description: "Learn with our interactive learning platform",
-        icon: '👍'
+        name: "Nadia K.", role: "Développeuse frontend", rating: 5,
+        text: "Les parcours sont super bien structurés, j’ai pu passer de débutante à opérationnelle rapidement !"
     },
     {
-        title: "Comprehensive Courses",
-        description: "Access a wide range of courses from our library designed by industry experts",
-        icon: '📤'
+        name: "Yacine B.", role: "Ingénieur DevOps", rating: 4,
+        text: "Les exercices pratiques et la CI/CD m’ont permis d’automatiser mes projets perso concrètement."
     },
     {
-        title: "Engaging Learning",
-        description: "Learn with our engaging learning platform",
-        icon: '😈'
+        name: "Sofia M.", role: "Étudiante", rating: 5,
+        text: "Les explications sont claires et motivantes. J’adore le suivi de progression et les badges."
     },
     {
-        title: "High Quality Content",
-        description: "Learn with our high quality content",
-        icon: '🥗'
+        name: "Yacine B.", role: "Ingénieur DevOps", rating: 4,
+        text: "Les exercices pratiques et la CI/CD m’ont permis d’automatiser mes projets perso concrètement."
     },
     {
-        title: "Progress Tracking",
-        description: "Monitor your progress and achievements on detail with our progress tracking system and personalized dashboard",
-        icon: '🍎'
+        name: "Sofia M.", role: "Étudiante", rating: 5,
+        text: "Les explications sont claires et motivantes. J’adore le suivi de progression et les badges."
     }
-]
+];
 
-export default function Home() {
+
+export default async function Home() {
 
     return (
         <>
-            <section className={"relative py-20"}>
-                <div className={"flex flex-col items-center text-center space-y-8"}>
-                    <Badge variant={"outline"}>
-                        The Futur of Onlmien Education
-                    </Badge>
-                    <h1 className={"text-4xl md:text-6xl font-bold tracking-tight"}>Elevate your Learning
-                        Experience</h1>
-                    <p className={"max-w-[700px] text-muted-foreground md:text-xl"}>
-                        Discover a new way to learn with our moder, interactive and engaging learning platform.
-                        Access high quality content from our library of over 1000 courses any time, anywhere.
-                    </p>
-                    <div className={"flex flex-col sm:flex-row gap-4 mt-8"}>
-                        <Link href={"/courses"}
-                              className={buttonVariants({size: "lg"})}
-                        >
-                            Explore Courses
-                        </Link>
-                        <Link href={"/login"}
-                              className={buttonVariants({size: "lg", variant: "outline"})}
-                        >
-                            Sign In
-                        </Link>
+            <AppHero/>
+
+            {/* CATEGORIES*/}
+            <Section className="py-12">
+                <SectionHeader
+                    title={"Catégories populaires"}
+                    //btnList={["Débutant", "Avec projets", "Certifiantes"]}
+                    btnListHref={"/categories"}
+                    btnLink={"/categories"}
+                />
+                <Suspense fallback={<CategoriesLoadingSkeletonLayout/>}>
+                    <RenderCategories/>
+                </Suspense>
+            </Section>
+
+            {/* CATALOG */}
+            <Section className="py-12">
+                <SectionHeader
+                    title={"Formations mises en avant"}
+                    btnList={[ "Débutant", "Intermédiaire", "Avancé", "Expert"]}
+                    btnListHref={"/courses"}
+                    btnLink={"/courses"}
+                />
+                <Suspense fallback={<FeaturedCoursesLoadingSkeletonLayout/>}>
+                    <RenderCourses/>
+                </Suspense>
+            </Section>
+
+            {/* FEATURES */}
+            <Section className="py-12">
+                <SectionTitle
+                    title="Pourquoi "
+                    subTitle={"Une plateforme pensée pour apprendre vite, bien et durablement."}
+                >
+                    <AppLogoText
+                        logo="/logo/CODE_SKILLS_cropped.png"
+                        alt="code and skills text"
+                        width={250}
+                        height={200}
+                    />
+                </SectionTitle>
+
+                <Suspense fallback={<FeaturesLoadingSkeletonLayout/>}>
+                    <RenderFeatures/>
+                </Suspense>
+            </Section>
+
+            {/* TESTIMONIALS id="testimonials"*/}
+            <Section className="py-12">
+                <SectionTitle
+                    title="Ils apprennent avec Code&Skills"
+                    subTitle={"Des retours concrets d’apprenants et de pros."}
+                >
+                </SectionTitle>
+                <TestimonialCarouselClient items={TESTIMONIALS}/>
+            </Section>
+
+            {/* PARTNERS / PROMO */}
+            <Section className="py-12">
+                <BannerPartner title={"-30% sur l’abonnement annuel"}
+                               subTitle={"Offre de lancement limitée. Accès illimité aux parcours et nouvelles formations."}
+                               buttons={<>
+
+                                   <Button asChild variant={"secondary"}
+                                           className="rounded-xl bg-black/20 p-6 text-sm font-semibold backdrop-blur transition hover:bg-black/30">
+                                       <Link href={"/signup"}>S’abonner</Link>
+                                   </Button>
+                                   <Button
+                                       asChild
+                                       className="rounded-xl text-white bg-white/20 p-6 text-sm font-semibold backdrop-blur transition hover:bg-white/30">
+                                       <Link href={"/catalogue"}>Voir le catalogue</Link>
+                                   </Button>
+                               </>}
+                >
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                        {["AWS", "Stripe", "GitHub", "Docker", "Vercel", "PostgreSQL"].map((p) => (
+                            <div key={p}
+                                 className="flex h-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white/80">{p}</div>
+                        ))}
                     </div>
+                </BannerPartner>
+            </Section>
+
+            {/* NEWSLETTER id="newsletter"*/}
+            <Section className="py-14">
+                <div className="mx-auto max-w-2xl text-center">
+                    <SectionTitle
+                        title="Reste informé des nouvelles formations"
+                        subTitle={"Pas de spam, juste le meilleur du code et de la tech."}
+                        titleStyle={"text-xl"}
+                    >
+                    </SectionTitle>
+                    <NewsLetterForm/>
                 </div>
-            </section>
-            <section className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 "}>
-                {features.map((feature, index) => (
-                    <Card key={index} className={"hover:shadow-lg transition-shadow"}>
-                        <CardHeader>
-                            <div className={"text-4xl  mb-4"}>{feature.icon}</div>
-                            <CardTitle>{feature.title}</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <p className={"text-muted-foreground"}>
-                            {feature.description}
-                            </p>
-                        </CardContent>
-                    </Card>
-                ))}
-            </section>
+            </Section>
         </>
     );
+}
+
+
+async function RenderCourses() {
+    const data = await getFeaturedCourses();
+
+    const cleaned = data.map(course => ({
+        ...course,
+        Category: course.category ?? { id: "uncategorized", title: "Non classée" }
+    }));
+
+    return (
+        <CoursesCarouselClient items={cleaned} perPage={6} />
+    );
+}
+
+
+function FeaturedCoursesLoadingSkeletonLayout() {
+    return (
+        <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"}>
+            {Array.from({length: 6}).map((_, index) => (
+                <PublicCourseCardSkeleton key={index}/>
+            ))}
+        </div>
+    )
+}
+
+
+async function RenderCategories() {
+    const data = await getAllCategories()
+
+    return (
+        <CategoriesCarouselClient items={data} perPage={4}/>
+    )
+}
+
+function CategoriesLoadingSkeletonLayout() {
+    return (
+        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {Array.from({length: 4}).map((_, index) => (
+                <CategoryCardSkeleton key={index}/>
+            ))}
+        </div>
+    )
+}
+
+
+async function RenderFeatures() {
+    const data = await getAllFeatures()
+
+    return (
+        <FeaturedCarouselClient items={data} perPage={3}/>
+    )
+}
+
+function FeaturesLoadingSkeletonLayout() {
+    return (
+        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Array.from({length: 3}).map((_, index) => (
+                <FeatureCardSkeleton key={index}/>
+            ))}
+        </div>
+    )
 }

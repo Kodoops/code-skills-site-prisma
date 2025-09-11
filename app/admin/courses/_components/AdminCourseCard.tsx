@@ -22,6 +22,7 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import {Skeleton} from "@/components/ui/skeleton";
+import {IconCash} from "@tabler/icons-react";
 
 interface AdminCourseCardProps {
     data: AdminCourseType
@@ -74,18 +75,27 @@ const AdminCourseCard = ({data}:AdminCourseCardProps) => {
                     {data.smallDescription}
                 </p>
 
-                <div className="mt-4 flex items-center gap-x-5">
-                    <div className="flex items-center gap-x-2">
-                        <TimerIcon className={"size-6 p-1 rounded-md bg-primary bg-primary/10"}/>
-                        <p className={"text-sm  text-muted-foreground"}>
-                            {data.duration}h
-                        </p>
-                    </div>
+                <div className="mt-4 flex items-center justify-between gap-x-5">
+                    <div className="flex items-center gap-x-5">
+                        <div className="flex items-center gap-x-2">
+                            <TimerIcon className={"size-6 p-1 rounded-md bg-primary bg-primary/10"}/>
+                            <p className={"text-sm  text-muted-foreground"}>
+                                {data.duration}h
+                            </p>
+                        </div>
 
+                        <div className="flex items-center gap-x-2">
+                            <SchoolIcon className={"size-6 p-1 rounded-md bg-primary bg-primary/10"}/>
+                            <p className={"text-sm  text-muted-foreground"}>
+                                {data.level}
+                            </p>
+                        </div>
+                    </div>
                     <div className="flex items-center gap-x-2">
-                        <SchoolIcon className={"size-6 p-1 rounded-md bg-primary bg-primary/10"}/>
-                        <p className={"text-sm  text-muted-foreground"}>
-                            {data.level}
+                        <IconCash
+                            className={`size-6 p-1 rounded-md bg-primary/10 ${data.price === 0 ? "text-green-600" : "text-primary"} `}/>
+                        <p className={`text-xl ${data.price === 0 ? "text-green-600" : "text-primary"} font-semibold`}>
+                            {data.price !== 0 ? (data.price! / 100).toFixed(2) + " €" : "Gratuit"}
                         </p>
                     </div>
                 </div>
@@ -101,8 +111,8 @@ const AdminCourseCard = ({data}:AdminCourseCardProps) => {
 export default AdminCourseCard;
 
 export function AdminCourseCardSkeleton() {
-   return  <Card className="group relative py-1 gap-0">
-       <div className="absolute top-2 right-2 z-10 flex items-center gap-2" >
+    return <Card className="group relative py-1 gap-0">
+        <div className="absolute top-2 right-2 z-10 flex items-center gap-2" >
            <Skeleton  className={"h-6 w-16 rounded-full"}/>
            <Skeleton  className={"size-8 rounded-md"}/>
        </div>
@@ -125,7 +135,7 @@ export function AdminCourseCardSkeleton() {
                </div>
            </div>
 
-           <Skeleton  className={buttonVariants({className: "mt-4 h-10 w-full rounded"})}/>
+           <Skeleton  className={buttonVariants({variant:'outline',className: "mt-4 h-10 w-full rounded"})}/>
        </CardContent>
    </Card>
 }

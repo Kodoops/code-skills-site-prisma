@@ -10,12 +10,6 @@ import {stripe} from "@/lib/stripe";
 import {env} from "@/lib/env";
 
 const aj = arcjet
-    /*.withRule(
-        detectBot({
-            mode: "LIVE",
-            allow: [],
-        })
-    )*/
     .withRule(
         fixedWindow({
             mode: "LIVE",
@@ -54,6 +48,30 @@ export async function createCourse(values: CourseSchema): Promise<ApiResponse> {
             };
         }
 
+        const { category: categorySlug, ...courseData } = validation.data;
+
+        const category = await prisma.category.findUnique({
+            where: { slug: categorySlug },
+            select: { id: true }
+        });
+
+
+        if (!category) {
+            return {
+                status: "error",
+                message: "Category not found"
+            };
+        }
+
+        console.log("category", category)
+
+        if (!category) {
+            return {
+                status: "error",
+                message: "Category not found"
+            };
+        }
+
         const data = await stripe.products.create({
             name: validation.data.title,
             description: validation.data.smallDescription,
@@ -66,9 +84,22 @@ export async function createCourse(values: CourseSchema): Promise<ApiResponse> {
 
         await prisma.course.create({
             data: {
-                ...validation.data,
-                userId: session?.user.id as string,
-                stripePriceId : data.default_price as string,
+                title: validation.data.title,
+                description: validation.data.description,
+                fileKey: validation.data.fileKey,
+                price: validation.data.price,
+                duration: validation.data.duration,
+                level: validation.data.level,
+                smallDescription: validation.data.smallDescription,
+                slug: validation.data.slug,
+                status: validation.data.status,
+                user: {
+                    connect: { id: session?.user.id as string }
+                },
+                stripePriceId: data.default_price as string,
+                category: {
+                    connect: { id: category.id },
+                },
             }
         });
 
@@ -76,7 +107,7 @@ export async function createCourse(values: CourseSchema): Promise<ApiResponse> {
             status: "success",
             message: "Course created successfully"
         }
-    } catch {
+    } catch{
         return {
             status: "error",
             message: "Failed to create course"

@@ -40,7 +40,29 @@ export async function getCourse(slug: string) {
                         }
                     }
                 }
-            }
+            },
+            coursePromotion: {
+                where: {
+                    active: true,
+                    startsAt: { lte: new Date() },
+                    endsAt: { gte: new Date() },
+                },
+                orderBy: {
+                    startsAt: "desc", // la plus récente
+                },
+                take: 1, // une seule promo par course
+                select: {
+                    id: true,
+                    title: true,
+                    description: true,
+                    discount: true,
+                    type: true,
+                    startsAt: true,
+                    endsAt: true,
+                    active:true,
+                    courseId:true
+                },
+            },
         }
     });
 

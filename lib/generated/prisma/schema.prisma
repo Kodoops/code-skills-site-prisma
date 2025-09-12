@@ -30,6 +30,10 @@ model User {
   banReason  String?
   banExpires DateTime?
 
+  Payment Payment[]
+
+  Invoice Invoice[]
+
   @@unique([email])
   @@map("user")
 }
@@ -109,7 +113,12 @@ model Course {
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String
 
-  tags Tag[] @relation("CourseTags")
+  tags    Tag[]     @relation("CourseTags")
+  Payment Payment[]
+
+  coursePromotion CoursePromotion[]
+
+  promoCodes PromoCode[] @relation("CoursePromoCodes")
 }
 
 enum CourseLevel {
@@ -176,7 +185,29 @@ model Enrollment {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
+  payment   Payment? @relation("EnrollmentToPayment", fields: [paymentId], references: [id])
+  paymentId String?  @unique
+
   @@unique([userId, courseId])
+}
+
+model Payment {
+  id       String @id @default(uuid())
+  stripeId String @unique // ID de la session ou du paiement Stripe
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  course   Course @relation(fields: [courseId], references: [id])
+  courseId String
+
+  amount     Int
+  currency   String
+  status     String // 'succeeded', 'pending', 'failed', etc.
+  method     String? // card, stripe, etc.
+  receiptUrl String? // lien Stripe vers le reçu
+
+  createdAt DateTime @default(now())
+
+  enrollment Enrollment? @relation("EnrollmentToPayment")
 }
 
 enum enrollmentStatus {
@@ -238,4 +269,88 @@ model Feature {
   iconName  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model CoursePromotion {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  discount    Int // Valeur de la réduction
+  type        String   @default("PERCENTAGE") // FIXED
+  startsAt    DateTime
+  endsAt      DateTime
+  active      Boolean  @default(true)
+
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+model PromoCode {
+  id          String   @id @default(uuid())
+  code        String   @unique // Exemple : WELCOME10
+  description String?
+  discount    Int // 10 pour -10%
+  type        String   @default("PERCENTAGE") // FIXED
+  usageLimit  Int? // Nombre max d’utilisations
+  usedCount   Int      @default(0)
+  startsAt    DateTime
+  endsAt      DateTime
+  active      Boolean  @default(true)
+
+  // Relations
+  applicableCourses Course[] @relation("CoursePromoCodes")
+}
+
+model Invoice {
+  id        String        @id @default(uuid())
+  number    String
+  user      User          @relation(fields: [userId], references: [id])
+  userId    String
+  items     InvoiceItem[]
+  amount    Int // total TTC en centimes
+  currency  String        @default("EUR")
+  pdfUrl    String?
+  date      DateTime      @default(now())
+  createdAt DateTime      @default(now())
+}
+
+model InvoiceItem {
+  id        String  @id @default(uuid())
+  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+  invoiceId String
+
+  // Champs communs
+  title       String
+  type        InvoiceItemType
+  referenceId String // ID du cours, workshop, abonnement, etc.
+
+  quantity  Int @default(1)
+  unitPrice Int // centimes
+  total     Int // unitPrice * quantity
+}
+
+enum InvoiceItemType {
+  COURSE
+  WORKSHOP
+  SUBSCRIPTION
+}
+
+model Company {
+  id         String   @id @default(uuid())
+  name       String
+  address    String
+  postalCode String
+  city       String
+  country    String
+  email      String
+  phone      String?
+  siret      String?
+  vatNumber  String?
+  logoUrl    String?
+  createdAt  DateTime @default(now())
 }

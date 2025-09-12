@@ -14,13 +14,18 @@ import Link from 'next/link';
 import {EnrollmentButton} from "@/app/(root)/courses/[slug]/_components/EnrollmentButton";
 import {buttonVariants} from "@/components/ui/button";
 import {hasAccess} from "@/lib/access";
+import {calculatedPrice} from "@/lib/price";
+import ProductPrice from "@/components/custom-ui/ProductPrice";
 
 type Params = Promise<{ slug: string }>
 
 const SingleCoursePage = async ({params}: { params: Params }) => {
     const {slug} = await params;
     const course = await getCourse(slug);
+
     const isEnrolled = await checkIfCourseBought(course.id);
+
+    const finalPrice = calculatedPrice(course.price!, course.coursePromotion[0])
 
     return (
         <div className={"grid grid-cols-1 gap-8 lg:grid-cols-3 mt-5"}>
@@ -102,11 +107,14 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                                             <div className="p-6 pt-4 space-y-3">
                                                 {chapter.lessons.map((lesson, index) => {
 
-                                                 return (hasAccess(lesson.public, course) ?
-                                                     <RenderLessonLinkItemList lesson={lesson} index={index} chapter={chapter} key={index} slug={course.slug} />
-                                                     :
-                                                     <RenderLessonItemList lesson={lesson} index={index} chapter={chapter} key={index} />
-                                                 )
+                                                    return (hasAccess(lesson.public, course) ?
+                                                            <RenderLessonLinkItemList lesson={lesson} index={index}
+                                                                                      chapter={chapter} key={index}
+                                                                                      slug={course.slug}/>
+                                                            :
+                                                            <RenderLessonItemList lesson={lesson} index={index}
+                                                                                  chapter={chapter} key={index}/>
+                                                    )
                                                 })}
                                             </div>
                                         </div>
@@ -125,10 +133,9 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                         <CardContent className={"p-6"}>
                             <div className="flex items-center justify-between mb-6">
                                 <span className={"text-lg font-medium"}>Price:</span>
-                                <span className={"text-2xl font-bold text-primary"}>{new Intl.NumberFormat('fr-FR', {
-                                    style: 'currency',
-                                    currency: 'EUR',
-                                }).format(course.price)}
+                                <span className={"text-2xl font-bold text-primary"}>
+
+                                    <ProductPrice finalPrice={finalPrice} price={course.price} size={"2xl"} />
                                 </span>
                             </div>
 
@@ -217,12 +224,16 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                                     Watch Course
                                 </Link>
                                 :
-                                <>
-                                    <EnrollmentButton courseId={course.id}/>
+                                course.price === 0 ?
                                     <p className={"text-xs text-muted-foreground mt-4 text-center"}>
-                                        30-day money-back guarantee.
+                                        <EnrollmentButton courseId={course.id} btnLabel={"Enroll Free Course"}/>
                                     </p>
-                                </>
+                                    : <>
+                                        <EnrollmentButton courseId={course.id} btnLabel={"Enroll Now !"}/>
+                                        <p className={"text-xs text-muted-foreground mt-4 text-center"}>
+                                            30-day money-back guarantee.
+                                        </p>
+                                    </>
                             }
 
                         </CardContent>
@@ -230,13 +241,14 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                 </div>
             </div>
         </div>
-    );
+    )
+        ;
 };
 
 export default SingleCoursePage;
 
 
-function RenderLessonItemList({lesson, index, chapter}:{lesson:any, index:number, chapter:any}){
+function RenderLessonItemList({lesson, index, chapter}: { lesson: any, index: number, chapter: any }) {
     const isLast = index === chapter.lessons.length - 1;
     const baseClasses =
         "flex items-center gap-4 p-2  rounded-lg bg-muted/50  transition-colors";
@@ -261,7 +273,12 @@ function RenderLessonItemList({lesson, index, chapter}:{lesson:any, index:number
 
 }
 
-function RenderLessonLinkItemList({lesson, index, chapter, slug}:{lesson:any, index:number, chapter:any, slug:string}){
+function RenderLessonLinkItemList({lesson, index, chapter, slug}: {
+    lesson: any,
+    index: number,
+    chapter: any,
+    slug: string
+}) {
     const isLast = index === chapter.lessons.length - 1;
     const baseClasses =
         "flex items-center gap-4 p-2  rounded-lg bg-muted/50  transition-colors";

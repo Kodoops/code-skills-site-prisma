@@ -7,7 +7,8 @@ import {toast} from "sonner";
 import {enrollInCourseAction} from "@/app/(root)/courses/[slug]/actions";
 import {Loader2} from "lucide-react";
 
-export function EnrollmentButton  ({courseId}:{courseId:string}) {
+export function EnrollmentButton  ({courseId, btnLabel, btnVariant}:{courseId:string, btnLabel:string,
+    btnVariant?: "link" | "default" | "destructive" | "outline" | "secondary" | "ghost" | null | undefined }) {
 
     const [pending, startTransition] = useTransition();
 
@@ -27,11 +28,11 @@ export function EnrollmentButton  ({courseId}:{courseId:string}) {
     }
 
     return (
-        <Button className={"w-full"} onClick={onSubmit}  disabled={pending} >
+        <Button className={"w-full"} onClick={onSubmit}  disabled={pending} variant={btnVariant}>
             {pending ? <>
             <Loader2 className={"size-4 animate-spin"}/>
                 Loading ...
-            </> : "Enroll Now !"}
+            </> : btnLabel}
         </Button>
     );
 };

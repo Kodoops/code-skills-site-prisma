@@ -1,7 +1,6 @@
-// components/general/Pagination.tsx
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 
 interface PaginationProps {
@@ -12,23 +11,22 @@ interface PaginationProps {
 const Pagination = ({ page, totalPages }: PaginationProps) => {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const pathname = usePathname(); // 👈 récupère le chemin actuel
 
     const goToPage = (newPage: number) => {
         const params = new URLSearchParams(searchParams?.toString());
         params.set("page", newPage.toString());
-        router.push(`/courses?${params.toString()}`);
+        router.push(`${pathname}?${params.toString()}`); // 👈 utilise pathname dynamique
     };
 
     const getPageNumbers = () => {
         const pages: number[] = [];
-
-        const maxVisible = 5; // nombre max de pages visibles
+        const maxVisible = 5;
         const half = Math.floor(maxVisible / 2);
 
         let start = Math.max(1, page - half);
         let end = Math.min(totalPages, page + half);
 
-        // Ajuste si on est proche du début ou de la fin
         if (page <= half) {
             end = Math.min(totalPages, maxVisible);
         } else if (page + half >= totalPages) {
@@ -43,7 +41,7 @@ const Pagination = ({ page, totalPages }: PaginationProps) => {
     };
 
     return (
-        <div className=" flex flex-wrap justify-center items-center gap-2 mt-12">
+        <div className="flex flex-wrap justify-center items-center gap-2 mt-12">
             <Button
                 onClick={() => goToPage(page - 1)}
                 disabled={page <= 1}

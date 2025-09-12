@@ -63,8 +63,6 @@ export async function createCourse(values: CourseSchema): Promise<ApiResponse> {
             };
         }
 
-        console.log("category", category)
-
         if (!category) {
             return {
                 status: "error",

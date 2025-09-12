@@ -8,8 +8,10 @@ import {buttonVariants} from "@/components/ui/button";
 import {Skeleton} from "@/components/ui/skeleton";
 import { Badge } from '@/components/ui/badge';
 import {IconCash} from "@tabler/icons-react";
-import {CourseItem, levelBgColors} from "@/lib/types";
+import {CourseItem,  levelBgColors} from "@/lib/types";
 import {cn} from "@/lib/utils";
+import {calculatedPrice} from "@/lib/price";
+import ProductPrice from '@/components/custom-ui/ProductPrice';
 
 interface Props {
     data: CourseItem
@@ -17,6 +19,8 @@ interface Props {
 
 const PublicCourseCard = ({data}:Props) => {
     const thumbnailURl = useConstructUrl(data.fileKey);
+
+    const finalPrice = calculatedPrice(data.price!, data?.coursePromotion?.[0])
 
     return (
         <Card className={"group relative py-0 gap-0"}>
@@ -49,12 +53,7 @@ const PublicCourseCard = ({data}:Props) => {
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-x-2">
-                        <IconCash className={`size-6 p-1 rounded-md bg-primary/10 ${data.price === 0 ? "text-green-600" : "text-primary"} `}/>
-                        <p className={`text-xl ${data.price === 0 ? "text-green-600" : "text-primary"} font-semibold`}>
-                            {data.price !== 0 ? (data.price! / 100).toFixed(2) + " €" : "Gratuit"}
-                        </p>
-                    </div>
+                    <ProductPrice finalPrice={finalPrice} price={data.price!} />
                 </div>
 
                 <Link href={`/courses/${data.slug}`} className={buttonVariants({className: "w-full mt-4"})}>Learn

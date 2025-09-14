@@ -2,26 +2,82 @@ import "server-only";
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
 import {prisma} from "@/lib/db";
+import {TagType} from "@/lib/types";
 
-export async function adminGetTags() {
-    //to delete
-   // await new Promise(resolve => setTimeout(resolve, 2000));
+export async function adminGetTags(current: number = 1, nbrPage: number):
+    Promise<{
+        data: TagType[] | null,
+        page: number,
+        total: number,
+        perPage: number,
+        totalPages: number
+    }> {
+
+    await requireAdmin();
+
+    const [data, total] = await Promise.all([
+        await prisma.tag.findMany({
+            orderBy: {
+                createdAt: "desc"
+            },
+            take: nbrPage,
+            skip: (current - 1) * nbrPage,
+            select: {
+                id: true,
+                title: true,
+                slug: true,
+                color: true,
+                createdAt: true,
+                updatedAt: true,
+            }
+        }),
+        prisma.course.count(),
+    ]);
+
+    const  tags= data.map(tag => ({
+        id: tag.id,
+        title: tag.title,
+        slug: tag.slug,
+        color: tag.color,
+        createdAt: tag.createdAt.toISOString(),
+        updatedAt: tag.updatedAt.toISOString(),
+    }))
+    return {
+        data: tags,
+        total,
+        page: current,
+        perPage: nbrPage,
+        totalPages: Math.ceil(total / nbrPage),
+    };
+}
+
+
+export async function adminGetAllTags(): Promise<TagType[] | null> {
 
     await requireAdmin();
 
     const data = await prisma.tag.findMany({
-        orderBy:{
+        orderBy: {
             createdAt: "desc"
         },
-        select:{
-            id:true,
-            title:true,
-            slug:true,
-            color:true,
+        select: {
+            id: true,
+            title: true,
+            slug: true,
+            color: true,
+            createdAt:true,
+            updatedAt:true,
         }
-    });
+    })
 
-    return data;
+    if (!data) return null;
+
+    return data.map(tag=>({
+        id: tag.id,
+        title: tag.title,
+        slug: tag.slug,
+        color: tag.color,
+        createdAt: tag.createdAt.toISOString(),
+        updatedAt: tag.updatedAt.toISOString(),
+    }));
 }
-
-export type AdminTagType = Awaited <ReturnType<typeof adminGetTags>>[0];

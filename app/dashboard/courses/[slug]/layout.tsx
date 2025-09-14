@@ -1,4 +1,4 @@
-import React from 'react';
+
 import {CourseSidebar} from "@/app/dashboard/courses/_components/CourseSidebar";
 import {getCourseSidebarData} from "@/app/data/course/get-course-sidebar-data";
 

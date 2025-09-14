@@ -5,28 +5,28 @@ import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, Form
 import {Input} from "@/components/ui/input";
 import {Loader2, PlusIcon, SparkleIcon} from "lucide-react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {courseCategories, courseLevels, courseSchema, CourseSchema, courseStatus} from "@/lib/zodSchemas";
+import {  courseSchema, CourseSchema} from "@/lib/zodSchemas";
 import {type Resolver, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {tryCatch} from "@/hooks/try-catch";
 import {toast} from "sonner";
 import {notFound, useRouter} from "next/navigation";
 import {updateCourse} from "@/app/admin/courses/[courseId]/edit/actions";
-import {AdminCourseSingularType} from "@/app/data/admin/admin-get-course";
 import Uploader from '@/components/file-uploader/Uploader';
 import { Button } from '@/components/ui/button';
 import RichTextEditor from "@/components/rich-text-editor/Editor";
 import { Textarea } from '@/components/ui/textarea';
 import slugify from 'slugify';
+import { CourseType } from '@/lib/types';
 
 interface EditCourseFormProps {
-    data   :AdminCourseSingularType
+    data   :CourseType;
     categories: { id: string; slug: string; title: string }[];
+    levels : string[];
+    status : string[];
 }
 
-
-
-const EditCourseForm = ({data, categories}:EditCourseFormProps) => {
+const EditCourseForm = ({data, categories, levels, status}:EditCourseFormProps) => {
     if (!data) notFound();
 
     const [pending, startTransition] = useTransition();
@@ -198,7 +198,7 @@ const EditCourseForm = ({data, categories}:EditCourseFormProps) => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        {courseLevels.map((level) => (
+                                        {levels.map((level) => (
                                             <SelectItem key={level} value={level}>
                                                 {level}
                                             </SelectItem>
@@ -259,7 +259,7 @@ const EditCourseForm = ({data, categories}:EditCourseFormProps) => {
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                    {courseStatus.map((status) => (
+                                    {status.map((status) => (
                                         <SelectItem key={status} value={status}>
                                             {status}
                                         </SelectItem>

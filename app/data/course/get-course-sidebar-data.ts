@@ -1,13 +1,16 @@
 import "server-only";
+
 import {requireUser} from "../user/require-user";
 import {prisma} from "@/lib/db";
 import {notFound} from "next/navigation";
+import {CourseType, EnrollmentType} from "@/lib/types";
 
-export const getCourseSidebarData = async (slug: string) => {
+export const getCourseSidebarData = async (slug: string): Promise<{
+    course: CourseType, enrollment : EnrollmentType | null}> => {
 
     const session = await requireUser();
 
-    const course = await prisma.course.findUnique({
+    const courseData = await prisma.course.findUnique({
         where: {
             slug: slug,
         },
@@ -15,65 +18,113 @@ export const getCourseSidebarData = async (slug: string) => {
             id: true,
             title: true,
             smallDescription: true,
-            description: true,
-            fileKey: true,
-            price: true,
+            description:true,
             duration: true,
             level: true,
             status: true,
+            price: true,
+            fileKey: true,
             slug: true,
-            category: true,
-            chapters: {
-                select: {
+            createdAt:true,
+            updatedAt:true,
+            category:true,
+            coursePromotion: true,
+            tags:true,
+            chapters:{
+                select:{
                     id: true,
                     title: true,
+                    courseId: true,
                     position: true,
+                    createdAt : true,
+                    updatedAt : true,
                     lessons: {
-                        select: {
+                        select:{
                             id: true,
                             title: true,
-                            position: true,
                             description: true,
-                            public:true,
-                            lessonProgress:{
-                                where:{
-                                    userId: session.id,
-                                },
-                                select:{
-                                    completed:true,
-                                    lessonId: true ,
-                                    id:true,
-                                }
-                            }
+                            position: true,
+                            thumbnailKey: true,
+                            videoKey: true,
+                            public: true,
+                            chapterId: true,
+                            duration: true,
+                            lessonProgress: true,
+                            createdAt:true,
+                            updatedAt:true,
                         },
                         orderBy:{
-                            position:'asc'
-                        },
+                            createdAt :'asc'
+                        }
                     }
                 },
-                orderBy: {
-                    position: 'asc'
+                orderBy:{
+                    createdAt :'asc'
                 }
             }
         }
     });
 
-    if(!course) return notFound();
+    if(!courseData) return notFound();
 
-    const enrollment = await prisma.enrollment.findUnique({
+    const enrollmentData = await prisma.enrollment.findUnique({
         where:{
             userId_courseId:{
                 userId: session.id,
-                courseId : course.id
+                courseId : courseData.id
             }
         }
     });
 
-    // if(!enrollment || enrollment.status !='Active') {
+    // if(!enrollmentData || enrollmentData.status !='Active') {
     //     return notFound();
     // }
 
-    return { course, enrollment };
-}
+    const course = {
+        ...courseData,
+        createdAt: courseData.createdAt.toISOString(),
+        updatedAt: courseData.updatedAt.toISOString(),
+        category:{
+            ...courseData.category,
+            createdAt: courseData.category.createdAt.toISOString(),
+            updatedAt: courseData.category.updatedAt.toISOString(),
+        },
+        tags: courseData.tags.map(tag=>({
+            ...tag,
+            createdAt: tag.createdAt.toISOString(),
+            updatedAt: tag.updatedAt.toISOString()
+        })),
+        chapters: courseData.chapters.map(chapter=>({
+            ...chapter,
+            createdAt: chapter.createdAt.toISOString(),
+            updatedAt: chapter.updatedAt.toISOString(),
+            lessons: chapter.lessons.map(lesson=>({
+                ...lesson,
+                description: lesson.description ?? '',
+                thumbnailKey: lesson.thumbnailKey ?? '',
+                videoKey: lesson.videoKey ?? '',
+                createdAt: lesson.createdAt.toISOString(),
+                updatedAt: lesson.updatedAt.toISOString(),
+                lessonProgress: lesson.lessonProgress.map(lp => ({
+                    ...lp,
+                })),
+            }))
+        }))
+    };
 
-export type CourseSidebarDataType = Awaited<ReturnType<typeof getCourseSidebarData>>;
+    const enrollment = !enrollmentData ? null : {
+        ... enrollmentData,
+       id: enrollmentData?.id  ,
+        userId: enrollmentData?.userId ,
+        status: enrollmentData?.status ,
+        amount: enrollmentData?.amount,
+        courseId: enrollmentData?.courseId ,
+        paymentId: enrollmentData?.paymentId ?? '' ,
+        createdAt: enrollmentData?.createdAt.toISOString() ,
+        updatedAt: enrollmentData?.updatedAt.toISOString() ,
+    };
+
+    return { course,
+         enrollment
+    };
+}

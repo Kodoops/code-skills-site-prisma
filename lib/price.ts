@@ -1,6 +1,6 @@
-import {CoursePromotionItem, DiscountType} from "@/lib/types";
+import {CoursePromotionType, DiscountType} from "@/lib/types";
 
-export const calculatedPrice = (price: number, promotion?: CoursePromotionItem) => {
+export const calculatedPrice = (price: number, promotion?: CoursePromotionType) => {
 
     return   promotion
         ? promotion.type === "PERCENTAGE"

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-import {FeaturedItem} from "@/lib/types";
+import {FeaturedType} from "@/lib/types";
 import CarouselGrid from "@/app/(root)/_components/CarouselGrid";
 import FeatureCard from "@/app/(root)/_components/FeatureCard";
 
@@ -9,7 +9,7 @@ export default function FeaturedCarouselClient({
                                                   items,
                                                   perPage = 3,
                                               }: {
-    items: FeaturedItem[];
+    items: FeaturedType[];
     perPage?: number;
 }) {
     return (
@@ -22,7 +22,6 @@ export default function FeaturedCarouselClient({
                 <FeatureCard
                     title={c.title}
                     desc={c.desc}
-                    icon={c.icon}
                     iconName={c.iconName}
                     iconLib={c.iconLib}
                     color={c.color}

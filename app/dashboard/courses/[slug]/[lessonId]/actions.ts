@@ -2,10 +2,10 @@
 
 import {requireUser} from "@/app/data/user/require-user";
 import {prisma} from "@/lib/db";
-import {ApiResponse} from "@/lib/types";
+import {ApiResponseType} from "@/lib/types";
 import {revalidatePath} from "next/cache";
 
-export async function markLessonComplete(lessonId: string, slug: string): Promise<ApiResponse> {
+export async function markLessonComplete(lessonId: string, slug: string): Promise<ApiResponseType> {
 
     const session = await requireUser();
 

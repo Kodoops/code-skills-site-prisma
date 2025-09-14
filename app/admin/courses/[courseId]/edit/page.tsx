@@ -6,13 +6,13 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import EditCourseForm from "@/app/admin/courses/[courseId]/edit/_components/EditCourseForm";
 import CourseStructure from "@/app/admin/courses/[courseId]/edit/_components/CourseStructure";
 import {getAllCategories} from "@/app/data/course/get-all-categories";
-import AdminTagCard from "@/app/admin/tags/_components/AdminTagCard";
 import {AdminCategoryCardSkeleton} from "@/app/admin/categories/_components/AdminCategoryCard";
-import {TagItem} from "@/lib/types";
+import {TagType} from "@/lib/types";
 import {Ban} from "lucide-react";
 import UpdateTagsList from "@/app/admin/courses/[courseId]/edit/_components/TagsLis";
-import {adminGetTags} from "@/app/data/admin/admin-get-all-tags";
-import {Button} from "@/components/ui/button";
+import {adminGetAllTags} from "@/app/data/admin/admin-get-all-tags";
+import { getCourseLevels } from '@/app/data/get-course-levels';
+import {getCourseStatus} from "@/app/data/get-course-status";
 
 type Params = Promise<{ courseId: string }>;
 
@@ -23,6 +23,9 @@ const Page = async ({params}: { params: Params }) => {
 
     const data = await adminGetCourse(courseId);
     if (!data) notFound();
+
+    const levels : string[] = await getCourseLevels();
+    const status: string[] = await getCourseStatus();
 
     const catData = await getAllCategories();
     const categories = catData.map(category => ({
@@ -57,7 +60,7 @@ const Page = async ({params}: { params: Params }) => {
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <EditCourseForm data={data} categories={categories}/>
+                            <EditCourseForm data={data} categories={categories} levels={levels} status={status}/>
                         </CardContent>
                     </Card>
                 </TabsContent>
@@ -100,9 +103,9 @@ const Page = async ({params}: { params: Params }) => {
 export default Page;
 
 
-async function RenderTags({tags, courseId}:{tags: TagItem[], courseId:string}) {
+async function RenderTags({tags, courseId}:{tags: TagType[], courseId:string}) {
 
-    const allTags = await adminGetTags();
+    const allTags = await adminGetAllTags();
 
     return (
         <>

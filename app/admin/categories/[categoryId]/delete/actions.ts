@@ -3,7 +3,7 @@
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
 import { prisma } from "@/lib/db";
-import {ApiResponse} from "@/lib/types";
+import {ApiResponseType} from "@/lib/types";
 import {revalidatePath} from "next/cache";
 import arcjet from "@/lib/arcjet";
 import {fixedWindow, request} from "@arcjet/next";
@@ -17,7 +17,7 @@ const aj = arcjet
         })
     );
 
-export async function deleteCategory(categoryId: string) :Promise<ApiResponse>{
+export async function deleteCategory(categoryId: string) :Promise<ApiResponseType>{
 
     const session = await requireAdmin();
 

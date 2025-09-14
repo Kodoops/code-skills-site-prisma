@@ -1,9 +1,9 @@
 "use client";
 
 import React from 'react';
-import {InvoiceItem} from "@/lib/types";
+import {InvoiceType} from "@/lib/types";
 import {Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card';
-import {Button} from "@/components/ui/button";
+import {Button, buttonVariants} from "@/components/ui/button";
 import {EyeIcon, FileText, Minus} from "lucide-react";
 
 import {
@@ -12,8 +12,9 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
+import {Skeleton} from "@/components/ui/skeleton";
 
-const InvoiceCard = ({invoice}: { invoice: InvoiceItem }) => {
+const InvoiceCard = ({invoice}: { invoice: InvoiceType }) => {
 
     const downloadInvoice = async (invoiceId: string) => {
         const response = await fetch(`/api/invoices/${invoiceId}/download`);
@@ -85,3 +86,34 @@ const InvoiceCard = ({invoice}: { invoice: InvoiceItem }) => {
 };
 
 export default InvoiceCard;
+
+
+export function InvoiceItemCardSkeleton() {
+    return <Card className={"group relative py-0 gap-0"}>
+
+        <CardHeader className={"border-b border-border-foreground"}>
+            <CardTitle className={"text-center font-semibold flex items-center justify-center"}>
+
+                <Skeleton className={"h-6 w-4/5 rounded-full bg-muted-foreground/10 my-4"}/>
+
+            </CardTitle>
+        </CardHeader>
+
+        <CardContent className={"p-4"}>
+            <div className="space-y-2 flex items-center justify-between">
+                <Skeleton className={"h-6 w-1/4 bg-muted-foreground/10 my-4"}/>
+                <Skeleton className={"w-1/4 h-6 bg-muted-foreground/10 my-4"}/>
+            </div>
+
+            <div className="space-y-2 flex items-center justify-between">
+                <Skeleton className={"h-6 w-1/2 bg-muted-foreground/10 my-4"}/>
+                <Skeleton className={"w-1/8 h-6 bg-muted-foreground/10 my-4"}/>
+            </div>
+
+
+            <div className="flex itesm-center justify-center gap-4">
+                <Skeleton className={buttonVariants({className: "mt-4  h-10 w-32 rounded" , variant: "outline" })}/>
+            </div>
+        </CardContent>
+    </Card>
+}

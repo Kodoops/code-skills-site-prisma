@@ -2,10 +2,9 @@ import "server-only";
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
 import {prisma} from "@/lib/db";
+import {CourseType} from "@/lib/types";
 
-export async function adminGetRecentCourses() {
-    //to delete
-    await new Promise(resolve => setTimeout(resolve, 2000));
+export async function adminGetRecentCourses() : Promise<CourseType []> {
 
     await requireAdmin();
 
@@ -14,18 +13,83 @@ export async function adminGetRecentCourses() {
             createdAt: 'desc'
         },
         take:2,
-        select:{
+        select: {
             id: true,
-            title:true,
-            smallDescription:true,
-            duration:true,
-            level:true,
+            title: true,
+            smallDescription: true,
+            description:true,
+            duration: true,
+            level: true,
             status: true,
-            slug:true,
-            price:true,
-            fileKey:true,
-        },
+            price: true,
+            fileKey: true,
+            slug: true,
+            createdAt:true,
+            updatedAt:true,
+            category:true,
+            coursePromotion: true,
+            tags:true,
+            chapters:{
+                select:{
+                    id: true,
+                    title: true,
+                    courseId: true,
+                    position: true,
+                    createdAt : true,
+                    updatedAt : true,
+                    lessons: {
+                        select:{
+                            id: true,
+                            title: true,
+                            description: true,
+                            position: true,
+                            thumbnailKey: true,
+                            videoKey: true,
+                            public: true,
+                            chapterId: true,
+                            duration: true,
+                            lessonProgress: true,
+                            createdAt:true,
+                            updatedAt:true,
+                        }
+                    }
+                }
+            }
+        }
     });
 
-    return data;
+
+    const courses = data.map(course => ( {
+        ...course,
+        createdAt: course.createdAt.toISOString(),
+        updatedAt: course.updatedAt.toISOString(),
+        category:{
+            ...course.category,
+            createdAt: course.category.createdAt.toISOString(),
+            updatedAt: course.category.updatedAt.toISOString(),
+        },
+        tags: course.tags.map(tag=>({
+            ...tag,
+            createdAt: tag.createdAt.toISOString(),
+            updatedAt: tag.updatedAt.toISOString()
+        })),
+        chapters: course.chapters.map(chapter=>({
+            ...chapter,
+            createdAt: chapter.createdAt.toISOString(),
+            updatedAt: chapter.updatedAt.toISOString(),
+            lessons: chapter.lessons.map(lesson=>({
+                ...lesson,
+                description: lesson.description ?? '',
+                thumbnailKey: lesson.thumbnailKey ?? '',
+                videoKey: lesson.videoKey ?? '',
+                createdAt: lesson.createdAt.toISOString(),
+                updatedAt: lesson.updatedAt.toISOString(),
+                lessonProgress: lesson.lessonProgress.map(lp => ({
+                    ...lp,
+                })),
+            }))
+        }))
+    }))
+
+    return courses;
 }

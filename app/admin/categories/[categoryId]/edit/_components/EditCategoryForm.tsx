@@ -8,30 +8,20 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {
     categorySchema,
     CategorySchema,
-    courseCategories,
-    courseLevels,
-    courseSchema,
-    CourseSchema,
-    courseStatus
 } from "@/lib/zodSchemas";
 import {type Resolver, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {tryCatch} from "@/hooks/try-catch";
 import {toast} from "sonner";
 import {notFound, useRouter} from "next/navigation";
-import {updateCourse} from "@/app/admin/courses/[courseId]/edit/actions";
-import {AdminCourseSingularType} from "@/app/data/admin/admin-get-course";
-import Uploader from '@/components/file-uploader/Uploader';
 import { Button } from '@/components/ui/button';
-import RichTextEditor from "@/components/rich-text-editor/Editor";
 import { Textarea } from '@/components/ui/textarea';
 import slugify from 'slugify';
-import {AdminCategorySingularType} from "@/app/data/admin/admin-get-category";
 import {updateCategory} from "@/app/admin/categories/[categoryId]/edit/actions";
-import {iconLibs, listColors} from "@/lib/types";
+import {CategoryType, iconLibs, listColors} from "@/lib/types";
 
 interface EditCategoryFormProps {
-    data   :AdminCategorySingularType
+    data   :CategoryType
 }
 
 const EditCategoryForm = ({data}:EditCategoryFormProps) => {
@@ -202,9 +192,9 @@ const EditCategoryForm = ({data}:EditCategoryFormProps) => {
                 </div>
                 <Button type={"submit"} disabled={pending}>
                     {pending ? (<>
-                        Updating Course ... <Loader2 className={"size-4 animate-spin ml-1"}/>
+                        Updating Category ... <Loader2 className={"size-4 animate-spin ml-1"}/>
                     </>) : (<>
-                        Update Course <PlusIcon className={"size-4 ml-1"}/>
+                        Update Category <PlusIcon className={"size-4 ml-1"}/>
                     </>)}
                 </Button>
             </form>

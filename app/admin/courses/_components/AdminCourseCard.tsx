@@ -1,7 +1,6 @@
 import React from 'react';
 import {Card, CardContent} from "@/components/ui/card";
 import Image from "next/image";
-import {AdminCourseType} from "@/app/data/admin/admin-get-courses";
 import {useConstructUrl} from "@/hooks/use-construct-url";
 import Link from "next/link";
 import {
@@ -23,9 +22,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {Skeleton} from "@/components/ui/skeleton";
 import {IconCash} from "@tabler/icons-react";
+import {CourseType} from "@/lib/types";
 
 interface AdminCourseCardProps {
-    data: AdminCourseType
+    data: CourseType;
 }
 const AdminCourseCard = ({data}:AdminCourseCardProps) => {
 

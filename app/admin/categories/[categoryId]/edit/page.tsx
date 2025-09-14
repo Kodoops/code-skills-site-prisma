@@ -1,10 +1,6 @@
 import React from 'react';
 import {notFound} from "next/navigation";
-import {adminGetCourse} from "@/app/data/admin/admin-get-course";
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-import EditCourseForm from "@/app/admin/courses/[courseId]/edit/_components/EditCourseForm";
-import CourseStructure from "@/app/admin/courses/[courseId]/edit/_components/CourseStructure";
 import {adminGetCategory} from '@/app/data/admin/admin-get-category';
 import EditCategoryForm from './_components/EditCategoryForm';
 
@@ -27,7 +23,7 @@ const EditCategoryPage = async ({params}: { params: Params }) => {
                 <CardHeader>
                     <CardTitle>Basic Infos</CardTitle>
                     <CardDescription>
-                        Provide basic information about the course.
+                        Provide basic information about the category.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>

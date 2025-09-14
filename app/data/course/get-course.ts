@@ -2,8 +2,9 @@ import "server-only";
 
 import {prisma} from "@/lib/db";
 import {notFound} from "next/navigation";
+import {CourseType} from "@/lib/types";
 
-export async function getCourse(slug: string) {
+export async function getCourse(slug: string) : Promise<CourseType> {
 
     const course = await prisma.course.findUnique({
         where: {
@@ -12,63 +13,81 @@ export async function getCourse(slug: string) {
         select: {
             id: true,
             title: true,
-            description: true,
-            fileKey: true,
-            price: true,
+            smallDescription: true,
+            description:true,
             duration: true,
             level: true,
             status: true,
+            price: true,
+            fileKey: true,
             slug: true,
-            category: true,
-            smallDescription: true,
-            chapters: {
-                orderBy:{
-                  position: "asc",
-                },
-                select: {
+            createdAt:true,
+            updatedAt:true,
+            category:true,
+            coursePromotion: true,
+            tags:true,
+            chapters:{
+                select:{
                     id: true,
                     title: true,
+                    courseId: true,
+                    position: true,
+                    createdAt : true,
+                    updatedAt : true,
                     lessons: {
-                        select: {
+                        select:{
                             id: true,
                             title: true,
+                            description: true,
+                            position: true,
+                            thumbnailKey: true,
+                            videoKey: true,
                             public: true,
-                            duration:true,
-                        },
-                        orderBy:{
-                            position:'asc',
+                            chapterId: true,
+                            duration: true,
+                            lessonProgress: true,
+                            createdAt:true,
+                            updatedAt:true,
                         }
                     }
                 }
-            },
-            coursePromotion: {
-                where: {
-                    active: true,
-                    startsAt: { lte: new Date() },
-                    endsAt: { gte: new Date() },
-                },
-                orderBy: {
-                    startsAt: "desc", // la plus récente
-                },
-                take: 1, // une seule promo par course
-                select: {
-                    id: true,
-                    title: true,
-                    description: true,
-                    discount: true,
-                    type: true,
-                    startsAt: true,
-                    endsAt: true,
-                    active:true,
-                    courseId:true
-                },
-            },
+            }
         }
     });
 
     if(!course) return notFound();
 
-    return course;
+    return {
+        ...course,
+        createdAt: course.createdAt.toISOString(),
+        updatedAt: course.updatedAt.toISOString(),
+        category:{
+            ...course.category,
+            createdAt: course.category.createdAt.toISOString(),
+            updatedAt: course.category.updatedAt.toISOString(),
+        },
+        tags: course.tags.map(tag=>({
+            ...tag,
+            createdAt: tag.createdAt.toISOString(),
+            updatedAt: tag.updatedAt.toISOString()
+        })),
+        chapters: course.chapters.map(chapter=>({
+            ...chapter,
+            createdAt: chapter.createdAt.toISOString(),
+            updatedAt: chapter.updatedAt.toISOString(),
+            lessons: chapter.lessons.map(lesson=>({
+                ...lesson,
+                description: lesson.description ?? '',
+                thumbnailKey: lesson.thumbnailKey ?? '',
+                videoKey: lesson.videoKey ?? '',
+                createdAt: lesson.createdAt.toISOString(),
+                updatedAt: lesson.updatedAt.toISOString(),
+                lessonProgress: lesson.lessonProgress.map(lp => ({
+                    ...lp,
+                })),
+            }))
+        }))
+    };
 }
 
 

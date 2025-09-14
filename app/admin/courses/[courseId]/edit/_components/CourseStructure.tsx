@@ -17,7 +17,6 @@ import {
     useSortable, verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import {CSS} from '@dnd-kit/utilities';
-import {AdminCourseSingularType} from "@/app/data/admin/admin-get-course";
 import {cn} from "@/lib/utils";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible";
 import {ChevronDownIcon, ChevronRightIcon, FileText, GripVertical} from "lucide-react";
@@ -29,9 +28,10 @@ import {NewChapterModal} from "@/app/admin/courses/[courseId]/edit/_components/N
 import {NewLessonModal} from "@/app/admin/courses/[courseId]/edit/_components/NewLessonModal";
 import {DeleteLesson} from "@/app/admin/courses/[courseId]/edit/_components/DeleteLesson";
 import { DeleteChapter } from './DeleteChapter';
+import {CourseType} from "@/lib/types";
 
 interface Props {
-    data: AdminCourseSingularType
+    data: CourseType
 }
 
 interface SortableItemProps {

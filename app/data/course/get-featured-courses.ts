@@ -1,58 +1,55 @@
 import "server-only";
 import { prisma } from "@/lib/db";
-import { SemanticColor } from "@/lib/types";
+import {CourseType} from "@/lib/types";
 
-export async function getFeaturedCourses(nbrOfCourses: number = 6) {
-    // delay to delete
-    //await new Promise(resolve => setTimeout(resolve, 2000));
+export async function getFeaturedCourses(nbrOfCourses: number = 6) : Promise<CourseType[]>{
 
     const data = await prisma.course.findMany({
         where: {
             status: "Published",
         },
         select: {
-            title: true,
-            price: true,
-            smallDescription: true,
-            description: true,
-            slug: true,
-            fileKey: true,
             id: true,
-            level: true,
+            title: true,
+            smallDescription: true,
+            description:true,
             duration: true,
-            category: {
-                select: {
+            level: true,
+            status: true,
+            price: true,
+            fileKey: true,
+            slug: true,
+            createdAt:true,
+            updatedAt:true,
+            category:true,
+            coursePromotion: true,
+            tags:true,
+            chapters:{
+                select:{
                     id: true,
                     title: true,
-                    slug: true,
-                    desc: true,
-                    color: true,
-                    iconName: true,
-                    iconLib: true,
-                },
-            },
-            coursePromotion: {
-                where: {
-                    active: true,
-                    startsAt: { lte: new Date() },
-                    endsAt: { gte: new Date() },
-                },
-                orderBy: {
-                    startsAt: "desc", // la plus récente
-                },
-                take: 1, // une seule promo par course
-                select: {
-                    id: true,
-                    title: true,
-                    description: true,
-                    discount: true,
-                    type: true,
-                    startsAt: true,
-                    endsAt: true,
-                    active:true,
-                    courseId:true
-                },
-            },
+                    courseId: true,
+                    position: true,
+                    createdAt : true,
+                    updatedAt : true,
+                    lessons: {
+                        select:{
+                            id: true,
+                            title: true,
+                            description: true,
+                            position: true,
+                            thumbnailKey: true,
+                            videoKey: true,
+                            public: true,
+                            chapterId: true,
+                            duration: true,
+                            lessonProgress: true,
+                            createdAt:true,
+                            updatedAt:true,
+                        }
+                    }
+                }
+            }
         },
         orderBy: {
             updatedAt: "desc",
@@ -60,16 +57,35 @@ export async function getFeaturedCourses(nbrOfCourses: number = 6) {
         take: nbrOfCourses,
     });
 
-    return data.map(course => ({
+    return data.map(course => ( {
         ...course,
-        category: {
-            id: course.category?.id ?? "uncategorized",
-            title: course.category?.title ?? "Non classée",
-            slug: course.category?.slug ?? "uncategorized",
-            desc: course.category?.desc ?? "Aucune description",
-            color: (course.category?.color ?? "muted") as SemanticColor,
-            iconName: course.category?.iconName ?? undefined,
-            iconLib: course.category?.iconLib ?? undefined,
-        }
-    }));
+        createdAt: course.createdAt.toISOString(),
+        updatedAt: course.updatedAt.toISOString(),
+        category:{
+            ...course.category,
+            createdAt: course.category.createdAt.toISOString(),
+            updatedAt: course.category.updatedAt.toISOString(),
+        },
+        tags: course.tags.map(tag=>({
+            ...tag,
+            createdAt: tag.createdAt.toISOString(),
+            updatedAt: tag.updatedAt.toISOString()
+        })),
+        chapters: course.chapters.map(chapter=>({
+            ...chapter,
+            createdAt: chapter.createdAt.toISOString(),
+            updatedAt: chapter.updatedAt.toISOString(),
+            lessons: chapter.lessons.map(lesson=>({
+                ...lesson,
+                description: lesson.description ?? '',
+                thumbnailKey: lesson.thumbnailKey ?? '',
+                videoKey: lesson.videoKey ?? '',
+                createdAt: lesson.createdAt.toISOString(),
+                updatedAt: lesson.updatedAt.toISOString(),
+                lessonProgress: lesson.lessonProgress.map(lp => ({
+                    ...lp,
+                })),
+            }))
+        }))
+    }))
 }

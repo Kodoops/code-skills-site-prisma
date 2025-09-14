@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useTransition } from 'react';
-import {LessonContentType} from "@/app/data/course/get-lesson-content";
 import { Button } from '@/components/ui/button';
 import { BookIcon, CheckCircle, Loader2} from "lucide-react";
 import { RenderDescription } from '@/components/rich-text-editor/RenderDescription';
@@ -10,9 +9,10 @@ import {tryCatch} from "@/hooks/try-catch";
 import {toast} from "sonner";
 import {markLessonComplete} from "@/app/dashboard/courses/[slug]/[lessonId]/actions";
 import {useConfetti} from "@/hooks/use-confetti";
+import {LessonType} from "@/lib/types";
 
 interface CourseContentProps {
-    data : LessonContentType
+    data : LessonType & { courseId: string; course: { slug: string } }
 }
 
 const CourseContent = ({data}: CourseContentProps) => {
@@ -52,7 +52,7 @@ const CourseContent = ({data}: CourseContentProps) => {
 
     function onSubmit() {
         startTransition(async () => {
-            const {data:result , error} = await tryCatch(markLessonComplete(data.id, data.chapter.course.slug));
+            const {data:result , error} = await tryCatch(markLessonComplete(data.id, data.course.slug));
 
             if (error) {
                 toast.error(error.message);

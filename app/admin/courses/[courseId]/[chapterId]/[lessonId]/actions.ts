@@ -1,11 +1,11 @@
 "use server";
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
-import {ApiResponse} from "@/lib/types";
+import {ApiResponseType} from "@/lib/types";
 import {lessonSchema, LessonSchema} from "@/lib/zodSchemas";
 import {prisma} from "@/lib/db";
 
-export async function updateLesson(values: LessonSchema, lessonId:string): Promise<ApiResponse> {
+export async function updateLesson(values: LessonSchema, lessonId:string): Promise<ApiResponseType> {
     await requireAdmin();
 
     try {

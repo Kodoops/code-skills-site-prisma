@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
-import {courseLevels} from "@/lib/zodSchemas";
 import {notFound} from "next/navigation";
+import { getCourseLevels } from "../get-course-levels";
+import {CourseType} from "@/lib/types";
 
 export async function getAllCourses({
                                         categorySlug,
@@ -14,14 +15,22 @@ export async function getAllCourses({
     isFree?: string;
     page?: number;
     perPage?: number;
-}) {
+}): Promise<{
+    data: CourseType[] | null,
+    totalPages: number,
+    currentPage: number,
+    perPage: number,
+}> {
+
+    const levels = await getCourseLevels();
+
     const where: any = {
         status: "Published",
     };
 
     if (categorySlug) {
         where.category = {
-            isNot: null,
+            //isNot: null,
             slug: categorySlug,
         };
     }
@@ -30,7 +39,7 @@ export async function getAllCourses({
         where.level = level;
     }
 
-    if (level && level !== "all" && !courseLevels.includes(level as any)) {
+    if (level && level !== "all" && !levels.includes(level as any)) {
        return notFound();
     }
 
@@ -49,58 +58,87 @@ export async function getAllCourses({
             select: {
                 id: true,
                 title: true,
-                price: true,
                 smallDescription: true,
                 description:true,
-                slug: true,
-                fileKey: true,
-                level: true,
                 duration: true,
-                category: {
-                    select: {
+                level: true,
+                status: true,
+                price: true,
+                fileKey: true,
+                slug: true,
+                createdAt:true,
+                updatedAt:true,
+                category:true,
+                coursePromotion: true,
+                tags:true,
+                chapters:{
+                    select:{
                         id: true,
                         title: true,
-                        slug: true,
-                        desc: true,
-                        color: true,
-                        iconName: true,
-                        iconLib: true,
-                    },
-                },
-                coursePromotion: {
-                    where: {
-                        active: true,
-                        startsAt: { lte: new Date() },
-                        endsAt: { gte: new Date() },
-                    },
-                    orderBy: {
-                        startsAt: "desc", // la plus récente
-                    },
-                    take: 1, // une seule promo par course
-                    select: {
-                        id: true,
-                        title: true,
-                        description: true,
-                        discount: true,
-                        type: true,
-                        startsAt: true,
-                        endsAt: true,
-                        active:true,
-                        courseId:true
-                    },
-                },
-            },
+                        courseId: true,
+                        position: true,
+                        createdAt : true,
+                        updatedAt : true,
+                        lessons: {
+                            select:{
+                                id: true,
+                                title: true,
+                                description: true,
+                                position: true,
+                                thumbnailKey: true,
+                                videoKey: true,
+                                public: true,
+                                chapterId: true,
+                                duration: true,
+                                lessonProgress: true,
+                                createdAt:true,
+                                updatedAt:true,
+                            }
+                        }
+                    }
+                }
+            }
         }),
         prisma.course.count({ where }),
     ]);
 
+    const courses = data.map(course => ( {
+        ...course,
+        createdAt: course.createdAt.toISOString(),
+        updatedAt: course.updatedAt.toISOString(),
+        category:{
+            ...course.category,
+            createdAt: course.category.createdAt.toISOString(),
+            updatedAt: course.category.updatedAt.toISOString(),
+        },
+        tags: course.tags.map(tag=>({
+            ...tag,
+            createdAt: tag.createdAt.toISOString(),
+            updatedAt: tag.updatedAt.toISOString()
+        })),
+        chapters: course.chapters.map(chapter=>({
+            ...chapter,
+            createdAt: chapter.createdAt.toISOString(),
+            updatedAt: chapter.updatedAt.toISOString(),
+            lessons: chapter.lessons.map(lesson=>({
+                ...lesson,
+                description: lesson.description ?? '',
+                thumbnailKey: lesson.thumbnailKey ?? '',
+                videoKey: lesson.videoKey ?? '',
+                createdAt: lesson.createdAt.toISOString(),
+                updatedAt: lesson.updatedAt.toISOString(),
+                lessonProgress: lesson.lessonProgress.map(lp => ({
+                    ...lp,
+                })),
+            }))
+        }))
+    }))
+
     return {
-        data,
-        total,
-        page,
-        perPage,
+        data: courses,
         totalPages: Math.ceil(total / perPage),
+        currentPage: page,
+        perPage
     };
 }
 
-export type PublicCourseType = Awaited<ReturnType<typeof getAllCourses>>["data"][0];

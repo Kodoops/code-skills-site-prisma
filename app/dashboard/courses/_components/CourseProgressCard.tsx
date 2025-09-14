@@ -72,15 +72,15 @@ export default CourseProgressCard;
 export function CourseProgressCardSkeleton() {
     return <Card className={"group relative py-0 gap-0"}>
         <div className={"absolute top-2 right-2 z-10 flex items-center gap-2"}>
-            <Skeleton className={"h-6 w-20 rounded-full"}/>
-            <Skeleton className={"size-8 rounded-md"}/>
+            <Skeleton className={"h-6 w-20 rounded-full bg-muted-foreground/10"}/>
+            <Skeleton className={"size-8 rounded-md  bg-muted-foreground/10"}/>
         </div>
         <div className={" w-full relative h-fit"}>
-            <Skeleton className={"w-full rounded-t-lg aspect-video h-[250px] object-cover"}/>
+            <Skeleton className={"w-full rounded-t-lg aspect-video h-[250px] object-cover  bg-muted-foreground/10"}/>
         </div>
         <CardContent className={"p-4"}>
             <div className="space-y-2">
-                <Skeleton className={"h-6 w-full "}/>
+                <Skeleton className={"h-6 w-full  bg-muted-foreground/10 "}/>
                 <Skeleton className={"w-3/4 h-6 "}/>
             </div>
 

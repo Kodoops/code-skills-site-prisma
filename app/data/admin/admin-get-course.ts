@@ -3,9 +3,10 @@ import "server-only"
 import {requireAdmin} from "@/app/data/admin/require-admin";
 import {prisma} from "@/lib/db";
 import {notFound} from "next/navigation";
+import {CourseType} from "@/lib/types";
 
 
-export async function adminGetCourse(id: string) {
+export async function adminGetCourse(id: string) : Promise<CourseType | null> {
 
     await requireAdmin();
 
@@ -18,34 +19,45 @@ export async function adminGetCourse(id: string) {
         select: {
             id: true,
             title: true,
-            description: true,
-            fileKey: true,
-            price: true,
+            smallDescription: true,
+            description:true,
             duration: true,
             level: true,
             status: true,
+            price: true,
+            fileKey: true,
             slug: true,
-            smallDescription: true,
-            category: true,
-            chapters: {
-                select: {
+            createdAt:true,
+            updatedAt:true,
+            category:true,
+            coursePromotion: true,
+            tags:true,
+            chapters:{
+                select:{
                     id: true,
                     title: true,
+                    courseId: true,
                     position: true,
+                    createdAt : true,
+                    updatedAt : true,
                     lessons: {
-                        select: {
+                        select:{
                             id: true,
                             title: true,
                             description: true,
                             position: true,
                             thumbnailKey: true,
                             videoKey: true,
+                            public: true,
+                            chapterId: true,
+                            duration: true,
+                            lessonProgress: true,
+                            createdAt:true,
+                            updatedAt:true,
                         }
                     }
-
                 }
-            },
-            tags: true,
+            }
         }
     });
 
@@ -53,7 +65,36 @@ export async function adminGetCourse(id: string) {
         return notFound();
     }
 
-    return data;
+    return {
+        ...data,
+        createdAt: data.createdAt.toISOString(),
+        updatedAt: data.updatedAt.toISOString(),
+        category:{
+            ...data.category,
+            createdAt: data.category.createdAt.toISOString(),
+            updatedAt: data.category.updatedAt.toISOString(),
+        },
+        tags: data.tags.map(tag=>({
+            ...tag,
+            createdAt: tag.createdAt.toISOString(),
+            updatedAt: tag.updatedAt.toISOString()
+        })),
+        chapters: data.chapters.map(chapter=>({
+            ...chapter,
+            createdAt: chapter.createdAt.toISOString(),
+            updatedAt: chapter.updatedAt.toISOString(),
+            lessons: chapter.lessons.map(lesson=>({
+                ...lesson,
+                description: lesson.description ?? '',
+                thumbnailKey: lesson.thumbnailKey ?? '',
+                videoKey: lesson.videoKey ?? '',
+                createdAt: lesson.createdAt.toISOString(),
+                updatedAt: lesson.updatedAt.toISOString(),
+                lessonProgress: lesson.lessonProgress.map(lp => ({
+                    ...lp,
+                })),
+            }))
+        }))
+    };
 }
 
-export type AdminCourseSingularType = Awaited<ReturnType<typeof adminGetCourse>>;

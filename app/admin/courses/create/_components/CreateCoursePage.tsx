@@ -5,7 +5,7 @@ import Link from 'next/link';
 import React, {useTransition} from 'react';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button, buttonVariants} from "@/components/ui/button";
-import { courseLevels, courseSchema, CourseSchema, courseStatus} from "@/lib/zodSchemas";
+import {  courseSchema, CourseSchema} from "@/lib/zodSchemas";
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { Resolver } from "react-hook-form";
 import {useForm} from "react-hook-form"
@@ -32,9 +32,11 @@ import {createCourse} from "@/app/admin/courses/create/action";
 
 interface CreateCoursePageProps {
     categories: { id: string; slug: string; title: string }[];
+    levels: string[];
+    status: string[];
 }
 
-const CreateCoursePage =  ( { categories }:CreateCoursePageProps) => {
+const CreateCoursePage =  ( { categories , levels, status}:CreateCoursePageProps) => {
     const [pending, startTransition] = useTransition();
     const router = useRouter();
     const {triggerConfetti} = useConfetti();
@@ -222,7 +224,7 @@ const CreateCoursePage =  ( { categories }:CreateCoursePageProps) => {
                                                     </SelectTrigger>
                                                 </FormControl>
                                                 <SelectContent>
-                                                    {courseLevels.map((level) => (
+                                                    {levels.map((level) => (
                                                         <SelectItem key={level} value={level}>
                                                             {level}
                                                         </SelectItem>
@@ -283,7 +285,7 @@ const CreateCoursePage =  ( { categories }:CreateCoursePageProps) => {
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                {courseStatus.map((status) => (
+                                                {status.map((status) => (
                                                     <SelectItem key={status} value={status}>
                                                         {status}
                                                     </SelectItem>

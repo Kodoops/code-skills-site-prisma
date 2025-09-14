@@ -1,18 +1,18 @@
-import { InvoiceItem } from "@/lib/types";
+import { InvoiceType } from "@/lib/types";
 import {requireUser} from "@/app/data/user/require-user";
 import {prisma} from "@/lib/db";
 import {DateTime} from "@/lib/date-time";
 
 type PaginatedInvoices = {
-    data: InvoiceItem[];
+    data: InvoiceType[];
     totalPages: number;
     currentPage: number;
     perPage: number;
 };
 
 export async function getAllUserInvoices(page: number = 1, perPage:number=9): Promise<PaginatedInvoices> {
-    const user = await requireUser();
 
+    const user = await requireUser();
     const skip = (page - 1) * perPage;
 
     const [rawData, totalCount] = await Promise.all([
@@ -53,7 +53,7 @@ export async function getAllUserInvoices(page: number = 1, perPage:number=9): Pr
         }),
     ]);
 
-    const data: InvoiceItem[] = rawData.map((invoice) => ({
+    const data: InvoiceType[] = rawData.map((invoice) => ({
         id: invoice.id,
         number: invoice.number,
         userId: invoice.userId,

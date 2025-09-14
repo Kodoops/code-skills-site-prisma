@@ -2,7 +2,6 @@
 
 import React from 'react';
 import {ChevronDown, Play} from "lucide-react";
-import {CourseSidebarDataType} from "@/app/data/course/get-course-sidebar-data";
 import {Progress} from "@/components/ui/progress";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible";
 import { Button } from '@/components/ui/button';
@@ -10,12 +9,10 @@ import {LessonItem, LessonLinkItem} from "@/app/dashboard/courses/_components/Le
 import {usePathname} from "next/navigation";
 import {useCourseProgress} from "@/hooks/use-course-progress";
 import { hasAccess } from '@/lib/access';
+import { CourseType } from '@/lib/types';
 
-interface CourseSidebarProps {
-    course : CourseSidebarDataType["course"]
-}
 
-export function CourseSidebar({course}: CourseSidebarProps) {
+export function CourseSidebar({course}: {course : CourseType}) {
 
     const pathname = usePathname();
     const currentLessonId = pathname.split('/').pop();

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import {CourseItem} from "@/lib/types";
+import {CourseType} from "@/lib/types";
 import CarouselGrid from "../../app/(root)/_components/CarouselGrid";
 import PublicCourseCard from "@/app/(root)/_components/PublicCourseCard";
 
@@ -9,8 +9,10 @@ import PublicCourseCard from "@/app/(root)/_components/PublicCourseCard";
 export default function CoursesCarouselClient({
                                                   items,
                                                   perPage = 6,
+                                                  alreadyEnrolled
                                               }: {
-    items: CourseItem[];
+    items: CourseType[];
+    alreadyEnrolled: string[]
     perPage?: number;
 }) {
 
@@ -22,7 +24,7 @@ export default function CoursesCarouselClient({
             itemKey={(c) => c.title}
             renderItem={(c) => (
 
-                <PublicCourseCard data={c}  />
+                <PublicCourseCard data={c} isEnrolled={alreadyEnrolled.includes(c.id) ? true : false} />
             )}
         />
     );

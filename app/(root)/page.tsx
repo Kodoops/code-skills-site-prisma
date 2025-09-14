@@ -4,7 +4,7 @@ import SectionTitle from "@/components/sections/SectionTitle";
 import Section from "@/components/sections/Section";
 import React, {Suspense} from "react";
 import FeaturedCarouselClient from "@/components/sections/FeaturedCarousel.client";
-import { Testimonial} from "@/lib/types";
+import { TestimonialType} from "@/lib/types";
 import SectionHeader from "@/components/sections/SectionHeader";
 import CategoriesCarouselClient from "@/components/sections/CategoriesCarousel.client";
 import CoursesCarouselClient from "@/components/sections/CoursesCarousel.client";
@@ -19,8 +19,9 @@ import AppLogoText from "@/components/custom-ui/AppLogoText";
 import {getAllFeatures} from "@/app/data/feature/get-all-features";
 import {FeatureCardSkeleton} from "@/app/(root)/_components/FeatureCard";
 import {PublicCourseCardSkeleton} from "@/app/(root)/_components/PublicCourseCard";
+import {getAllEnrolledCoursesByUser} from "@/app/data/user/get-enrolled-courses";
 
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS: TestimonialType[] = [
     {
         name: "Nadia K.", role: "Développeuse frontend", rating: 5,
         text: "Les parcours sont super bien structurés, j’ai pu passer de débutante à opérationnelle rapidement !"
@@ -151,18 +152,33 @@ export default async function Home() {
 async function RenderCourses() {
     const data = await getFeaturedCourses();
 
-    const cleaned = data.map(course => ({
-        ...course,
-        Category: course.category ?? { id: "uncategorized", title: "Non classée" }
-    }));
+    const enrolledByUser  = await getAllEnrolledCoursesByUser();
+    // On extrait la liste des IDs des cours déjà suivis
+    const enrolledCourseIds = enrolledByUser.map(enrollment => enrollment.course.id);
+
+    // Liste pour debug (optionnel)
+    const alreadyEnrolled: string[] = [];
+
+    const cleaned = data.map(course => {
+        const isEnrolled = enrolledCourseIds.includes(course.id);
+        if (isEnrolled) {
+            alreadyEnrolled.push(course.id);
+        }
+
+        return ({
+            ...course,
+            Category: course.category ?? { id: "uncategorized", title: "Non classée" }
+        })
+    });
 
     return (
-        <CoursesCarouselClient items={cleaned} perPage={6} />
+        <CoursesCarouselClient items={cleaned} perPage={6} alreadyEnrolled = {alreadyEnrolled}/>
     );
 }
 
 
 function FeaturedCoursesLoadingSkeletonLayout() {
+
     return (
         <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"}>
             {Array.from({length: 6}).map((_, index) => (
@@ -193,7 +209,7 @@ function CategoriesLoadingSkeletonLayout() {
 
 
 async function RenderFeatures() {
-    const data = await getAllFeatures()
+    const {data, totalPages, perPage, page, total} = await getAllFeatures(1, 9)
 
     return (
         <FeaturedCarouselClient items={data} perPage={3}/>

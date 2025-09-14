@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Testimonial} from "@/lib/types";
+import { TestimonialType} from "@/lib/types";
 import CarouselGrid from "../../app/(root)/_components/CarouselGrid";
 import TestimonialCard from "../../app/(root)/_components/TestimonialCard";
 
@@ -9,7 +9,7 @@ export default function TestimonialCarouselClient({
                                                    items,
                                                    perPage = 3,
                                                }: {
-    items: Testimonial[];
+    items: TestimonialType[];
     perPage?: number;
 }) {
     return (

@@ -74,11 +74,6 @@ export type Category = $Result.DefaultSelection<Prisma.$CategoryPayload>
  */
 export type Tag = $Result.DefaultSelection<Prisma.$TagPayload>
 /**
- * Model Feature
- * 
- */
-export type Feature = $Result.DefaultSelection<Prisma.$FeaturePayload>
-/**
  * Model CoursePromotion
  * 
  */
@@ -99,10 +94,20 @@ export type Invoice = $Result.DefaultSelection<Prisma.$InvoicePayload>
  */
 export type InvoiceItem = $Result.DefaultSelection<Prisma.$InvoiceItemPayload>
 /**
+ * Model Feature
+ * 
+ */
+export type Feature = $Result.DefaultSelection<Prisma.$FeaturePayload>
+/**
  * Model Company
  * 
  */
 export type Company = $Result.DefaultSelection<Prisma.$CompanyPayload>
+/**
+ * Model SocialLink
+ * 
+ */
+export type SocialLink = $Result.DefaultSelection<Prisma.$SocialLinkPayload>
 
 /**
  * Enums
@@ -413,16 +418,6 @@ export class PrismaClient<
   get tag(): Prisma.TagDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.feature`: Exposes CRUD operations for the **Feature** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Features
-    * const features = await prisma.feature.findMany()
-    * ```
-    */
-  get feature(): Prisma.FeatureDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.coursePromotion`: Exposes CRUD operations for the **CoursePromotion** model.
     * Example usage:
     * ```ts
@@ -463,6 +458,16 @@ export class PrismaClient<
   get invoiceItem(): Prisma.InvoiceItemDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.feature`: Exposes CRUD operations for the **Feature** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Features
+    * const features = await prisma.feature.findMany()
+    * ```
+    */
+  get feature(): Prisma.FeatureDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.company`: Exposes CRUD operations for the **Company** model.
     * Example usage:
     * ```ts
@@ -471,6 +476,16 @@ export class PrismaClient<
     * ```
     */
   get company(): Prisma.CompanyDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.socialLink`: Exposes CRUD operations for the **SocialLink** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SocialLinks
+    * const socialLinks = await prisma.socialLink.findMany()
+    * ```
+    */
+  get socialLink(): Prisma.SocialLinkDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -923,12 +938,13 @@ export namespace Prisma {
     LessonProgress: 'LessonProgress',
     Category: 'Category',
     Tag: 'Tag',
-    Feature: 'Feature',
     CoursePromotion: 'CoursePromotion',
     PromoCode: 'PromoCode',
     Invoice: 'Invoice',
     InvoiceItem: 'InvoiceItem',
-    Company: 'Company'
+    Feature: 'Feature',
+    Company: 'Company',
+    SocialLink: 'SocialLink'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -947,7 +963,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "session" | "account" | "verification" | "course" | "chapter" | "lesson" | "enrollment" | "payment" | "lessonProgress" | "category" | "tag" | "feature" | "coursePromotion" | "promoCode" | "invoice" | "invoiceItem" | "company"
+      modelProps: "user" | "session" | "account" | "verification" | "course" | "chapter" | "lesson" | "enrollment" | "payment" | "lessonProgress" | "category" | "tag" | "coursePromotion" | "promoCode" | "invoice" | "invoiceItem" | "feature" | "company" | "socialLink"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1839,80 +1855,6 @@ export namespace Prisma {
           }
         }
       }
-      Feature: {
-        payload: Prisma.$FeaturePayload<ExtArgs>
-        fields: Prisma.FeatureFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.FeatureFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FeaturePayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.FeatureFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>
-          }
-          findFirst: {
-            args: Prisma.FeatureFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FeaturePayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.FeatureFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>
-          }
-          findMany: {
-            args: Prisma.FeatureFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>[]
-          }
-          create: {
-            args: Prisma.FeatureCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>
-          }
-          createMany: {
-            args: Prisma.FeatureCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.FeatureCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>[]
-          }
-          delete: {
-            args: Prisma.FeatureDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>
-          }
-          update: {
-            args: Prisma.FeatureUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>
-          }
-          deleteMany: {
-            args: Prisma.FeatureDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.FeatureUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.FeatureUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>[]
-          }
-          upsert: {
-            args: Prisma.FeatureUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>
-          }
-          aggregate: {
-            args: Prisma.FeatureAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateFeature>
-          }
-          groupBy: {
-            args: Prisma.FeatureGroupByArgs<ExtArgs>
-            result: $Utils.Optional<FeatureGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.FeatureCountArgs<ExtArgs>
-            result: $Utils.Optional<FeatureCountAggregateOutputType> | number
-          }
-        }
-      }
       CoursePromotion: {
         payload: Prisma.$CoursePromotionPayload<ExtArgs>
         fields: Prisma.CoursePromotionFieldRefs
@@ -2209,6 +2151,80 @@ export namespace Prisma {
           }
         }
       }
+      Feature: {
+        payload: Prisma.$FeaturePayload<ExtArgs>
+        fields: Prisma.FeatureFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FeatureFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeaturePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FeatureFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>
+          }
+          findFirst: {
+            args: Prisma.FeatureFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeaturePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FeatureFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>
+          }
+          findMany: {
+            args: Prisma.FeatureFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>[]
+          }
+          create: {
+            args: Prisma.FeatureCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>
+          }
+          createMany: {
+            args: Prisma.FeatureCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FeatureCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>[]
+          }
+          delete: {
+            args: Prisma.FeatureDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>
+          }
+          update: {
+            args: Prisma.FeatureUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>
+          }
+          deleteMany: {
+            args: Prisma.FeatureDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FeatureUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FeatureUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>[]
+          }
+          upsert: {
+            args: Prisma.FeatureUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeaturePayload>
+          }
+          aggregate: {
+            args: Prisma.FeatureAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFeature>
+          }
+          groupBy: {
+            args: Prisma.FeatureGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FeatureGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FeatureCountArgs<ExtArgs>
+            result: $Utils.Optional<FeatureCountAggregateOutputType> | number
+          }
+        }
+      }
       Company: {
         payload: Prisma.$CompanyPayload<ExtArgs>
         fields: Prisma.CompanyFieldRefs
@@ -2280,6 +2296,80 @@ export namespace Prisma {
           count: {
             args: Prisma.CompanyCountArgs<ExtArgs>
             result: $Utils.Optional<CompanyCountAggregateOutputType> | number
+          }
+        }
+      }
+      SocialLink: {
+        payload: Prisma.$SocialLinkPayload<ExtArgs>
+        fields: Prisma.SocialLinkFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SocialLinkFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialLinkPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SocialLinkFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialLinkPayload>
+          }
+          findFirst: {
+            args: Prisma.SocialLinkFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialLinkPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SocialLinkFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialLinkPayload>
+          }
+          findMany: {
+            args: Prisma.SocialLinkFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialLinkPayload>[]
+          }
+          create: {
+            args: Prisma.SocialLinkCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialLinkPayload>
+          }
+          createMany: {
+            args: Prisma.SocialLinkCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SocialLinkCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialLinkPayload>[]
+          }
+          delete: {
+            args: Prisma.SocialLinkDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialLinkPayload>
+          }
+          update: {
+            args: Prisma.SocialLinkUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialLinkPayload>
+          }
+          deleteMany: {
+            args: Prisma.SocialLinkDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SocialLinkUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SocialLinkUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialLinkPayload>[]
+          }
+          upsert: {
+            args: Prisma.SocialLinkUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SocialLinkPayload>
+          }
+          aggregate: {
+            args: Prisma.SocialLinkAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSocialLink>
+          }
+          groupBy: {
+            args: Prisma.SocialLinkGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SocialLinkGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SocialLinkCountArgs<ExtArgs>
+            result: $Utils.Optional<SocialLinkCountAggregateOutputType> | number
           }
         }
       }
@@ -2391,12 +2481,13 @@ export namespace Prisma {
     lessonProgress?: LessonProgressOmit
     category?: CategoryOmit
     tag?: TagOmit
-    feature?: FeatureOmit
     coursePromotion?: CoursePromotionOmit
     promoCode?: PromoCodeOmit
     invoice?: InvoiceOmit
     invoiceItem?: InvoiceItemOmit
+    feature?: FeatureOmit
     company?: CompanyOmit
+    socialLink?: SocialLinkOmit
   }
 
   /* Types for Logging */
@@ -16833,1040 +16924,6 @@ export namespace Prisma {
 
 
   /**
-   * Model Feature
-   */
-
-  export type AggregateFeature = {
-    _count: FeatureCountAggregateOutputType | null
-    _min: FeatureMinAggregateOutputType | null
-    _max: FeatureMaxAggregateOutputType | null
-  }
-
-  export type FeatureMinAggregateOutputType = {
-    id: string | null
-    title: string | null
-    desc: string | null
-    color: string | null
-    iconLib: string | null
-    iconName: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type FeatureMaxAggregateOutputType = {
-    id: string | null
-    title: string | null
-    desc: string | null
-    color: string | null
-    iconLib: string | null
-    iconName: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type FeatureCountAggregateOutputType = {
-    id: number
-    title: number
-    desc: number
-    color: number
-    iconLib: number
-    iconName: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type FeatureMinAggregateInputType = {
-    id?: true
-    title?: true
-    desc?: true
-    color?: true
-    iconLib?: true
-    iconName?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type FeatureMaxAggregateInputType = {
-    id?: true
-    title?: true
-    desc?: true
-    color?: true
-    iconLib?: true
-    iconName?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type FeatureCountAggregateInputType = {
-    id?: true
-    title?: true
-    desc?: true
-    color?: true
-    iconLib?: true
-    iconName?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type FeatureAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Feature to aggregate.
-     */
-    where?: FeatureWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Features to fetch.
-     */
-    orderBy?: FeatureOrderByWithRelationInput | FeatureOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: FeatureWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Features from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Features.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Features
-    **/
-    _count?: true | FeatureCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: FeatureMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: FeatureMaxAggregateInputType
-  }
-
-  export type GetFeatureAggregateType<T extends FeatureAggregateArgs> = {
-        [P in keyof T & keyof AggregateFeature]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateFeature[P]>
-      : GetScalarType<T[P], AggregateFeature[P]>
-  }
-
-
-
-
-  export type FeatureGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FeatureWhereInput
-    orderBy?: FeatureOrderByWithAggregationInput | FeatureOrderByWithAggregationInput[]
-    by: FeatureScalarFieldEnum[] | FeatureScalarFieldEnum
-    having?: FeatureScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: FeatureCountAggregateInputType | true
-    _min?: FeatureMinAggregateInputType
-    _max?: FeatureMaxAggregateInputType
-  }
-
-  export type FeatureGroupByOutputType = {
-    id: string
-    title: string
-    desc: string
-    color: string
-    iconLib: string
-    iconName: string
-    createdAt: Date
-    updatedAt: Date
-    _count: FeatureCountAggregateOutputType | null
-    _min: FeatureMinAggregateOutputType | null
-    _max: FeatureMaxAggregateOutputType | null
-  }
-
-  type GetFeatureGroupByPayload<T extends FeatureGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<FeatureGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof FeatureGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], FeatureGroupByOutputType[P]>
-            : GetScalarType<T[P], FeatureGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type FeatureSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    title?: boolean
-    desc?: boolean
-    color?: boolean
-    iconLib?: boolean
-    iconName?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["feature"]>
-
-  export type FeatureSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    title?: boolean
-    desc?: boolean
-    color?: boolean
-    iconLib?: boolean
-    iconName?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["feature"]>
-
-  export type FeatureSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    title?: boolean
-    desc?: boolean
-    color?: boolean
-    iconLib?: boolean
-    iconName?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["feature"]>
-
-  export type FeatureSelectScalar = {
-    id?: boolean
-    title?: boolean
-    desc?: boolean
-    color?: boolean
-    iconLib?: boolean
-    iconName?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type FeatureOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "desc" | "color" | "iconLib" | "iconName" | "createdAt" | "updatedAt", ExtArgs["result"]["feature"]>
-
-  export type $FeaturePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Feature"
-    objects: {}
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      title: string
-      desc: string
-      color: string
-      iconLib: string
-      iconName: string
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["feature"]>
-    composites: {}
-  }
-
-  type FeatureGetPayload<S extends boolean | null | undefined | FeatureDefaultArgs> = $Result.GetResult<Prisma.$FeaturePayload, S>
-
-  type FeatureCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<FeatureFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: FeatureCountAggregateInputType | true
-    }
-
-  export interface FeatureDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Feature'], meta: { name: 'Feature' } }
-    /**
-     * Find zero or one Feature that matches the filter.
-     * @param {FeatureFindUniqueArgs} args - Arguments to find a Feature
-     * @example
-     * // Get one Feature
-     * const feature = await prisma.feature.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends FeatureFindUniqueArgs>(args: SelectSubset<T, FeatureFindUniqueArgs<ExtArgs>>): Prisma__FeatureClient<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Feature that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {FeatureFindUniqueOrThrowArgs} args - Arguments to find a Feature
-     * @example
-     * // Get one Feature
-     * const feature = await prisma.feature.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends FeatureFindUniqueOrThrowArgs>(args: SelectSubset<T, FeatureFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FeatureClient<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Feature that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FeatureFindFirstArgs} args - Arguments to find a Feature
-     * @example
-     * // Get one Feature
-     * const feature = await prisma.feature.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends FeatureFindFirstArgs>(args?: SelectSubset<T, FeatureFindFirstArgs<ExtArgs>>): Prisma__FeatureClient<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Feature that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FeatureFindFirstOrThrowArgs} args - Arguments to find a Feature
-     * @example
-     * // Get one Feature
-     * const feature = await prisma.feature.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends FeatureFindFirstOrThrowArgs>(args?: SelectSubset<T, FeatureFindFirstOrThrowArgs<ExtArgs>>): Prisma__FeatureClient<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Features that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FeatureFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Features
-     * const features = await prisma.feature.findMany()
-     * 
-     * // Get first 10 Features
-     * const features = await prisma.feature.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const featureWithIdOnly = await prisma.feature.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends FeatureFindManyArgs>(args?: SelectSubset<T, FeatureFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Feature.
-     * @param {FeatureCreateArgs} args - Arguments to create a Feature.
-     * @example
-     * // Create one Feature
-     * const Feature = await prisma.feature.create({
-     *   data: {
-     *     // ... data to create a Feature
-     *   }
-     * })
-     * 
-     */
-    create<T extends FeatureCreateArgs>(args: SelectSubset<T, FeatureCreateArgs<ExtArgs>>): Prisma__FeatureClient<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Features.
-     * @param {FeatureCreateManyArgs} args - Arguments to create many Features.
-     * @example
-     * // Create many Features
-     * const feature = await prisma.feature.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends FeatureCreateManyArgs>(args?: SelectSubset<T, FeatureCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Features and returns the data saved in the database.
-     * @param {FeatureCreateManyAndReturnArgs} args - Arguments to create many Features.
-     * @example
-     * // Create many Features
-     * const feature = await prisma.feature.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Features and only return the `id`
-     * const featureWithIdOnly = await prisma.feature.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends FeatureCreateManyAndReturnArgs>(args?: SelectSubset<T, FeatureCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Feature.
-     * @param {FeatureDeleteArgs} args - Arguments to delete one Feature.
-     * @example
-     * // Delete one Feature
-     * const Feature = await prisma.feature.delete({
-     *   where: {
-     *     // ... filter to delete one Feature
-     *   }
-     * })
-     * 
-     */
-    delete<T extends FeatureDeleteArgs>(args: SelectSubset<T, FeatureDeleteArgs<ExtArgs>>): Prisma__FeatureClient<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Feature.
-     * @param {FeatureUpdateArgs} args - Arguments to update one Feature.
-     * @example
-     * // Update one Feature
-     * const feature = await prisma.feature.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends FeatureUpdateArgs>(args: SelectSubset<T, FeatureUpdateArgs<ExtArgs>>): Prisma__FeatureClient<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Features.
-     * @param {FeatureDeleteManyArgs} args - Arguments to filter Features to delete.
-     * @example
-     * // Delete a few Features
-     * const { count } = await prisma.feature.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends FeatureDeleteManyArgs>(args?: SelectSubset<T, FeatureDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Features.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FeatureUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Features
-     * const feature = await prisma.feature.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends FeatureUpdateManyArgs>(args: SelectSubset<T, FeatureUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Features and returns the data updated in the database.
-     * @param {FeatureUpdateManyAndReturnArgs} args - Arguments to update many Features.
-     * @example
-     * // Update many Features
-     * const feature = await prisma.feature.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Features and only return the `id`
-     * const featureWithIdOnly = await prisma.feature.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends FeatureUpdateManyAndReturnArgs>(args: SelectSubset<T, FeatureUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Feature.
-     * @param {FeatureUpsertArgs} args - Arguments to update or create a Feature.
-     * @example
-     * // Update or create a Feature
-     * const feature = await prisma.feature.upsert({
-     *   create: {
-     *     // ... data to create a Feature
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Feature we want to update
-     *   }
-     * })
-     */
-    upsert<T extends FeatureUpsertArgs>(args: SelectSubset<T, FeatureUpsertArgs<ExtArgs>>): Prisma__FeatureClient<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Features.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FeatureCountArgs} args - Arguments to filter Features to count.
-     * @example
-     * // Count the number of Features
-     * const count = await prisma.feature.count({
-     *   where: {
-     *     // ... the filter for the Features we want to count
-     *   }
-     * })
-    **/
-    count<T extends FeatureCountArgs>(
-      args?: Subset<T, FeatureCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], FeatureCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Feature.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FeatureAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends FeatureAggregateArgs>(args: Subset<T, FeatureAggregateArgs>): Prisma.PrismaPromise<GetFeatureAggregateType<T>>
-
-    /**
-     * Group by Feature.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {FeatureGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends FeatureGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: FeatureGroupByArgs['orderBy'] }
-        : { orderBy?: FeatureGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, FeatureGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFeatureGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Feature model
-   */
-  readonly fields: FeatureFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Feature.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__FeatureClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Feature model
-   */
-  interface FeatureFieldRefs {
-    readonly id: FieldRef<"Feature", 'String'>
-    readonly title: FieldRef<"Feature", 'String'>
-    readonly desc: FieldRef<"Feature", 'String'>
-    readonly color: FieldRef<"Feature", 'String'>
-    readonly iconLib: FieldRef<"Feature", 'String'>
-    readonly iconName: FieldRef<"Feature", 'String'>
-    readonly createdAt: FieldRef<"Feature", 'DateTime'>
-    readonly updatedAt: FieldRef<"Feature", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Feature findUnique
-   */
-  export type FeatureFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Feature
-     */
-    select?: FeatureSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Feature
-     */
-    omit?: FeatureOmit<ExtArgs> | null
-    /**
-     * Filter, which Feature to fetch.
-     */
-    where: FeatureWhereUniqueInput
-  }
-
-  /**
-   * Feature findUniqueOrThrow
-   */
-  export type FeatureFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Feature
-     */
-    select?: FeatureSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Feature
-     */
-    omit?: FeatureOmit<ExtArgs> | null
-    /**
-     * Filter, which Feature to fetch.
-     */
-    where: FeatureWhereUniqueInput
-  }
-
-  /**
-   * Feature findFirst
-   */
-  export type FeatureFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Feature
-     */
-    select?: FeatureSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Feature
-     */
-    omit?: FeatureOmit<ExtArgs> | null
-    /**
-     * Filter, which Feature to fetch.
-     */
-    where?: FeatureWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Features to fetch.
-     */
-    orderBy?: FeatureOrderByWithRelationInput | FeatureOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Features.
-     */
-    cursor?: FeatureWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Features from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Features.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Features.
-     */
-    distinct?: FeatureScalarFieldEnum | FeatureScalarFieldEnum[]
-  }
-
-  /**
-   * Feature findFirstOrThrow
-   */
-  export type FeatureFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Feature
-     */
-    select?: FeatureSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Feature
-     */
-    omit?: FeatureOmit<ExtArgs> | null
-    /**
-     * Filter, which Feature to fetch.
-     */
-    where?: FeatureWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Features to fetch.
-     */
-    orderBy?: FeatureOrderByWithRelationInput | FeatureOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Features.
-     */
-    cursor?: FeatureWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Features from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Features.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Features.
-     */
-    distinct?: FeatureScalarFieldEnum | FeatureScalarFieldEnum[]
-  }
-
-  /**
-   * Feature findMany
-   */
-  export type FeatureFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Feature
-     */
-    select?: FeatureSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Feature
-     */
-    omit?: FeatureOmit<ExtArgs> | null
-    /**
-     * Filter, which Features to fetch.
-     */
-    where?: FeatureWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Features to fetch.
-     */
-    orderBy?: FeatureOrderByWithRelationInput | FeatureOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Features.
-     */
-    cursor?: FeatureWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Features from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Features.
-     */
-    skip?: number
-    distinct?: FeatureScalarFieldEnum | FeatureScalarFieldEnum[]
-  }
-
-  /**
-   * Feature create
-   */
-  export type FeatureCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Feature
-     */
-    select?: FeatureSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Feature
-     */
-    omit?: FeatureOmit<ExtArgs> | null
-    /**
-     * The data needed to create a Feature.
-     */
-    data: XOR<FeatureCreateInput, FeatureUncheckedCreateInput>
-  }
-
-  /**
-   * Feature createMany
-   */
-  export type FeatureCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Features.
-     */
-    data: FeatureCreateManyInput | FeatureCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Feature createManyAndReturn
-   */
-  export type FeatureCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Feature
-     */
-    select?: FeatureSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Feature
-     */
-    omit?: FeatureOmit<ExtArgs> | null
-    /**
-     * The data used to create many Features.
-     */
-    data: FeatureCreateManyInput | FeatureCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Feature update
-   */
-  export type FeatureUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Feature
-     */
-    select?: FeatureSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Feature
-     */
-    omit?: FeatureOmit<ExtArgs> | null
-    /**
-     * The data needed to update a Feature.
-     */
-    data: XOR<FeatureUpdateInput, FeatureUncheckedUpdateInput>
-    /**
-     * Choose, which Feature to update.
-     */
-    where: FeatureWhereUniqueInput
-  }
-
-  /**
-   * Feature updateMany
-   */
-  export type FeatureUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Features.
-     */
-    data: XOR<FeatureUpdateManyMutationInput, FeatureUncheckedUpdateManyInput>
-    /**
-     * Filter which Features to update
-     */
-    where?: FeatureWhereInput
-    /**
-     * Limit how many Features to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Feature updateManyAndReturn
-   */
-  export type FeatureUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Feature
-     */
-    select?: FeatureSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Feature
-     */
-    omit?: FeatureOmit<ExtArgs> | null
-    /**
-     * The data used to update Features.
-     */
-    data: XOR<FeatureUpdateManyMutationInput, FeatureUncheckedUpdateManyInput>
-    /**
-     * Filter which Features to update
-     */
-    where?: FeatureWhereInput
-    /**
-     * Limit how many Features to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Feature upsert
-   */
-  export type FeatureUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Feature
-     */
-    select?: FeatureSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Feature
-     */
-    omit?: FeatureOmit<ExtArgs> | null
-    /**
-     * The filter to search for the Feature to update in case it exists.
-     */
-    where: FeatureWhereUniqueInput
-    /**
-     * In case the Feature found by the `where` argument doesn't exist, create a new Feature with this data.
-     */
-    create: XOR<FeatureCreateInput, FeatureUncheckedCreateInput>
-    /**
-     * In case the Feature was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<FeatureUpdateInput, FeatureUncheckedUpdateInput>
-  }
-
-  /**
-   * Feature delete
-   */
-  export type FeatureDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Feature
-     */
-    select?: FeatureSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Feature
-     */
-    omit?: FeatureOmit<ExtArgs> | null
-    /**
-     * Filter which Feature to delete.
-     */
-    where: FeatureWhereUniqueInput
-  }
-
-  /**
-   * Feature deleteMany
-   */
-  export type FeatureDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Features to delete
-     */
-    where?: FeatureWhereInput
-    /**
-     * Limit how many Features to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Feature without action
-   */
-  export type FeatureDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Feature
-     */
-    select?: FeatureSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Feature
-     */
-    omit?: FeatureOmit<ExtArgs> | null
-  }
-
-
-  /**
    * Model CoursePromotion
    */
 
@@ -22488,6 +21545,1040 @@ export namespace Prisma {
 
 
   /**
+   * Model Feature
+   */
+
+  export type AggregateFeature = {
+    _count: FeatureCountAggregateOutputType | null
+    _min: FeatureMinAggregateOutputType | null
+    _max: FeatureMaxAggregateOutputType | null
+  }
+
+  export type FeatureMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    desc: string | null
+    color: string | null
+    iconName: string | null
+    iconLib: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FeatureMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    desc: string | null
+    color: string | null
+    iconName: string | null
+    iconLib: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FeatureCountAggregateOutputType = {
+    id: number
+    title: number
+    desc: number
+    color: number
+    iconName: number
+    iconLib: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type FeatureMinAggregateInputType = {
+    id?: true
+    title?: true
+    desc?: true
+    color?: true
+    iconName?: true
+    iconLib?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FeatureMaxAggregateInputType = {
+    id?: true
+    title?: true
+    desc?: true
+    color?: true
+    iconName?: true
+    iconLib?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FeatureCountAggregateInputType = {
+    id?: true
+    title?: true
+    desc?: true
+    color?: true
+    iconName?: true
+    iconLib?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type FeatureAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Feature to aggregate.
+     */
+    where?: FeatureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Features to fetch.
+     */
+    orderBy?: FeatureOrderByWithRelationInput | FeatureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FeatureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Features from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Features.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Features
+    **/
+    _count?: true | FeatureCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FeatureMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FeatureMaxAggregateInputType
+  }
+
+  export type GetFeatureAggregateType<T extends FeatureAggregateArgs> = {
+        [P in keyof T & keyof AggregateFeature]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFeature[P]>
+      : GetScalarType<T[P], AggregateFeature[P]>
+  }
+
+
+
+
+  export type FeatureGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FeatureWhereInput
+    orderBy?: FeatureOrderByWithAggregationInput | FeatureOrderByWithAggregationInput[]
+    by: FeatureScalarFieldEnum[] | FeatureScalarFieldEnum
+    having?: FeatureScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FeatureCountAggregateInputType | true
+    _min?: FeatureMinAggregateInputType
+    _max?: FeatureMaxAggregateInputType
+  }
+
+  export type FeatureGroupByOutputType = {
+    id: string
+    title: string
+    desc: string
+    color: string | null
+    iconName: string | null
+    iconLib: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: FeatureCountAggregateOutputType | null
+    _min: FeatureMinAggregateOutputType | null
+    _max: FeatureMaxAggregateOutputType | null
+  }
+
+  type GetFeatureGroupByPayload<T extends FeatureGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FeatureGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FeatureGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FeatureGroupByOutputType[P]>
+            : GetScalarType<T[P], FeatureGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FeatureSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    desc?: boolean
+    color?: boolean
+    iconName?: boolean
+    iconLib?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["feature"]>
+
+  export type FeatureSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    desc?: boolean
+    color?: boolean
+    iconName?: boolean
+    iconLib?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["feature"]>
+
+  export type FeatureSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    desc?: boolean
+    color?: boolean
+    iconName?: boolean
+    iconLib?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["feature"]>
+
+  export type FeatureSelectScalar = {
+    id?: boolean
+    title?: boolean
+    desc?: boolean
+    color?: boolean
+    iconName?: boolean
+    iconLib?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type FeatureOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "desc" | "color" | "iconName" | "iconLib" | "createdAt" | "updatedAt", ExtArgs["result"]["feature"]>
+
+  export type $FeaturePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Feature"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      desc: string
+      color: string | null
+      iconName: string | null
+      iconLib: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["feature"]>
+    composites: {}
+  }
+
+  type FeatureGetPayload<S extends boolean | null | undefined | FeatureDefaultArgs> = $Result.GetResult<Prisma.$FeaturePayload, S>
+
+  type FeatureCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FeatureFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FeatureCountAggregateInputType | true
+    }
+
+  export interface FeatureDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Feature'], meta: { name: 'Feature' } }
+    /**
+     * Find zero or one Feature that matches the filter.
+     * @param {FeatureFindUniqueArgs} args - Arguments to find a Feature
+     * @example
+     * // Get one Feature
+     * const feature = await prisma.feature.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FeatureFindUniqueArgs>(args: SelectSubset<T, FeatureFindUniqueArgs<ExtArgs>>): Prisma__FeatureClient<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Feature that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FeatureFindUniqueOrThrowArgs} args - Arguments to find a Feature
+     * @example
+     * // Get one Feature
+     * const feature = await prisma.feature.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FeatureFindUniqueOrThrowArgs>(args: SelectSubset<T, FeatureFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FeatureClient<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Feature that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeatureFindFirstArgs} args - Arguments to find a Feature
+     * @example
+     * // Get one Feature
+     * const feature = await prisma.feature.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FeatureFindFirstArgs>(args?: SelectSubset<T, FeatureFindFirstArgs<ExtArgs>>): Prisma__FeatureClient<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Feature that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeatureFindFirstOrThrowArgs} args - Arguments to find a Feature
+     * @example
+     * // Get one Feature
+     * const feature = await prisma.feature.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FeatureFindFirstOrThrowArgs>(args?: SelectSubset<T, FeatureFindFirstOrThrowArgs<ExtArgs>>): Prisma__FeatureClient<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Features that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeatureFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Features
+     * const features = await prisma.feature.findMany()
+     * 
+     * // Get first 10 Features
+     * const features = await prisma.feature.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const featureWithIdOnly = await prisma.feature.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FeatureFindManyArgs>(args?: SelectSubset<T, FeatureFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Feature.
+     * @param {FeatureCreateArgs} args - Arguments to create a Feature.
+     * @example
+     * // Create one Feature
+     * const Feature = await prisma.feature.create({
+     *   data: {
+     *     // ... data to create a Feature
+     *   }
+     * })
+     * 
+     */
+    create<T extends FeatureCreateArgs>(args: SelectSubset<T, FeatureCreateArgs<ExtArgs>>): Prisma__FeatureClient<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Features.
+     * @param {FeatureCreateManyArgs} args - Arguments to create many Features.
+     * @example
+     * // Create many Features
+     * const feature = await prisma.feature.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FeatureCreateManyArgs>(args?: SelectSubset<T, FeatureCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Features and returns the data saved in the database.
+     * @param {FeatureCreateManyAndReturnArgs} args - Arguments to create many Features.
+     * @example
+     * // Create many Features
+     * const feature = await prisma.feature.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Features and only return the `id`
+     * const featureWithIdOnly = await prisma.feature.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FeatureCreateManyAndReturnArgs>(args?: SelectSubset<T, FeatureCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Feature.
+     * @param {FeatureDeleteArgs} args - Arguments to delete one Feature.
+     * @example
+     * // Delete one Feature
+     * const Feature = await prisma.feature.delete({
+     *   where: {
+     *     // ... filter to delete one Feature
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FeatureDeleteArgs>(args: SelectSubset<T, FeatureDeleteArgs<ExtArgs>>): Prisma__FeatureClient<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Feature.
+     * @param {FeatureUpdateArgs} args - Arguments to update one Feature.
+     * @example
+     * // Update one Feature
+     * const feature = await prisma.feature.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FeatureUpdateArgs>(args: SelectSubset<T, FeatureUpdateArgs<ExtArgs>>): Prisma__FeatureClient<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Features.
+     * @param {FeatureDeleteManyArgs} args - Arguments to filter Features to delete.
+     * @example
+     * // Delete a few Features
+     * const { count } = await prisma.feature.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FeatureDeleteManyArgs>(args?: SelectSubset<T, FeatureDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Features.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeatureUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Features
+     * const feature = await prisma.feature.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FeatureUpdateManyArgs>(args: SelectSubset<T, FeatureUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Features and returns the data updated in the database.
+     * @param {FeatureUpdateManyAndReturnArgs} args - Arguments to update many Features.
+     * @example
+     * // Update many Features
+     * const feature = await prisma.feature.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Features and only return the `id`
+     * const featureWithIdOnly = await prisma.feature.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FeatureUpdateManyAndReturnArgs>(args: SelectSubset<T, FeatureUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Feature.
+     * @param {FeatureUpsertArgs} args - Arguments to update or create a Feature.
+     * @example
+     * // Update or create a Feature
+     * const feature = await prisma.feature.upsert({
+     *   create: {
+     *     // ... data to create a Feature
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Feature we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FeatureUpsertArgs>(args: SelectSubset<T, FeatureUpsertArgs<ExtArgs>>): Prisma__FeatureClient<$Result.GetResult<Prisma.$FeaturePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Features.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeatureCountArgs} args - Arguments to filter Features to count.
+     * @example
+     * // Count the number of Features
+     * const count = await prisma.feature.count({
+     *   where: {
+     *     // ... the filter for the Features we want to count
+     *   }
+     * })
+    **/
+    count<T extends FeatureCountArgs>(
+      args?: Subset<T, FeatureCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FeatureCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Feature.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeatureAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FeatureAggregateArgs>(args: Subset<T, FeatureAggregateArgs>): Prisma.PrismaPromise<GetFeatureAggregateType<T>>
+
+    /**
+     * Group by Feature.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeatureGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FeatureGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FeatureGroupByArgs['orderBy'] }
+        : { orderBy?: FeatureGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FeatureGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFeatureGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Feature model
+   */
+  readonly fields: FeatureFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Feature.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FeatureClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Feature model
+   */
+  interface FeatureFieldRefs {
+    readonly id: FieldRef<"Feature", 'String'>
+    readonly title: FieldRef<"Feature", 'String'>
+    readonly desc: FieldRef<"Feature", 'String'>
+    readonly color: FieldRef<"Feature", 'String'>
+    readonly iconName: FieldRef<"Feature", 'String'>
+    readonly iconLib: FieldRef<"Feature", 'String'>
+    readonly createdAt: FieldRef<"Feature", 'DateTime'>
+    readonly updatedAt: FieldRef<"Feature", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Feature findUnique
+   */
+  export type FeatureFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feature
+     */
+    select?: FeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feature
+     */
+    omit?: FeatureOmit<ExtArgs> | null
+    /**
+     * Filter, which Feature to fetch.
+     */
+    where: FeatureWhereUniqueInput
+  }
+
+  /**
+   * Feature findUniqueOrThrow
+   */
+  export type FeatureFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feature
+     */
+    select?: FeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feature
+     */
+    omit?: FeatureOmit<ExtArgs> | null
+    /**
+     * Filter, which Feature to fetch.
+     */
+    where: FeatureWhereUniqueInput
+  }
+
+  /**
+   * Feature findFirst
+   */
+  export type FeatureFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feature
+     */
+    select?: FeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feature
+     */
+    omit?: FeatureOmit<ExtArgs> | null
+    /**
+     * Filter, which Feature to fetch.
+     */
+    where?: FeatureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Features to fetch.
+     */
+    orderBy?: FeatureOrderByWithRelationInput | FeatureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Features.
+     */
+    cursor?: FeatureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Features from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Features.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Features.
+     */
+    distinct?: FeatureScalarFieldEnum | FeatureScalarFieldEnum[]
+  }
+
+  /**
+   * Feature findFirstOrThrow
+   */
+  export type FeatureFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feature
+     */
+    select?: FeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feature
+     */
+    omit?: FeatureOmit<ExtArgs> | null
+    /**
+     * Filter, which Feature to fetch.
+     */
+    where?: FeatureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Features to fetch.
+     */
+    orderBy?: FeatureOrderByWithRelationInput | FeatureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Features.
+     */
+    cursor?: FeatureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Features from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Features.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Features.
+     */
+    distinct?: FeatureScalarFieldEnum | FeatureScalarFieldEnum[]
+  }
+
+  /**
+   * Feature findMany
+   */
+  export type FeatureFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feature
+     */
+    select?: FeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feature
+     */
+    omit?: FeatureOmit<ExtArgs> | null
+    /**
+     * Filter, which Features to fetch.
+     */
+    where?: FeatureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Features to fetch.
+     */
+    orderBy?: FeatureOrderByWithRelationInput | FeatureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Features.
+     */
+    cursor?: FeatureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Features from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Features.
+     */
+    skip?: number
+    distinct?: FeatureScalarFieldEnum | FeatureScalarFieldEnum[]
+  }
+
+  /**
+   * Feature create
+   */
+  export type FeatureCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feature
+     */
+    select?: FeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feature
+     */
+    omit?: FeatureOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Feature.
+     */
+    data: XOR<FeatureCreateInput, FeatureUncheckedCreateInput>
+  }
+
+  /**
+   * Feature createMany
+   */
+  export type FeatureCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Features.
+     */
+    data: FeatureCreateManyInput | FeatureCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Feature createManyAndReturn
+   */
+  export type FeatureCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feature
+     */
+    select?: FeatureSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feature
+     */
+    omit?: FeatureOmit<ExtArgs> | null
+    /**
+     * The data used to create many Features.
+     */
+    data: FeatureCreateManyInput | FeatureCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Feature update
+   */
+  export type FeatureUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feature
+     */
+    select?: FeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feature
+     */
+    omit?: FeatureOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Feature.
+     */
+    data: XOR<FeatureUpdateInput, FeatureUncheckedUpdateInput>
+    /**
+     * Choose, which Feature to update.
+     */
+    where: FeatureWhereUniqueInput
+  }
+
+  /**
+   * Feature updateMany
+   */
+  export type FeatureUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Features.
+     */
+    data: XOR<FeatureUpdateManyMutationInput, FeatureUncheckedUpdateManyInput>
+    /**
+     * Filter which Features to update
+     */
+    where?: FeatureWhereInput
+    /**
+     * Limit how many Features to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Feature updateManyAndReturn
+   */
+  export type FeatureUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feature
+     */
+    select?: FeatureSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feature
+     */
+    omit?: FeatureOmit<ExtArgs> | null
+    /**
+     * The data used to update Features.
+     */
+    data: XOR<FeatureUpdateManyMutationInput, FeatureUncheckedUpdateManyInput>
+    /**
+     * Filter which Features to update
+     */
+    where?: FeatureWhereInput
+    /**
+     * Limit how many Features to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Feature upsert
+   */
+  export type FeatureUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feature
+     */
+    select?: FeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feature
+     */
+    omit?: FeatureOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Feature to update in case it exists.
+     */
+    where: FeatureWhereUniqueInput
+    /**
+     * In case the Feature found by the `where` argument doesn't exist, create a new Feature with this data.
+     */
+    create: XOR<FeatureCreateInput, FeatureUncheckedCreateInput>
+    /**
+     * In case the Feature was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FeatureUpdateInput, FeatureUncheckedUpdateInput>
+  }
+
+  /**
+   * Feature delete
+   */
+  export type FeatureDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feature
+     */
+    select?: FeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feature
+     */
+    omit?: FeatureOmit<ExtArgs> | null
+    /**
+     * Filter which Feature to delete.
+     */
+    where: FeatureWhereUniqueInput
+  }
+
+  /**
+   * Feature deleteMany
+   */
+  export type FeatureDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Features to delete
+     */
+    where?: FeatureWhereInput
+    /**
+     * Limit how many Features to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Feature without action
+   */
+  export type FeatureDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feature
+     */
+    select?: FeatureSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feature
+     */
+    omit?: FeatureOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model Company
    */
 
@@ -23574,6 +23665,1027 @@ export namespace Prisma {
 
 
   /**
+   * Model SocialLink
+   */
+
+  export type AggregateSocialLink = {
+    _count: SocialLinkCountAggregateOutputType | null
+    _min: SocialLinkMinAggregateOutputType | null
+    _max: SocialLinkMaxAggregateOutputType | null
+  }
+
+  export type SocialLinkMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    url: string | null
+    iconLib: string | null
+    iconName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SocialLinkMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    url: string | null
+    iconLib: string | null
+    iconName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SocialLinkCountAggregateOutputType = {
+    id: number
+    name: number
+    url: number
+    iconLib: number
+    iconName: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SocialLinkMinAggregateInputType = {
+    id?: true
+    name?: true
+    url?: true
+    iconLib?: true
+    iconName?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SocialLinkMaxAggregateInputType = {
+    id?: true
+    name?: true
+    url?: true
+    iconLib?: true
+    iconName?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SocialLinkCountAggregateInputType = {
+    id?: true
+    name?: true
+    url?: true
+    iconLib?: true
+    iconName?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SocialLinkAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SocialLink to aggregate.
+     */
+    where?: SocialLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SocialLinks to fetch.
+     */
+    orderBy?: SocialLinkOrderByWithRelationInput | SocialLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SocialLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SocialLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SocialLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SocialLinks
+    **/
+    _count?: true | SocialLinkCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SocialLinkMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SocialLinkMaxAggregateInputType
+  }
+
+  export type GetSocialLinkAggregateType<T extends SocialLinkAggregateArgs> = {
+        [P in keyof T & keyof AggregateSocialLink]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSocialLink[P]>
+      : GetScalarType<T[P], AggregateSocialLink[P]>
+  }
+
+
+
+
+  export type SocialLinkGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SocialLinkWhereInput
+    orderBy?: SocialLinkOrderByWithAggregationInput | SocialLinkOrderByWithAggregationInput[]
+    by: SocialLinkScalarFieldEnum[] | SocialLinkScalarFieldEnum
+    having?: SocialLinkScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SocialLinkCountAggregateInputType | true
+    _min?: SocialLinkMinAggregateInputType
+    _max?: SocialLinkMaxAggregateInputType
+  }
+
+  export type SocialLinkGroupByOutputType = {
+    id: string
+    name: string
+    url: string
+    iconLib: string
+    iconName: string
+    createdAt: Date
+    updatedAt: Date
+    _count: SocialLinkCountAggregateOutputType | null
+    _min: SocialLinkMinAggregateOutputType | null
+    _max: SocialLinkMaxAggregateOutputType | null
+  }
+
+  type GetSocialLinkGroupByPayload<T extends SocialLinkGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SocialLinkGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SocialLinkGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SocialLinkGroupByOutputType[P]>
+            : GetScalarType<T[P], SocialLinkGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SocialLinkSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    url?: boolean
+    iconLib?: boolean
+    iconName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["socialLink"]>
+
+  export type SocialLinkSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    url?: boolean
+    iconLib?: boolean
+    iconName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["socialLink"]>
+
+  export type SocialLinkSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    url?: boolean
+    iconLib?: boolean
+    iconName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["socialLink"]>
+
+  export type SocialLinkSelectScalar = {
+    id?: boolean
+    name?: boolean
+    url?: boolean
+    iconLib?: boolean
+    iconName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SocialLinkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "url" | "iconLib" | "iconName" | "createdAt" | "updatedAt", ExtArgs["result"]["socialLink"]>
+
+  export type $SocialLinkPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SocialLink"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      url: string
+      iconLib: string
+      iconName: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["socialLink"]>
+    composites: {}
+  }
+
+  type SocialLinkGetPayload<S extends boolean | null | undefined | SocialLinkDefaultArgs> = $Result.GetResult<Prisma.$SocialLinkPayload, S>
+
+  type SocialLinkCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SocialLinkFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SocialLinkCountAggregateInputType | true
+    }
+
+  export interface SocialLinkDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SocialLink'], meta: { name: 'SocialLink' } }
+    /**
+     * Find zero or one SocialLink that matches the filter.
+     * @param {SocialLinkFindUniqueArgs} args - Arguments to find a SocialLink
+     * @example
+     * // Get one SocialLink
+     * const socialLink = await prisma.socialLink.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SocialLinkFindUniqueArgs>(args: SelectSubset<T, SocialLinkFindUniqueArgs<ExtArgs>>): Prisma__SocialLinkClient<$Result.GetResult<Prisma.$SocialLinkPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SocialLink that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SocialLinkFindUniqueOrThrowArgs} args - Arguments to find a SocialLink
+     * @example
+     * // Get one SocialLink
+     * const socialLink = await prisma.socialLink.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SocialLinkFindUniqueOrThrowArgs>(args: SelectSubset<T, SocialLinkFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SocialLinkClient<$Result.GetResult<Prisma.$SocialLinkPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SocialLink that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SocialLinkFindFirstArgs} args - Arguments to find a SocialLink
+     * @example
+     * // Get one SocialLink
+     * const socialLink = await prisma.socialLink.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SocialLinkFindFirstArgs>(args?: SelectSubset<T, SocialLinkFindFirstArgs<ExtArgs>>): Prisma__SocialLinkClient<$Result.GetResult<Prisma.$SocialLinkPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SocialLink that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SocialLinkFindFirstOrThrowArgs} args - Arguments to find a SocialLink
+     * @example
+     * // Get one SocialLink
+     * const socialLink = await prisma.socialLink.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SocialLinkFindFirstOrThrowArgs>(args?: SelectSubset<T, SocialLinkFindFirstOrThrowArgs<ExtArgs>>): Prisma__SocialLinkClient<$Result.GetResult<Prisma.$SocialLinkPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SocialLinks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SocialLinkFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SocialLinks
+     * const socialLinks = await prisma.socialLink.findMany()
+     * 
+     * // Get first 10 SocialLinks
+     * const socialLinks = await prisma.socialLink.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const socialLinkWithIdOnly = await prisma.socialLink.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SocialLinkFindManyArgs>(args?: SelectSubset<T, SocialLinkFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SocialLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SocialLink.
+     * @param {SocialLinkCreateArgs} args - Arguments to create a SocialLink.
+     * @example
+     * // Create one SocialLink
+     * const SocialLink = await prisma.socialLink.create({
+     *   data: {
+     *     // ... data to create a SocialLink
+     *   }
+     * })
+     * 
+     */
+    create<T extends SocialLinkCreateArgs>(args: SelectSubset<T, SocialLinkCreateArgs<ExtArgs>>): Prisma__SocialLinkClient<$Result.GetResult<Prisma.$SocialLinkPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SocialLinks.
+     * @param {SocialLinkCreateManyArgs} args - Arguments to create many SocialLinks.
+     * @example
+     * // Create many SocialLinks
+     * const socialLink = await prisma.socialLink.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SocialLinkCreateManyArgs>(args?: SelectSubset<T, SocialLinkCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SocialLinks and returns the data saved in the database.
+     * @param {SocialLinkCreateManyAndReturnArgs} args - Arguments to create many SocialLinks.
+     * @example
+     * // Create many SocialLinks
+     * const socialLink = await prisma.socialLink.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SocialLinks and only return the `id`
+     * const socialLinkWithIdOnly = await prisma.socialLink.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SocialLinkCreateManyAndReturnArgs>(args?: SelectSubset<T, SocialLinkCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SocialLinkPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SocialLink.
+     * @param {SocialLinkDeleteArgs} args - Arguments to delete one SocialLink.
+     * @example
+     * // Delete one SocialLink
+     * const SocialLink = await prisma.socialLink.delete({
+     *   where: {
+     *     // ... filter to delete one SocialLink
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SocialLinkDeleteArgs>(args: SelectSubset<T, SocialLinkDeleteArgs<ExtArgs>>): Prisma__SocialLinkClient<$Result.GetResult<Prisma.$SocialLinkPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SocialLink.
+     * @param {SocialLinkUpdateArgs} args - Arguments to update one SocialLink.
+     * @example
+     * // Update one SocialLink
+     * const socialLink = await prisma.socialLink.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SocialLinkUpdateArgs>(args: SelectSubset<T, SocialLinkUpdateArgs<ExtArgs>>): Prisma__SocialLinkClient<$Result.GetResult<Prisma.$SocialLinkPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SocialLinks.
+     * @param {SocialLinkDeleteManyArgs} args - Arguments to filter SocialLinks to delete.
+     * @example
+     * // Delete a few SocialLinks
+     * const { count } = await prisma.socialLink.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SocialLinkDeleteManyArgs>(args?: SelectSubset<T, SocialLinkDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SocialLinks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SocialLinkUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SocialLinks
+     * const socialLink = await prisma.socialLink.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SocialLinkUpdateManyArgs>(args: SelectSubset<T, SocialLinkUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SocialLinks and returns the data updated in the database.
+     * @param {SocialLinkUpdateManyAndReturnArgs} args - Arguments to update many SocialLinks.
+     * @example
+     * // Update many SocialLinks
+     * const socialLink = await prisma.socialLink.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SocialLinks and only return the `id`
+     * const socialLinkWithIdOnly = await prisma.socialLink.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SocialLinkUpdateManyAndReturnArgs>(args: SelectSubset<T, SocialLinkUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SocialLinkPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SocialLink.
+     * @param {SocialLinkUpsertArgs} args - Arguments to update or create a SocialLink.
+     * @example
+     * // Update or create a SocialLink
+     * const socialLink = await prisma.socialLink.upsert({
+     *   create: {
+     *     // ... data to create a SocialLink
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SocialLink we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SocialLinkUpsertArgs>(args: SelectSubset<T, SocialLinkUpsertArgs<ExtArgs>>): Prisma__SocialLinkClient<$Result.GetResult<Prisma.$SocialLinkPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SocialLinks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SocialLinkCountArgs} args - Arguments to filter SocialLinks to count.
+     * @example
+     * // Count the number of SocialLinks
+     * const count = await prisma.socialLink.count({
+     *   where: {
+     *     // ... the filter for the SocialLinks we want to count
+     *   }
+     * })
+    **/
+    count<T extends SocialLinkCountArgs>(
+      args?: Subset<T, SocialLinkCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SocialLinkCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SocialLink.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SocialLinkAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SocialLinkAggregateArgs>(args: Subset<T, SocialLinkAggregateArgs>): Prisma.PrismaPromise<GetSocialLinkAggregateType<T>>
+
+    /**
+     * Group by SocialLink.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SocialLinkGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SocialLinkGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SocialLinkGroupByArgs['orderBy'] }
+        : { orderBy?: SocialLinkGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SocialLinkGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSocialLinkGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SocialLink model
+   */
+  readonly fields: SocialLinkFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SocialLink.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SocialLinkClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SocialLink model
+   */
+  interface SocialLinkFieldRefs {
+    readonly id: FieldRef<"SocialLink", 'String'>
+    readonly name: FieldRef<"SocialLink", 'String'>
+    readonly url: FieldRef<"SocialLink", 'String'>
+    readonly iconLib: FieldRef<"SocialLink", 'String'>
+    readonly iconName: FieldRef<"SocialLink", 'String'>
+    readonly createdAt: FieldRef<"SocialLink", 'DateTime'>
+    readonly updatedAt: FieldRef<"SocialLink", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SocialLink findUnique
+   */
+  export type SocialLinkFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialLink
+     */
+    select?: SocialLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialLink
+     */
+    omit?: SocialLinkOmit<ExtArgs> | null
+    /**
+     * Filter, which SocialLink to fetch.
+     */
+    where: SocialLinkWhereUniqueInput
+  }
+
+  /**
+   * SocialLink findUniqueOrThrow
+   */
+  export type SocialLinkFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialLink
+     */
+    select?: SocialLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialLink
+     */
+    omit?: SocialLinkOmit<ExtArgs> | null
+    /**
+     * Filter, which SocialLink to fetch.
+     */
+    where: SocialLinkWhereUniqueInput
+  }
+
+  /**
+   * SocialLink findFirst
+   */
+  export type SocialLinkFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialLink
+     */
+    select?: SocialLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialLink
+     */
+    omit?: SocialLinkOmit<ExtArgs> | null
+    /**
+     * Filter, which SocialLink to fetch.
+     */
+    where?: SocialLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SocialLinks to fetch.
+     */
+    orderBy?: SocialLinkOrderByWithRelationInput | SocialLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SocialLinks.
+     */
+    cursor?: SocialLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SocialLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SocialLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SocialLinks.
+     */
+    distinct?: SocialLinkScalarFieldEnum | SocialLinkScalarFieldEnum[]
+  }
+
+  /**
+   * SocialLink findFirstOrThrow
+   */
+  export type SocialLinkFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialLink
+     */
+    select?: SocialLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialLink
+     */
+    omit?: SocialLinkOmit<ExtArgs> | null
+    /**
+     * Filter, which SocialLink to fetch.
+     */
+    where?: SocialLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SocialLinks to fetch.
+     */
+    orderBy?: SocialLinkOrderByWithRelationInput | SocialLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SocialLinks.
+     */
+    cursor?: SocialLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SocialLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SocialLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SocialLinks.
+     */
+    distinct?: SocialLinkScalarFieldEnum | SocialLinkScalarFieldEnum[]
+  }
+
+  /**
+   * SocialLink findMany
+   */
+  export type SocialLinkFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialLink
+     */
+    select?: SocialLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialLink
+     */
+    omit?: SocialLinkOmit<ExtArgs> | null
+    /**
+     * Filter, which SocialLinks to fetch.
+     */
+    where?: SocialLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SocialLinks to fetch.
+     */
+    orderBy?: SocialLinkOrderByWithRelationInput | SocialLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SocialLinks.
+     */
+    cursor?: SocialLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SocialLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SocialLinks.
+     */
+    skip?: number
+    distinct?: SocialLinkScalarFieldEnum | SocialLinkScalarFieldEnum[]
+  }
+
+  /**
+   * SocialLink create
+   */
+  export type SocialLinkCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialLink
+     */
+    select?: SocialLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialLink
+     */
+    omit?: SocialLinkOmit<ExtArgs> | null
+    /**
+     * The data needed to create a SocialLink.
+     */
+    data: XOR<SocialLinkCreateInput, SocialLinkUncheckedCreateInput>
+  }
+
+  /**
+   * SocialLink createMany
+   */
+  export type SocialLinkCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SocialLinks.
+     */
+    data: SocialLinkCreateManyInput | SocialLinkCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SocialLink createManyAndReturn
+   */
+  export type SocialLinkCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialLink
+     */
+    select?: SocialLinkSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialLink
+     */
+    omit?: SocialLinkOmit<ExtArgs> | null
+    /**
+     * The data used to create many SocialLinks.
+     */
+    data: SocialLinkCreateManyInput | SocialLinkCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SocialLink update
+   */
+  export type SocialLinkUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialLink
+     */
+    select?: SocialLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialLink
+     */
+    omit?: SocialLinkOmit<ExtArgs> | null
+    /**
+     * The data needed to update a SocialLink.
+     */
+    data: XOR<SocialLinkUpdateInput, SocialLinkUncheckedUpdateInput>
+    /**
+     * Choose, which SocialLink to update.
+     */
+    where: SocialLinkWhereUniqueInput
+  }
+
+  /**
+   * SocialLink updateMany
+   */
+  export type SocialLinkUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SocialLinks.
+     */
+    data: XOR<SocialLinkUpdateManyMutationInput, SocialLinkUncheckedUpdateManyInput>
+    /**
+     * Filter which SocialLinks to update
+     */
+    where?: SocialLinkWhereInput
+    /**
+     * Limit how many SocialLinks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SocialLink updateManyAndReturn
+   */
+  export type SocialLinkUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialLink
+     */
+    select?: SocialLinkSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialLink
+     */
+    omit?: SocialLinkOmit<ExtArgs> | null
+    /**
+     * The data used to update SocialLinks.
+     */
+    data: XOR<SocialLinkUpdateManyMutationInput, SocialLinkUncheckedUpdateManyInput>
+    /**
+     * Filter which SocialLinks to update
+     */
+    where?: SocialLinkWhereInput
+    /**
+     * Limit how many SocialLinks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SocialLink upsert
+   */
+  export type SocialLinkUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialLink
+     */
+    select?: SocialLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialLink
+     */
+    omit?: SocialLinkOmit<ExtArgs> | null
+    /**
+     * The filter to search for the SocialLink to update in case it exists.
+     */
+    where: SocialLinkWhereUniqueInput
+    /**
+     * In case the SocialLink found by the `where` argument doesn't exist, create a new SocialLink with this data.
+     */
+    create: XOR<SocialLinkCreateInput, SocialLinkUncheckedCreateInput>
+    /**
+     * In case the SocialLink was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SocialLinkUpdateInput, SocialLinkUncheckedUpdateInput>
+  }
+
+  /**
+   * SocialLink delete
+   */
+  export type SocialLinkDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialLink
+     */
+    select?: SocialLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialLink
+     */
+    omit?: SocialLinkOmit<ExtArgs> | null
+    /**
+     * Filter which SocialLink to delete.
+     */
+    where: SocialLinkWhereUniqueInput
+  }
+
+  /**
+   * SocialLink deleteMany
+   */
+  export type SocialLinkDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SocialLinks to delete
+     */
+    where?: SocialLinkWhereInput
+    /**
+     * Limit how many SocialLinks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SocialLink without action
+   */
+  export type SocialLinkDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SocialLink
+     */
+    select?: SocialLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SocialLink
+     */
+    omit?: SocialLinkOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -23770,20 +24882,6 @@ export namespace Prisma {
   export type TagScalarFieldEnum = (typeof TagScalarFieldEnum)[keyof typeof TagScalarFieldEnum]
 
 
-  export const FeatureScalarFieldEnum: {
-    id: 'id',
-    title: 'title',
-    desc: 'desc',
-    color: 'color',
-    iconLib: 'iconLib',
-    iconName: 'iconName',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type FeatureScalarFieldEnum = (typeof FeatureScalarFieldEnum)[keyof typeof FeatureScalarFieldEnum]
-
-
   export const CoursePromotionScalarFieldEnum: {
     id: 'id',
     title: 'title',
@@ -23843,6 +24941,20 @@ export namespace Prisma {
   export type InvoiceItemScalarFieldEnum = (typeof InvoiceItemScalarFieldEnum)[keyof typeof InvoiceItemScalarFieldEnum]
 
 
+  export const FeatureScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    desc: 'desc',
+    color: 'color',
+    iconName: 'iconName',
+    iconLib: 'iconLib',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type FeatureScalarFieldEnum = (typeof FeatureScalarFieldEnum)[keyof typeof FeatureScalarFieldEnum]
+
+
   export const CompanyScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -23859,6 +24971,19 @@ export namespace Prisma {
   };
 
   export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
+
+
+  export const SocialLinkScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    url: 'url',
+    iconLib: 'iconLib',
+    iconName: 'iconName',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SocialLinkScalarFieldEnum = (typeof SocialLinkScalarFieldEnum)[keyof typeof SocialLinkScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -24996,73 +26121,6 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Tag"> | Date | string
   }
 
-  export type FeatureWhereInput = {
-    AND?: FeatureWhereInput | FeatureWhereInput[]
-    OR?: FeatureWhereInput[]
-    NOT?: FeatureWhereInput | FeatureWhereInput[]
-    id?: StringFilter<"Feature"> | string
-    title?: StringFilter<"Feature"> | string
-    desc?: StringFilter<"Feature"> | string
-    color?: StringFilter<"Feature"> | string
-    iconLib?: StringFilter<"Feature"> | string
-    iconName?: StringFilter<"Feature"> | string
-    createdAt?: DateTimeFilter<"Feature"> | Date | string
-    updatedAt?: DateTimeFilter<"Feature"> | Date | string
-  }
-
-  export type FeatureOrderByWithRelationInput = {
-    id?: SortOrder
-    title?: SortOrder
-    desc?: SortOrder
-    color?: SortOrder
-    iconLib?: SortOrder
-    iconName?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type FeatureWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    title?: string
-    AND?: FeatureWhereInput | FeatureWhereInput[]
-    OR?: FeatureWhereInput[]
-    NOT?: FeatureWhereInput | FeatureWhereInput[]
-    desc?: StringFilter<"Feature"> | string
-    color?: StringFilter<"Feature"> | string
-    iconLib?: StringFilter<"Feature"> | string
-    iconName?: StringFilter<"Feature"> | string
-    createdAt?: DateTimeFilter<"Feature"> | Date | string
-    updatedAt?: DateTimeFilter<"Feature"> | Date | string
-  }, "id" | "title">
-
-  export type FeatureOrderByWithAggregationInput = {
-    id?: SortOrder
-    title?: SortOrder
-    desc?: SortOrder
-    color?: SortOrder
-    iconLib?: SortOrder
-    iconName?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: FeatureCountOrderByAggregateInput
-    _max?: FeatureMaxOrderByAggregateInput
-    _min?: FeatureMinOrderByAggregateInput
-  }
-
-  export type FeatureScalarWhereWithAggregatesInput = {
-    AND?: FeatureScalarWhereWithAggregatesInput | FeatureScalarWhereWithAggregatesInput[]
-    OR?: FeatureScalarWhereWithAggregatesInput[]
-    NOT?: FeatureScalarWhereWithAggregatesInput | FeatureScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Feature"> | string
-    title?: StringWithAggregatesFilter<"Feature"> | string
-    desc?: StringWithAggregatesFilter<"Feature"> | string
-    color?: StringWithAggregatesFilter<"Feature"> | string
-    iconLib?: StringWithAggregatesFilter<"Feature"> | string
-    iconName?: StringWithAggregatesFilter<"Feature"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"Feature"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Feature"> | Date | string
-  }
-
   export type CoursePromotionWhereInput = {
     AND?: CoursePromotionWhereInput | CoursePromotionWhereInput[]
     OR?: CoursePromotionWhereInput[]
@@ -25369,6 +26427,73 @@ export namespace Prisma {
     total?: IntWithAggregatesFilter<"InvoiceItem"> | number
   }
 
+  export type FeatureWhereInput = {
+    AND?: FeatureWhereInput | FeatureWhereInput[]
+    OR?: FeatureWhereInput[]
+    NOT?: FeatureWhereInput | FeatureWhereInput[]
+    id?: StringFilter<"Feature"> | string
+    title?: StringFilter<"Feature"> | string
+    desc?: StringFilter<"Feature"> | string
+    color?: StringNullableFilter<"Feature"> | string | null
+    iconName?: StringNullableFilter<"Feature"> | string | null
+    iconLib?: StringNullableFilter<"Feature"> | string | null
+    createdAt?: DateTimeFilter<"Feature"> | Date | string
+    updatedAt?: DateTimeFilter<"Feature"> | Date | string
+  }
+
+  export type FeatureOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    color?: SortOrderInput | SortOrder
+    iconName?: SortOrderInput | SortOrder
+    iconLib?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FeatureWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    title?: string
+    AND?: FeatureWhereInput | FeatureWhereInput[]
+    OR?: FeatureWhereInput[]
+    NOT?: FeatureWhereInput | FeatureWhereInput[]
+    desc?: StringFilter<"Feature"> | string
+    color?: StringNullableFilter<"Feature"> | string | null
+    iconName?: StringNullableFilter<"Feature"> | string | null
+    iconLib?: StringNullableFilter<"Feature"> | string | null
+    createdAt?: DateTimeFilter<"Feature"> | Date | string
+    updatedAt?: DateTimeFilter<"Feature"> | Date | string
+  }, "id" | "title">
+
+  export type FeatureOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    color?: SortOrderInput | SortOrder
+    iconName?: SortOrderInput | SortOrder
+    iconLib?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: FeatureCountOrderByAggregateInput
+    _max?: FeatureMaxOrderByAggregateInput
+    _min?: FeatureMinOrderByAggregateInput
+  }
+
+  export type FeatureScalarWhereWithAggregatesInput = {
+    AND?: FeatureScalarWhereWithAggregatesInput | FeatureScalarWhereWithAggregatesInput[]
+    OR?: FeatureScalarWhereWithAggregatesInput[]
+    NOT?: FeatureScalarWhereWithAggregatesInput | FeatureScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Feature"> | string
+    title?: StringWithAggregatesFilter<"Feature"> | string
+    desc?: StringWithAggregatesFilter<"Feature"> | string
+    color?: StringNullableWithAggregatesFilter<"Feature"> | string | null
+    iconName?: StringNullableWithAggregatesFilter<"Feature"> | string | null
+    iconLib?: StringNullableWithAggregatesFilter<"Feature"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Feature"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Feature"> | Date | string
+  }
+
   export type CompanyWhereInput = {
     AND?: CompanyWhereInput | CompanyWhereInput[]
     OR?: CompanyWhereInput[]
@@ -25454,6 +26579,68 @@ export namespace Prisma {
     vatNumber?: StringNullableWithAggregatesFilter<"Company"> | string | null
     logoUrl?: StringNullableWithAggregatesFilter<"Company"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
+  }
+
+  export type SocialLinkWhereInput = {
+    AND?: SocialLinkWhereInput | SocialLinkWhereInput[]
+    OR?: SocialLinkWhereInput[]
+    NOT?: SocialLinkWhereInput | SocialLinkWhereInput[]
+    id?: StringFilter<"SocialLink"> | string
+    name?: StringFilter<"SocialLink"> | string
+    url?: StringFilter<"SocialLink"> | string
+    iconLib?: StringFilter<"SocialLink"> | string
+    iconName?: StringFilter<"SocialLink"> | string
+    createdAt?: DateTimeFilter<"SocialLink"> | Date | string
+    updatedAt?: DateTimeFilter<"SocialLink"> | Date | string
+  }
+
+  export type SocialLinkOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    iconLib?: SortOrder
+    iconName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SocialLinkWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SocialLinkWhereInput | SocialLinkWhereInput[]
+    OR?: SocialLinkWhereInput[]
+    NOT?: SocialLinkWhereInput | SocialLinkWhereInput[]
+    name?: StringFilter<"SocialLink"> | string
+    url?: StringFilter<"SocialLink"> | string
+    iconLib?: StringFilter<"SocialLink"> | string
+    iconName?: StringFilter<"SocialLink"> | string
+    createdAt?: DateTimeFilter<"SocialLink"> | Date | string
+    updatedAt?: DateTimeFilter<"SocialLink"> | Date | string
+  }, "id">
+
+  export type SocialLinkOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    iconLib?: SortOrder
+    iconName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SocialLinkCountOrderByAggregateInput
+    _max?: SocialLinkMaxOrderByAggregateInput
+    _min?: SocialLinkMinOrderByAggregateInput
+  }
+
+  export type SocialLinkScalarWhereWithAggregatesInput = {
+    AND?: SocialLinkScalarWhereWithAggregatesInput | SocialLinkScalarWhereWithAggregatesInput[]
+    OR?: SocialLinkScalarWhereWithAggregatesInput[]
+    NOT?: SocialLinkScalarWhereWithAggregatesInput | SocialLinkScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SocialLink"> | string
+    name?: StringWithAggregatesFilter<"SocialLink"> | string
+    url?: StringWithAggregatesFilter<"SocialLink"> | string
+    iconLib?: StringWithAggregatesFilter<"SocialLink"> | string
+    iconName?: StringWithAggregatesFilter<"SocialLink"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SocialLink"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SocialLink"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -26544,83 +27731,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type FeatureCreateInput = {
-    id?: string
-    title: string
-    desc: string
-    color: string
-    iconLib: string
-    iconName: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type FeatureUncheckedCreateInput = {
-    id?: string
-    title: string
-    desc: string
-    color: string
-    iconLib: string
-    iconName: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type FeatureUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    desc?: StringFieldUpdateOperationsInput | string
-    color?: StringFieldUpdateOperationsInput | string
-    iconLib?: StringFieldUpdateOperationsInput | string
-    iconName?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FeatureUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    desc?: StringFieldUpdateOperationsInput | string
-    color?: StringFieldUpdateOperationsInput | string
-    iconLib?: StringFieldUpdateOperationsInput | string
-    iconName?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FeatureCreateManyInput = {
-    id?: string
-    title: string
-    desc: string
-    color: string
-    iconLib: string
-    iconName: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type FeatureUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    desc?: StringFieldUpdateOperationsInput | string
-    color?: StringFieldUpdateOperationsInput | string
-    iconLib?: StringFieldUpdateOperationsInput | string
-    iconName?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FeatureUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    desc?: StringFieldUpdateOperationsInput | string
-    color?: StringFieldUpdateOperationsInput | string
-    iconLib?: StringFieldUpdateOperationsInput | string
-    iconName?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type CoursePromotionCreateInput = {
     id?: string
     title: string
@@ -26955,6 +28065,83 @@ export namespace Prisma {
     total?: IntFieldUpdateOperationsInput | number
   }
 
+  export type FeatureCreateInput = {
+    id?: string
+    title: string
+    desc: string
+    color?: string | null
+    iconName?: string | null
+    iconLib?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FeatureUncheckedCreateInput = {
+    id?: string
+    title: string
+    desc: string
+    color?: string | null
+    iconName?: string | null
+    iconLib?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FeatureUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: StringFieldUpdateOperationsInput | string
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    iconName?: NullableStringFieldUpdateOperationsInput | string | null
+    iconLib?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FeatureUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: StringFieldUpdateOperationsInput | string
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    iconName?: NullableStringFieldUpdateOperationsInput | string | null
+    iconLib?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FeatureCreateManyInput = {
+    id?: string
+    title: string
+    desc: string
+    color?: string | null
+    iconName?: string | null
+    iconLib?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FeatureUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: StringFieldUpdateOperationsInput | string
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    iconName?: NullableStringFieldUpdateOperationsInput | string | null
+    iconLib?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FeatureUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    desc?: StringFieldUpdateOperationsInput | string
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    iconName?: NullableStringFieldUpdateOperationsInput | string | null
+    iconLib?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CompanyCreateInput = {
     id?: string
     name: string
@@ -27058,6 +28245,76 @@ export namespace Prisma {
     vatNumber?: NullableStringFieldUpdateOperationsInput | string | null
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SocialLinkCreateInput = {
+    id?: string
+    name: string
+    url: string
+    iconLib: string
+    iconName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SocialLinkUncheckedCreateInput = {
+    id?: string
+    name: string
+    url: string
+    iconLib: string
+    iconName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SocialLinkUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    iconLib?: StringFieldUpdateOperationsInput | string
+    iconName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SocialLinkUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    iconLib?: StringFieldUpdateOperationsInput | string
+    iconName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SocialLinkCreateManyInput = {
+    id?: string
+    name: string
+    url: string
+    iconLib: string
+    iconName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SocialLinkUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    iconLib?: StringFieldUpdateOperationsInput | string
+    iconName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SocialLinkUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    iconLib?: StringFieldUpdateOperationsInput | string
+    iconName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -27940,39 +29197,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type FeatureCountOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    desc?: SortOrder
-    color?: SortOrder
-    iconLib?: SortOrder
-    iconName?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type FeatureMaxOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    desc?: SortOrder
-    color?: SortOrder
-    iconLib?: SortOrder
-    iconName?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type FeatureMinOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    desc?: SortOrder
-    color?: SortOrder
-    iconLib?: SortOrder
-    iconName?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
   export type CoursePromotionCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
@@ -28213,6 +29437,39 @@ export namespace Prisma {
     _max?: NestedEnumInvoiceItemTypeFilter<$PrismaModel>
   }
 
+  export type FeatureCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    color?: SortOrder
+    iconName?: SortOrder
+    iconLib?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FeatureMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    color?: SortOrder
+    iconName?: SortOrder
+    iconLib?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FeatureMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    desc?: SortOrder
+    color?: SortOrder
+    iconName?: SortOrder
+    iconLib?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type CompanyCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -28256,6 +29513,36 @@ export namespace Prisma {
     vatNumber?: SortOrder
     logoUrl?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type SocialLinkCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    iconLib?: SortOrder
+    iconName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SocialLinkMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    iconLib?: SortOrder
+    iconName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SocialLinkMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    iconLib?: SortOrder
+    iconName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type SessionCreateNestedManyWithoutUserInput = {

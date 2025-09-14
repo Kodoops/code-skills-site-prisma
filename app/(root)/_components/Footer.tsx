@@ -4,6 +4,8 @@ import Section from '@/components/sections/Section';
 import AppLogoShape from "@/components/custom-ui/AppLogoShape";
 import NavContent from "@/app/(root)/_components/NavContent";
 import AppLogoText from "@/components/custom-ui/AppLogoText";
+import {Facebook, Github, Instagram, Linkedin, Youtube} from "lucide-react";
+import {SiFacebook, SiGithub, SiInstagram, SiX, SiYoutube} from "react-icons/si";
 
 const Footer = () => {
     return (
@@ -15,7 +17,7 @@ const Footer = () => {
                             logo="/logo/code&skills-transparent.png"
                             width={200}
                             height={200}
-                            priority={ true}
+                            priority={true}
                         />
                         <AppLogoText
                             logo="/logo/CODE_SKILLS_cropped.png"
@@ -25,9 +27,38 @@ const Footer = () => {
                             priority
                         />
                     </div>
-                    <nav className="flex-1 flex flex-wrap items-center justify-end gap-4 text-sm text-white/80 ">
-                        <NavContent  btnStyles={"text-sm text-white/60 hover:text-primary "}/>
-                    </nav>
+                    <div className="flex flex-col md:flex-row flex-1 items-center justify-between gap-6">
+                        <div className="flex-1 w-full">
+                            <h2 className={"text-lg mb-4 font-semibold"}>Liens utils</h2>
+                            <nav
+                                className=" w-full grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 text-sm text-white/80 ">
+                                <NavContent btnStyles={"text-sm text-white/60 hover:text-primary "}/>
+                            </nav>
+                        </div>
+                        <div className="flex-1">
+                            <h2 className={"text-lg  text-right mb-4 font-semibold"}>Restez connecté avec
+                                nous !</h2>
+                            <div className="flex gap-6 justify-end items-center cursor-pointer "   >
+                                <Link href="https://www.facebook.com/codeskills.fr" target="_blank">
+                                    <SiFacebook className={"size-6 text-muted-foreground hover:text-primary"}/>
+                                </Link>
+                                <Link href="https://www.twitter.com/codeskills.fr" target="_blank">
+                                    <SiX className={"size-6 text-muted-foreground hover:text-primary"}/>
+                                </Link>
+                                <Link href="https://www.instagram.com/codeskills.fr/" target="_blank">
+                                    <SiInstagram className={"size-6 text-muted-foreground hover:text-primary"}/>
+                                </Link>
+                                <Link href={"https://www.youtube.com/codeskills"}>
+
+                                    <SiYoutube className={"size-6 text-muted-foreground hover:text-primary"}/>
+                                </Link>
+                                <Link href={"https://www.github.com/codeskills/"}>
+
+                                    <SiGithub className={"size-6 text-muted-foreground hover:text-primary"}/>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </Section>
             <Section className="py-6  ">
@@ -40,7 +71,8 @@ const Footer = () => {
                 </nav>
             </Section>
         </footer>
-    );
+    )
+        ;
 };
 
 export default Footer;

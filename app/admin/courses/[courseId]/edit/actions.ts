@@ -1,7 +1,7 @@
 "use server";
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
-import {ApiResponse, TagItem} from "@/lib/types";
+import {ApiResponseType, TagType} from "@/lib/types";
 import {chapterSchema, ChapterSchema, courseSchema, CourseSchema, lessonSchema, LessonSchema} from "@/lib/zodSchemas";
 import {prisma} from "@/lib/db";
 import arcjet from "@/lib/arcjet";
@@ -17,7 +17,7 @@ const aj = arcjet
         })
     );
 
-export async function updateCourse(data: CourseSchema, courseId: string): Promise<ApiResponse> {
+export async function updateCourse(data: CourseSchema, courseId: string): Promise<ApiResponseType> {
 
     const session = await requireAdmin();
 
@@ -86,7 +86,7 @@ export async function reorderLessons(courseId: string,
                                      lessons: {
                                          id: string, position: number
                                      }[]
-): Promise<ApiResponse> {
+): Promise<ApiResponseType> {
     await requireAdmin();
 
     try {
@@ -126,7 +126,7 @@ export async function reorderLessons(courseId: string,
 
 export async function reorderChapters(
     courseId: string,
-    chapters: { id: string, position: number }[]): Promise<ApiResponse> {
+    chapters: { id: string, position: number }[]): Promise<ApiResponseType> {
     await requireAdmin();
 
     try {
@@ -164,7 +164,7 @@ export async function reorderChapters(
     }
 }
 
-export async function createChapter(values: ChapterSchema): Promise<ApiResponse> {
+export async function createChapter(values: ChapterSchema): Promise<ApiResponseType> {
     await requireAdmin();
 
     try {
@@ -212,7 +212,7 @@ export async function createChapter(values: ChapterSchema): Promise<ApiResponse>
     }
 }
 
-export async function createLesson(values: LessonSchema): Promise<ApiResponse> {
+export async function createLesson(values: LessonSchema): Promise<ApiResponseType> {
     await requireAdmin();
 
     try {
@@ -263,7 +263,7 @@ export async function createLesson(values: LessonSchema): Promise<ApiResponse> {
     }
 }
 
-export async function deleteLesson(chapterId: string, courseId: string, lessonId: string): Promise<ApiResponse> {
+export async function deleteLesson(chapterId: string, courseId: string, lessonId: string): Promise<ApiResponseType> {
     await requireAdmin();
 
     try {
@@ -338,7 +338,7 @@ export async function deleteLesson(chapterId: string, courseId: string, lessonId
     }
 }
 
-export async function deleteChapter(chapterId: string, courseId: string): Promise<ApiResponse> {
+export async function deleteChapter(chapterId: string, courseId: string): Promise<ApiResponseType> {
     await requireAdmin();
 
     try {
@@ -427,7 +427,7 @@ export async function deleteChapter(chapterId: string, courseId: string): Promis
 }
 
 
-export async function updateCourseTags(courseId: string, tagIds: string[]): Promise<ApiResponse> {
+export async function updateCourseTags(courseId: string, tagIds: string[]): Promise<ApiResponseType> {
 
     await requireAdmin();
 

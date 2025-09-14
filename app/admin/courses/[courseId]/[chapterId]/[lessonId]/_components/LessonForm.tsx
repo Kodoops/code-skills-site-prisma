@@ -1,7 +1,6 @@
 "use client";
 
 import React, {useTransition} from 'react';
-import {AdminLessonType} from "@/app/data/admin/admin-get-lesson";
 import Link from 'next/link';
 import {ArrowLeft, Loader2} from "lucide-react";
 import {Button, buttonVariants} from "@/components/ui/button";
@@ -16,9 +15,10 @@ import Uploader from "@/components/file-uploader/Uploader";
 import {updateLesson} from "@/app/admin/courses/[courseId]/[chapterId]/[lessonId]/actions";
 import {tryCatch} from "@/hooks/try-catch";
 import { toast } from 'sonner';
+import {LessonType} from "@/lib/types";
 
 interface Props {
-    data: AdminLessonType;
+    data: LessonType;
     chapterId: string;
     courseId: string;
 }

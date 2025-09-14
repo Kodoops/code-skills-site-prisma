@@ -3,19 +3,17 @@ import {requireUser} from "./require-user";
 import {prisma} from "@/lib/db";
 
 
-export async function getEnrolledCourses(page: number = 1, perPage: number = 9) {
+export async function getEnrolledCourses(page: number = 1, perPage: number ) {
     const user = await requireUser();
 
-    const skip = (page - 1) * perPage;
-
-    const [data, totalCount] = await Promise.all([
+    const [data, total] = await Promise.all([
         await prisma.enrollment.findMany({
             where: {
                 userId: user.id,
                 status: 'Active'
             },
-            skip,
             take: perPage,
+            skip: (page - 1) * perPage,
             select: {
                 course: {
                     select: {
@@ -54,16 +52,84 @@ export async function getEnrolledCourses(page: number = 1, perPage: number = 9) 
         prisma.enrollment.count({
             where: {
                 userId: user.id,
+                status: 'Active'
             },
         })
     ]);
 
     return {
         data,
-        totalPages: Math.ceil(totalCount / perPage),
+        totalPages: Math.ceil(total / perPage),
         currentPage: page,
-        perPage
+        perPage,
+        total
     };
+
 }
 
 export type EnrolledCoursesType = Awaited<ReturnType<typeof getEnrolledCourses>>['data'][0];
+
+export async function getAllEnrolledCoursesByUser() {
+    //to delete
+   // await new Promise(resolve => setTimeout(resolve, 2000));
+
+    const user = await requireUser();
+
+    const data = await prisma.enrollment.findMany({
+            where: {
+                userId: user.id,
+                status: 'Active'
+            },
+            select: {
+                course: {
+                    select: {
+                        id: true,
+                        smallDescription: true,
+                        title: true,
+                        fileKey: true,
+                        level: true,
+                        slug: true,
+                        duration: true,
+                        price: true,
+                        description: true,
+                        category: {
+                            select: {
+                                id: true,
+                                title: true,
+                                slug: true,
+                                desc: true,
+                                color: true,
+                                iconName: true,
+                                iconLib: true,
+                            },
+                        },
+                        coursePromotion: {
+                            where: {
+                                active: true,
+                                startsAt: { lte: new Date() },
+                                endsAt: { gte: new Date() },
+                            },
+                            orderBy: {
+                                startsAt: "desc", // la plus récente
+                            },
+                            take: 1, // une seule promo par course
+                            select: {
+                                id: true,
+                                title: true,
+                                description: true,
+                                discount: true,
+                                type: true,
+                                startsAt: true,
+                                endsAt: true,
+                                active:true,
+                                courseId:true
+                            },
+                        },
+                    }
+                }
+            }
+        });
+
+    return data;
+
+}

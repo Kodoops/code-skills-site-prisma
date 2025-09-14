@@ -232,8 +232,7 @@ model LessonProgress {
 }
 
 model Category {
-  id String @id @default(uuid())
-
+  id       String  @id @default(uuid())
   title    String
   slug     String  @unique
   desc     String
@@ -258,17 +257,6 @@ model Tag {
   updatedAt DateTime @updatedAt
 
   courses Course[] @relation("CourseTags")
-}
-
-model Feature {
-  id        String   @id @default(cuid())
-  title     String   @unique
-  desc      String
-  color     String
-  iconLib   String
-  iconName  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model CoursePromotion {
@@ -340,6 +328,17 @@ enum InvoiceItemType {
   SUBSCRIPTION
 }
 
+model Feature {
+  id        String   @id @default(cuid())
+  title     String   @unique
+  desc      String
+  color     String?
+  iconName  String?
+  iconLib   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Company {
   id         String   @id @default(uuid())
   name       String
@@ -353,4 +352,14 @@ model Company {
   vatNumber  String?
   logoUrl    String?
   createdAt  DateTime @default(now())
+}
+
+model SocialLink {
+  id        String   @id @default(cuid())
+  name      String
+  url       String
+  iconLib   String // ex: "lucide", "si", "fa", "tabler"
+  iconName  String // ex: "facebook", "github", "x"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -29,7 +29,7 @@ import AppLogoShape from "@/components/custom-ui/AppLogoShape";
 import AppLogoText from "@/components/custom-ui/AppLogoText";
 import {Separator} from "@/components/ui/separator";
 import { NavOrga } from "./nav-orga"
-import {RectangleEllipsis, SchoolIcon, TableOfContents, TagIcon} from "lucide-react";
+import {Building2, RectangleEllipsis, SchoolIcon, TableOfContents, TagIcon, Link as SocialLink} from "lucide-react";
 import {NavCS} from "@/components/sidebar/nav-cs";
 
 const data = {
@@ -83,6 +83,16 @@ const data = {
       title: "Features",
       url: "/admin/features",
       icon: RectangleEllipsis,
+    },
+    {
+      title: "Company Infos",
+      url: "/admin/company-infos",
+      icon: Building2,
+    },
+    {
+      title: "Social links",
+      url: "/admin/social-links",
+      icon: SocialLink,
     },
   ],
   // navClouds: [

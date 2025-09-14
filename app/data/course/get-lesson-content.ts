@@ -2,10 +2,11 @@ import "server-only"
 import {requireUser} from "@/app/data/user/require-user";
 import {prisma} from "@/lib/db";
 import {notFound} from "next/navigation";
+import { LessonType} from "@/lib/types";
 
-export async function getLessonContent(lessonId: string) {
+export async function getLessonContent(lessonId: string): Promise<LessonType & { courseId: string; course: { slug: string } }> {
 
-    const session  =await requireUser();
+    const session = await requireUser();
 
     const lesson = await prisma.lesson.findUnique({
         where: {
@@ -19,8 +20,12 @@ export async function getLessonContent(lessonId: string) {
             thumbnailKey: true,
             videoKey: true,
             public: true,
-            lessonProgress:{
-                where:{
+            chapterId: true,
+            duration: true,
+            createdAt: true,
+            updatedAt: true,
+            lessonProgress: {
+                where: {
                     userId: session.id,
                     lessonId: lessonId,
                 },
@@ -28,26 +33,27 @@ export async function getLessonContent(lessonId: string) {
                     id: true,
                     completed: true,
                     lessonId: true,
+                    userId: true,
                 }
             },
             chapter: {
                 select: {
-                   courseId: true,
-                    course:{
-                       select: {
+                    courseId: true,
+                    course: {
+                        select: {
                             slug: true,
-                       }
+                        }
                     }
                 }
             }
         }
     });
 
-    if(!lesson) return notFound();
+    if (!lesson) return notFound();
 
     const enrollment = await prisma.enrollment.findUnique({
-        where:{
-            userId_courseId:{
+        where: {
+            userId_courseId: {
                 userId: session.id,
                 courseId: lesson.chapter.courseId
             }
@@ -58,12 +64,43 @@ export async function getLessonContent(lessonId: string) {
         }
     });
 
-    if(lesson.public)
-        return lesson;
+    const data = {
+        id: lesson.id,
+        title: lesson.title,
+        public: lesson.public,
+        chapterId: lesson.chapterId,
+        duration: lesson.duration,
+        position: lesson.position,
+        description: lesson.description ?? '',
+        thumbnailKey: lesson.thumbnailKey ?? '',
+        videoKey: lesson.videoKey ?? '',
+        createdAt: lesson.createdAt.toISOString(),
+        updatedAt: lesson.updatedAt.toISOString(),
+        lessonProgress: lesson.lessonProgress.map(lp => ({
+            ...lp,
+        })),
+    }
 
+    if (lesson.public)
+        return {
+            ... data,
+            courseId: lesson.chapter.courseId,
+            course:{
+                slug : lesson.chapter.course.slug,
+            }
+
+        };
+
+    console.log(lesson, enrollment)
     if (!enrollment || enrollment.status !== 'Active') return notFound();
 
-    return lesson;
+    return {
+        ... data,
+        courseId: lesson.chapter.courseId,
+        course:{
+            slug : lesson.chapter.course.slug,
+        }
+
+    };
 }
 
-export type LessonContentType = Awaited<ReturnType<typeof getLessonContent>>;

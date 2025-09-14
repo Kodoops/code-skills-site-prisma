@@ -1,6 +1,6 @@
 "use server";
 
-import {ApiResponse} from "@/lib/types";
+import {ApiResponseType} from "@/lib/types";
 import {requireUser} from "@/app/data/user/require-user";
 import {prisma} from "@/lib/db";
 import {stripe} from "@/lib/stripe";
@@ -20,7 +20,7 @@ const aj = arcjet.withRule(
     })
 );
 
-export async function enrollInCourseAction(courseId: string): Promise<ApiResponse | never> {
+export async function enrollInCourseAction(courseId: string): Promise<ApiResponseType | never> {
     const user = await requireUser();
     let checkoutUrl: string;
 

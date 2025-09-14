@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import {CategoryItem} from "@/lib/types";
+import {CategoryType} from "@/lib/types";
 import CarouselGrid from "../../app/(root)/_components/CarouselGrid";
 import CategoryCard from "@/app/(root)/_components/CategoryCard";
 
@@ -9,7 +9,7 @@ export default function CategoriesCarouselClient({
                                                      items,
                                                      perPage = 4,
                                                  }: {
-    items: CategoryItem[];
+    items: CategoryType[];
     perPage?: number;
 }) {
     return (

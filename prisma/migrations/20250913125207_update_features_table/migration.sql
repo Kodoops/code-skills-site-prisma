@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "public"."Feature" ALTER COLUMN "color" DROP NOT NULL,
+ALTER COLUMN "iconLib" DROP NOT NULL,
+ALTER COLUMN "iconName" DROP NOT NULL;

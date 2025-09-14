@@ -3,9 +3,10 @@ import "server-only"
 import {requireAdmin} from "@/app/data/admin/require-admin";
 import {prisma} from "@/lib/db";
 import {notFound} from "next/navigation";
+import { CategoryWithCourses} from "@/lib/types";
 
 
-export async function adminGetCategory(id: string) {
+export async function adminGetCategory(id: string) : Promise<CategoryWithCourses | null>{
 
     await requireAdmin();
 
@@ -23,6 +24,8 @@ export async function adminGetCategory(id: string) {
             iconLib:true,
             iconName: true,
             color: true,
+            createdAt: true,
+            updatedAt: true,
             courses: {
                 select: {
                     id: true,
@@ -36,7 +39,11 @@ export async function adminGetCategory(id: string) {
         return notFound();
     }
 
-    return data;
+    return  {
+        ...data,
+        createdAt: data.createdAt.toString(),
+        updatedAt: data.updatedAt.toString()
+    };
 }
 
-export type AdminCategorySingularType = Awaited<ReturnType<typeof adminGetCategory>>;
+//export type AdminCategorySingularType = Awaited<ReturnType<typeof adminGetCategory>>;

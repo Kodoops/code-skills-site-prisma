@@ -2,7 +2,7 @@
 
 import {categorySchema, CategorySchema} from "@/lib/zodSchemas";
 import {prisma} from "@/lib/db";
-import {ApiResponse} from "@/lib/types";
+import {ApiResponseType} from "@/lib/types";
 import {requireAdmin} from "@/app/data/admin/require-admin";
 import arcjet from "@/lib/arcjet";
 import { fixedWindow, request} from "@arcjet/next";
@@ -17,7 +17,7 @@ const aj = arcjet
         })
     );
 
-export async function createCategory(values: CategorySchema): Promise<ApiResponse> {
+export async function createCategory(values: CategorySchema): Promise<ApiResponseType> {
 
     const session = await requireAdmin();
 

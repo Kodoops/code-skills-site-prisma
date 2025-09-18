@@ -1,6 +1,6 @@
 "use client"
 
-import {ArrowLeft, Loader2, PlusIcon, SparkleIcon} from 'lucide-react';
+import {ArrowLeft, Loader2, PlusIcon} from 'lucide-react';
 import Link from 'next/link';
 import React, {useTransition} from 'react';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
@@ -18,7 +18,6 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
-import slugify from "slugify";
 import {Textarea} from '@/components/ui/textarea';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {tryCatch} from "@/hooks/try-catch";
@@ -48,14 +47,29 @@ const CreateFeaturePage = () => {
             const {data:result , error} = await tryCatch(createFeature(values));
 
             if (error) {
-                toast.error(error.message);
+                toast.error(error.message, {
+                    style: {
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                    },
+                });
             }
             if (result?.status === "success") {
-                toast.success(result?.message);
+                toast.success(result?.message, {
+                    style: {
+                        background: "#D1FAE5",
+                        color: "#065F46",
+                    },
+                } );
                 form.reset();
                 router.push("/admin/features");
             }else{
-                toast.error(result?.message);
+                toast.error(result?.message, {
+                    style: {
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                    },
+                });
             }
         })
     }

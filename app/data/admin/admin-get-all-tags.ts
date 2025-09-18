@@ -29,16 +29,16 @@ export async function adminGetTags(current: number = 1, nbrPage: number):
                 color: true,
                 createdAt: true,
                 updatedAt: true,
+                courseTags:true,
+                learningPathTags:true,
+                workshopTags:true,
             }
         }),
         prisma.course.count(),
     ]);
 
     const  tags= data.map(tag => ({
-        id: tag.id,
-        title: tag.title,
-        slug: tag.slug,
-        color: tag.color,
+        ...tag,
         createdAt: tag.createdAt.toISOString(),
         updatedAt: tag.updatedAt.toISOString(),
     }))
@@ -67,16 +67,16 @@ export async function adminGetAllTags(): Promise<TagType[] | null> {
             color: true,
             createdAt:true,
             updatedAt:true,
+            courseTags:true,
+            learningPathTags:true,
+            workshopTags:true,
         }
     })
 
     if (!data) return null;
 
     return data.map(tag=>({
-        id: tag.id,
-        title: tag.title,
-        slug: tag.slug,
-        color: tag.color,
+       ...tag,
         createdAt: tag.createdAt.toISOString(),
         updatedAt: tag.updatedAt.toISOString(),
     }));

@@ -1,0 +1,241 @@
+@startuml
+skinparam linetype ortho
+
+enum CourseLevel {
+  Beginner
+  Intermediate
+  Advanced
+  Expert
+}
+
+enum Status {
+  Draft
+  Published
+  Archived
+}
+
+enum ResourceType {
+  PDF
+  Link
+  Tool
+  Video
+}
+
+enum ItemType {
+  Course
+  Workshop
+  Resource
+  LearningPath
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+enum InvoiceItemType {
+  COURSE
+  WORKSHOP
+  SUBSCRIPTION
+}
+
+enum EnrollmentStatus {
+  Pending
+  Active
+  Cancelled
+}
+
+enum Paymentstatus {
+  Succeeded
+  Pending
+  Failed
+}
+
+
+entity User {
+  id: String
+}
+
+entity Session {
+  id
+}
+
+entity Account {
+  id
+}
+
+entity Verification {
+  id
+}
+
+entity Course {
+  id: String
+  title: String
+}
+
+entity Chapter {
+  id: String
+  title: String
+}
+
+entity Lesson {
+  id: String
+  title: String
+}
+
+entity Workshop {
+  id: String
+  title: String
+}
+
+entity LearningPath {
+  id: String
+  title: String
+}
+
+entity LearningPathItem {
+  id: String
+  type: String
+  itemId: String
+  position: Number
+}
+
+entity Resource {
+  id: String
+  title: String
+}
+
+entity UserProgress {
+  id: String
+  type: String
+  itemId: String
+  completed: Boolean
+}
+
+entity LessonProgress {
+  id: String
+  lessonId: String
+  completed: Boolean
+}
+
+entity Feature{
+ id: String
+}
+entity Company{
+ id: String
+}
+entity SocialLinks{
+ id: String
+}
+
+entity Objective{
+    id: string
+}
+
+entity PreRequisite{
+    id: string
+}
+
+User --o{ LessonProgress : lessonProgress
+User --o{ UserProgress : progress
+User --o{ Session : sessions
+User --o{ Account : accounts
+User --o{ Course : courses
+User --o{ Enrollment : enrollment
+User --o{ Payment : payment
+User --o{ Invoice : invoice
+
+Domain --o{ Category: categories
+Category --o{ Course: courses
+
+Course --o{ Chapter : chapters
+Chapter --o{ Lesson : lessons
+Lesson --o{ LessonProgress : progress
+
+Course --o{ UserProgress
+Workshop --o{ UserProgress
+LearningPath --o{ UserProgress
+
+LearningPath --o{ LearningPathItem : contents
+LearningPathItem }--|| Course
+LearningPathItem }--|| Workshop
+LearningPathItem }--|| Resource
+
+LearningPathItem -- ItemType
+
+Course --o{ Resource : resources
+Lesson --o{ Resource : resources
+Workshop --o{ Resource : resources
+LearningPath --o{ Resource : resources
+
+Course -- Status
+Course -- CourseLevel
+
+Resource }--|| LearningPathResource
+Resource }--|| CourseResource
+Resource }--|| WorkshopResource
+Resource }--|| LessonResource
+
+Resource -- ResourceType
+
+LearningPathResource -- LearningPath
+CourseResource -- Course
+WorkshopResource -- Workshop
+LessonResource -- Lesson
+
+Course --o{ CourseTag : tags
+Workshop --o{ WorkshopTag : tags
+LearningPath --o{ LearningPathTag : tags
+
+LearningPath -- Status
+Workshop -- Status
+
+Tag }--|| LearningPathTag
+Tag }--|| CourseTag
+Tag }--|| WorkshopTag
+
+Course --o{ Payment : payment
+Course --o{ Enrollment : enrollment
+
+Course --o{ Promotion : promotions
+LearningPath --o{ Promotion : promotions
+Workshop --o{ Promotion : promotions
+
+Promotion -- DiscountType
+
+PromoCode }o--|| CoursePromoCodes : codes
+Course }o--|| CoursePromoCodes : codes
+
+PromoCode }o--|| LearningPathPromoCodes : codes
+LearningPath }o--|| LearningPathPromoCodes : codes
+
+PromoCode }o--|| WorkshopPathPromoCodes : codes
+Workshop }o--|| WorkshopPathPromoCodes : codes
+
+Enrollment -- Payment
+Enrollment -- EnrollmentStatus
+
+Payment -- Paymentstatus
+
+Invoice --o{ InvoiceItem : items
+InvoiceItem -- InvoiceItemType
+
+Objective }--|| CourseObjective
+Objective }--|| LearningPathObjective
+Objective }--|| WorkshopObjective
+
+PreRequisite }--|| CoursePreRequisite
+PreRequisite }--|| LearningPathPreRequisite
+PreRequisite }--|| WorkshopPreRequisite
+
+Course --o{ CourseObjective : objectives
+Course --o{ CoursePreRequisite : preRequisites
+
+LearningPath --o{ LearningPathObjective : objectives
+LearningPath --o{ LearningPathPreRequisite : preRequisites
+
+Workshop --o{ WorkshopObjective : objectives
+Workshop --o{ WorkshopPreRequisite : preRequisites
+
+
+@enduml

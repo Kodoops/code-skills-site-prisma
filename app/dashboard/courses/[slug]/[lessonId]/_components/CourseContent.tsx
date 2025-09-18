@@ -7,7 +7,7 @@ import { RenderDescription } from '@/components/rich-text-editor/RenderDescripti
 import {useConstructUrl} from "@/hooks/use-construct-url";
 import {tryCatch} from "@/hooks/try-catch";
 import {toast} from "sonner";
-import {markLessonComplete} from "@/app/dashboard/courses/[slug]/[lessonId]/actions";
+import {markLessonComplete, markLessonUnCompleted} from "@/app/dashboard/courses/[slug]/[lessonId]/actions";
 import {useConfetti} from "@/hooks/use-confetti";
 import {LessonType} from "@/lib/types";
 
@@ -66,6 +66,22 @@ const CourseContent = ({data}: CourseContentProps) => {
         })
     }
 
+
+    function markUnCompleted() {
+        startTransition(async () => {
+            const {data:result , error} = await tryCatch(markLessonUnCompleted(data.id, data.course.slug));
+
+            if (error) {
+                toast.error(error.message);
+            }
+            if (result?.status === "success") {
+                toast.success(result?.message);
+            }else{
+                toast.error(result?.message);
+            }
+        })
+    }
+
     return (
         <div className={"flex flex-col min-h-lvh bg-background pl-6 py-4  md:py-6"}>
 
@@ -73,13 +89,22 @@ const CourseContent = ({data}: CourseContentProps) => {
 
             <div className="py-4 border-b">
                 {
-                    data.lessonProgress.length > 0 ? (
-                    <Button variant={"outline"} className={"bg-green-500/10 text-green-500 hover:text-green-500 flex items-center  "}>
+                    data.lessonProgress.length > 0 && data.lessonProgress[0].completed ? (
+                    <Button variant={"outline"}
+                            onClick={markUnCompleted}
+                            className={"bg-green-500/10 text-green-500 hover:text-green-500 flex items-center  "}>
                         <CheckCircle className={"size-4 mr-2 text-green-500"} />
-                        Completed
+                        {pending ? <>
+                                <Loader2 className={"size-4 animate-spin"}/>
+                                <span>Loading ...</span>
+                            </> :
+                            "Completed"
+                        }
                     </Button>
                     ):
-                        <Button variant={"outline"} onClick={onSubmit} disabled={pending} className={"flex items-center"}>
+                        <Button variant={"outline"}
+                                onClick={onSubmit} disabled={pending}
+                                className={"flex items-center"}>
                             <CheckCircle className={"size-4 mr-2 text-green-500"}/>
                             {pending ? <>
                                     <Loader2 className={"size-4 animate-spin"}/>

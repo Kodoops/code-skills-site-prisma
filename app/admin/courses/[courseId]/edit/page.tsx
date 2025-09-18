@@ -5,7 +5,7 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import EditCourseForm from "@/app/admin/courses/[courseId]/edit/_components/EditCourseForm";
 import CourseStructure from "@/app/admin/courses/[courseId]/edit/_components/CourseStructure";
-import {getAllCategories} from "@/app/data/course/get-all-categories";
+import {getAllCategories} from "@/app/data/categories/get-all-categories";
 import {AdminCategoryCardSkeleton} from "@/app/admin/categories/_components/AdminCategoryCard";
 import {TagType} from "@/lib/types";
 import {Ban} from "lucide-react";
@@ -89,7 +89,7 @@ const Page = async ({params}: { params: Params }) => {
                             <div className=" space-y-3">
                                 <h2>Attached tags :</h2>
                                 <Suspense fallback={<AdminTagCardSkeletonLayout />}>
-                                    <RenderTags courseId={data.id} tags={data.tags} />
+                                    <RenderTags courseId={data.id} tags={data.tags.map(tag => ({...tag.tag}))} />
                                 </Suspense>
                             </div>
                         </CardContent>
@@ -103,7 +103,7 @@ const Page = async ({params}: { params: Params }) => {
 export default Page;
 
 
-async function RenderTags({tags, courseId}:{tags: TagType[], courseId:string}) {
+async function RenderTags({tags, courseId}:{tags: TagType [], courseId:string}) {
 
     const allTags = await adminGetAllTags();
 
@@ -120,9 +120,9 @@ async function RenderTags({tags, courseId}:{tags: TagType[], courseId:string}) {
                     </div>
                 ) : (
                     <div className="flex flex-wrap gap-2 mb-4">
-                        {tags.map(tag => (
+                        {tags.map((tag, index) => (
                             <Card
-                                key={tag.id}
+                                key={tag.id + index}
                                 className={`border border-border px-4 py-2 rounded-md bg-primary text-muted`}
                             >
                                 {tag.title}

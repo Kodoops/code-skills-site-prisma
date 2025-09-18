@@ -8,6 +8,64 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// -----------------------------------
+// ENUMS
+// -----------------------------------
+
+enum Levels {
+  Beginner
+  Intermediate
+  Advanced
+  Expert
+}
+
+enum Status {
+  Draft
+  Published
+  Archived
+}
+
+enum ResourceType {
+  PDF
+  Link
+  Tool
+  Video
+}
+
+enum ItemType {
+  Course
+  Workshop
+  Resource
+  LearningPath
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+enum InvoiceItemType {
+  COURSE
+  WORKSHOP
+  SUBSCRIPTION
+}
+
+enum enrollmentStatus {
+  Pending
+  Active
+  Cancelled
+}
+
+enum PaymentStatus {
+  Succeeded
+  Pending
+  Failed
+}
+
+// -----------------------------------
+// ACCOUNT & USER
+// -----------------------------------
+
 model User {
   id            String       @id
   name          String
@@ -21,9 +79,8 @@ model User {
   courses       Course[]
   enrollment    Enrollment[]
 
-  lessonProgress LessonProgress[]
-
-  stripeCustomerId String? @unique
+  lessonProgress   LessonProgress[]
+  stripeCustomerId String?          @unique
 
   role       String?
   banned     Boolean?
@@ -31,8 +88,9 @@ model User {
   banExpires DateTime?
 
   Payment Payment[]
-
   Invoice Invoice[]
+
+  LearningPath LearningPath[]
 
   @@unique([email])
   @@map("user")
@@ -85,20 +143,60 @@ model Verification {
   @@map("verification")
 }
 
-model Course {
-  id               String      @id @default(uuid())
+// -----------------------------------
+// Organisation
+// -----------------------------------
+
+model Domain {
+  id       String  @id @default(uuid())
+  title    String
+  slug     String  @unique
+  desc     String
+  color    String?
+  iconName String?
+  iconLib  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  categories Category[]
+}
+
+model Category {
+  id       String  @id @default(uuid())
+  title    String
+  slug     String  @unique
+  desc     String
+  color    String?
+  iconName String?
+  iconLib  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  courses Course[]
+
+  domain   Domain @relation(fields: [domainId], references: [id], onDelete: Cascade)
+  domainId String
+}
+
+// -----------------------------------
+// PRODUCTS & ITEMS
+// -----------------------------------
+
+model LearningPath {
+  id               String @id @default(uuid())
   title            String
   description      String
-  fileKey          String
-  price            Int
-  duration         Int
-  level            CourseLevel @default(Beginner)
   smallDescription String
-  slug             String      @unique
+  fileKey          String
 
+  price         Int
+  duration      Int
+  slug          String
+  status        String
+  level         String
   stripePriceId String @unique
-
-  status CourseStatus @default(Draft)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -106,32 +204,76 @@ model Course {
   user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  chapters Chapter[]
+  tags          LearningPathTag[]
+  contents      LearningPathItem[]
+  progress      UserProgress[]             @relation("LearningPathProgress")
+  resources     LearningPathResource[]
+  objectives    LearningPathObjective[]
+  prerequisites LearningPathPrerequisite[]
 
+  promoCodes PromoCode[] @relation("LearningPathPromoCodes")
+  promotions Promotion[] @relation("LearningPathPromotion")
+}
+
+model LearningPathItem {
+  id String @id @default(uuid())
+
+  type     ItemType
+  position Int
+
+  learningPathId String
+  learningPath   LearningPath @relation(fields: [learningPathId], references: [id])
+
+  courseId String?
+  course   Course? @relation("CourseItems", fields: [courseId], references: [id], map: "fk_course_item")
+
+  workshopId String?
+  workshop   Workshop? @relation("WorkshopItems", fields: [workshopId], references: [id], map: "fk_workshop_item")
+
+  resourceId String?
+  resource   Resource? @relation("ResourceItems", fields: [resourceId], references: [id], map: "fk_resource_item")
+}
+
+model Course {
+  id               String @id @default(uuid())
+  title            String
+  slug             String @unique
+  smallDescription String
+  description      String
+  fileKey          String
+  price            Int
+  duration         Int
+  status           String
+  level            String
+
+  stripePriceId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  chapters   Chapter[]
   enrollment Enrollment[]
 
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String
 
-  tags    Tag[]     @relation("CourseTags")
   Payment Payment[]
 
-  coursePromotion CoursePromotion[]
-
+  promotions Promotion[] @relation("CoursePromotion")
   promoCodes PromoCode[] @relation("CoursePromoCodes")
-}
 
-enum CourseLevel {
-  Beginner
-  Intermediate
-  Advanced
-  Expert
-}
+  tags CourseTag[]
 
-enum CourseStatus {
-  Draft
-  Published
-  Archived
+  progress  UserProgress[]   @relation("CourseProgress")
+  resources CourseResource[]
+
+  learningPathItems LearningPathItem[] @relation("CourseItems")
+
+  objectives    CourseObjective[]
+  prerequisites CoursePrerequisite[]
 }
 
 model Chapter {
@@ -168,7 +310,221 @@ model Lesson {
   chapterId String
 
   lessonProgress LessonProgress[]
+
+  resources LessonResource[]
 }
+
+model Workshop {
+  id          String  @id @default(uuid())
+  title       String
+  description String
+  duration    Int
+  level       Levels
+  videoKey    String?
+  price       Float
+  slug        String  @unique
+  status      Status
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tags WorkshopTag[]
+
+  progress  UserProgress[]     @relation("WorkshopProgress")
+  resources WorkshopResource[]
+
+  learningPathItems LearningPathItem[]     @relation("WorkshopItems")
+  objectives        WorkshopObjective[]
+  prerequisites     WorkshopPrerequisite[]
+
+  promoCodes PromoCode[] @relation("WorkshopPromoCodes")
+  promotions Promotion[] @relation("WorkshopPromotion")
+}
+
+model Resource {
+  id          String       @id @default(uuid())
+  title       String
+  description String?
+  type        ResourceType
+  fileKey     String?
+  url         String?
+  createdAt   DateTime     @default(now())
+
+  courseResources       CourseResource[]
+  lessonResources       LessonResource[]
+  workshopResources     WorkshopResource[]
+  learningPathResources LearningPathResource[]
+
+  learningPathItems LearningPathItem[] @relation("ResourceItems")
+}
+
+// -----------------------------------
+// Ressources
+// -----------------------------------
+model LearningPathResource {
+  learningPathId String
+  resourceId     String
+
+  learningPath LearningPath @relation(fields: [learningPathId], references: [id], onDelete: Cascade)
+  resource     Resource     @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@id([learningPathId, resourceId])
+}
+
+model CourseResource {
+  courseId   String
+  resourceId String
+
+  course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@id([courseId, resourceId])
+}
+
+model LessonResource {
+  lessonId   String
+  resourceId String
+
+  lesson   Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@id([lessonId, resourceId])
+}
+
+model WorkshopResource {
+  workshopId String
+  resourceId String
+
+  workshop Workshop @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+  resource Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@id([workshopId, resourceId])
+}
+
+// -----------------------------------
+// USER PROGRESS
+// -----------------------------------
+
+model LessonProgress {
+  id        String  @id @default(uuid())
+  completed Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  Lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  lessonId String
+
+  @@unique([userId, lessonId])
+}
+
+model UserProgress {
+  id        String   @id @default(uuid())
+  userId    String
+  type      ItemType
+  itemId    String
+  completed Boolean  @default(false)
+  updatedAt DateTime @updatedAt
+
+  course   Course?       @relation("CourseProgress", fields: [itemId], references: [id], map: "fk_progress_course")
+  workshop Workshop?     @relation("WorkshopProgress", fields: [itemId], references: [id], map: "fk_progress_workshop")
+  path     LearningPath? @relation("LearningPathProgress", fields: [itemId], references: [id], map: "fk_progress_path")
+}
+
+// -----------------------------------
+// TAGS (many-to-many)
+// -----------------------------------
+
+model Tag {
+  id    String  @id @default(uuid())
+  title String
+  slug  String  @unique
+  color String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  courseTags       CourseTag[]
+  workshopTags     WorkshopTag[]
+  learningPathTags LearningPathTag[]
+}
+
+model CourseTag {
+  courseId String
+  tagId    String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  tag      Tag    @relation(fields: [tagId], references: [id])
+
+  @@id([courseId, tagId])
+}
+
+model WorkshopTag {
+  workshopId String
+  tagId      String
+  workshop   Workshop @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id])
+
+  @@id([workshopId, tagId])
+}
+
+model LearningPathTag {
+  learningPathId String
+  tagId          String
+  learningPath   LearningPath @relation(fields: [learningPathId], references: [id], onDelete: Cascade)
+  tag            Tag          @relation(fields: [tagId], references: [id])
+
+  @@id([learningPathId, tagId])
+}
+
+// -----------------------------------
+// PROMOTIONS
+// -----------------------------------
+
+model Promotion {
+  id          String       @id @default(uuid())
+  title       String
+  description String?
+  discount    Int
+  type        DiscountType @default(PERCENTAGE)
+  startsAt    DateTime
+  endsAt      DateTime
+  active      Boolean      @default(true)
+
+  itemType ItemType
+
+  // Clés spécifiques pour chaque relation
+  courseId       String?
+  workshopId     String?
+  learningPathId String?
+
+  // Relations explicites
+  course       Course?       @relation(fields: [courseId], references: [id], onDelete: Cascade, name: "CoursePromotion")
+  workshop     Workshop?     @relation(fields: [workshopId], references: [id], onDelete: Cascade, name: "WorkshopPromotion")
+  learningPath LearningPath? @relation(fields: [learningPathId], references: [id], onDelete: Cascade, name: "LearningPathPromotion")
+}
+
+model PromoCode {
+  id          String       @id @default(uuid())
+  code        String       @unique
+  description String?
+  discount    Int
+  type        DiscountType @default(PERCENTAGE)
+  usageLimit  Int?
+  usedCount   Int          @default(0)
+  startsAt    DateTime
+  endsAt      DateTime
+  active      Boolean      @default(true)
+
+  applicableCourses       Course[]       @relation("CoursePromoCodes")
+  applicableWorkshops     Workshop[]     @relation("WorkshopPromoCodes")
+  applicableLearningPaths LearningPath[] @relation("LearningPathPromoCodes")
+}
+
+// -----------------------------------
+// PAYMENTS
+// -----------------------------------
 
 model Enrollment {
   id String @id @default(uuid())
@@ -210,89 +566,9 @@ model Payment {
   enrollment Enrollment? @relation("EnrollmentToPayment")
 }
 
-enum enrollmentStatus {
-  Pending
-  Active
-  Cancelled
-}
-
-model LessonProgress {
-  id        String  @id @default(uuid())
-  completed Boolean @default(false)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   String
-  Lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  lessonId String
-
-  @@unique([userId, lessonId])
-}
-
-model Category {
-  id       String  @id @default(uuid())
-  title    String
-  slug     String  @unique
-  desc     String
-  color    String?
-  iconName String?
-  iconLib  String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  courses Course[]
-}
-
-model Tag {
-  id String @id @default(uuid())
-
-  title String
-  slug  String  @unique
-  color String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  courses Course[] @relation("CourseTags")
-}
-
-model CoursePromotion {
-  id          String   @id @default(uuid())
-  title       String
-  description String?
-  discount    Int // Valeur de la réduction
-  type        String   @default("PERCENTAGE") // FIXED
-  startsAt    DateTime
-  endsAt      DateTime
-  active      Boolean  @default(true)
-
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId String
-}
-
-enum DiscountType {
-  PERCENTAGE
-  FIXED
-}
-
-model PromoCode {
-  id          String   @id @default(uuid())
-  code        String   @unique // Exemple : WELCOME10
-  description String?
-  discount    Int // 10 pour -10%
-  type        String   @default("PERCENTAGE") // FIXED
-  usageLimit  Int? // Nombre max d’utilisations
-  usedCount   Int      @default(0)
-  startsAt    DateTime
-  endsAt      DateTime
-  active      Boolean  @default(true)
-
-  // Relations
-  applicableCourses Course[] @relation("CoursePromoCodes")
-}
+// -----------------------------------
+// BILLING
+// -----------------------------------
 
 model Invoice {
   id        String        @id @default(uuid())
@@ -312,7 +588,6 @@ model InvoiceItem {
   invoice   Invoice @relation(fields: [invoiceId], references: [id])
   invoiceId String
 
-  // Champs communs
   title       String
   type        InvoiceItemType
   referenceId String // ID du cours, workshop, abonnement, etc.
@@ -322,11 +597,93 @@ model InvoiceItem {
   total     Int // unitPrice * quantity
 }
 
-enum InvoiceItemType {
-  COURSE
-  WORKSHOP
-  SUBSCRIPTION
+// -----------------------------------
+// Divers
+// -------------------------------
+
+model Objective {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+
+  courses       CourseObjective[]
+  workshops     WorkshopObjective[]
+  learningPaths LearningPathObjective[]
 }
+
+model Prerequisite {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+
+  courses       CoursePrerequisite[]
+  workshops     WorkshopPrerequisite[]
+  learningPaths LearningPathPrerequisite[]
+}
+
+model CourseObjective {
+  courseId    String
+  objectiveId String
+
+  course    Course    @relation(fields: [courseId], references: [id])
+  objective Objective @relation(fields: [objectiveId], references: [id])
+
+  @@id([courseId, objectiveId])
+}
+
+model CoursePrerequisite {
+  courseId       String
+  prerequisiteId String
+
+  course       Course       @relation(fields: [courseId], references: [id])
+  prerequisite Prerequisite @relation(fields: [prerequisiteId], references: [id])
+
+  @@id([courseId, prerequisiteId])
+}
+
+model WorkshopObjective {
+  workshopId  String
+  objectiveId String
+
+  workshop  Workshop  @relation(fields: [workshopId], references: [id])
+  objective Objective @relation(fields: [objectiveId], references: [id])
+
+  @@id([workshopId, objectiveId])
+}
+
+model WorkshopPrerequisite {
+  workshopId     String
+  prerequisiteId String
+
+  workshop     Workshop     @relation(fields: [workshopId], references: [id])
+  prerequisite Prerequisite @relation(fields: [prerequisiteId], references: [id])
+
+  @@id([workshopId, prerequisiteId])
+}
+
+model LearningPathObjective {
+  learningPathId String
+  objectiveId    String
+
+  learningPath LearningPath @relation(fields: [learningPathId], references: [id])
+  objective    Objective    @relation(fields: [objectiveId], references: [id])
+
+  @@id([learningPathId, objectiveId])
+}
+
+model LearningPathPrerequisite {
+  learningPathId String
+  prerequisiteId String
+
+  learningPath LearningPath @relation(fields: [learningPathId], references: [id])
+  prerequisite Prerequisite @relation(fields: [prerequisiteId], references: [id])
+
+  @@id([learningPathId, prerequisiteId])
+}
+
+// -----------------------------------
+// SITE OCNFIG
+// -----------------------------------
 
 model Feature {
   id        String   @id @default(cuid())
@@ -352,14 +709,33 @@ model Company {
   vatNumber  String?
   logoUrl    String?
   createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  companySocialLink CompanySocialLink[]
 }
 
 model SocialLink {
   id        String   @id @default(cuid())
   name      String
-  url       String
+  // url       String
   iconLib   String // ex: "lucide", "si", "fa", "tabler"
   iconName  String // ex: "facebook", "github", "x"
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  companySocialLink CompanySocialLink[]
+}
+
+model CompanySocialLink {
+  id           String   @id @default(cuid())
+  companyId    String
+  socialLinkId String
+  url          String // Lien spécifique de l'entreprise vers ce réseau social
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  company    Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  socialLink SocialLink @relation(fields: [socialLinkId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, socialLinkId]) // une entreprise ne peut pas avoir deux fois le même réseau
 }

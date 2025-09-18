@@ -9,10 +9,10 @@ import {LessonItem, LessonLinkItem} from "@/app/dashboard/courses/_components/Le
 import {usePathname} from "next/navigation";
 import {useCourseProgress} from "@/hooks/use-course-progress";
 import { hasAccess } from '@/lib/access';
-import { CourseType } from '@/lib/types';
+import {CourseType} from '@/lib/types';
 
 
-export function CourseSidebar({course}: {course : CourseType}) {
+export function CourseSidebar({course, enrolled}: {course : CourseType, enrolled: boolean}) {
 
     const pathname = usePathname();
     const currentLessonId = pathname.split('/').pop();
@@ -64,7 +64,7 @@ export function CourseSidebar({course}: {course : CourseType}) {
                       <CollapsibleContent className={"pt-3 pl-6 border-l-2 space-y-3"}>
                           {chapter.lessons.map((lesson) => {
 
-                              if(hasAccess(lesson.public, course))
+                              if(hasAccess(lesson.public, course, enrolled))
                                   return  <LessonLinkItem lesson={lesson}
                                                       slug={course.slug}
                                                       key={lesson.id}

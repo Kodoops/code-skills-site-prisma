@@ -1,5 +1,5 @@
 import React, {Suspense} from 'react';
-import {getLessonContent} from "@/app/data/course/get-lesson-content";
+import {getLessonContent} from "@/app/data/courses/get-lesson-content";
 import CourseContent from "@/app/dashboard/courses/[slug]/[lessonId]/_components/CourseContent";
 import {LessonSkeleton} from "@/app/dashboard/courses/[slug]/[lessonId]/_components/LessonSkeleton";
 

@@ -52,7 +52,7 @@ async function RenderTags({current, nbrPage}: { current?: number | undefined, nb
 
     return (
         <>
-            {data.length === 0 ?
+            {data?.length === 0 ?
                 <EmptyState title={"No Tags Found"}
                             description={"You don't have any tag yet. Create a new tag to get started."}
                             buttonText={"Create Tag"}
@@ -60,15 +60,15 @@ async function RenderTags({current, nbrPage}: { current?: number | undefined, nb
                 />
                 :
                 <>
-                    <div className="flex items-center justify-center gap-4">
-                        {data.map((tag) => {
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                        {data?.map((tag) => {
                                 const props = toTagsCardProps(tag);
 
                                 return <AdminTagCard key={tag.id} {...props} />
                             }
                         )}
                     </div>
-                    <Pagination page={page} totalPages={totalPages}/>
+                    {totalPages > 1 && <Pagination page={page} totalPages={totalPages}/>}
                 </>
             }
         </>

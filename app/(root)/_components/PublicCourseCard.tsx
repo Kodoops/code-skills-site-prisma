@@ -7,21 +7,21 @@ import Link from "next/link";
 import {buttonVariants} from "@/components/ui/button";
 import {Skeleton} from "@/components/ui/skeleton";
 import { Badge } from '@/components/ui/badge';
-import {CourseType,  levelBgColors} from "@/lib/types";
+import {  levelBgColors} from "@/lib/types";
 import {cn} from "@/lib/utils";
 import {calculatedPrice} from "@/lib/price";
 import ProductPrice from '@/components/custom-ui/ProductPrice';
-import {EnrollmentButton} from "@/app/(root)/courses/[slug]/_components/EnrollmentButton";
+import {SimpleCourse} from "@/lib/models";
 
 interface Props {
-    data: CourseType
+    data: SimpleCourse
     isEnrolled?: boolean
 }
 
 const PublicCourseCard = ({data, isEnrolled}:Props) => {
     const thumbnailURl = useConstructUrl(data.fileKey);
 
-    const finalPrice = calculatedPrice(data.price!, data?.coursePromotion?.[0])
+    const finalPrice = calculatedPrice(data.price!, data?.promotions?.[0])
 
     return (
         <Card className={"group  py-0 gap-0"}>

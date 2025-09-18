@@ -1,0 +1,75 @@
+import "server-only"
+
+import {requireAdmin} from "@/app/data/admin/require-admin";
+import {prisma} from "@/lib/db";
+import {notFound} from "next/navigation";
+import {CourseType, LearningPathType} from "@/lib/types";
+
+
+export async function adminGetLearningPath(id: string) : Promise<LearningPathType | null> {
+
+    await requireAdmin();
+
+    if (!id) return null;
+
+    const data = await prisma.learningPath.findUnique({
+        where: {
+            id: id,
+        },
+        select: {
+            id: true,
+            title: true,
+            smallDescription: true,
+            description:true,
+            duration: true,
+            level: true,
+            status: true,
+            price: true,
+            fileKey: true,
+            slug: true,
+            createdAt:true,
+            updatedAt:true,
+            promotions: true,
+            tags: {
+                select: {
+                    tag: {
+                        select: {
+                            id: true,
+                            title: true,
+                            slug: true,
+                            color: true,
+                            createdAt: true,
+                            updatedAt: true,
+                        }
+                    }
+                }
+            },
+            contents: {
+                select: {
+                    id: true,
+                    type: true,
+                    position: true,
+                    courseId: true,
+                    workshopId: true,
+                    resourceId: true,
+                    learningPathId: true,
+                    course: true,
+                    workshop: true,
+                    resource: true,
+                }
+            },
+        }
+    });
+
+    if (!data) {
+        return notFound();
+    }
+
+    return {
+        ...data,
+        createdAt: data.createdAt.toISOString(),
+        updatedAt: data.updatedAt.toISOString(),
+
+    };
+}
+

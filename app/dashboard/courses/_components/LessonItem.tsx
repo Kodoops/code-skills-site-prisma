@@ -73,7 +73,7 @@ export function LessonLinkItem({lesson, slug, isActive, completed}: LessonItemPr
                 isActive && !completed && "bg-primary/10 dark:bg-primary/20 border-primary/50  hover:bg-primary/20 dark:hover:primary/30 text-primary ",
             )
         })}
-              href={`/dashboard/${slug}/${lesson.id}`}
+              href={`/dashboard/courses/${slug}/${lesson.id}`}
         >
             <div className="flex items-center gap-2.5 w-full min-w-0">
                 <div className="shrink-0">

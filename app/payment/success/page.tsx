@@ -28,7 +28,7 @@ const SuccessPaymentPage = () => {
                        Congrats your payment was successfully , you should now be able to access the content.
                     </p>
 
-                    <Link href={"/dashboard"} className={buttonVariants({className: "w-full mt-5"})}>
+                    <Link href={"/dashboard/courses"} className={buttonVariants({className: "w-full mt-5"})}>
                         <ArrowLeft className={"mr-1 size-4"}/>
                         Go to Dashboard
                     </Link>

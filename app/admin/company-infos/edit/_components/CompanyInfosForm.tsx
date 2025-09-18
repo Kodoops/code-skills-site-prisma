@@ -20,7 +20,7 @@ import {
 import {tryCatch} from "@/hooks/try-catch";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
-import {updateCompanuInfos} from "@/app/admin/company-infos/actions";
+import {updateCompanyInfos} from "@/app/admin/company-infos/actions";
 import {CompanyType} from "@/lib/types";
 
 
@@ -46,17 +46,32 @@ const CompanyInfoForm = ({data}: { data: CompanyType  }) => {
 
     function onSubmit(values: CompanySchema) {
         startTransition(async () => {
-            const {data: result, error} = await tryCatch(updateCompanuInfos(values));
+            const {data: result, error} = await tryCatch(updateCompanyInfos(values));
 
             if (error) {
-                toast.error(error.message);
+                toast.error(error.message, {
+                    style: {
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                    },
+                });
             }
             if (result?.status === "success") {
-                toast.success(result?.message);
+                toast.success(result?.message, {
+                    style: {
+                        background: "#D1FAE5",
+                        color: "#065F46",
+                    },
+                } );
                // form.reset();
                 router.push("/admin/company-infos");
             } else {
-                toast.error(result?.message);
+                toast.error(result?.message, {
+                    style: {
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                    },
+                });
             }
         })
     }

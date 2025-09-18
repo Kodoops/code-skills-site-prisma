@@ -1,4 +1,4 @@
-import { getAllCategories } from "@/app/data/course/get-all-categories";
+import { getAllCategories } from "@/app/data/categories/get-all-categories";
 import CreateCoursePage from "./_components/CreateCoursePage";
 import {getCourseLevels} from "@/app/data/get-course-levels";
 import {getCourseStatus} from "@/app/data/get-course-status";

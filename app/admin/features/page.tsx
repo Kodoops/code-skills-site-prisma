@@ -2,7 +2,7 @@ import {Suspense} from "react";
 import {buttonVariants} from "@/components/ui/button";
 import EmptyState from "@/components/general/EmptyState";
 import Link from "next/link";
-import {getAllFeatures} from "@/app/data/feature/get-all-features";
+import {getAllFeatures} from "@/app/data/features/get-all-features";
 import AdminFeatureCard, {AdminFeatureCardSkeleton} from "./_components/AdminFeatureCard";
 import Pagination from "@/components/general/Pagination";
 import {FEATURES_PER_PAGE} from "@/constants/admin-contants";
@@ -38,21 +38,6 @@ async function RenderFeatures({current, nbrPage}: { current?: number | undefined
 
     const {data, page, perPage, total, totalPages} = await getAllFeatures(current, nbrPage);
 
-    const toFeatureCardProps = (row: {
-        iconName: string | null;
-        iconLib: string | null;
-        title: string;
-        desc: string;
-        color: string | null ;
-        id: string;
-    }) => ({
-        id: row.id,
-        iconName: row.iconName ?? undefined,
-        iconLib: row.iconLib ?? "lucide",
-        title: row.title,
-        desc: row.desc,
-        color: row.color ?? "muted",
-    });
 
     return (
         <>
@@ -66,13 +51,12 @@ async function RenderFeatures({current, nbrPage}: { current?: number | undefined
                 <>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4">
                         {data.map((feature) => {
-                                const props = toFeatureCardProps(feature);
 
-                                return <AdminFeatureCard key={feature.id} {...props} />
+                                return <AdminFeatureCard key={feature.id} {...feature} />
                             }
                         )}
                     </div>
-                    <Pagination page={page} totalPages={totalPages}/>
+                    {totalPages > 1 && <Pagination page={page} totalPages={totalPages}/>}
                 </>
             }
         </>

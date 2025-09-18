@@ -21,7 +21,7 @@ const CoursesPage = async (props: {
     return (
         <>
             <div className="flex items-center justify-between">
-                <h1 className={"text-2xl font-bold"}>Your Cources</h1>
+                <h1 className={"text-2xl font-bold"}>Cources</h1>
                 <Link href={"/admin/courses/create"}
                       className={buttonVariants()}>
                     Create Course
@@ -54,7 +54,7 @@ async function RenderCourses({current, nbrPage}:{current?: number | undefined, n
                             <AdminCourseCard key={course.id} data={course}/>
                         ))}
                     </div>
-                    <Pagination page={currentPage} totalPages={totalPages}/>
+                    {totalPages > 1 && <Pagination page={currentPage} totalPages={totalPages}/>}
                 </>
             }
         </>

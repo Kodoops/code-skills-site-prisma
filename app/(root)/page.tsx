@@ -11,12 +11,12 @@ import CoursesCarouselClient from "@/components/sections/CoursesCarousel.client"
 import TestimonialCarouselClient from "@/components/sections/TestimonialCarousel.client";
 import BannerPartner from "@/components/sections/BannerPartner";
 import NewsLetterForm from "@/components/sections/NewsLetterForm";
-import {getFeaturedCourses} from "@/app/data/course/get-featured-courses";
-import {getAllCategories} from "@/app/data/course/get-all-categories";
+import {getFeaturedCourses} from "@/app/data/courses/get-featured-courses";
+import {getAllCategories} from "@/app/data/categories/get-all-categories";
 import {CategoryCardSkeleton} from "@/app/(root)/_components/CategoryCard";
 import AppHero from "@/app/(root)/_components/AppHero";
 import AppLogoText from "@/components/custom-ui/AppLogoText";
-import {getAllFeatures} from "@/app/data/feature/get-all-features";
+import {getAllFeatures} from "@/app/data/features/get-all-features";
 import {FeatureCardSkeleton} from "@/app/(root)/_components/FeatureCard";
 import {PublicCourseCardSkeleton} from "@/app/(root)/_components/PublicCourseCard";
 import {getAllEnrolledCoursesByUser} from "@/app/data/user/get-enrolled-courses";
@@ -150,13 +150,13 @@ export default async function Home() {
 
 
 async function RenderCourses() {
+
     const data = await getFeaturedCourses();
 
     const enrolledByUser  = await getAllEnrolledCoursesByUser();
-    // On extrait la liste des IDs des cours déjà suivis
+
     const enrolledCourseIds = enrolledByUser.map(enrollment => enrollment.course.id);
 
-    // Liste pour debug (optionnel)
     const alreadyEnrolled: string[] = [];
 
     const cleaned = data.map(course => {
@@ -167,7 +167,6 @@ async function RenderCourses() {
 
         return ({
             ...course,
-            Category: course.category ?? { id: "uncategorized", title: "Non classée" }
         })
     });
 

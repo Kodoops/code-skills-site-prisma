@@ -4,11 +4,201 @@ export type ApiResponseType = {
     message: string;
 }
 
-/*
-    Enum LEVELS : ["Beginner", "Intermediate", "Advanced", "Expert"]
+/* -------------------------------
+ENUMS
+ -------------------------------*/
 
-    Enum Status : ["Draft", "Published", "Archived"]
- */
+export enum LevelsEnum {
+    Beginner,
+    Intermediate,
+    Advanced,
+    Expert
+}
+
+export enum StatusEnum {
+    Draft,
+    Published,
+    Archived,
+}
+
+export enum ResourceTypeEnum {
+    PDF,
+    Link,
+    Tool,
+    Video,
+}
+
+export enum ItemTypeEnum {
+    Course,
+    Workshop,
+    Resource,
+    LearningPath,
+}
+
+export enum DiscountTypeEnum {
+    PERCENTAGE,
+    FIXED
+}
+
+export enum InvoiceItemEnum {
+    COURSE,
+    WORKSHOP,
+    SUBSCRIPTION,
+}
+
+export enum EnrollmentStatusEnum {
+    Pending,
+    Active,
+    Cancelled,
+}
+
+export enum PaymentStatusEnum {
+    Succeeded,
+    Pending,
+    Failed,
+}
+
+/*-------------------------------
+ MODELS : USER & AUTH
+ -------------------------------*/
+export type UserType = {
+    id: string;
+    name: string;
+    email: string;
+    emailVerified: boolean;
+    image: string;
+    stripeCustomerId: string;
+
+    banned: boolean;
+    banReason: string;
+    banExpires: string;
+
+    sessions: SessionType[];
+    accounts: AccountType[]
+    courses: CourseType[]
+    enrollment: EnrollmentType[]
+    lessonProgress: LessonProgressType[]
+    Payment: PaymentType[]
+    Invoice: InvoiceType[]
+
+    role: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export type SessionType = {
+    id: string;
+    expiresAt: string;
+    token: string;
+    createdAt: string;
+    updatedAt: string;
+    ipAddress?: string;
+    userAgent?: string;
+    user: UserType;
+    impersonatedBy: string;
+}
+
+export type AccountType = {
+    id: string;
+    accountId: string;
+    providerId: string;
+    user: UserType;
+    accessToken: string;
+    refreshToken: string;
+    idToken: string;
+    accessTokenExpiresAt: string;
+    refreshTokenExpiresAt: string;
+    scope?: string;
+    password?: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export type  VerificationType = {
+    id: string;
+    identifier: string;
+    value: string;
+    expiresAt: string;
+    createdAt: string;
+    updatedAt: string;
+}
+/*-------------------------------
+ MODELS : Catalogue
+ -------------------------------*/
+export type  DomainType = {
+    id: string;
+    title: string;
+    slug: string;
+    desc?: string;
+    color?: string | null;
+    iconName?: string | null;
+    iconLib?: string | null;
+    categories: CategoryType[];
+
+    createdAt: string;
+    updatedAt: string;
+}
+
+export type CategoryType = {
+    id: string;
+    title: string;
+    slug: string;
+    desc?: string | null;
+    color?: string | null;
+    iconName?: string | null;
+    iconLib?: string | null;
+
+    courses: CourseType[];
+    domain: DomainType;
+
+    createdAt: string;
+    updatedAt: string;
+}
+
+export type LearningPathType = {
+    id: string;
+    title: string;
+    description: string;
+    smallDescription: string;
+    slug: string;
+    fileKey?: string;
+    duration: number;
+    price: number // in cents
+    status: string;  // ENUM_STATUS
+    level: string;  // ENUM_LEVELS
+
+    createdAt: string;
+    updatedAt: string;
+
+    tags: LearningPathTagType[];
+    contents: LearningPathItemType[];
+    progress: UserProgressType[];
+    resources: LearningPathResourceType[];
+    objectives: LearningPathObjectiveType[];
+    prerequisites: LearningPathPrerequisiteType[];
+
+    promoCodes: PromoCodeType[];
+    promotions: PromotionType[];
+}
+
+export type LearningPathItemType = {
+    id: string;
+
+    type: string;  // ENUM_ITEM_TYPE
+    position: number;
+    learningPath: LearningPathType;
+
+    courseId?: string;
+    workshopId?: string;
+    resourceId?: string;
+
+    course?: CourseType;
+    workshop?: WorkshopType;
+    resource?: string;  //ResourceTypeEnum;
+
+    createdAt: string;
+    updatedAt: string;
+}
 
 export type CourseType = {
     id: string,
@@ -17,133 +207,283 @@ export type CourseType = {
     smallDescription: string,
     description: string,
     fileKey: string,
-    price?: number;
+    price: number;
     duration: number,
     status: string,
     level: string;
-    chapters : ChapterType[],
-    category: CategoryType;
-    coursePromotion: CoursePromotionType [];
-    tags: TagType[];
+    stripePriceId: string;
 
-    createdAt : string;
-    updatedAt : string;
+    user: UserType;
+    category: CategoryType;
+    chapters: ChapterType[],
+    enrollments: EnrollmentType[];
+    payments: PaymentType[];
+    promotions: PromotionType [];
+    promoCodes: PromoCodeType[];
+    tags: CourseTagType[];
+    progress: UserProgressType[];
+    resources: CourseResourceType[];
+    learningPathItems: LearningPathItemType[];
+    objectives: CourseObjectiveType[];
+    prerequisites: CoursePrerequisiteType[];
+
+    createdAt: string;
+    updatedAt: string;
 };
 
 export type ChapterType = {
     id: string,
     title: string,
-    courseId: string,
-    lessons: LessonType [],
     position: number,
+    course: CourseType,
+    lessons: LessonType [],
 
-    createdAt : string,
-    updatedAt : string,
+    createdAt: string,
+    updatedAt: string,
 }
-
-
 
 export type LessonType = {
     id: string,
     title: string,
     description: string,
-    public:boolean,
-    chapterId: string,
     thumbnailKey: string,
     videoKey: string,
-    duration: number,
     position: number,
+    duration: number,
+    public: boolean,
 
+    chapter: ChapterType,
     lessonProgress: LessonProgressType [],
+    resources: LessonResourceType[],
 
     createdAt: string;
     updatedAt: string;
 }
 
-export type LessonProgressType ={
-    id  : string,
-    completed : boolean,
-    userId   : string,
-    lessonId : string,
-}
-
-export type CategoryType = {
+export type WorkshopType = {
     id: string;
     title: string;
+    description: string;
+    duration: number;
+    level: string; // ENUM_LEVELS
+    videoKey?: string;
+    price: number;
     slug: string;
-    desc: string;
-    color?: string | null;
-    iconName?: string | null;
-    iconLib?: string | null;
-    createdAt : string;
-    updatedAt : string;
-};
+    status: string; // ENUM_STATUS
 
-export type CategoryWithCourses = {
-    id: string;
-    title: string;
-    slug: string;
-    desc: string;
-    color: string | null;
-    iconName: string | null;
-    iconLib: string | null;
-    createdAt : string;
-    updatedAt : string;
-    courses: {
-        id: string;
-        title: string;
-    }[];
-};
+    learningPathItems: LearningPathItemType[];
+    tags: WorkshopTagType[];
+    progress: UserProgressType[];
+    resources: WorkshopResourceType[];
+    objectives: WorkshopObjectiveType[];
+    prerequisites: WorkshopPrerequisiteType[];
+    promoCodes: PromoCodeType[];
+    promotions: PromotionType[];
 
-export enum DiscountType {
-    PERCENTAGE,
-    FIXED,
+    createdAt: string;
+    updatedAt: string;
 }
 
-export type CoursePromotionType = {
+// RESOURCES
+export type ResourceType = {
     id: string;
     title: string;
-    description?: string | null;
-    discount: number;
-    type: string; //DiscountType;
-    startsAt: Date;
-    endsAt: Date;
-    active: boolean;
-    courseId: string
+    description?: string;
+    type: string;   //      ResourceTypeEnum
+    fileKey?: string;
+    url?: string;
+
+    courseResources: CourseResourceType[];
+    lessonResources: LessonResourceType[];
+    workshopResources: WorkshopResourceType[];
+    learningPathResources: LearningPathResourceType[];
+    learningPathItems: LearningPathItemType[];
+
+    createdAt: string;
+    updatedAt: string;
 }
+
+export type LearningPathResourceType = {
+    learningPathId: string;
+    resourceId: string;
+
+    LearningPath: LearningPathType;
+    Resource: ResourceType;
+}
+
+export type CourseResourceType = {
+    courseId: string;
+    resourceId: string;
+
+    course: CourseType;
+    resource: ResourceType;
+
+}
+
+export type LessonResourceType = {
+    lessonId: string;
+    resourceId: string;
+
+    lesson: LessonType;
+    resource: ResourceType;
+}
+
+export type WorkshopResourceType = {
+    workshopId: string;
+    resourceId: string;
+
+    workshop: WorkshopType;
+    resource: ResourceType;
+}
+
+// PROGRESS
+
+export type LessonProgressType = {
+    id: string,
+    completed: boolean,
+    userId: string,
+    lessonId: string,
+
+    createdAt: string;
+    updatedAt: string;
+}
+
+export type UserProgressType = {
+    id: string,
+    completed: boolean,
+    userId: string,
+    type: string; // ItemTypeEum
+    itemId: string,
+
+    // course   Course?       @relation("CourseProgress", fields: [itemId], references: [id], map: "fk_progress_course")
+    // workshop Workshop?     @relation("WorkshopProgress", fields: [itemId], references: [id], map: "fk_progress_workshop")
+    // path     LearningPath? @relation("LearningPathProgress", fields: [itemId], references: [id], map: "fk_progress_path")
+
+    createdAt: string;
+    updatedAt: string;
+}
+
+//TAGS
 
 export type TagType = {
     id: string,
     title: string;
     slug: string,
     color: string | null;
-    createdAt : string;
-    updatedAt : string;
+
+    courseTags: CourseTagType[];
+    workshopTags: WorkshopTagType[];
+    learningPathTags: LearningPathTagType[];
+
+    createdAt: string;
+    updatedAt: string;
 }
 
-export type FeaturedType = {
+export type CourseTagType = {
+    courseId: string;
+    tagId: string;
+
+    course: CourseType;
+    tag: TagType;
+
+}
+
+export type WorkshopTagType = {
+    workshopId: string;
+    tagId: string;
+
+    workshop: WorkshopType;
+    tag: TagType;
+}
+
+export type LearningPathTagType = {
+    learningPathId: string;
+    tagId: string;
+
+    learningPath: LearningPathType;
+    tag: TagType;
+}
+
+// PROMOTIONS
+
+export type  PromotionType = {
     id: string;
     title: string;
-    desc: string;
-    color?: string;
-    iconName?: string;
-    iconLib?: string;
-    className?: string;
-};
+    description?: string;
+    discount: number;
+    type: string; //     DiscountTypeEnum
+    startsAt: string;
+    endsAt: string;
+    active: boolean;
 
-export type TestimonialType = {
-    name: string;
-    role: string;
-    text: string;
-    rating?: number;
-    avatar?: string;
-};
+    itemType: string; // ItemTypeEnum
+
+    // Clés spécifiques pour chaque relation
+    courseId?: string;
+    workshopId?: string;
+    learningPathId?: string;
+
+    // Relations explicites
+    course: CourseType;
+    workshop: WorkshopType;
+    learningPath: LearningPathType;
+}
+
+export type   PromoCodeType = {
+    id: string;
+    code: string;
+    description?: string;
+    discount: number;
+    type: string; //   DiscountTypeEnum
+    usageLimit?: number;
+    usedCount: number;
+    startsAt: string;
+    endsAt: string;
+    active: boolean;
+
+    applicableCourses: CourseType[];
+    applicableWorkshops: WorkshopType[];
+    applicableLearningPaths: LearningPathType[];
+}
+
+//PAYMENTS
+export type  EnrollmentType = {
+    id: string;
+    amount: number;
+    status: string; // EnrollmentStatusEnum
+
+    course: CourseType;
+    user: UserType;
+    payment?: PaymentType;
+
+    updatedAt: string;
+    createdAt: string;
+}
+
+export type PaymentType = {
+    id: string;
+    stripeId: string;
+    user: UserType;
+    course: CourseType;
+    amount: number;
+    currency: string;
+    status: string; // 'succeeded', 'pending', 'failed', etc.
+    method?: string; // card, stripe, etc.
+    receiptUrl?: string; // lien Stripe vers le reçu
+    enrollment: EnrollmentType;
+    createdAt: string;
+    updatedAt: string;
+}
+
+// -----------------------------------
+// BILLING
+// -----------------------------------
 
 export type InvoiceType = {
     id: string;
     number: string;
-    // user: UserItem;
-    userId: string;
+    user: UserType;
+    // userId: string;
     items: InvoiceItemType[];
     amount: number;// total TTC en centimes
     currency: string;
@@ -152,19 +492,111 @@ export type InvoiceType = {
     createdAt: string;
 }
 
-export type InvoiceItemType = {
+export type  InvoiceItemType = {
     id: string;
-    invoiceId: string;
-
-    // Champs communs
+    //invoiceId: string;
+    invoice: InvoiceType;
     title: string;
-    type: string;
+    type: string; // InvoiceItemEnum
     referenceId: string;
-
     quantity: number;
     unitPrice: number; // centimes
     total: number; // unitPrice * quantity
 }
+
+// Divers
+
+export type  ObjectiveType = {
+    id: string;
+    content: string;
+    createdAt: string;
+    updatedAt: string;
+
+    courses: CourseObjectiveType[];
+    workshops: WorkshopObjectiveType[];
+    learningPaths: LearningPathObjectiveType[];
+}
+
+export type  PrerequisiteType = {
+    id: string;
+    content: string;
+    createdAt: string;
+    updatedAt: string;
+
+    courses: CoursePrerequisiteType[];
+    workshops: WorkshopPrerequisiteType[];
+    learningPaths: LearningPathPrerequisiteType[];
+}
+
+export type  CourseObjectiveType = {
+    courseId: string;
+    objectiveId: string;
+
+    course: CourseType;
+    objective: ObjectiveType;
+
+}
+
+export type  CoursePrerequisiteType = {
+    courseId: string;
+    prerequisiteId: string;
+
+    course: CourseType;
+    prerequisite: PrerequisiteType;
+
+}
+
+export type  WorkshopObjectiveType = {
+    workshopId: string;
+    objectiveId: string;
+
+    workshop: WorkshopType;
+    objective: ObjectiveType;
+
+}
+
+export type  WorkshopPrerequisiteType = {
+    workshopId: string;
+    prerequisiteId: string;
+
+    workshop: WorkshopType;
+    prerequisite: PrerequisiteType;
+
+}
+
+export type  LearningPathObjectiveType = {
+    learningPathId: string;
+    objectiveId: string;
+
+    learningPath: LearningPathType;
+    objective: ObjectiveType;
+
+}
+
+export type  LearningPathPrerequisiteType = {
+    learningPathId: string;
+    prerequisiteId: string;
+
+    learningPath: LearningPathType;
+    prerequisite: PrerequisiteType;
+
+}
+
+// -----------------------------------
+// SITE OCNFIG
+// -----------------------------------
+
+export type FeaturedType = {
+    id: string;
+    title: string;
+    desc: string;
+    color?: string  ;
+    iconName?: string;
+    iconLib?: string;
+
+    createdAt: string;
+    updatedAt: string;
+};
 
 export type CompanyType = {
     id: string;
@@ -179,38 +611,42 @@ export type CompanyType = {
     vatNumber?: string | null;
     logoUrl?: string | null;
     createdAt: string;
+    updatedAt: string;
 }
 
-enum InvoiceItemEnum {
-    COURSE,
-    WORKSHOP,
-    SUBSCRIPTION,
+export type SocialLinkType = {
+    id: string;
+    name: string;
+    //url: string;
+    iconLib: string; // ex: "lucide", "si", "fa", "tabler"
+    iconName: string; // ex: "facebook", "github", "x"
+    createdAt: string;
+    updatedAt: string;
 }
 
+export type CompanySocialLinkType = {
+    id: string;
+    companyId: string;
+    socialLinkId: string;
+    url: string; // Lien spécifique pour entreprise
+    createdAt: string;
+    updatedAt: string;
 
-export type EnrollmentType = {
-    id :string;
-    amount :number;
-    status  :string;
-    courseId  :string;
-    userId  :string;
-    paymentId?  :string;
-    createdAt :string;
-    updatedAt  :string;
+    company?: CompanyType;
+    socialLink?: SocialLinkType;
 }
 
-// enum enrollmentStatus {
-//     Pending
-// Active
-// Cancelled
-// }
+/*-------------------------------
+OTHERS
+-------------------------------*/
 
-
-/*
-DIVERS
-
-*/
-
+export type TestimonialType = {
+    name: string;
+    role: string;
+    text: string;
+    rating?: number;
+    avatar?: string;
+};
 
 export const colorClasses: Record<string, { bg: string; text: string }> = {
     primary: {bg: "bg-primary/10", text: "text-primary"},
@@ -241,17 +677,5 @@ export const levelBgColors: Record<string, string> = {
 
 export const listColors = Object.keys(colorClasses);
 
-export const iconLibs = ["lucide"];
-
-export type SemanticColor =
-    | "primary"
-    | "secondary"
-    | "success"
-    | "warning"
-    | "destructive"
-    | "muted"
-    | "muted-foreground"
-    | "accent"
-    | "orange"
-    ;
+export const iconLibs = ["lucide", "si", "fa", "tabler"];
 

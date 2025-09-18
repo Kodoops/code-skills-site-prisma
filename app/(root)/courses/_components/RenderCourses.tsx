@@ -1,5 +1,5 @@
 import React from "react";
-import {getAllCourses} from "@/app/data/course/get-all-courses";
+import {getAllCourses} from "@/app/data/courses/get-all-courses";
 import PublicCourseCard from "@/app/(root)/_components/PublicCourseCard";
 import EmptyState from "@/components/general/EmptyState";
 import {SearchIcon} from "lucide-react";
@@ -15,7 +15,7 @@ interface CourseFilters {
 }
 
 const RenderCourses = async ({filters}: { filters: CourseFilters }) => {
-    const {data, perPage, page, totalPages} = await getAllCourses(filters);
+    const {data, perPage, currentPage, totalPages} = await getAllCourses(filters);
 
     const enrolledByUser  = await getAllEnrolledCoursesByUser();
     // On extrait la liste des IDs des cours déjà suivis
@@ -24,7 +24,7 @@ const RenderCourses = async ({filters}: { filters: CourseFilters }) => {
     // Liste pour debug (optionnel)
     const alreadyEnrolled: string[] = [];
 
-    data.map(course => {
+    data?.map(course => {
         const isEnrolled = enrolledCourseIds.includes(course.id);
         if (isEnrolled) {
             alreadyEnrolled.push(course.id);
@@ -32,7 +32,7 @@ const RenderCourses = async ({filters}: { filters: CourseFilters }) => {
     });
 
 
-    if (data.length === 0) {
+    if (data?.length === 0) {
         return (
             <EmptyState
                 title="No Courses Found"
@@ -47,13 +47,13 @@ const RenderCourses = async ({filters}: { filters: CourseFilters }) => {
     return (
         <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {data.map((course) => (
+                {data?.map((course) => (
                     <PublicCourseCard key={course.id} data={course}  isEnrolled={alreadyEnrolled.includes(course.id)}/>
                 ))}
 
             </div>
 
-            <Pagination page={page} totalPages={totalPages}/>
+            {totalPages > 1 && <Pagination page={currentPage} totalPages={totalPages}/>}
         </>
     );
 };

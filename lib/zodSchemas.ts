@@ -1,5 +1,25 @@
 import {z} from "zod";
 
+export const learningPathSchema =z.object({
+    title: z.string().min(3, {message:'Title must be at least 3 characters long'}).max(100, {message:'Title must be most 100 characters long ... '}),
+    smallDescription: z.string().min(3, {message:'Small description  must be at least 3 characters long'}).max(200, {message:'Small Description  must be most 200 characters long ... '}),
+    description: z.string().min(3, {message:'Description must be at least 3 characters long'}),
+    fileKey: z.string().min(1, {message:'File is required'}),
+    price: z.coerce.number().nonnegative().min(0, {message:'Price must be minimum 0'}),
+    duration: z.coerce.number().int().positive().min(1, {message:'duration  must be minimum 1 hour'}).max(500, {message:'Duration must be maximum 500  '}),
+    level: z.string().min(1,{message:'Level must be one of the following: beginner, intermediate, advanced'}),
+    slug: z.string().min(3, {message:'Slug must be at least 3 characters long'}),
+    status: z.string().min(1,{message:'Status must be one of the following: draft, published, archived'}),
+})
+
+export const learningPathItemSchema =z.object({
+    type: z.string().min(1, {message:'Type required '}),
+    courseId: z.string().optional(),
+    workshopId: z.string().optional(),
+    resourceId: z.string().optional(),
+    learningPathId: z.string().min(1, {message:'Learning Path  Id  required '}),
+})
+
 export const courseSchema =z.object({
     title: z.string().min(3, {message:'Title must be at least 3 characters long'}).max(100, {message:'Title must be most 100 characters long ... '}),
     description: z.string().min(3, {message:'Description must be at least 3 characters long'}),
@@ -9,7 +29,7 @@ export const courseSchema =z.object({
     level: z.string().min(1,{message:'Level must be one of the following: beginner, intermediate, advanced'}),
     category: z.string(),
     smallDescription: z.string().min(3, {message:'Small description  must be at least 3 characters long'}).max(200, {message:'Small Description  must be most 200 characters long ... '}),
-    slug: z.string().min(3, {message:'slung must be at least 3 characters long'}),
+    slug: z.string().min(3, {message:'Slug must be at least 3 characters long'}),
     status: z.string().min(1,{message:'Status must be one of the following: draft, published, archived'}),
 })
 
@@ -28,6 +48,16 @@ export const lessonSchema = z.object({
 })
 
 export const categorySchema = z.object({
+    title: z.string().min(3, {message:'Name must be at least 3 characters long'}),
+    slug: z.string().min(3, {message:'slung must be at least 3 characters long'}),
+    desc: z.string().min(3, {message:'Description must be at least 3 characters long'}),
+    color: z.string().optional(),
+    iconName: z.string().optional(),
+    iconLib: z.string().optional(),
+    domain: z.string(),
+})
+
+export const domainSchema = z.object({
     title: z.string().min(3, {message:'Name must be at least 3 characters long'}),
     slug: z.string().min(3, {message:'slung must be at least 3 characters long'}),
     desc: z.string().min(3, {message:'Description must be at least 3 characters long'}),
@@ -62,7 +92,6 @@ export const companySchema = z.object({
     email: z
         .string()
         .email({ message: "Invalid email" })
-        .optional()
         .or(z.literal("")) // permet ""
         .transform((val) => (val === "" ? undefined : val)),
 
@@ -95,10 +124,31 @@ export const companySchema = z.object({
         .transform((val) => (val === "" ? undefined : val)),
 });
 
+export const socialLinkSchema = z.object({
+    name: z.string().min(3, {message:'Name must be at least 3 characters long'}),
+
+    iconName: z.string(),
+    iconLib: z.string(),
+})
+
+export const companySocialLinkSchema = z.object({
+    url: z.string()
+        .url({ message: " URL must be a valid URL" })
+        .optional()
+        .or(z.literal(""))
+        .transform((val) => (val === "" ? undefined : val)),
+    socialLinkId: z.string().min(1, {message:'Social Network required'}),
+})
+
+export type LearningPathSchema = z.infer<typeof learningPathSchema>
+export type LearningPathItemSchema = z.infer<typeof learningPathItemSchema>
 export type CourseSchema = z.infer<typeof courseSchema>
 export type ChapterSchema = z.infer<typeof chapterSchema>
 export type LessonSchema = z.infer<typeof lessonSchema>
 export type CategorySchema = z.infer<typeof categorySchema>
+export type DomainSchema = z.infer<typeof domainSchema>
 export type TagSchema = z.infer<typeof tagSchema>
 export type FeatureSchema = z.infer<typeof featureSchema>
 export type CompanySchema = z.infer<typeof companySchema>
+export type SocialLinkSchema = z.infer<typeof socialLinkSchema>
+export type CompanySocialLinkSchema = z.infer<typeof companySocialLinkSchema>

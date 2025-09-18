@@ -57,13 +57,28 @@ export async function updateCategory(data: CategorySchema, categoryId: string): 
             };
         }
 
+        const domain = await prisma.domain.findUnique({
+            where:{
+                id: data.domain
+            }
+        })
+
+        if(!domain){
+            return {
+                status: "error",
+                message: "Invalid domain"
+            }
+        }
         await prisma.category.update({
             where: {
                 id: categoryId,
             },
             data: {
                 ...result.data,
-            }
+                domain: {
+                    connect: { id: domain.id },
+                },
+            },
         })
 
         return {
@@ -73,7 +88,7 @@ export async function updateCategory(data: CategorySchema, categoryId: string): 
     } catch {
         return {
             status: "error",
-            message: "Fail to update Category"
+            message: "Failed to update Category"
         }
     }
 }

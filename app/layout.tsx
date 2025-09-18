@@ -38,7 +38,7 @@ export default function RootLayout({
           <div className="min-h-screen">
               {children}
           </div>
-            <Toaster closeButton position="bottom-center"/>
+            <Toaster closeButton position="bottom-center" />
         </ThemeProvider>
         </body>
         </html>

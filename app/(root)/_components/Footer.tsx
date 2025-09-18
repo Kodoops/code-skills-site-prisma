@@ -4,10 +4,13 @@ import Section from '@/components/sections/Section';
 import AppLogoShape from "@/components/custom-ui/AppLogoShape";
 import NavContent from "@/app/(root)/_components/NavContent";
 import AppLogoText from "@/components/custom-ui/AppLogoText";
-import {Facebook, Github, Instagram, Linkedin, Youtube} from "lucide-react";
-import {SiFacebook, SiGithub, SiInstagram, SiX, SiYoutube} from "react-icons/si";
+import {getCompanySocialLinks} from "@/app/data/get-company-social-links";
+import {CompanySocialLinks} from "@/app/(root)/_components/CompanySocialLinks";
 
-const Footer = () => {
+const Footer = async () => {
+
+    const socials = await getCompanySocialLinks();
+
     return (
         <footer className="border-t border-white/10 py-10">
             <Section>
@@ -38,25 +41,7 @@ const Footer = () => {
                         <div className="flex-1">
                             <h2 className={"text-lg  text-right mb-4 font-semibold"}>Restez connecté avec
                                 nous !</h2>
-                            <div className="flex gap-6 justify-end items-center cursor-pointer "   >
-                                <Link href="https://www.facebook.com/codeskills.fr" target="_blank">
-                                    <SiFacebook className={"size-6 text-muted-foreground hover:text-primary"}/>
-                                </Link>
-                                <Link href="https://www.twitter.com/codeskills.fr" target="_blank">
-                                    <SiX className={"size-6 text-muted-foreground hover:text-primary"}/>
-                                </Link>
-                                <Link href="https://www.instagram.com/codeskills.fr/" target="_blank">
-                                    <SiInstagram className={"size-6 text-muted-foreground hover:text-primary"}/>
-                                </Link>
-                                <Link href={"https://www.youtube.com/codeskills"}>
-
-                                    <SiYoutube className={"size-6 text-muted-foreground hover:text-primary"}/>
-                                </Link>
-                                <Link href={"https://www.github.com/codeskills/"}>
-
-                                    <SiGithub className={"size-6 text-muted-foreground hover:text-primary"}/>
-                                </Link>
-                            </div>
+                            <CompanySocialLinks links={socials }/>
                         </div>
                     </div>
                 </div>

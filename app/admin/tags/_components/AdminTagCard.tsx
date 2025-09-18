@@ -7,11 +7,18 @@ import {cn} from "@/lib/utils";
 import { Trash2} from "lucide-react";
 import { Button } from '@/components/ui/button';
 import {deleteTag} from "@/app/admin/tags/action";
+import {toast} from "sonner";
 
 const AdminTagCard = ( {id, title,color}:{  id: string,title: string , color: string }) => {
 
     const handleDelete =async (id: string) => {
         await deleteTag(id);
+        toast.success("Tag deleted successfully", {
+            style: {
+                background: "#D1FAE5",
+                color: "#065F46",
+            },
+        });
     }
 
     return (

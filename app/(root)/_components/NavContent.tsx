@@ -5,7 +5,7 @@ import {cn} from "@/lib/utils";
 const navigationItems = [
     { name: "Accueil", href: "/" },
     { name: "Catalogue", href: "/courses" },
-    { name: "parcours", href: "/parcours" },
+    { name: "parcours", href: "/learning-paths" },
     { name: "Business", href: "/business" },
     { name: "Contact", href: "/contact" },
 ];

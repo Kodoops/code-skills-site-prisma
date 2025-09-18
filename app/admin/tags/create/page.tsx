@@ -46,14 +46,29 @@ const CreateTagPage = () => {
             const {data:result , error} = await tryCatch(createTag(values));
 
             if (error) {
-                toast.error(error.message);
+                toast.error(error.message, {
+                    style: {
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                    },
+                });
             }
             if (result?.status === "success") {
-                toast.success(result?.message);
+                toast.success(result?.message, {
+                    style: {
+                        background: "#D1FAE5",
+                        color: "#065F46",
+                    },
+                });
                 form.reset();
                 router.push("/admin/tags");
             }else{
-                toast.error(result?.message);
+                toast.error(result?.message, {
+                    style: {
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                    },
+                });
             }
         })
     }

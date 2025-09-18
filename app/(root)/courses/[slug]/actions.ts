@@ -9,7 +9,6 @@ import {redirect} from "next/navigation";
 import {env} from "@/lib/env";
 import arcjet, {fixedWindow} from "@/lib/arcjet";
 import {request} from "@arcjet/next";
-import {Prisma} from "@/lib/generated/prisma";
 import {calculatedPrice} from "@/lib/price";
 
 const aj = arcjet.withRule(
@@ -43,7 +42,7 @@ export async function enrollInCourseAction(courseId: string): Promise<ApiRespons
                 price: true,
                 slug: true,
                 stripePriceId: true,
-                coursePromotion: {
+                promotions: {
                     where: {
                         active: true,
                         startsAt: {lte: new Date()},
@@ -74,7 +73,7 @@ export async function enrollInCourseAction(courseId: string): Promise<ApiRespons
         }
 
         //Calcul price with promotion
-        const priceToPay = calculatedPrice(course.price, course.coursePromotion[0]);
+        const priceToPay = calculatedPrice(course.price, course.promotions[0]);
 
 
         // 🔍 Stripe Customer

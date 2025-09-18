@@ -1,4 +1,4 @@
-import { getAllCategories } from "@/app/data/course/get-all-categories";
+import { getAllCategories } from "@/app/data/categories/get-all-categories";
 import FilterBar from './_components/FilterBar';
 import RenderCourses from "@/app/(root)/courses/_components/RenderCourses";
 import { Suspense } from "react";

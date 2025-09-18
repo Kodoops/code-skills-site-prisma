@@ -10,8 +10,9 @@ import {
 } from "@/components/ui/select";
 import {Button} from "@/components/ui/button";
 import React, {useState} from "react";
-import {CategoryType, levels} from "@/lib/types";
+import {levels} from "@/lib/types";
 import {X} from "lucide-react";
+import {SimpleCategory} from "@/lib/models";
 
 interface Props {
     current: {
@@ -19,7 +20,7 @@ interface Props {
         level?: string;
         isFree?: string;
     };
-    categories: CategoryType[];
+    categories: SimpleCategory[];
 }
 
 

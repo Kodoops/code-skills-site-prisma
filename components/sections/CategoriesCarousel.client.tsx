@@ -1,15 +1,15 @@
 "use client";
 import React from "react";
-import {CategoryType} from "@/lib/types";
 import CarouselGrid from "../../app/(root)/_components/CarouselGrid";
 import CategoryCard from "@/app/(root)/_components/CategoryCard";
+import {SimpleCategory} from "@/lib/models";
 
 
 export default function CategoriesCarouselClient({
                                                      items,
                                                      perPage = 4,
                                                  }: {
-    items: CategoryType[];
+    items: SimpleCategory[];
     perPage?: number;
 }) {
     return (
@@ -26,7 +26,6 @@ export default function CategoriesCarouselClient({
                     iconName={c.iconName}
                     iconLib={c.iconLib}
                     color={c.color}
-                    //count={c.count}
                 />
             )}
         />

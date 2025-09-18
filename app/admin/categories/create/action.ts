@@ -47,10 +47,30 @@ export async function createCategory(values: CategorySchema): Promise<ApiRespons
             };
         }
 
+        const domain = await prisma.domain.findUnique({
+            where:{
+                id:values.domain
+            },
+            select:{
+                id:true
+            }
+        })
+
+        if(!domain){
+            return {
+                status: "error",
+                message: "Invalid domain"
+            }
+        }
+
         await prisma.category.create({
             data: {
                 ...validation.data,
-            }
+                domain: {
+                    connect: { id: domain.id },
+                },
+            },
+
         });
 
         return {

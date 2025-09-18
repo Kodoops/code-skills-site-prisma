@@ -2,9 +2,9 @@ import "server-only";
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
 import {prisma} from "@/lib/db";
-import {CourseType} from "@/lib/types";
+import {SimpleCourse} from "@/lib/models";
 
-export async function adminGetRecentCourses() : Promise<CourseType []> {
+export async function adminGetRecentCourses() : Promise<SimpleCourse []> {
 
     await requireAdmin();
 
@@ -24,37 +24,12 @@ export async function adminGetRecentCourses() : Promise<CourseType []> {
             price: true,
             fileKey: true,
             slug: true,
+            stripePriceId:true,
             createdAt:true,
             updatedAt:true,
             category:true,
-            coursePromotion: true,
+            promotions: true,
             tags:true,
-            chapters:{
-                select:{
-                    id: true,
-                    title: true,
-                    courseId: true,
-                    position: true,
-                    createdAt : true,
-                    updatedAt : true,
-                    lessons: {
-                        select:{
-                            id: true,
-                            title: true,
-                            description: true,
-                            position: true,
-                            thumbnailKey: true,
-                            videoKey: true,
-                            public: true,
-                            chapterId: true,
-                            duration: true,
-                            lessonProgress: true,
-                            createdAt:true,
-                            updatedAt:true,
-                        }
-                    }
-                }
-            }
         }
     });
 
@@ -68,27 +43,7 @@ export async function adminGetRecentCourses() : Promise<CourseType []> {
             createdAt: course.category.createdAt.toISOString(),
             updatedAt: course.category.updatedAt.toISOString(),
         },
-        tags: course.tags.map(tag=>({
-            ...tag,
-            createdAt: tag.createdAt.toISOString(),
-            updatedAt: tag.updatedAt.toISOString()
-        })),
-        chapters: course.chapters.map(chapter=>({
-            ...chapter,
-            createdAt: chapter.createdAt.toISOString(),
-            updatedAt: chapter.updatedAt.toISOString(),
-            lessons: chapter.lessons.map(lesson=>({
-                ...lesson,
-                description: lesson.description ?? '',
-                thumbnailKey: lesson.thumbnailKey ?? '',
-                videoKey: lesson.videoKey ?? '',
-                createdAt: lesson.createdAt.toISOString(),
-                updatedAt: lesson.updatedAt.toISOString(),
-                lessonProgress: lesson.lessonProgress.map(lp => ({
-                    ...lp,
-                })),
-            }))
-        }))
+
     }))
 
     return courses;

@@ -1,7 +1,7 @@
 "use client";
 
 import {useMemo} from "react";
-import {CourseSidebarDataType} from "@/app/data/course/get-course-sidebar-data";
+import {CourseSidebarDataType} from "@/app/data/courses/get-course-sidebar-data";
 
 interface CourseProgress {
     courseData: CourseSidebarDataType["course"]

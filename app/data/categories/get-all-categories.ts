@@ -1,0 +1,85 @@
+import "server-only";
+
+import {prisma} from "@/lib/db";
+import {SimpleCategory} from "@/lib/models";
+
+export async function getAllCategories() : Promise<SimpleCategory[]>  {
+
+    const data = await prisma.category.findMany({
+        orderBy: {
+            createdAt: "desc"
+        },
+        select: {
+            id: true,
+            title: true,
+            slug: true,
+            desc: true,
+            color: true,
+            iconName: true,
+            iconLib: true,
+            createdAt:true,
+            updatedAt:true,
+        }
+    });
+
+    return data.map(item => ({
+            ...item,
+            courses:[],
+            createdAt: item.createdAt.toISOString(),
+            updatedAt: item.updatedAt.toISOString(),
+        })
+    );
+}
+
+
+export async function getPaginatedCategories(current: number = 1, nbrPage: number ): Promise<{
+    data: SimpleCategory[] ,
+    total:number,
+    page: number,
+    perPage: number,
+    totalPages: number,
+}> {
+
+    const [data, total] = await Promise.all([
+        await prisma.category.findMany({
+            orderBy: {
+                createdAt: "desc"
+            },
+            take: nbrPage,
+            skip: (current - 1) * nbrPage,
+            select: {
+                id: true,
+                title: true,
+                slug: true,
+                desc: true,
+                color: true,
+                iconName: true,
+                iconLib: true,
+                createdAt:true,
+                updatedAt:true,
+            }
+        }),
+        prisma.category.count(),
+    ]);
+
+    const updatedData =  data.map(item => ({
+        id: item.id,
+        title: item.title,
+        slug: item.slug,
+        desc: item.desc,
+        color: item.color,
+        iconName: item.iconName,
+        iconLib: item.iconLib,
+        courses:[],
+        createdAt: item.createdAt.toISOString(),
+        updatedAt: item.updatedAt.toISOString(),
+    }));
+
+    return {
+        data: updatedData,
+        total,
+        page: current,
+        perPage: nbrPage,
+        totalPages: Math.ceil(total / nbrPage),
+    };
+}

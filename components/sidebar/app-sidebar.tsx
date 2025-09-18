@@ -2,14 +2,9 @@
 
 import * as React from "react"
 import {
-  IconChartBar,
   IconDashboard,
-  IconFolder,
-  IconHelp,
   IconListDetails,
-  IconSearch,
   IconSettings,
-  IconUsers,
 } from "@tabler/icons-react"
 
 import { NavMain } from "@/components/sidebar/nav-main"
@@ -29,7 +24,18 @@ import AppLogoShape from "@/components/custom-ui/AppLogoShape";
 import AppLogoText from "@/components/custom-ui/AppLogoText";
 import {Separator} from "@/components/ui/separator";
 import { NavOrga } from "./nav-orga"
-import {Building2, RectangleEllipsis, SchoolIcon, TableOfContents, TagIcon, Link as SocialLink} from "lucide-react";
+import {
+  Building2,
+  RectangleEllipsis,
+  SchoolIcon,
+  TableOfContents,
+  TagIcon,
+  Link as SocialLink,
+  GroupIcon,
+  RouteIcon,
+  TrafficConeIcon,
+  ToolCaseIcon
+} from "lucide-react";
 import {NavCS} from "@/components/sidebar/nav-cs";
 
 const data = {
@@ -41,41 +47,46 @@ const data = {
       icon: IconDashboard,
     },
     {
+      title: "Learning Path",
+      url: "/admin/learning-paths",
+      icon: RouteIcon,
+    },
+    {
       title: "Courses",
       url: "/admin/courses",
       icon: IconListDetails,
     },
     {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
+      title: "Workshops",
+      url: "/admin/workshops",
+      icon: TrafficConeIcon,
     },
     {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
+      title: "Resources",
+      url: "/admin/resources",
+      icon: ToolCaseIcon,
     },
   ],
   navOrga:[
+    {
+      title: "Domains",
+      url: "/admin/domains",
+      icon: GroupIcon,
+    },
     {
       title: "Categories",
       url: "/admin/categories",
       icon: TableOfContents,
     },
     {
-      title: "Niveaux",
-      url: "/admin/levels",
-      icon: SchoolIcon,
-    },
-    {
       title: "Tags",
       url: "/admin/tags",
       icon: TagIcon,
+    },
+    {
+      title: "Niveaux",
+      url: "/admin/levels",
+      icon: SchoolIcon,
     },
   ],
   navCS:[
@@ -95,69 +106,11 @@ const data = {
       icon: SocialLink,
     },
   ],
-  // navClouds: [
-  //   {
-  //     title: "Capture",
-  //     icon: IconCamera,
-  //     isActive: true,
-  //     url: "#",
-  //     items: [
-  //       {
-  //         title: "Active Proposals",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Archived",
-  //         url: "#",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: "Proposal",
-  //     icon: IconFileDescription,
-  //     url: "#",
-  //     items: [
-  //       {
-  //         title: "Active Proposals",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Archived",
-  //         url: "#",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: "Prompts",
-  //     icon: IconFileAi,
-  //     url: "#",
-  //     items: [
-  //       {
-  //         title: "Active Proposals",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Archived",
-  //         url: "#",
-  //       },
-  //     ],
-  //   },
-  // ],
   navSecondary: [
     {
       title: "Settings",
-      url: "#",
+      url: "/admin/settings",
       icon: IconSettings,
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
     },
   ],
 }

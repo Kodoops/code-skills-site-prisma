@@ -1,7 +1,7 @@
 "use server";
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
-import {ApiResponseType, TagType} from "@/lib/types";
+import {ApiResponseType} from "@/lib/types";
 import {chapterSchema, ChapterSchema, courseSchema, CourseSchema, lessonSchema, LessonSchema} from "@/lib/zodSchemas";
 import {prisma} from "@/lib/db";
 import arcjet from "@/lib/arcjet";
@@ -376,25 +376,6 @@ export async function deleteChapter(chapterId: string, courseId: string): Promis
         }
 
         const remainingChapters = chapters.filter(chapter => chapter.id !== chapterId);
-        // const updatedChapters = remainingChapters.map((chapter, index) => {
-        //     return prisma.chapter.update({
-        //         where: {
-        //             id: chapter.id,
-        //         },
-        //         data: {
-        //             position: index + 1,
-        //         }
-        //     });
-        // });
-
-        // await prisma.$transaction([
-        //      ...updatedChapters,
-        //      prisma.chapter.delete({
-        //          where: {
-        //              id: chapterId,
-        //          }
-        //      })
-        //  ]);
 
         await prisma.$transaction(async (tx) => {
             // 1) Supprimer les leçons du chapitre
@@ -432,16 +413,19 @@ export async function updateCourseTags(courseId: string, tagIds: string[]): Prom
     await requireAdmin();
 
     try {
-        await prisma.course.update({
-            where: { id: courseId },
-            data: {
-                tags: {
-                    set: [], // remove all
-                    connect: tagIds.map(id => ({ id })), // reattach
-                },
-            },
-        });
+        await prisma.$transaction([
+             prisma.courseTag.deleteMany({
+                where: {courseId}
+            }),
 
+             prisma.courseTag.createMany({
+                data: tagIds.map(tagId => ({
+                    courseId,
+                    tagId
+                })),
+                skipDuplicates: true
+            }),
+        ]);
         revalidatePath(`/admin/courses/${courseId}/edit`)
 
         return {

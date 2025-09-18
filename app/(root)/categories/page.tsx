@@ -1,6 +1,6 @@
 import React, {Suspense} from 'react';
 import CategoryCard, {CategoryCardSkeleton} from "@/app/(root)/_components/CategoryCard";
-import {getCategories} from "@/app/data/course/get-all-categories";
+import {getPaginatedCategories} from "@/app/data/categories/get-all-categories";
 import Pagination from "@/components/general/Pagination";
 
 export const dynamic = "force-dynamic"
@@ -39,7 +39,7 @@ export default CategoriesPage;
 
 async function RenderCategories({current, nbrPage}: {current?: number | undefined, nbrPage: number}) {
 
-   const  {data: categories,page, perPage, total, totalPages} = await getCategories(current, nbrPage);
+   const  {data: categories,page, perPage, total, totalPages} = await getPaginatedCategories(current, nbrPage);
 
     return (
         <>

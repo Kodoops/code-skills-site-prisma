@@ -1,4 +1,4 @@
-import {CoursePromotionType, DiscountType} from "@/lib/types";
+import {CoursePromotionType} from "@/lib/types";
 
 export const calculatedPrice = (price: number, promotion?: CoursePromotionType) => {
 

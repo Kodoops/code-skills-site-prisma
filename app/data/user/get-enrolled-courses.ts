@@ -1,5 +1,5 @@
 import "server-only";
-import {requireUser} from "./require-user";
+import {isAuthenticated, requireUser} from "./require-user";
 import {prisma} from "@/lib/db";
 
 
@@ -70,8 +70,10 @@ export async function getEnrolledCourses(page: number = 1, perPage: number ) {
 export type EnrolledCoursesType = Awaited<ReturnType<typeof getEnrolledCourses>>['data'][0];
 
 export async function getAllEnrolledCoursesByUser() {
-    //to delete
-   // await new Promise(resolve => setTimeout(resolve, 2000));
+
+    const authenticate = await isAuthenticated();
+    if(!authenticate)
+        return [];
 
     const user = await requireUser();
 
@@ -103,7 +105,7 @@ export async function getAllEnrolledCoursesByUser() {
                                 iconLib: true,
                             },
                         },
-                        coursePromotion: {
+                        promotions: {
                             where: {
                                 active: true,
                                 startsAt: { lte: new Date() },

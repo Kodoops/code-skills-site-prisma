@@ -41,3 +41,41 @@ export async function markLessonComplete(lessonId: string, slug: string): Promis
         }
     }
 }
+
+
+export async function markLessonUnCompleted(lessonId: string, slug: string): Promise<ApiResponseType> {
+
+    const session = await requireUser();
+
+    try {
+        await prisma.lessonProgress.upsert({
+            where: {
+                userId_lessonId: {
+                    userId: session.id,
+                    lessonId: lessonId
+                }
+            },
+            update: {
+                completed: false,
+            },
+            create: {
+                lessonId: lessonId,
+                userId: session.id,
+                completed: false,
+            }
+        });
+
+        revalidatePath(`/dashboard/${slug}`);
+
+        return {
+            status: 'success',
+            message: 'Lesson marked uncompleted.'
+        }
+
+    } catch {
+        return {
+            status: 'error',
+            message: 'Something went wrong, Failed to mark lesson uncompleted.'
+        }
+    }
+}

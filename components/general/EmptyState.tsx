@@ -5,8 +5,8 @@ import { buttonVariants } from "@/components/ui/button";
 interface Props {
     title: string;
     description: string;
-    buttonText: string;
-    href: string;
+    buttonText?: string;
+    href?: string;
     icon?: LucideIcon; // facultatif, avec valeur par défaut
 }
 
@@ -18,10 +18,10 @@ const EmptyState = ({ title, description, buttonText, href, icon: Icon = PlusCir
             </div>
             <h2 className="mt-6 text-xl font-semibold">{title}</h2>
             <p className="mb-8 mt-2 text-center text-sm leading-tight text-muted-foreground">{description}</p>
-            <Link href={href} className={buttonVariants()}>
-                <Icon className="size-4 mr-2" />
+            {href && <Link href={href} className={buttonVariants()}>
+                <Icon className="size-4 mr-2"/>
                 {buttonText}
-            </Link>
+            </Link>}
         </div>
     );
 };

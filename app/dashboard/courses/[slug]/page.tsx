@@ -1,5 +1,5 @@
 import React from 'react';
-import {getCourseSidebarData} from "@/app/data/course/get-course-sidebar-data";
+import {getCourseSidebarData} from "@/app/data/courses/get-course-sidebar-data";
 import { redirect} from "next/navigation";
 
 interface Props {

@@ -3,10 +3,10 @@ import "server-only"
 import {requireAdmin} from "@/app/data/admin/require-admin";
 import {prisma} from "@/lib/db";
 import {notFound} from "next/navigation";
-import { CategoryWithCourses} from "@/lib/types";
+import {SimpleCategory} from "@/lib/models";
 
 
-export async function adminGetCategory(id: string) : Promise<CategoryWithCourses | null>{
+export async function adminGetCategory(id: string) : Promise<SimpleCategory | null>{
 
     await requireAdmin();
 
@@ -26,12 +26,8 @@ export async function adminGetCategory(id: string) : Promise<CategoryWithCourses
             color: true,
             createdAt: true,
             updatedAt: true,
-            courses: {
-                select: {
-                    id: true,
-                    title: true,
-                }
-            }
+            domain: true,
+
         }
     });
 
@@ -42,8 +38,14 @@ export async function adminGetCategory(id: string) : Promise<CategoryWithCourses
     return  {
         ...data,
         createdAt: data.createdAt.toString(),
-        updatedAt: data.updatedAt.toString()
+        updatedAt: data.updatedAt.toString(),
+        domain: {
+            ...data.domain,
+            categories:[],
+            createdAt: data.createdAt.toString(),
+            updatedAt: data.updatedAt.toString(),
+        },
+
     };
 }
 
-//export type AdminCategorySingularType = Awaited<ReturnType<typeof adminGetCategory>>;

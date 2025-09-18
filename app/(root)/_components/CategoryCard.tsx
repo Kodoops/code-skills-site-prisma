@@ -9,38 +9,28 @@ import Pill from "@/components/custom-ui/Pill";
 import {Skeleton} from "@/components/ui/skeleton";
 
 export interface CategoryCardProps {
-
     title: string;
     slug:string;
-    desc: string;
-
-    iconName?: string;
-    iconLib?: string;
-    color?: string,
-
-    iconSize?: number;
-    count?: number;
-    className?: string;
+    desc?: string | null;
+    iconName?: string| null;
+    iconLib?: string| null;
+    color?: string| null;
 }
 
 export default function CategoryCard({
                                          iconName,
                                          iconLib = "lucide",
-                                         iconSize = 40,
                                          title,
                                          desc,
                                          slug,
                                          color = "muted",
-                                         count,
-                                         className,
                                      }: CategoryCardProps) {
-    const palette = colorClasses[color] ?? colorClasses.muted;
+    const palette = colorClasses[color!] ?? colorClasses.muted;
 
-    // ---- Résolution unique de l'icône (composant) ----
     let IconComp: React.ComponentType<React.SVGProps<SVGSVGElement>> | null = null;
 
     if (iconName) {
-        IconComp = resolveIcon(iconName, iconLib);
+        IconComp = resolveIcon(iconName, iconLib ?? 'lucide');
     }
 
     // Fallback
@@ -53,7 +43,6 @@ export default function CategoryCard({
             className={cn(
                 "group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 px-2 transition hover:bg-white/10",
                 "backdrop-blur-sm border-border",
-                className
             )}
         >
             {/* Icône BACKGROUND grand format (remplace le rond décoratif) */}
@@ -70,8 +59,8 @@ export default function CategoryCard({
                     <div className="">
                         <div className="mb-3 text-2xl">
                                     <IconComp
-                                        width={iconSize}
-                                        height={iconSize}
+                                        width={40}
+                                        height={40}
                                         className={palette.text}
                                     />
                         </div>
@@ -80,9 +69,6 @@ export default function CategoryCard({
                     </div>
                     <div className=" text-center space-y-2">
                         <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{desc}</p>
-                        {typeof count === "number" && (
-                            <Pill>{count} formations</Pill>
-                        )}
                     </div>
 
                 </CardHeader>
@@ -90,7 +76,6 @@ export default function CategoryCard({
         </Card>
     );
 }
-
 
 export function CategoryCardSkeleton() {
     return (

@@ -12,9 +12,8 @@ import {
 import {toast} from "sonner";
 import {v4 as uuidv4} from 'uuid'
 import {useConstructUrl} from "@/hooks/use-construct-url";
+import {IMAGE_MAX_FILE_SIZE, VIDEO_MAX_FILE_SIZE} from "@/constants/admin-contants";
 
-const IMAGE_MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-const VIDEO_MAX_FILE_SIZE = 5000 * 1024 * 1024; // 5MB
 
 interface UploaderState {
     id: string | null;
@@ -71,7 +70,12 @@ const Uploader = ({onChange, value, fileTypeAccepted}:iAppProps) => {
                     }),
                 });
                 if (!presignedResponse.ok) {
-                    toast.error("Failed to get presigned URL");
+                    toast.error("Failed to get presigned URL", {
+                        style: {
+                            background: "#FEE2E2",
+                            color: "#991B1B",
+                        },
+                    });
                     setFileState((prev) => ({
                         ...prev,
                         uploading: false,
@@ -103,7 +107,12 @@ const Uploader = ({onChange, value, fileTypeAccepted}:iAppProps) => {
                                 key: key,
                             }));
                             onChange?.(key);
-                            toast.success("File uploaded successfully");
+                            toast.success("File uploaded successfully",{
+                                style: {
+                                    background: "#D1FAE5",
+                                    color: "#065F46",
+                                },
+                            });
                             resolve(xhr.response);
                         } else {
                             setFileState((prev) => ({
@@ -133,7 +142,12 @@ const Uploader = ({onChange, value, fileTypeAccepted}:iAppProps) => {
 
             } catch (e) {
                 console.log(e)
-                toast.error("Failed to upload file");
+                toast.error("Failed to upload file", {
+                    style: {
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                    },
+                });
                 setFileState((prev) => ({
                     ...prev,
                     uploading: false,
@@ -188,7 +202,12 @@ const Uploader = ({onChange, value, fileTypeAccepted}:iAppProps) => {
             });
 
             if(!response.ok) {
-                toast.error("Failed to remove file from storage");
+                toast.error("Failed to remove file from storage", {
+                    style: {
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                    },
+                });
 
                 setFileState((prev) => ({
                     ...prev,
@@ -214,9 +233,19 @@ const Uploader = ({onChange, value, fileTypeAccepted}:iAppProps) => {
                 error:false,
                 fileType: fileTypeAccepted,
             }));
-            toast.success("File removed successfully");
+            toast.success("File removed successfully",{
+                style: {
+                    background: "#D1FAE5",
+                    color: "#065F46",
+                },
+            });
         }catch{
-            toast.error("Failed to remove file from storage, please try again");
+            toast.error("Failed to remove file from storage, please try again", {
+                style: {
+                    background: "#FEE2E2",
+                    color: "#991B1B",
+                },
+            });
             setFileState((prev) => ({
                ...prev,
                 isDeleting: false,
@@ -239,19 +268,34 @@ const Uploader = ({onChange, value, fileTypeAccepted}:iAppProps) => {
             if (tooManyFiles) {
                 return (
                     // <RenderErrorState error={"Too many files"} />
-                    toast.error("Too many files selected, max is one file.")
+                    toast.error("Too many files selected, max is one file.", {
+                        style: {
+                            background: "#FEE2E2",
+                            color: "#991B1B",
+                        },
+                    })
                 )
             }
 
             if (fileSizeTooBig) {
                 return (
                     // <RenderErrorState error={"Too many files"} />
-                    toast.error(`File size exceeded max size of ${IMAGE_MAX_FILE_SIZE / 1024 / 1024} MB.`)
+                    toast.error(`File size exceeded max size of ${IMAGE_MAX_FILE_SIZE / 1024 / 1024} MB.`, {
+                        style: {
+                            background: "#FEE2E2",
+                            color: "#991B1B",
+                        },
+                    })
                 )
             }
 
             if (fileNotValid) {
-                toast.error(`Invalid file type. Only images are allowed.`)
+                toast.error(`Invalid file type. Only images are allowed.`, {
+                    style: {
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                    },
+                })
             }
         }
 

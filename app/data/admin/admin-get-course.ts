@@ -30,8 +30,21 @@ export async function adminGetCourse(id: string) : Promise<CourseType | null> {
             createdAt:true,
             updatedAt:true,
             category:true,
-            coursePromotion: true,
-            tags:true,
+            promotions: true,
+            tags: {
+                select: {
+                    tag: {
+                        select: {
+                            id: true,
+                            title: true,
+                            slug: true,
+                            color: true,
+                            createdAt: true,
+                            updatedAt: true,
+                        }
+                    }
+                }
+            },
             chapters:{
                 select:{
                     id: true,
@@ -76,8 +89,6 @@ export async function adminGetCourse(id: string) : Promise<CourseType | null> {
         },
         tags: data.tags.map(tag=>({
             ...tag,
-            createdAt: tag.createdAt.toISOString(),
-            updatedAt: tag.updatedAt.toISOString()
         })),
         chapters: data.chapters.map(chapter=>({
             ...chapter,

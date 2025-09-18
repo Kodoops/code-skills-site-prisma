@@ -3,7 +3,7 @@ import {buttonVariants} from "@/components/ui/button";
 import EmptyState from "@/components/general/EmptyState";
 import Link from "next/link";
 import AdminCategoryCard, {AdminCategoryCardSkeleton} from "@/app/admin/categories/_components/AdminCategoryCard";
-import {getCategories} from "@/app/data/course/get-all-categories";
+import {getPaginatedCategories} from "@/app/data/categories/get-all-categories";
 import Pagination from "@/components/general/Pagination";
 import {CATEGORIES_PER_PAGE} from "@/constants/admin-contants";
 
@@ -37,23 +37,7 @@ export default CategoriesPage;
 
 async function RenderCategories({current, nbrPage}: { current?: number | undefined, nbrPage: number }) {
 
-    const {data, page, perPage, total, totalPages} = await getCategories(current, nbrPage);
-
-    const toCategoryCardProps = (row: {
-        iconName: string | null |undefined;
-        iconLib: string | null;
-        title: string;
-        desc: string;
-        color: string | null;
-        id: string;
-    }) => ({
-        id: row.id,
-        iconName: row.iconName ?? undefined,
-        iconLib: row.iconLib ?? "lucide",
-        title: row.title,
-        desc: row.desc,
-        color: row.color ?? "muted",
-    });
+    const {data, page, perPage, total, totalPages} = await getPaginatedCategories(current, nbrPage);
 
     return (
         <>
@@ -68,13 +52,13 @@ async function RenderCategories({current, nbrPage}: { current?: number | undefin
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 gap-4">
                         {data.map((category) => {
-                                const props = toCategoryCardProps(category);
 
-                                return <AdminCategoryCard key={category.id} {...props} />
+                                return <AdminCategoryCard key={category.id} {...category} />
                             }
                         )}
                     </div>
-                    <Pagination page={page} totalPages={totalPages}/>
+
+                    {totalPages > 1 && <Pagination page={page} totalPages={totalPages}/>}
                 </>
             }
         </>

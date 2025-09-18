@@ -46,15 +46,30 @@ export function NewLessonModal({courseId, chapterId}: { courseId: string , chapt
             const {data: result, error} = await tryCatch(createLesson(values));
 
             if (error) {
-                toast.error(error.message);
+                toast.error(error.message,{
+                    style: {
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                    },
+                });
                 return;
             }
             if (result?.status === "success") {
-                toast.success(result?.message);
+                toast.success(result?.message,  {
+                    style: {
+                        background: "#D1FAE5",
+                        color: "#065F46",
+                    },
+                });
                 form.reset();
                 setIsOpen(false);
             } else {
-                toast.error(result?.message);
+                toast.error(result?.message,{
+                    style: {
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                    },
+                });
             }
         });
     }

@@ -18,13 +18,15 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import slugify from 'slugify';
 import {updateCategory} from "@/app/admin/categories/[categoryId]/edit/actions";
-import {CategoryType, iconLibs, listColors} from "@/lib/types";
+import {DomainType, iconLibs, listColors} from "@/lib/types";
+import {SimpleCategory} from "@/lib/models";
 
 interface EditCategoryFormProps {
-    data   :CategoryType
+    data   :SimpleCategory,
+    domains:DomainType[]
 }
 
-const EditCategoryForm = ({data}:EditCategoryFormProps) => {
+const EditCategoryForm = ({data, domains}:EditCategoryFormProps) => {
     if (!data) notFound();
 
     const [pending, startTransition] = useTransition();
@@ -34,11 +36,12 @@ const EditCategoryForm = ({data}:EditCategoryFormProps) => {
         resolver: zodResolver(categorySchema) as Resolver<CategorySchema>,
         defaultValues: {
             title: data.title,
-            desc: data.desc,
+            desc: data.desc ?? '',
             slug: data.slug,
             iconLib: data?.iconLib || undefined,
             iconName: data?.iconName || undefined,
-            color: data?.color || undefined
+            color: data?.color || undefined,
+            domain: data?.domain.id
         },
     })
 
@@ -47,14 +50,29 @@ const EditCategoryForm = ({data}:EditCategoryFormProps) => {
             const {data:result , error} = await tryCatch(updateCategory(values, data!.id));
 
             if (error) {
-                toast.error(error.message);
+                toast.error(error.message, {
+                    style: {
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                    },
+                });
             }
             if (result?.status === "success") {
-                toast.success(result?.message);
+                toast.success(result?.message, {
+                    style: {
+                        background: "#D1FAE5",
+                        color: "#065F46",
+                    },
+                });
                 form.reset();
                 router.push("/admin/categories");
             }else{
-                toast.error(result?.message);
+                toast.error(result?.message, {
+                    style: {
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                    },
+                });
             }
         })
     }
@@ -190,6 +208,33 @@ const EditCategoryForm = ({data}:EditCategoryFormProps) => {
                         )}
                     />
                 </div>
+                <FormField
+                    control={form.control}
+                    name="domain"
+                    render={({field}) => (
+                        <FormItem className="w-full">
+                            <FormLabel>Domain</FormLabel>
+                            <Select
+                                value={field.value}
+                                onValueChange={field.onChange}
+                            >
+                                <FormControl>
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="Select Domain for Category"/>
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {domains.map((domain) => (
+                                        <SelectItem key={domain.id} value={domain.id}>
+                                            {domain.title}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
                 <Button type={"submit"} disabled={pending}>
                     {pending ? (<>
                         Updating Category ... <Loader2 className={"size-4 animate-spin ml-1"}/>

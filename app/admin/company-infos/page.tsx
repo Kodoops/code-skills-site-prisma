@@ -4,13 +4,30 @@ import Link from "next/link";
 import {buttonVariants} from "@/components/ui/button";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Separator} from "@/components/ui/separator";
+import React from "react";
+import EmptyState from "@/components/general/EmptyState";
 
 const CompanyInfosPage = async () => {
 
     const company = await getCompanyInfos();
 
     if (!company) {
-        return new NextResponse("Informations de société manquantes", {status: 500});
+        return (
+            <>
+                <div className="flex items-center justify-between">
+                    <h1 className={"text-2xl font-bold"}>Company Basic Information&#39;s</h1>
+                </div>
+                <div className="">
+
+                    <EmptyState title={"No Company Found"}
+                                description={"Company information's are missing"}
+                                buttonText={"Create Company Infos"}
+                                href={"/admin/company-infos/create"}
+                    />
+
+                </div>
+            </>
+        )
     }
 
     return (

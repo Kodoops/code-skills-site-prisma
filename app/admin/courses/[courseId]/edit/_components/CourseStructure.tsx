@@ -27,7 +27,7 @@ import {reorderChapters, reorderLessons} from "@/app/admin/courses/[courseId]/ed
 import {NewChapterModal} from "@/app/admin/courses/[courseId]/edit/_components/NewChapterModal";
 import {NewLessonModal} from "@/app/admin/courses/[courseId]/edit/_components/NewLessonModal";
 import {DeleteLesson} from "@/app/admin/courses/[courseId]/edit/_components/DeleteLesson";
-import { DeleteChapter } from './DeleteChapter';
+import {DeleteChapter} from './DeleteChapter';
 import {CourseType} from "@/lib/types";
 
 interface Props {
@@ -64,11 +64,11 @@ const CourseStructure = ({data}: Props) => {
 
         useEffect(() => {
             setItems((prevItems) => {
-                const updatedItems = data?.chapters.map((chapter)=>({
+                const updatedItems = data?.chapters.map((chapter) => ({
                     id: chapter.id,
                     title: chapter.title,
                     order: chapter.position,
-                    isOpen: prevItems.find((item) => item.id === chapter.id)?.isOpen ?? true , // default chapters to open
+                    isOpen: prevItems.find((item) => item.id === chapter.id)?.isOpen ?? true, // default chapters to open
                     lessons: chapter.lessons.map((lesson) => ({
                         id: lesson.id,
                         title: lesson.title,
@@ -159,14 +159,26 @@ const CourseStructure = ({data}: Props) => {
                         loading: "Reordering Chapters",
                         success: (result) => {
                             if (result.status === "success") {
-                                return result.message;
+                                return {
+                                    message: result.message,
+                                    style: {
+                                        background: "#D1FAE5",
+                                        color: "#065F46",
+                                    },
+                                }
                             }
                             throw new Error(result.message);
                         },
                         error: () => {
                             setItems(previousItems);
-                            return "Failed to reorder chapters";
-                        }
+                            return {
+                                message: "Failed to reorder chapters",
+                                style: {
+                                    background: "#FEE2E2",
+                                    color: "#991B1B",
+                                }
+                            };
+                        },
                     });
                 }
 
@@ -222,13 +234,25 @@ const CourseStructure = ({data}: Props) => {
                         loading: "Reordering Lessons",
                         success: (result) => {
                             if (result.status === "success") {
-                                return result.message;
+                                return {
+                                    message: result.message,
+                                    style: {
+                                        background: "#D1FAE5",
+                                        color: "#065F46",
+                                    },
+                                }
                             }
                             throw new Error(result.message);
                         },
                         error: () => {
                             setItems(previousItems);
-                            return "Failed to reorder lessons";
+                            return {
+                                message: "Failed to reorder lessons",
+                                style: {
+                                    background: "#FEE2E2",
+                                    color: "#991B1B",
+                                }
+                            };
                         }
                     })
                 }
@@ -307,15 +331,16 @@ const CourseStructure = ({data}: Props) => {
                                                                                 </Link>
                                                                             </div>
                                                                             {data && <DeleteLesson chapterId={item.id}
-                                                                                           courseId={data?.id}
-                                                                                           lessonId={lesson.id}/>}
+                                                                                                   courseId={data?.id}
+                                                                                                   lessonId={lesson.id}/>}
                                                                         </div>
                                                                     )}
                                                                 </SortableItem>
                                                             ))}
                                                         </SortableContext>
                                                         <div className="p-2">
-                                                            {data && <NewLessonModal chapterId={item.id} courseId={data?.id}/>}
+                                                            {data &&
+                                                                <NewLessonModal chapterId={item.id} courseId={data?.id}/>}
                                                         </div>
                                                     </div>
                                                 </CollapsibleContent>

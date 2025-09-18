@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from "next/image";
-import {getCourse} from "@/app/data/course/get-course";
+import {getCourse} from "@/app/data/courses/get-course";
 import {env} from "@/lib/env";
 import {IconBook, IconCategory, IconChartBar, IconChevronDown, IconClock, IconPlayerPlay} from "@tabler/icons-react";
 import {Badge} from '@/components/ui/badge';
@@ -21,11 +21,12 @@ type Params = Promise<{ slug: string }>
 
 const SingleCoursePage = async ({params}: { params: Params }) => {
     const {slug} = await params;
+
     const course = await getCourse(slug);
 
     const isEnrolled = await checkIfCourseBought(course.id);
 
-    const finalPrice = calculatedPrice(course.price!, course.coursePromotion[0])
+    const finalPrice = calculatedPrice(course.price!, course.promotions[0])
 
     return (
         <div className={"grid grid-cols-1 gap-8 lg:grid-cols-3 mt-5"}>
@@ -63,6 +64,15 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
 
                     <div className="space-y-6">
                         <h2 className={"text-3xl font-semibold tracking-tight"}>Course Description</h2>
+                        {course.tags.length > 0 && <div className=" flex flex-wrap gap-3 mt-4">
+                            <span>Tags : </span>
+                            {course.tags.map((tag, index) => (
+                                <Badge className={"flex items-center gap-1 px-3 py-1"} key={tag.tag.id}
+                                       variant={"outline"}>
+                                    {tag.tag.title}
+                                </Badge>
+                            ))}
+                        </div>}
                         <RenderDescription json={JSON.parse(course.description)}/>
                     </div>
                 </div>
@@ -107,7 +117,7 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                                             <div className="p-6 pt-4 space-y-3">
                                                 {chapter.lessons.map((lesson, index) => {
 
-                                                    return (hasAccess(lesson.public, course) ?
+                                                    return (hasAccess(lesson.public, course,isEnrolled ) ?
                                                             <RenderLessonLinkItemList lesson={lesson} index={index}
                                                                                       chapter={chapter} key={index}
                                                                                       slug={course.slug}/>

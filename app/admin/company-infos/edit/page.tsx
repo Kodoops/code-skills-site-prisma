@@ -4,7 +4,7 @@ import CompanyInfoForm from "@/app/admin/company-infos/edit/_components/CompanyI
 import {getCompanyInfos} from "@/app/data/user/get-company-infos";
 
 
-const EditCategoryPage = async () => {
+const EditCompanyPage = async () => {
 
 
     const data = await getCompanyInfos();
@@ -34,4 +34,4 @@ const EditCategoryPage = async () => {
     );
 };
 
-export default EditCategoryPage;
+export default EditCompanyPage;

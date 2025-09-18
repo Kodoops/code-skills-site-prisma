@@ -63,13 +63,6 @@ export async function createCourse(values: CourseSchema): Promise<ApiResponseTyp
             };
         }
 
-        if (!category) {
-            return {
-                status: "error",
-                message: "Category not found"
-            };
-        }
-
         const data = await stripe.products.create({
             name: validation.data.title,
             description: validation.data.smallDescription,
@@ -87,7 +80,7 @@ export async function createCourse(values: CourseSchema): Promise<ApiResponseTyp
                 fileKey: validation.data.fileKey,
                 price: validation.data.price,
                 duration: validation.data.duration,
-                level: validation.data.level,
+                level:  validation.data.level,
                 smallDescription: validation.data.smallDescription,
                 slug: validation.data.slug,
                 status: validation.data.status,
@@ -105,7 +98,7 @@ export async function createCourse(values: CourseSchema): Promise<ApiResponseTyp
             status: "success",
             message: "Course created successfully"
         }
-    } catch{
+    } catch {
         return {
             status: "error",
             message: "Failed to create course"

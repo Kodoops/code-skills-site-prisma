@@ -16,12 +16,11 @@ import {toast} from "sonner";
 import {notFound, useRouter} from "next/navigation";
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import {iconLibs, listColors} from "@/lib/types";
+import {FeaturedType, iconLibs, listColors} from "@/lib/types";
 import { updateFeature } from '../actions';
-import {AdminFeatureSingularType} from "@/app/data/admin/admin-get-feature";
 
 interface EditFeatureFormProps {
-    data   :AdminFeatureSingularType
+    data   :FeaturedType
 }
 
 const EditFeatureForm = ({data}:EditFeatureFormProps) => {
@@ -46,14 +45,29 @@ const EditFeatureForm = ({data}:EditFeatureFormProps) => {
             const {data:result , error} = await tryCatch(updateFeature(values, data!.id));
 
             if (error) {
-                toast.error(error.message);
+                toast.error(error.message, {
+                    style: {
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                    },
+                });
             }
             if (result?.status === "success") {
-                toast.success(result?.message);
+                toast.success(result?.message, {
+                    style: {
+                        background: "#D1FAE5",
+                        color: "#065F46",
+                    },
+                });
                 form.reset();
                 router.push("/admin/features");
             }else{
-                toast.error(result?.message);
+                toast.error(result?.message, {
+                    style: {
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                    },
+                });
             }
         })
     }

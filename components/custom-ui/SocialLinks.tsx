@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { loadIcon } from "@/lib/loadIcon";
-import { getSocialLinks } from "@/app/data/get-social-links";
+import { getCompanySocialLinks } from "@/app/data/get-company-social-links";
 
 type SocialLink = {
     id: string;
@@ -18,7 +18,7 @@ export default function SocialLinks() {
     const [links, setLinks] = useState<SocialLink[]>([]);
 
     useEffect(() => {
-        getSocialLinks().then(setLinks);
+        getCompanySocialLinks().then(setLinks);
     }, []);
 
     return (

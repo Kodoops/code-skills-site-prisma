@@ -22,14 +22,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {Skeleton} from "@/components/ui/skeleton";
 import {IconCash} from "@tabler/icons-react";
-import {CourseType} from "@/lib/types";
+import {SimpleCourse} from "@/lib/models";
+import ProductPrice from "@/components/custom-ui/ProductPrice";
+import {calculatedPrice} from "@/lib/price";
 
 interface AdminCourseCardProps {
-    data: CourseType;
+    data: SimpleCourse;
 }
 const AdminCourseCard = ({data}:AdminCourseCardProps) => {
 
     const thumbnailUrl  = useConstructUrl(data.fileKey);
+    const finalPrice = calculatedPrice(data.price!, data?.promotions?.[0])
+
     return (
         <Card className="group relative py-1 gap-0">
             {/*    absolute dropdown */}
@@ -91,13 +95,14 @@ const AdminCourseCard = ({data}:AdminCourseCardProps) => {
                             </p>
                         </div>
                     </div>
-                    <div className="flex items-center gap-x-2">
-                        <IconCash
-                            className={`size-6 p-1 rounded-md bg-primary/10 ${data.price === 0 ? "text-green-600" : "text-primary"} `}/>
-                        <p className={`text-xl ${data.price === 0 ? "text-green-600" : "text-primary"} font-semibold`}>
-                            {data.price !== 0 ? (data.price! / 100).toFixed(2) + " €" : "Gratuit"}
-                        </p>
-                    </div>
+                    <ProductPrice finalPrice={finalPrice} price={data.price!}/>
+                    {/*<div className="flex items-center gap-x-2">*/}
+                    {/*    <IconCash*/}
+                    {/*        className={`size-6 p-1 rounded-md bg-primary/10 ${data.price === 0 ? "text-green-600" : "text-primary"} `}/>*/}
+                    {/*    <p className={`text-xl ${data.price === 0 ? "text-green-600" : "text-primary"} font-semibold`}>*/}
+                    {/*        {data.price !== 0 ? (data.price! / 100).toFixed(2) + " €" : "Gratuit"}*/}
+                    {/*    </p>*/}
+                    {/*</div>*/}
                 </div>
 
                 <Link href={`/admin/courses/${data.id}/edit`} className={buttonVariants({className: "mt-4 w-full"})}>

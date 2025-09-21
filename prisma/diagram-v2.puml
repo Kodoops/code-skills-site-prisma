@@ -1,0 +1,579 @@
+@startuml Learning Platform Database Schema
+
+!theme plain
+
+' Enums
+enum UserRole {
+  STUDENT
+  INSTRUCTOR
+  ADMIN
+  MODERATOR
+}
+
+enum Levels {
+  Beginner
+  Intermediate
+  Advanced
+  Expert
+}
+
+enum Status {
+  Draft
+  Published
+  Archived
+}
+
+enum ResourceType {
+  PDF
+  Link
+  Tool
+  Video
+}
+
+enum ItemType {
+  Course
+  Workshop
+  Resource
+  LearningPath
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+enum enrollmentStatus {
+  Pending
+  Active
+  Cancelled
+}
+
+enum PaymentStatus {
+  Succeeded
+  Pending
+  Failed
+}
+
+' Core User System
+entity User {
+  + id : String [PK]
+  --
+  name : String
+  email : String [unique]
+  emailVerified : Boolean
+  image : String
+  role : String
+  banned : Boolean
+  banReason : String
+  banExpires : DateTime
+  stripeCustomerId : String [unique]
+  deletedAt : DateTime
+  createdAt : DateTime
+  updatedAt : DateTime
+}
+
+entity Session {
+  + id : String [PK]
+  --
+  token : String [unique]
+  expiresAt : DateTime
+  ipAddress : String
+  userAgent : String
+  impersonatedBy : String
+  createdAt : DateTime
+  updatedAt : DateTime
+  + userId : String [FK]
+}
+
+entity Account {
+  + id : String [PK]
+  --
+  accountId : String
+  providerId : String
+  accessToken : String
+  refreshToken : String
+  idToken : String
+  accessTokenExpiresAt : DateTime
+  refreshTokenExpiresAt : DateTime
+  scope : String
+  password : String
+  createdAt : DateTime
+  updatedAt : DateTime
+  + userId : String [FK]
+}
+
+entity Verification {
+  + id : String [PK]
+  --
+  identifier : String
+  value : String
+  expiresAt : DateTime
+  createdAt : DateTime
+  updatedAt : DateTime
+}
+
+' Organization
+entity Domain {
+  + id : String [PK]
+  --
+  title : String
+  slug : String [unique]
+  desc : String
+  color : String
+  iconName : String
+  iconLib : String
+  deletedAt : DateTime
+  createdAt : DateTime
+  updatedAt : DateTime
+}
+
+entity Category {
+  + id : String [PK]
+  --
+  title : String
+  slug : String [unique]
+  desc : String
+  color : String
+  iconName : String
+  iconLib : String
+  deletedAt : DateTime
+  createdAt : DateTime
+  updatedAt : DateTime
+  + domainId : String [FK]
+}
+
+' Learning Content
+entity Course {
+  + id : String [PK]
+  --
+  title : String
+  slug : String [unique]
+  smallDescription : String
+  description : String
+  fileKey : String
+  price : Int
+  currency : String
+  duration : Int
+  status : String
+  level : String
+  stripePriceId : String [unique]
+  deletedAt : DateTime
+  createdAt : DateTime
+  updatedAt : DateTime
+  + userId : String [FK]
+  + categoryId : String [FK]
+}
+
+entity Chapter {
+  + id : String [PK]
+  --
+  title : String
+  position : Int
+  createdAt : DateTime
+  updatedAt : DateTime
+  + courseId : String [FK]
+}
+
+entity Lesson {
+  + id : String [PK]
+  --
+  title : String
+  description : String
+  thumbnailKey : String
+  videoKey : String
+  position : Int
+  duration : Int
+  public : Boolean
+  createdAt : DateTime
+  updatedAt : DateTime
+  + chapterId : String [FK]
+}
+
+entity Workshop {
+  + id : String [PK]
+  --
+  title : String
+  description : String
+  duration : Int
+  level : Levels
+  fileKey : String
+  videoKey : String
+  price : Int
+  currency : String
+  slug : String [unique]
+  status : Status
+  solution : String
+  deletedAt : DateTime
+  createdAt : DateTime
+  updatedAt : DateTime
+  + userId : String [FK]
+}
+
+entity LearningPath {
+  + id : String [PK]
+  --
+  title : String
+  description : String
+  smallDescription : String
+  fileKey : String
+  price : Int
+  currency : String
+  duration : Int
+  slug : String
+  status : String
+  level : String
+  stripePriceId : String [unique]
+  deletedAt : DateTime
+  createdAt : DateTime
+  updatedAt : DateTime
+  + userId : String [FK]
+}
+
+entity LearningPathItem {
+  + id : String [PK]
+  --
+  type : ItemType
+  position : Int
+  + learningPathId : String [FK]
+  + courseId : String [FK]
+  + workshopId : String [FK]
+  + resourceId : String [FK]
+}
+
+entity Resource {
+  + id : String [PK]
+  --
+  title : String
+  description : String
+  type : ResourceType
+  fileKey : String
+  url : String
+  createdAt : DateTime
+}
+
+' Progress Tracking
+entity LessonProgress {
+  + id : String [PK]
+  --
+  completed : Boolean
+  createdAt : DateTime
+  updatedAt : DateTime
+  + userId : String [FK]
+  + lessonId : String [FK]
+}
+
+entity UserProgress {
+  + id : String [PK]
+  --
+  type : ItemType
+  itemId : String
+  completed : Boolean
+  updatedAt : DateTime
+  + userId : String [FK]
+}
+
+' Tags System
+entity Tag {
+  + id : String [PK]
+  --
+  title : String
+  slug : String [unique]
+  color : String
+  createdAt : DateTime
+  updatedAt : DateTime
+}
+
+entity CourseTag {
+  + courseId : String [FK]
+  + tagId : String [FK]
+}
+
+entity WorkshopTag {
+  + workshopId : String [FK]
+  + tagId : String [FK]
+}
+
+entity LearningPathTag {
+  + learningPathId : String [FK]
+  + tagId : String [FK]
+}
+
+' Resource Associations
+entity CourseResource {
+  + courseId : String [FK]
+  + resourceId : String [FK]
+}
+
+entity LessonResource {
+  + lessonId : String [FK]
+  + resourceId : String [FK]
+}
+
+entity WorkshopResource {
+  + workshopId : String [FK]
+  + resourceId : String [FK]
+}
+
+entity LearningPathResource {
+  + learningPathId : String [FK]
+  + resourceId : String [FK]
+}
+
+' Promotions
+entity Promotion {
+  + id : String [PK]
+  --
+  title : String
+  description : String
+  discount : Int
+  type : DiscountType
+  startsAt : DateTime
+  endsAt : DateTime
+  active : Boolean
+  itemType : ItemType
+  + courseId : String [FK]
+  + workshopId : String [FK]
+  + learningPathId : String [FK]
+}
+
+entity PromoCode {
+  + id : String [PK]
+  --
+  code : String [unique]
+  description : String
+  discount : Int
+  type : DiscountType
+  usageLimit : Int
+  usedCount : Int
+  startsAt : DateTime
+  endsAt : DateTime
+  active : Boolean
+}
+
+' Payments & Enrollments
+entity Enrollment {
+  + id : String [PK]
+  --
+  amount : Int
+  status : enrollmentStatus
+  deletedAt : DateTime
+  createdAt : DateTime
+  updatedAt : DateTime
+  + courseId : String [FK]
+  + userId : String [FK]
+  + paymentId : String [FK]
+}
+
+entity Payment {
+  + id : String [PK]
+  --
+  stripeId : String [unique]
+  amount : Int
+  currency : String
+  status : String
+  method : String
+  receiptUrl : String
+  deletedAt : DateTime
+  createdAt : DateTime
+  + userId : String [FK]
+  + courseId : String [FK]
+}
+
+' Billing
+entity Invoice {
+  + id : String [PK]
+  --
+  number : String
+  amount : Int
+  currency : String
+  pdfUrl : String
+  date : DateTime
+  deletedAt : DateTime
+  createdAt : DateTime
+  + userId : String [FK]
+}
+
+entity InvoiceItem {
+  + id : String [PK]
+  --
+  title : String
+  type : InvoiceItemType
+  referenceId : String
+  quantity : Int
+  unitPrice : Int
+  total : Int
+  + invoiceId : String [FK]
+}
+
+' Objectives & Prerequisites
+entity Objective {
+  + id : String [PK]
+  --
+  content : String
+  createdAt : DateTime
+}
+
+entity Prerequisite {
+  + id : String [PK]
+  --
+  content : String
+  createdAt : DateTime
+}
+
+entity CourseObjective {
+  + courseId : String [FK]
+  + objectiveId : String [FK]
+}
+
+entity CoursePrerequisite {
+  + courseId : String [FK]
+  + prerequisiteId : String [FK]
+}
+
+entity WorkshopObjective {
+  + workshopId : String [FK]
+  + objectiveId : String [FK]
+}
+
+entity WorkshopPrerequisite {
+  + workshopId : String [FK]
+  + prerequisiteId : String [FK]
+}
+
+entity LearningPathObjective {
+  + learningPathId : String [FK]
+  + objectiveId : String [FK]
+}
+
+entity LearningPathPrerequisite {
+  + learningPathId : String [FK]
+  + prerequisiteId : String [FK]
+}
+
+' Site Configuration
+entity Feature {
+  + id : String [PK]
+  --
+  title : String [unique]
+  desc : String
+  color : String
+  iconName : String
+  iconLib : String
+  createdAt : DateTime
+  updatedAt : DateTime
+}
+
+entity Company {
+  + id : String [PK]
+  --
+  name : String
+  address : String
+  postalCode : String
+  city : String
+  country : String
+  email : String
+  phone : String
+  siret : String
+  vatNumber : String
+  logoUrl : String
+  createdAt : DateTime
+  updatedAt : DateTime
+}
+
+entity SocialLink {
+  + id : String [PK]
+  --
+  name : String
+  iconLib : String
+  iconName : String
+  createdAt : DateTime
+  updatedAt : DateTime
+}
+
+entity CompanySocialLink {
+  + id : String [PK]
+  --
+  url : String
+  createdAt : DateTime
+  updatedAt : DateTime
+  + companyId : String [FK]
+  + socialLinkId : String [FK]
+}
+
+' Relationships - Main User Flow
+User ||--o{ Session : "has"
+User ||--o{ Account : "has"
+User ||--o{ Course : "creates"
+User ||--o{ Workshop : "creates"
+User ||--o{ LearningPath : "creates"
+User ||--o{ LessonProgress : "tracks"
+User ||--o{ UserProgress : "tracks"
+User ||--o{ Enrollment : "enrolls"
+User ||--o{ Payment : "makes"
+User ||--o{ Invoice : "receives"
+
+' Content Organization
+Domain ||--o{ Category : "contains"
+Category ||--o{ Course : "organizes"
+Course ||--o{ Chapter : "has"
+Chapter ||--o{ Lesson : "contains"
+
+' Learning Paths
+LearningPath ||--o{ LearningPathItem : "contains"
+LearningPathItem }o--o| Course : "may_reference"
+LearningPathItem }o--o| Workshop : "may_reference"
+LearningPathItem }o--o| Resource : "may_reference"
+
+' Progress Tracking
+Lesson ||--o{ LessonProgress : "tracked_by"
+
+' Payments & Enrollments
+Course ||--o{ Enrollment : "enrolled_in"
+Course ||--o{ Payment : "paid_for"
+Payment ||--o| Enrollment : "pays_for"
+
+' Tags (Many-to-Many)
+Course ||--o{ CourseTag : ""
+CourseTag }o--|| Tag : ""
+Workshop ||--o{ WorkshopTag : ""
+WorkshopTag }o--|| Tag : ""
+LearningPath ||--o{ LearningPathTag : ""
+LearningPathTag }o--|| Tag : ""
+
+' Resources (Many-to-Many)
+Course ||--o{ CourseResource : ""
+CourseResource }o--|| Resource : ""
+Lesson ||--o{ LessonResource : ""
+LessonResource }o--|| Resource : ""
+Workshop ||--o{ WorkshopResource : ""
+WorkshopResource }o--|| Resource : ""
+LearningPath ||--o{ LearningPathResource : ""
+LearningPathResource }o--|| Resource : ""
+
+' Promotions
+Course ||--o{ Promotion : "may_have"
+Workshop ||--o{ Promotion : "may_have"
+LearningPath ||--o{ Promotion : "may_have"
+
+' Objectives & Prerequisites
+Course ||--o{ CourseObjective : ""
+CourseObjective }o--|| Objective : ""
+Course ||--o{ CoursePrerequisite : ""
+CoursePrerequisite }o--|| Prerequisite : ""
+Workshop ||--o{ WorkshopObjective : ""
+WorkshopObjective }o--|| Objective : ""
+Workshop ||--o{ WorkshopPrerequisite : ""
+WorkshopPrerequisite }o--|| Prerequisite : ""
+LearningPath ||--o{ LearningPathObjective : ""
+LearningPathObjective }o--|| Objective : ""
+LearningPath ||--o{ LearningPathPrerequisite : ""
+LearningPathPrerequisite }o--|| Prerequisite : ""
+
+' Billing
+Invoice ||--o{ InvoiceItem : "contains"
+
+' Company Configuration
+Company ||--o{ CompanySocialLink : "has"
+CompanySocialLink }o--|| SocialLink : "links_to"
+
+@enduml

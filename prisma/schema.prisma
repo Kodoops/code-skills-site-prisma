@@ -11,6 +11,12 @@ datasource db {
 // -----------------------------------
 // ENUMS
 // -----------------------------------
+enum UserRole {
+  STUDENT
+  INSTRUCTOR
+  ADMIN
+  MODERATOR
+}
 
 enum Levels {
   Beginner
@@ -67,7 +73,7 @@ enum PaymentStatus {
 // -----------------------------------
 
 model User {
-  id            String       @id
+  id            String    @id
   name          String
   email         String
   emailVerified Boolean
@@ -76,21 +82,26 @@ model User {
   updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
-  courses       Course[]
-  enrollment    Enrollment[]
 
-  lessonProgress   LessonProgress[]
-  stripeCustomerId String?          @unique
+  stripeCustomerId String?   @unique
+  role             String?
+  // TODO ::  role UserRole @default(STUDENT) // Au lieu de String?
+  banned           Boolean?
+  banReason        String?
+  banExpires       DateTime?
 
-  role       String?
-  banned     Boolean?
-  banReason  String?
-  banExpires DateTime?
+  lessonProgress LessonProgress[]
 
-  Payment Payment[]
-  Invoice Invoice[]
+  enrollment Enrollment[]
+  Payment    Payment[]
+  Invoice    Invoice[]
 
+  courses      Course[]
   LearningPath LearningPath[]
+  Workshop     Workshop[]
+
+  // Soft delete
+  deletedAt DateTime?
 
   @@unique([email])
   @@map("user")
@@ -160,6 +171,9 @@ model Domain {
   updatedAt DateTime @updatedAt
 
   categories Category[]
+
+  // Soft delete
+  deletedAt DateTime?
 }
 
 model Category {
@@ -178,6 +192,9 @@ model Category {
 
   domain   Domain @relation(fields: [domainId], references: [id], onDelete: Cascade)
   domainId String
+
+  // Soft delete
+  deletedAt DateTime?
 }
 
 // -----------------------------------
@@ -192,6 +209,7 @@ model LearningPath {
   fileKey          String
 
   price         Int
+  currency      String @default("EUR") // Ajout recommandé
   duration      Int
   slug          String
   status        String
@@ -204,15 +222,19 @@ model LearningPath {
   user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  tags          LearningPathTag[]
-  contents      LearningPathItem[]
-  progress      UserProgress[]             @relation("LearningPathProgress")
-  resources     LearningPathResource[]
+  tags      LearningPathTag[]
+  contents  LearningPathItem[]
+  progress  UserProgress[]         @relation("LearningPathProgress")
+  resources LearningPathResource[]
+
   objectives    LearningPathObjective[]
   prerequisites LearningPathPrerequisite[]
 
   promoCodes PromoCode[] @relation("LearningPathPromoCodes")
   promotions Promotion[] @relation("LearningPathPromotion")
+
+  // Soft delete
+  deletedAt DateTime?
 }
 
 model LearningPathItem {
@@ -242,6 +264,7 @@ model Course {
   description      String
   fileKey          String
   price            Int
+  currency         String @default("EUR") // Ajout recommandé
   duration         Int
   status           String
   level            String
@@ -274,6 +297,9 @@ model Course {
 
   objectives    CourseObjective[]
   prerequisites CoursePrerequisite[]
+
+  // Soft delete
+  deletedAt DateTime?
 }
 
 model Chapter {
@@ -312,21 +338,36 @@ model Lesson {
   lessonProgress LessonProgress[]
 
   resources LessonResource[]
+
+  // Ajouter des index composites
+  @@index([chapterId, position])
 }
 
 model Workshop {
-  id          String  @id @default(uuid())
-  title       String
-  description String
-  duration    Int
-  level       Levels
-  videoKey    String?
-  price       Float
-  slug        String  @unique
-  status      Status
+  id                     String  @id @default(uuid())
+  title                  String
+  description            String
+  slug                   String  @unique
+  statement              String
+  fileKey                String
+  statementsStartFileKey String?
+  statementVideoKey      String?
+  price                  Int
+  currency               String  @default("EUR") // Ajout recommandé
+  duration               Int
+  status                 String
+  level                  String
+  stripePriceId          String?
+
+  solution         String?
+  solutionFileKey  String?
+  solutionVideoKey String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 
   tags WorkshopTag[]
 
@@ -339,6 +380,9 @@ model Workshop {
 
   promoCodes PromoCode[] @relation("WorkshopPromoCodes")
   promotions Promotion[] @relation("WorkshopPromotion")
+
+  // Soft delete
+  deletedAt DateTime?
 }
 
 model Resource {
@@ -409,6 +453,11 @@ model LessonProgress {
   id        String  @id @default(uuid())
   completed Boolean @default(false)
 
+  // TODO :: Tracking des sessions d'apprentissage
+  // startTime DateTime
+  // endTime   DateTime?
+  // watchedSeconds  Int?     // en minutes
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -418,6 +467,8 @@ model LessonProgress {
   lessonId String
 
   @@unique([userId, lessonId])
+  @@index([userId, lessonId])
+  @@index([userId, completed])
 }
 
 model UserProgress {
@@ -431,6 +482,12 @@ model UserProgress {
   course   Course?       @relation("CourseProgress", fields: [itemId], references: [id], map: "fk_progress_course")
   workshop Workshop?     @relation("WorkshopProgress", fields: [itemId], references: [id], map: "fk_progress_workshop")
   path     LearningPath? @relation("LearningPathProgress", fields: [itemId], references: [id], map: "fk_progress_path")
+
+  // TODO :: Ajouter des métadonnées de progression
+  // progressPercentage Float?    @default(0)
+  // startedAt          DateTime?
+  // completedAt        DateTime?
+  // timeSpent          Int?      @default(0) // en minutes
 }
 
 // -----------------------------------
@@ -544,6 +601,9 @@ model Enrollment {
   payment   Payment? @relation("EnrollmentToPayment", fields: [paymentId], references: [id])
   paymentId String?  @unique
 
+  // Soft delete
+  deletedAt DateTime?
+
   @@unique([userId, courseId])
 }
 
@@ -564,6 +624,9 @@ model Payment {
   createdAt DateTime @default(now())
 
   enrollment Enrollment? @relation("EnrollmentToPayment")
+
+  // Soft delete
+  deletedAt DateTime?
 }
 
 // -----------------------------------
@@ -581,6 +644,9 @@ model Invoice {
   pdfUrl    String?
   date      DateTime      @default(now())
   createdAt DateTime      @default(now())
+
+  // Soft delete
+  deletedAt DateTime?
 }
 
 model InvoiceItem {
@@ -739,3 +805,239 @@ model CompanySocialLink {
 
   @@unique([companyId, socialLinkId]) // une entreprise ne peut pas avoir deux fois le même réseau
 }
+
+// NEXT STEPS
+//------------------------------
+
+// model MediaFile {
+//   id       String @id @default(uuid())
+//   type     String // VIDEO, AUDIO, DOCUMENT, IMAGE, SUBTITLE
+//   fileKey  String
+//   duration Int?   // pour vidéos/audio en secondes
+//   size     Int?   // taille en bytes
+//   mimeType String? // video/mp4, application/pdf, etc.
+//   quality  String? // 720p, 1080p, 4K
+//
+//   lessonId String?
+//   lesson   Lesson? @relation(fields: [lessonId], references: [id])
+// }
+
+// model Lesson {
+//   id          String @id @default(uuid())
+//   title       String
+//   description String?
+//   position    Int
+//
+//   // Relations vers plusieurs fichiers
+//   mediaFiles  MediaFile[]
+//
+//   // Calculé automatiquement depuis les MediaFiles
+//   duration    Int @default(0)
+// }
+
+// model Quiz {
+//   id       String @id @default(uuid())
+//   title    String
+//   duration Int?   // en minutes
+//
+//   lessonId String?
+//   lesson   Lesson? @relation(fields: [lessonId], references: [id])
+//
+//   questions QuizQuestion[]
+//   attempts  QuizAttempt[]
+// }
+
+// model QuizQuestion {
+//   id       String @id @default(uuid())
+//   question String
+//   type     String // MULTIPLE_CHOICE, TRUE_FALSE, OPEN
+//
+//   quizId String
+//   quiz   Quiz   @relation(fields: [quizId], references: [id])
+//
+//   options QuizOption[]
+// }
+
+// model QuizAttempt {
+//   id        String   @id @default(uuid())
+//   score     Float
+//   maxScore  Float
+//   startedAt DateTime
+//   endedAt   DateTime?
+//
+//   userId String
+//   user   User   @relation(fields: [userId], references: [id])
+//   quizId String
+//   quiz   Quiz   @relation(fields: [quizId], references: [id])
+// }
+
+// model Certificate {
+//   id          String   @id @default(uuid())
+//   name        String
+//   description String?
+//   fileKey     String   // PDF du certificat
+//   issuedAt    DateTime @default(now())
+//   validUntil  DateTime?
+//
+//   userId String
+//   user   User   @relation(fields: [userId], references: [id])
+//
+//   itemType ItemType
+//   itemId   String   // Course, Workshop, ou LearningPath
+// }
+
+// model Review {
+//   id        String   @id @default(uuid())
+//   rating    Int      // 1-5 étoiles
+//   comment   String?
+//   createdAt DateTime @default(now())
+//
+//   userId String
+//   user   User   @relation(fields: [userId], references: [id])
+//
+//   // Relations polymorphes
+//   itemType ItemType
+//   itemId   String
+//
+//   @@unique([userId, itemType, itemId]) // Un avis par utilisateur par item
+// }
+
+// model Notification {
+//   id        String   @id @default(uuid())
+//   title     String
+//   message   String
+//   type      String   // EMAIL, PUSH, IN_APP
+//   read      Boolean  @default(false)
+//   createdAt DateTime @default(now())
+//
+//   userId String
+//   user   User   @relation(fields: [userId], references: [id])
+// }
+
+// model Discussion {
+//   id        String   @id @default(uuid())
+//   title     String
+//   content   String
+//   createdAt DateTime @default(now())
+//   pinned    Boolean  @default(false)
+//   solved    Boolean  @default(false)
+
+//   userId String
+//   user   User   @relation(fields: [userId], references: [id])
+//
+//   // Discussion liée à une leçon spécifique
+//   lessonId String?
+//   lesson   Lesson? @relation(fields: [lessonId], references: [id])
+//
+//   // Ou à un cours entier
+//   courseId String?
+//   course   Course? @relation(fields: [courseId], references: [id])
+//
+//   replies DiscussionReply[]
+// }
+
+// model DiscussionReply {
+//   id        String   @id @default(uuid())
+//   content   String
+//   createdAt DateTime @default(now())
+//
+//   userId String
+//   user   User   @relation(fields: [userId], references: [id])
+//
+//   discussionId String
+//   discussion   Discussion @relation(fields: [discussionId], references: [id])
+// }
+
+// model LiveSession {
+//   id        String   @id @default(uuid())
+//   title     String
+//   description String?
+//   startAt   DateTime
+//   endAt     DateTime
+//   url       String     // Lien Zoom, Meet, Jitsi...
+//   replayUrl String?    // Replay si dispo
+//   capacity  Int?
+//   createdAt DateTime   @default(now())
+//
+//   // Association
+//   learningPathId String?
+//   learningPath   LearningPath? @relation(fields: [learningPathId], references: [id])
+//
+//   courseId String?
+//   course   Course? @relation(fields: [courseId], references: [id])
+//
+//   hostId String
+//   host   User     @relation(fields: [hostId], references: [id])
+//
+//   participants LiveSessionParticipant[]
+// }
+
+// model LiveSessionParticipant {
+//   id            String   @id @default(uuid())
+//   sessionId     String
+//   session       LiveSession @relation(fields: [sessionId], references: [id])
+//   userId        String
+//   user          User     @relation(fields: [userId], references: [id])
+//   joinedAt      DateTime @default(now())
+//
+//   @@unique([sessionId, userId])
+// }
+
+// model UserActivityLog {
+//   id        String   @id @default(uuid())
+//   userId    String
+//   user      User     @relation(fields: [userId], references: [id])
+//   action    String   // LOGIN, VIEW_LESSON, START_WORKSHOP, etc.
+//   metadata  Json?
+//   createdAt DateTime @default(now())
+// }
+
+// model Badge {
+//   id        String @id @default(uuid())
+//   title     String
+//   iconKey   String
+//   desc      String?
+//   createdAt DateTime @default(now())
+// }
+
+// model UserBadge {
+//   id      String @id @default(uuid())
+//   userId  String
+//   badgeId String
+//   earnedAt DateTime @default(now())
+//
+//   user  User  @relation(fields: [userId], references: [id])
+//   badge Badge @relation(fields: [badgeId], references: [id])
+//
+//   @@unique([userId, badgeId])
+// }
+
+// model MentoringSession {
+//   id          String   @id @default(uuid())
+//   date        DateTime
+//   duration    Int      // en minutes
+//   topic       String?
+//   notes       String?
+//   replayUrl   String?  // Si enregistré
+//   mentorId    String
+//   studentId   String
+//
+//   mentor  User @relation("Mentor", fields: [mentorId], references: [id])
+//   student User @relation("Student", fields: [studentId], references: [id])
+//   createdAt   DateTime @default(now())
+// }
+
+// model Mentorship {
+//   id            String   @id @default(uuid())
+//   mentorId      String
+//   studentId     String
+//   learningPathId String?   // Optionnel : sur quel parcours
+//
+//   createdAt     DateTime @default(now())
+//
+//   mentor        User     @relation("MentorLink", fields: [mentorId], references: [id])
+//   student       User     @relation("StudentLink", fields: [studentId], references: [id])
+//   learningPath  LearningPath? @relation(fields: [learningPathId], references: [id])
+//
+//   sessions      MentoringSession[]
+// }

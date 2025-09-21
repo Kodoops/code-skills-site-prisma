@@ -1,13 +1,13 @@
 import { getAllCategories } from "@/app/data/categories/get-all-categories";
 import CreateCoursePage from "./_components/CreateCoursePage";
-import {getCourseLevels} from "@/app/data/get-course-levels";
-import {getCourseStatus} from "@/app/data/get-course-status";
+import {getLevels} from "@/app/data/get-levels";
+import {getStatus} from "@/app/data/get-status";
 
 
 export default async function CreateCoursePageWrapper() {
     const data = await getAllCategories();
-    const levels : string[] = await getCourseLevels();
-    const status: string[] = await getCourseStatus();
+    const levels : string[] = await getLevels();
+    const status: string[] = await getStatus();
 
     const categories = data.map(category => ({
         id: category.id,

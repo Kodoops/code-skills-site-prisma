@@ -4,6 +4,9 @@ export type ApiResponseType = {
     message: string;
 }
 
+export type UploaderFileType = "image" | "video" | "file";
+
+
 /* -------------------------------
 ENUMS
  -------------------------------*/
@@ -84,6 +87,7 @@ export type UserType = {
     role: string;
     createdAt: string;
     updatedAt: string;
+    deletedAt: string;
 }
 
 export type SessionType = {
@@ -167,8 +171,7 @@ export type LearningPathType = {
     status: string;  // ENUM_STATUS
     level: string;  // ENUM_LEVELS
 
-    createdAt: string;
-    updatedAt: string;
+    user: UserType;
 
     tags: LearningPathTagType[];
     contents: LearningPathItemType[];
@@ -179,6 +182,10 @@ export type LearningPathType = {
 
     promoCodes: PromoCodeType[];
     promotions: PromotionType[];
+
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string;
 }
 
 export type LearningPathItemType = {
@@ -229,6 +236,7 @@ export type CourseType = {
 
     createdAt: string;
     updatedAt: string;
+    deletedAt: string;
 };
 
 export type ChapterType = {
@@ -264,24 +272,38 @@ export type WorkshopType = {
     id: string;
     title: string;
     description: string;
+    slug: string;
+    fileKey : string;
+    price: number;
+    currency: number;
     duration: number;
     level: string; // ENUM_LEVELS
-    videoKey?: string;
-    price: number;
-    slug: string;
     status: string; // ENUM_STATUS
 
-    learningPathItems: LearningPathItemType[];
+    statement : string;
+    statementsStartFileKey? : string;
+    statementVideoKey? : string;
+
+    solution?: string;
+    solutionFileKey?: string;
+    solutionVideoKey?: string;
+
+    stripePriceId? : string;
+
+    user: UserType;
     tags: WorkshopTagType[];
     progress: UserProgressType[];
     resources: WorkshopResourceType[];
+    learningPathItems: LearningPathItemType[];
     objectives: WorkshopObjectiveType[];
     prerequisites: WorkshopPrerequisiteType[];
+
     promoCodes: PromoCodeType[];
     promotions: PromotionType[];
 
     createdAt: string;
     updatedAt: string;
+    deletedAt: string;
 }
 
 // RESOURCES
@@ -301,6 +323,7 @@ export type ResourceType = {
 
     createdAt: string;
     updatedAt: string;
+    deletedAt: string;
 }
 
 export type LearningPathResourceType = {

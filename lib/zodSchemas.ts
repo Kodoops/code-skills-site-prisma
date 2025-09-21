@@ -47,6 +47,26 @@ export const lessonSchema = z.object({
     videoKey: z.string().optional(),
 })
 
+export const workshopSchema =z.object({
+    title: z.string().min(3, {message:'Title must be at least 3 characters long'}).max(100, {message:'Title must be most 100 characters long ... '}),
+    description: z.string().min(3, {message:'Description must be at least 3 characters long'}),
+    statement: z.string().optional(),
+    fileKey: z.string().min(1, {message:'File is required'}),
+    price: z.coerce.number().nonnegative().min(0, {message:'Price must be minimum 0'}),
+    duration: z.coerce.number().int().positive().min(1, {message:'duration  must be minimum 1 hour'}).max(500, {message:'Duration must be maximum 500  '}),
+    level: z.string().min(1,{message:'Level must be one of the following: beginner, intermediate, advanced'}),
+    slug: z.string().min(3, {message:'Slug must be at least 3 characters long'}),
+    status: z.string().min(1,{message:'Status must be one of the following: draft, published, archived'}),
+})
+
+export const workshopStatementSchema =z.object({
+    statement: z.string().min(3, {message:'Statement must be at least 3 characters long'}),
+    statementsStartFileKey: z.string().optional(),
+    statementVideoKey: z.string().optional(),
+//to delete
+    solutionFileKey: z.string().optional(),
+})
+
 export const categorySchema = z.object({
     title: z.string().min(3, {message:'Name must be at least 3 characters long'}),
     slug: z.string().min(3, {message:'slung must be at least 3 characters long'}),
@@ -145,6 +165,9 @@ export type LearningPathItemSchema = z.infer<typeof learningPathItemSchema>
 export type CourseSchema = z.infer<typeof courseSchema>
 export type ChapterSchema = z.infer<typeof chapterSchema>
 export type LessonSchema = z.infer<typeof lessonSchema>
+export type WorkshopSchema = z.infer<typeof workshopSchema>
+export type WorkshopStatementSchema = z.infer<typeof workshopStatementSchema>
+
 export type CategorySchema = z.infer<typeof categorySchema>
 export type DomainSchema = z.infer<typeof domainSchema>
 export type TagSchema = z.infer<typeof tagSchema>

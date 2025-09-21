@@ -223,7 +223,17 @@ export type CompanySocialLink = $Result.DefaultSelection<Prisma.$CompanySocialLi
  * Enums
  */
 export namespace $Enums {
-  export const Levels: {
+  export const UserRole: {
+  STUDENT: 'STUDENT',
+  INSTRUCTOR: 'INSTRUCTOR',
+  ADMIN: 'ADMIN',
+  MODERATOR: 'MODERATOR'
+};
+
+export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+
+export const Levels: {
   Beginner: 'Beginner',
   Intermediate: 'Intermediate',
   Advanced: 'Advanced',
@@ -297,6 +307,10 @@ export const PaymentStatus: {
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 
 }
+
+export type UserRole = $Enums.UserRole
+
+export const UserRole: typeof $Enums.UserRole
 
 export type Levels = $Enums.Levels
 
@@ -4613,23 +4627,25 @@ export namespace Prisma {
   export type UserCountOutputType = {
     sessions: number
     accounts: number
-    courses: number
-    enrollment: number
     lessonProgress: number
+    enrollment: number
     Payment: number
     Invoice: number
+    courses: number
     LearningPath: number
+    Workshop: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
-    courses?: boolean | UserCountOutputTypeCountCoursesArgs
-    enrollment?: boolean | UserCountOutputTypeCountEnrollmentArgs
     lessonProgress?: boolean | UserCountOutputTypeCountLessonProgressArgs
+    enrollment?: boolean | UserCountOutputTypeCountEnrollmentArgs
     Payment?: boolean | UserCountOutputTypeCountPaymentArgs
     Invoice?: boolean | UserCountOutputTypeCountInvoiceArgs
+    courses?: boolean | UserCountOutputTypeCountCoursesArgs
     LearningPath?: boolean | UserCountOutputTypeCountLearningPathArgs
+    Workshop?: boolean | UserCountOutputTypeCountWorkshopArgs
   }
 
   // Custom InputTypes
@@ -4660,8 +4676,8 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountCoursesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CourseWhereInput
+  export type UserCountOutputTypeCountLessonProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LessonProgressWhereInput
   }
 
   /**
@@ -4669,13 +4685,6 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountEnrollmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EnrollmentWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountLessonProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: LessonProgressWhereInput
   }
 
   /**
@@ -4695,8 +4704,22 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountCoursesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CourseWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountLearningPathArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LearningPathWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountWorkshopArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkshopWhereInput
   }
 
 
@@ -5525,6 +5548,7 @@ export namespace Prisma {
     banned: boolean | null
     banReason: string | null
     banExpires: Date | null
+    deletedAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -5540,6 +5564,7 @@ export namespace Prisma {
     banned: boolean | null
     banReason: string | null
     banExpires: Date | null
+    deletedAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -5555,6 +5580,7 @@ export namespace Prisma {
     banned: number
     banReason: number
     banExpires: number
+    deletedAt: number
     _all: number
   }
 
@@ -5572,6 +5598,7 @@ export namespace Prisma {
     banned?: true
     banReason?: true
     banExpires?: true
+    deletedAt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -5587,6 +5614,7 @@ export namespace Prisma {
     banned?: true
     banReason?: true
     banExpires?: true
+    deletedAt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -5602,6 +5630,7 @@ export namespace Prisma {
     banned?: true
     banReason?: true
     banExpires?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -5690,6 +5719,7 @@ export namespace Prisma {
     banned: boolean | null
     banReason: string | null
     banExpires: Date | null
+    deletedAt: Date | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -5722,14 +5752,16 @@ export namespace Prisma {
     banned?: boolean
     banReason?: boolean
     banExpires?: boolean
+    deletedAt?: boolean
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
-    courses?: boolean | User$coursesArgs<ExtArgs>
-    enrollment?: boolean | User$enrollmentArgs<ExtArgs>
     lessonProgress?: boolean | User$lessonProgressArgs<ExtArgs>
+    enrollment?: boolean | User$enrollmentArgs<ExtArgs>
     Payment?: boolean | User$PaymentArgs<ExtArgs>
     Invoice?: boolean | User$InvoiceArgs<ExtArgs>
+    courses?: boolean | User$coursesArgs<ExtArgs>
     LearningPath?: boolean | User$LearningPathArgs<ExtArgs>
+    Workshop?: boolean | User$WorkshopArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -5746,6 +5778,7 @@ export namespace Prisma {
     banned?: boolean
     banReason?: boolean
     banExpires?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5761,6 +5794,7 @@ export namespace Prisma {
     banned?: boolean
     banReason?: boolean
     banExpires?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -5776,18 +5810,20 @@ export namespace Prisma {
     banned?: boolean
     banReason?: boolean
     banExpires?: boolean
+    deletedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "stripeCustomerId" | "role" | "banned" | "banReason" | "banExpires", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "stripeCustomerId" | "role" | "banned" | "banReason" | "banExpires" | "deletedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
-    courses?: boolean | User$coursesArgs<ExtArgs>
-    enrollment?: boolean | User$enrollmentArgs<ExtArgs>
     lessonProgress?: boolean | User$lessonProgressArgs<ExtArgs>
+    enrollment?: boolean | User$enrollmentArgs<ExtArgs>
     Payment?: boolean | User$PaymentArgs<ExtArgs>
     Invoice?: boolean | User$InvoiceArgs<ExtArgs>
+    courses?: boolean | User$coursesArgs<ExtArgs>
     LearningPath?: boolean | User$LearningPathArgs<ExtArgs>
+    Workshop?: boolean | User$WorkshopArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5798,12 +5834,13 @@ export namespace Prisma {
     objects: {
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       accounts: Prisma.$AccountPayload<ExtArgs>[]
-      courses: Prisma.$CoursePayload<ExtArgs>[]
-      enrollment: Prisma.$EnrollmentPayload<ExtArgs>[]
       lessonProgress: Prisma.$LessonProgressPayload<ExtArgs>[]
+      enrollment: Prisma.$EnrollmentPayload<ExtArgs>[]
       Payment: Prisma.$PaymentPayload<ExtArgs>[]
       Invoice: Prisma.$InvoicePayload<ExtArgs>[]
+      courses: Prisma.$CoursePayload<ExtArgs>[]
       LearningPath: Prisma.$LearningPathPayload<ExtArgs>[]
+      Workshop: Prisma.$WorkshopPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5818,6 +5855,7 @@ export namespace Prisma {
       banned: boolean | null
       banReason: string | null
       banExpires: Date | null
+      deletedAt: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -6214,12 +6252,13 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    courses<T extends User$coursesArgs<ExtArgs> = {}>(args?: Subset<T, User$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    enrollment<T extends User$enrollmentArgs<ExtArgs> = {}>(args?: Subset<T, User$enrollmentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     lessonProgress<T extends User$lessonProgressArgs<ExtArgs> = {}>(args?: Subset<T, User$lessonProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LessonProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    enrollment<T extends User$enrollmentArgs<ExtArgs> = {}>(args?: Subset<T, User$enrollmentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Payment<T extends User$PaymentArgs<ExtArgs> = {}>(args?: Subset<T, User$PaymentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Invoice<T extends User$InvoiceArgs<ExtArgs> = {}>(args?: Subset<T, User$InvoiceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    courses<T extends User$coursesArgs<ExtArgs> = {}>(args?: Subset<T, User$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     LearningPath<T extends User$LearningPathArgs<ExtArgs> = {}>(args?: Subset<T, User$LearningPathArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LearningPathPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Workshop<T extends User$WorkshopArgs<ExtArgs> = {}>(args?: Subset<T, User$WorkshopArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkshopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6261,6 +6300,7 @@ export namespace Prisma {
     readonly banned: FieldRef<"User", 'Boolean'>
     readonly banReason: FieldRef<"User", 'String'>
     readonly banExpires: FieldRef<"User", 'DateTime'>
+    readonly deletedAt: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -6697,27 +6737,27 @@ export namespace Prisma {
   }
 
   /**
-   * User.courses
+   * User.lessonProgress
    */
-  export type User$coursesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$lessonProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Course
+     * Select specific fields to fetch from the LessonProgress
      */
-    select?: CourseSelect<ExtArgs> | null
+    select?: LessonProgressSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Course
+     * Omit specific fields from the LessonProgress
      */
-    omit?: CourseOmit<ExtArgs> | null
+    omit?: LessonProgressOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CourseInclude<ExtArgs> | null
-    where?: CourseWhereInput
-    orderBy?: CourseOrderByWithRelationInput | CourseOrderByWithRelationInput[]
-    cursor?: CourseWhereUniqueInput
+    include?: LessonProgressInclude<ExtArgs> | null
+    where?: LessonProgressWhereInput
+    orderBy?: LessonProgressOrderByWithRelationInput | LessonProgressOrderByWithRelationInput[]
+    cursor?: LessonProgressWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: CourseScalarFieldEnum | CourseScalarFieldEnum[]
+    distinct?: LessonProgressScalarFieldEnum | LessonProgressScalarFieldEnum[]
   }
 
   /**
@@ -6742,30 +6782,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: EnrollmentScalarFieldEnum | EnrollmentScalarFieldEnum[]
-  }
-
-  /**
-   * User.lessonProgress
-   */
-  export type User$lessonProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LessonProgress
-     */
-    select?: LessonProgressSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the LessonProgress
-     */
-    omit?: LessonProgressOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LessonProgressInclude<ExtArgs> | null
-    where?: LessonProgressWhereInput
-    orderBy?: LessonProgressOrderByWithRelationInput | LessonProgressOrderByWithRelationInput[]
-    cursor?: LessonProgressWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: LessonProgressScalarFieldEnum | LessonProgressScalarFieldEnum[]
   }
 
   /**
@@ -6817,6 +6833,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.courses
+   */
+  export type User$coursesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Course
+     */
+    select?: CourseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Course
+     */
+    omit?: CourseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CourseInclude<ExtArgs> | null
+    where?: CourseWhereInput
+    orderBy?: CourseOrderByWithRelationInput | CourseOrderByWithRelationInput[]
+    cursor?: CourseWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CourseScalarFieldEnum | CourseScalarFieldEnum[]
+  }
+
+  /**
    * User.LearningPath
    */
   export type User$LearningPathArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6838,6 +6878,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LearningPathScalarFieldEnum | LearningPathScalarFieldEnum[]
+  }
+
+  /**
+   * User.Workshop
+   */
+  export type User$WorkshopArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workshop
+     */
+    select?: WorkshopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workshop
+     */
+    omit?: WorkshopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkshopInclude<ExtArgs> | null
+    where?: WorkshopWhereInput
+    orderBy?: WorkshopOrderByWithRelationInput | WorkshopOrderByWithRelationInput[]
+    cursor?: WorkshopWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkshopScalarFieldEnum | WorkshopScalarFieldEnum[]
   }
 
   /**
@@ -10159,6 +10223,7 @@ export namespace Prisma {
     iconLib: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    deletedAt: Date | null
   }
 
   export type DomainMaxAggregateOutputType = {
@@ -10171,6 +10236,7 @@ export namespace Prisma {
     iconLib: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    deletedAt: Date | null
   }
 
   export type DomainCountAggregateOutputType = {
@@ -10183,6 +10249,7 @@ export namespace Prisma {
     iconLib: number
     createdAt: number
     updatedAt: number
+    deletedAt: number
     _all: number
   }
 
@@ -10197,6 +10264,7 @@ export namespace Prisma {
     iconLib?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
   }
 
   export type DomainMaxAggregateInputType = {
@@ -10209,6 +10277,7 @@ export namespace Prisma {
     iconLib?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
   }
 
   export type DomainCountAggregateInputType = {
@@ -10221,6 +10290,7 @@ export namespace Prisma {
     iconLib?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -10306,6 +10376,7 @@ export namespace Prisma {
     iconLib: string | null
     createdAt: Date
     updatedAt: Date
+    deletedAt: Date | null
     _count: DomainCountAggregateOutputType | null
     _min: DomainMinAggregateOutputType | null
     _max: DomainMaxAggregateOutputType | null
@@ -10335,6 +10406,7 @@ export namespace Prisma {
     iconLib?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
     categories?: boolean | Domain$categoriesArgs<ExtArgs>
     _count?: boolean | DomainCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["domain"]>
@@ -10349,6 +10421,7 @@ export namespace Prisma {
     iconLib?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["domain"]>
 
   export type DomainSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -10361,6 +10434,7 @@ export namespace Prisma {
     iconLib?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }, ExtArgs["result"]["domain"]>
 
   export type DomainSelectScalar = {
@@ -10373,9 +10447,10 @@ export namespace Prisma {
     iconLib?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }
 
-  export type DomainOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "desc" | "color" | "iconName" | "iconLib" | "createdAt" | "updatedAt", ExtArgs["result"]["domain"]>
+  export type DomainOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "desc" | "color" | "iconName" | "iconLib" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["domain"]>
   export type DomainInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     categories?: boolean | Domain$categoriesArgs<ExtArgs>
     _count?: boolean | DomainCountOutputTypeDefaultArgs<ExtArgs>
@@ -10398,6 +10473,7 @@ export namespace Prisma {
       iconLib: string | null
       createdAt: Date
       updatedAt: Date
+      deletedAt: Date | null
     }, ExtArgs["result"]["domain"]>
     composites: {}
   }
@@ -10831,6 +10907,7 @@ export namespace Prisma {
     readonly iconLib: FieldRef<"Domain", 'String'>
     readonly createdAt: FieldRef<"Domain", 'DateTime'>
     readonly updatedAt: FieldRef<"Domain", 'DateTime'>
+    readonly deletedAt: FieldRef<"Domain", 'DateTime'>
   }
     
 
@@ -11282,6 +11359,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     domainId: string | null
+    deletedAt: Date | null
   }
 
   export type CategoryMaxAggregateOutputType = {
@@ -11295,6 +11373,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     domainId: string | null
+    deletedAt: Date | null
   }
 
   export type CategoryCountAggregateOutputType = {
@@ -11308,6 +11387,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     domainId: number
+    deletedAt: number
     _all: number
   }
 
@@ -11323,6 +11403,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     domainId?: true
+    deletedAt?: true
   }
 
   export type CategoryMaxAggregateInputType = {
@@ -11336,6 +11417,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     domainId?: true
+    deletedAt?: true
   }
 
   export type CategoryCountAggregateInputType = {
@@ -11349,6 +11431,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     domainId?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -11435,6 +11518,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     domainId: string
+    deletedAt: Date | null
     _count: CategoryCountAggregateOutputType | null
     _min: CategoryMinAggregateOutputType | null
     _max: CategoryMaxAggregateOutputType | null
@@ -11465,6 +11549,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     domainId?: boolean
+    deletedAt?: boolean
     courses?: boolean | Category$coursesArgs<ExtArgs>
     domain?: boolean | DomainDefaultArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
@@ -11481,6 +11566,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     domainId?: boolean
+    deletedAt?: boolean
     domain?: boolean | DomainDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["category"]>
 
@@ -11495,6 +11581,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     domainId?: boolean
+    deletedAt?: boolean
     domain?: boolean | DomainDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["category"]>
 
@@ -11509,9 +11596,10 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     domainId?: boolean
+    deletedAt?: boolean
   }
 
-  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "desc" | "color" | "iconName" | "iconLib" | "createdAt" | "updatedAt" | "domainId", ExtArgs["result"]["category"]>
+  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "desc" | "color" | "iconName" | "iconLib" | "createdAt" | "updatedAt" | "domainId" | "deletedAt", ExtArgs["result"]["category"]>
   export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     courses?: boolean | Category$coursesArgs<ExtArgs>
     domain?: boolean | DomainDefaultArgs<ExtArgs>
@@ -11541,6 +11629,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       domainId: string
+      deletedAt: Date | null
     }, ExtArgs["result"]["category"]>
     composites: {}
   }
@@ -11976,6 +12065,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Category", 'DateTime'>
     readonly updatedAt: FieldRef<"Category", 'DateTime'>
     readonly domainId: FieldRef<"Category", 'String'>
+    readonly deletedAt: FieldRef<"Category", 'DateTime'>
   }
     
 
@@ -12443,6 +12533,7 @@ export namespace Prisma {
     smallDescription: string | null
     fileKey: string | null
     price: number | null
+    currency: string | null
     duration: number | null
     slug: string | null
     status: string | null
@@ -12451,6 +12542,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
+    deletedAt: Date | null
   }
 
   export type LearningPathMaxAggregateOutputType = {
@@ -12460,6 +12552,7 @@ export namespace Prisma {
     smallDescription: string | null
     fileKey: string | null
     price: number | null
+    currency: string | null
     duration: number | null
     slug: string | null
     status: string | null
@@ -12468,6 +12561,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
+    deletedAt: Date | null
   }
 
   export type LearningPathCountAggregateOutputType = {
@@ -12477,6 +12571,7 @@ export namespace Prisma {
     smallDescription: number
     fileKey: number
     price: number
+    currency: number
     duration: number
     slug: number
     status: number
@@ -12485,6 +12580,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     userId: number
+    deletedAt: number
     _all: number
   }
 
@@ -12506,6 +12602,7 @@ export namespace Prisma {
     smallDescription?: true
     fileKey?: true
     price?: true
+    currency?: true
     duration?: true
     slug?: true
     status?: true
@@ -12514,6 +12611,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     userId?: true
+    deletedAt?: true
   }
 
   export type LearningPathMaxAggregateInputType = {
@@ -12523,6 +12621,7 @@ export namespace Prisma {
     smallDescription?: true
     fileKey?: true
     price?: true
+    currency?: true
     duration?: true
     slug?: true
     status?: true
@@ -12531,6 +12630,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     userId?: true
+    deletedAt?: true
   }
 
   export type LearningPathCountAggregateInputType = {
@@ -12540,6 +12640,7 @@ export namespace Prisma {
     smallDescription?: true
     fileKey?: true
     price?: true
+    currency?: true
     duration?: true
     slug?: true
     status?: true
@@ -12548,6 +12649,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     userId?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -12644,6 +12746,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency: string
     duration: number
     slug: string
     status: string
@@ -12652,6 +12755,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     userId: string
+    deletedAt: Date | null
     _count: LearningPathCountAggregateOutputType | null
     _avg: LearningPathAvgAggregateOutputType | null
     _sum: LearningPathSumAggregateOutputType | null
@@ -12680,6 +12784,7 @@ export namespace Prisma {
     smallDescription?: boolean
     fileKey?: boolean
     price?: boolean
+    currency?: boolean
     duration?: boolean
     slug?: boolean
     status?: boolean
@@ -12688,6 +12793,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
+    deletedAt?: boolean
     user?: boolean | LearningPath$userArgs<ExtArgs>
     tags?: boolean | LearningPath$tagsArgs<ExtArgs>
     contents?: boolean | LearningPath$contentsArgs<ExtArgs>
@@ -12707,6 +12813,7 @@ export namespace Prisma {
     smallDescription?: boolean
     fileKey?: boolean
     price?: boolean
+    currency?: boolean
     duration?: boolean
     slug?: boolean
     status?: boolean
@@ -12715,6 +12822,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
+    deletedAt?: boolean
     user?: boolean | LearningPath$userArgs<ExtArgs>
   }, ExtArgs["result"]["learningPath"]>
 
@@ -12725,6 +12833,7 @@ export namespace Prisma {
     smallDescription?: boolean
     fileKey?: boolean
     price?: boolean
+    currency?: boolean
     duration?: boolean
     slug?: boolean
     status?: boolean
@@ -12733,6 +12842,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
+    deletedAt?: boolean
     user?: boolean | LearningPath$userArgs<ExtArgs>
   }, ExtArgs["result"]["learningPath"]>
 
@@ -12743,6 +12853,7 @@ export namespace Prisma {
     smallDescription?: boolean
     fileKey?: boolean
     price?: boolean
+    currency?: boolean
     duration?: boolean
     slug?: boolean
     status?: boolean
@@ -12751,9 +12862,10 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
+    deletedAt?: boolean
   }
 
-  export type LearningPathOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "smallDescription" | "fileKey" | "price" | "duration" | "slug" | "status" | "level" | "stripePriceId" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["learningPath"]>
+  export type LearningPathOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "smallDescription" | "fileKey" | "price" | "currency" | "duration" | "slug" | "status" | "level" | "stripePriceId" | "createdAt" | "updatedAt" | "userId" | "deletedAt", ExtArgs["result"]["learningPath"]>
   export type LearningPathInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | LearningPath$userArgs<ExtArgs>
     tags?: boolean | LearningPath$tagsArgs<ExtArgs>
@@ -12793,6 +12905,7 @@ export namespace Prisma {
       smallDescription: string
       fileKey: string
       price: number
+      currency: string
       duration: number
       slug: string
       status: string
@@ -12801,6 +12914,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       userId: string
+      deletedAt: Date | null
     }, ExtArgs["result"]["learningPath"]>
     composites: {}
   }
@@ -13239,6 +13353,7 @@ export namespace Prisma {
     readonly smallDescription: FieldRef<"LearningPath", 'String'>
     readonly fileKey: FieldRef<"LearningPath", 'String'>
     readonly price: FieldRef<"LearningPath", 'Int'>
+    readonly currency: FieldRef<"LearningPath", 'String'>
     readonly duration: FieldRef<"LearningPath", 'Int'>
     readonly slug: FieldRef<"LearningPath", 'String'>
     readonly status: FieldRef<"LearningPath", 'String'>
@@ -13247,6 +13362,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"LearningPath", 'DateTime'>
     readonly updatedAt: FieldRef<"LearningPath", 'DateTime'>
     readonly userId: FieldRef<"LearningPath", 'String'>
+    readonly deletedAt: FieldRef<"LearningPath", 'DateTime'>
   }
     
 
@@ -15101,6 +15217,7 @@ export namespace Prisma {
     description: string | null
     fileKey: string | null
     price: number | null
+    currency: string | null
     duration: number | null
     status: string | null
     level: string | null
@@ -15109,6 +15226,7 @@ export namespace Prisma {
     updatedAt: Date | null
     userId: string | null
     categoryId: string | null
+    deletedAt: Date | null
   }
 
   export type CourseMaxAggregateOutputType = {
@@ -15119,6 +15237,7 @@ export namespace Prisma {
     description: string | null
     fileKey: string | null
     price: number | null
+    currency: string | null
     duration: number | null
     status: string | null
     level: string | null
@@ -15127,6 +15246,7 @@ export namespace Prisma {
     updatedAt: Date | null
     userId: string | null
     categoryId: string | null
+    deletedAt: Date | null
   }
 
   export type CourseCountAggregateOutputType = {
@@ -15137,6 +15257,7 @@ export namespace Prisma {
     description: number
     fileKey: number
     price: number
+    currency: number
     duration: number
     status: number
     level: number
@@ -15145,6 +15266,7 @@ export namespace Prisma {
     updatedAt: number
     userId: number
     categoryId: number
+    deletedAt: number
     _all: number
   }
 
@@ -15167,6 +15289,7 @@ export namespace Prisma {
     description?: true
     fileKey?: true
     price?: true
+    currency?: true
     duration?: true
     status?: true
     level?: true
@@ -15175,6 +15298,7 @@ export namespace Prisma {
     updatedAt?: true
     userId?: true
     categoryId?: true
+    deletedAt?: true
   }
 
   export type CourseMaxAggregateInputType = {
@@ -15185,6 +15309,7 @@ export namespace Prisma {
     description?: true
     fileKey?: true
     price?: true
+    currency?: true
     duration?: true
     status?: true
     level?: true
@@ -15193,6 +15318,7 @@ export namespace Prisma {
     updatedAt?: true
     userId?: true
     categoryId?: true
+    deletedAt?: true
   }
 
   export type CourseCountAggregateInputType = {
@@ -15203,6 +15329,7 @@ export namespace Prisma {
     description?: true
     fileKey?: true
     price?: true
+    currency?: true
     duration?: true
     status?: true
     level?: true
@@ -15211,6 +15338,7 @@ export namespace Prisma {
     updatedAt?: true
     userId?: true
     categoryId?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -15308,6 +15436,7 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency: string
     duration: number
     status: string
     level: string
@@ -15316,6 +15445,7 @@ export namespace Prisma {
     updatedAt: Date
     userId: string
     categoryId: string
+    deletedAt: Date | null
     _count: CourseCountAggregateOutputType | null
     _avg: CourseAvgAggregateOutputType | null
     _sum: CourseSumAggregateOutputType | null
@@ -15345,6 +15475,7 @@ export namespace Prisma {
     description?: boolean
     fileKey?: boolean
     price?: boolean
+    currency?: boolean
     duration?: boolean
     status?: boolean
     level?: boolean
@@ -15353,6 +15484,7 @@ export namespace Prisma {
     updatedAt?: boolean
     userId?: boolean
     categoryId?: boolean
+    deletedAt?: boolean
     user?: boolean | Course$userArgs<ExtArgs>
     chapters?: boolean | Course$chaptersArgs<ExtArgs>
     enrollment?: boolean | Course$enrollmentArgs<ExtArgs>
@@ -15377,6 +15509,7 @@ export namespace Prisma {
     description?: boolean
     fileKey?: boolean
     price?: boolean
+    currency?: boolean
     duration?: boolean
     status?: boolean
     level?: boolean
@@ -15385,6 +15518,7 @@ export namespace Prisma {
     updatedAt?: boolean
     userId?: boolean
     categoryId?: boolean
+    deletedAt?: boolean
     user?: boolean | Course$userArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["course"]>
@@ -15397,6 +15531,7 @@ export namespace Prisma {
     description?: boolean
     fileKey?: boolean
     price?: boolean
+    currency?: boolean
     duration?: boolean
     status?: boolean
     level?: boolean
@@ -15405,6 +15540,7 @@ export namespace Prisma {
     updatedAt?: boolean
     userId?: boolean
     categoryId?: boolean
+    deletedAt?: boolean
     user?: boolean | Course$userArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["course"]>
@@ -15417,6 +15553,7 @@ export namespace Prisma {
     description?: boolean
     fileKey?: boolean
     price?: boolean
+    currency?: boolean
     duration?: boolean
     status?: boolean
     level?: boolean
@@ -15425,9 +15562,10 @@ export namespace Prisma {
     updatedAt?: boolean
     userId?: boolean
     categoryId?: boolean
+    deletedAt?: boolean
   }
 
-  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "smallDescription" | "description" | "fileKey" | "price" | "duration" | "status" | "level" | "stripePriceId" | "createdAt" | "updatedAt" | "userId" | "categoryId", ExtArgs["result"]["course"]>
+  export type CourseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "smallDescription" | "description" | "fileKey" | "price" | "currency" | "duration" | "status" | "level" | "stripePriceId" | "createdAt" | "updatedAt" | "userId" | "categoryId" | "deletedAt", ExtArgs["result"]["course"]>
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Course$userArgs<ExtArgs>
     chapters?: boolean | Course$chaptersArgs<ExtArgs>
@@ -15478,6 +15616,7 @@ export namespace Prisma {
       description: string
       fileKey: string
       price: number
+      currency: string
       duration: number
       status: string
       level: string
@@ -15486,6 +15625,7 @@ export namespace Prisma {
       updatedAt: Date
       userId: string
       categoryId: string
+      deletedAt: Date | null
     }, ExtArgs["result"]["course"]>
     composites: {}
   }
@@ -15929,6 +16069,7 @@ export namespace Prisma {
     readonly description: FieldRef<"Course", 'String'>
     readonly fileKey: FieldRef<"Course", 'String'>
     readonly price: FieldRef<"Course", 'Int'>
+    readonly currency: FieldRef<"Course", 'String'>
     readonly duration: FieldRef<"Course", 'Int'>
     readonly status: FieldRef<"Course", 'String'>
     readonly level: FieldRef<"Course", 'String'>
@@ -15937,6 +16078,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"Course", 'DateTime'>
     readonly userId: FieldRef<"Course", 'String'>
     readonly categoryId: FieldRef<"Course", 'String'>
+    readonly deletedAt: FieldRef<"Course", 'DateTime'>
   }
     
 
@@ -19014,109 +19156,169 @@ export namespace Prisma {
   }
 
   export type WorkshopAvgAggregateOutputType = {
-    duration: number | null
     price: number | null
+    duration: number | null
   }
 
   export type WorkshopSumAggregateOutputType = {
-    duration: number | null
     price: number | null
+    duration: number | null
   }
 
   export type WorkshopMinAggregateOutputType = {
     id: string | null
     title: string | null
     description: string | null
-    duration: number | null
-    level: $Enums.Levels | null
-    videoKey: string | null
-    price: number | null
     slug: string | null
-    status: $Enums.Status | null
+    statement: string | null
+    fileKey: string | null
+    statementsStartFileKey: string | null
+    statementVideoKey: string | null
+    price: number | null
+    currency: string | null
+    duration: number | null
+    status: string | null
+    level: string | null
+    stripePriceId: string | null
+    solution: string | null
+    solutionFileKey: string | null
+    solutionVideoKey: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    userId: string | null
+    deletedAt: Date | null
   }
 
   export type WorkshopMaxAggregateOutputType = {
     id: string | null
     title: string | null
     description: string | null
-    duration: number | null
-    level: $Enums.Levels | null
-    videoKey: string | null
-    price: number | null
     slug: string | null
-    status: $Enums.Status | null
+    statement: string | null
+    fileKey: string | null
+    statementsStartFileKey: string | null
+    statementVideoKey: string | null
+    price: number | null
+    currency: string | null
+    duration: number | null
+    status: string | null
+    level: string | null
+    stripePriceId: string | null
+    solution: string | null
+    solutionFileKey: string | null
+    solutionVideoKey: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    userId: string | null
+    deletedAt: Date | null
   }
 
   export type WorkshopCountAggregateOutputType = {
     id: number
     title: number
     description: number
-    duration: number
-    level: number
-    videoKey: number
-    price: number
     slug: number
+    statement: number
+    fileKey: number
+    statementsStartFileKey: number
+    statementVideoKey: number
+    price: number
+    currency: number
+    duration: number
     status: number
+    level: number
+    stripePriceId: number
+    solution: number
+    solutionFileKey: number
+    solutionVideoKey: number
     createdAt: number
     updatedAt: number
+    userId: number
+    deletedAt: number
     _all: number
   }
 
 
   export type WorkshopAvgAggregateInputType = {
-    duration?: true
     price?: true
+    duration?: true
   }
 
   export type WorkshopSumAggregateInputType = {
-    duration?: true
     price?: true
+    duration?: true
   }
 
   export type WorkshopMinAggregateInputType = {
     id?: true
     title?: true
     description?: true
-    duration?: true
-    level?: true
-    videoKey?: true
-    price?: true
     slug?: true
+    statement?: true
+    fileKey?: true
+    statementsStartFileKey?: true
+    statementVideoKey?: true
+    price?: true
+    currency?: true
+    duration?: true
     status?: true
+    level?: true
+    stripePriceId?: true
+    solution?: true
+    solutionFileKey?: true
+    solutionVideoKey?: true
     createdAt?: true
     updatedAt?: true
+    userId?: true
+    deletedAt?: true
   }
 
   export type WorkshopMaxAggregateInputType = {
     id?: true
     title?: true
     description?: true
-    duration?: true
-    level?: true
-    videoKey?: true
-    price?: true
     slug?: true
+    statement?: true
+    fileKey?: true
+    statementsStartFileKey?: true
+    statementVideoKey?: true
+    price?: true
+    currency?: true
+    duration?: true
     status?: true
+    level?: true
+    stripePriceId?: true
+    solution?: true
+    solutionFileKey?: true
+    solutionVideoKey?: true
     createdAt?: true
     updatedAt?: true
+    userId?: true
+    deletedAt?: true
   }
 
   export type WorkshopCountAggregateInputType = {
     id?: true
     title?: true
     description?: true
-    duration?: true
-    level?: true
-    videoKey?: true
-    price?: true
     slug?: true
+    statement?: true
+    fileKey?: true
+    statementsStartFileKey?: true
+    statementVideoKey?: true
+    price?: true
+    currency?: true
+    duration?: true
     status?: true
+    level?: true
+    stripePriceId?: true
+    solution?: true
+    solutionFileKey?: true
+    solutionVideoKey?: true
     createdAt?: true
     updatedAt?: true
+    userId?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -19210,14 +19412,24 @@ export namespace Prisma {
     id: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey: string | null
+    statementVideoKey: string | null
+    price: number
+    currency: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId: string | null
+    solution: string | null
+    solutionFileKey: string | null
+    solutionVideoKey: string | null
     createdAt: Date
     updatedAt: Date
+    userId: string
+    deletedAt: Date | null
     _count: WorkshopCountAggregateOutputType | null
     _avg: WorkshopAvgAggregateOutputType | null
     _sum: WorkshopSumAggregateOutputType | null
@@ -19243,14 +19455,25 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
-    duration?: boolean
-    level?: boolean
-    videoKey?: boolean
-    price?: boolean
     slug?: boolean
+    statement?: boolean
+    fileKey?: boolean
+    statementsStartFileKey?: boolean
+    statementVideoKey?: boolean
+    price?: boolean
+    currency?: boolean
+    duration?: boolean
     status?: boolean
+    level?: boolean
+    stripePriceId?: boolean
+    solution?: boolean
+    solutionFileKey?: boolean
+    solutionVideoKey?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    userId?: boolean
+    deletedAt?: boolean
+    user?: boolean | Workshop$userArgs<ExtArgs>
     tags?: boolean | Workshop$tagsArgs<ExtArgs>
     progress?: boolean | Workshop$progressArgs<ExtArgs>
     resources?: boolean | Workshop$resourcesArgs<ExtArgs>
@@ -19266,46 +19489,79 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
-    duration?: boolean
-    level?: boolean
-    videoKey?: boolean
-    price?: boolean
     slug?: boolean
+    statement?: boolean
+    fileKey?: boolean
+    statementsStartFileKey?: boolean
+    statementVideoKey?: boolean
+    price?: boolean
+    currency?: boolean
+    duration?: boolean
     status?: boolean
+    level?: boolean
+    stripePriceId?: boolean
+    solution?: boolean
+    solutionFileKey?: boolean
+    solutionVideoKey?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    userId?: boolean
+    deletedAt?: boolean
+    user?: boolean | Workshop$userArgs<ExtArgs>
   }, ExtArgs["result"]["workshop"]>
 
   export type WorkshopSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
     description?: boolean
-    duration?: boolean
-    level?: boolean
-    videoKey?: boolean
-    price?: boolean
     slug?: boolean
+    statement?: boolean
+    fileKey?: boolean
+    statementsStartFileKey?: boolean
+    statementVideoKey?: boolean
+    price?: boolean
+    currency?: boolean
+    duration?: boolean
     status?: boolean
+    level?: boolean
+    stripePriceId?: boolean
+    solution?: boolean
+    solutionFileKey?: boolean
+    solutionVideoKey?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    userId?: boolean
+    deletedAt?: boolean
+    user?: boolean | Workshop$userArgs<ExtArgs>
   }, ExtArgs["result"]["workshop"]>
 
   export type WorkshopSelectScalar = {
     id?: boolean
     title?: boolean
     description?: boolean
-    duration?: boolean
-    level?: boolean
-    videoKey?: boolean
-    price?: boolean
     slug?: boolean
+    statement?: boolean
+    fileKey?: boolean
+    statementsStartFileKey?: boolean
+    statementVideoKey?: boolean
+    price?: boolean
+    currency?: boolean
+    duration?: boolean
     status?: boolean
+    level?: boolean
+    stripePriceId?: boolean
+    solution?: boolean
+    solutionFileKey?: boolean
+    solutionVideoKey?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    userId?: boolean
+    deletedAt?: boolean
   }
 
-  export type WorkshopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "duration" | "level" | "videoKey" | "price" | "slug" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["workshop"]>
+  export type WorkshopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "slug" | "statement" | "fileKey" | "statementsStartFileKey" | "statementVideoKey" | "price" | "currency" | "duration" | "status" | "level" | "stripePriceId" | "solution" | "solutionFileKey" | "solutionVideoKey" | "createdAt" | "updatedAt" | "userId" | "deletedAt", ExtArgs["result"]["workshop"]>
   export type WorkshopInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | Workshop$userArgs<ExtArgs>
     tags?: boolean | Workshop$tagsArgs<ExtArgs>
     progress?: boolean | Workshop$progressArgs<ExtArgs>
     resources?: boolean | Workshop$resourcesArgs<ExtArgs>
@@ -19316,12 +19572,17 @@ export namespace Prisma {
     promotions?: boolean | Workshop$promotionsArgs<ExtArgs>
     _count?: boolean | WorkshopCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type WorkshopIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type WorkshopIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type WorkshopIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | Workshop$userArgs<ExtArgs>
+  }
+  export type WorkshopIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | Workshop$userArgs<ExtArgs>
+  }
 
   export type $WorkshopPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Workshop"
     objects: {
+      user: Prisma.$UserPayload<ExtArgs> | null
       tags: Prisma.$WorkshopTagPayload<ExtArgs>[]
       progress: Prisma.$UserProgressPayload<ExtArgs>[]
       resources: Prisma.$WorkshopResourcePayload<ExtArgs>[]
@@ -19335,14 +19596,24 @@ export namespace Prisma {
       id: string
       title: string
       description: string
-      duration: number
-      level: $Enums.Levels
-      videoKey: string | null
-      price: number
       slug: string
-      status: $Enums.Status
+      statement: string
+      fileKey: string
+      statementsStartFileKey: string | null
+      statementVideoKey: string | null
+      price: number
+      currency: string
+      duration: number
+      status: string
+      level: string
+      stripePriceId: string | null
+      solution: string | null
+      solutionFileKey: string | null
+      solutionVideoKey: string | null
       createdAt: Date
       updatedAt: Date
+      userId: string
+      deletedAt: Date | null
     }, ExtArgs["result"]["workshop"]>
     composites: {}
   }
@@ -19737,6 +20008,7 @@ export namespace Prisma {
    */
   export interface Prisma__WorkshopClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends Workshop$userArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tags<T extends Workshop$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkshopTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     progress<T extends Workshop$progressArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$progressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     resources<T extends Workshop$resourcesArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$resourcesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkshopResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -19777,14 +20049,24 @@ export namespace Prisma {
     readonly id: FieldRef<"Workshop", 'String'>
     readonly title: FieldRef<"Workshop", 'String'>
     readonly description: FieldRef<"Workshop", 'String'>
-    readonly duration: FieldRef<"Workshop", 'Int'>
-    readonly level: FieldRef<"Workshop", 'Levels'>
-    readonly videoKey: FieldRef<"Workshop", 'String'>
-    readonly price: FieldRef<"Workshop", 'Float'>
     readonly slug: FieldRef<"Workshop", 'String'>
-    readonly status: FieldRef<"Workshop", 'Status'>
+    readonly statement: FieldRef<"Workshop", 'String'>
+    readonly fileKey: FieldRef<"Workshop", 'String'>
+    readonly statementsStartFileKey: FieldRef<"Workshop", 'String'>
+    readonly statementVideoKey: FieldRef<"Workshop", 'String'>
+    readonly price: FieldRef<"Workshop", 'Int'>
+    readonly currency: FieldRef<"Workshop", 'String'>
+    readonly duration: FieldRef<"Workshop", 'Int'>
+    readonly status: FieldRef<"Workshop", 'String'>
+    readonly level: FieldRef<"Workshop", 'String'>
+    readonly stripePriceId: FieldRef<"Workshop", 'String'>
+    readonly solution: FieldRef<"Workshop", 'String'>
+    readonly solutionFileKey: FieldRef<"Workshop", 'String'>
+    readonly solutionVideoKey: FieldRef<"Workshop", 'String'>
     readonly createdAt: FieldRef<"Workshop", 'DateTime'>
     readonly updatedAt: FieldRef<"Workshop", 'DateTime'>
+    readonly userId: FieldRef<"Workshop", 'String'>
+    readonly deletedAt: FieldRef<"Workshop", 'DateTime'>
   }
     
 
@@ -20034,6 +20316,10 @@ export namespace Prisma {
      */
     data: WorkshopCreateManyInput | WorkshopCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkshopIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -20104,6 +20390,10 @@ export namespace Prisma {
      * Limit how many Workshops to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkshopIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -20170,6 +20460,25 @@ export namespace Prisma {
      * Limit how many Workshops to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Workshop.user
+   */
+  export type Workshop$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -34660,6 +34969,7 @@ export namespace Prisma {
     courseId: string | null
     userId: string | null
     paymentId: string | null
+    deletedAt: Date | null
   }
 
   export type EnrollmentMaxAggregateOutputType = {
@@ -34671,6 +34981,7 @@ export namespace Prisma {
     courseId: string | null
     userId: string | null
     paymentId: string | null
+    deletedAt: Date | null
   }
 
   export type EnrollmentCountAggregateOutputType = {
@@ -34682,6 +34993,7 @@ export namespace Prisma {
     courseId: number
     userId: number
     paymentId: number
+    deletedAt: number
     _all: number
   }
 
@@ -34703,6 +35015,7 @@ export namespace Prisma {
     courseId?: true
     userId?: true
     paymentId?: true
+    deletedAt?: true
   }
 
   export type EnrollmentMaxAggregateInputType = {
@@ -34714,6 +35027,7 @@ export namespace Prisma {
     courseId?: true
     userId?: true
     paymentId?: true
+    deletedAt?: true
   }
 
   export type EnrollmentCountAggregateInputType = {
@@ -34725,6 +35039,7 @@ export namespace Prisma {
     courseId?: true
     userId?: true
     paymentId?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -34823,6 +35138,7 @@ export namespace Prisma {
     courseId: string
     userId: string
     paymentId: string | null
+    deletedAt: Date | null
     _count: EnrollmentCountAggregateOutputType | null
     _avg: EnrollmentAvgAggregateOutputType | null
     _sum: EnrollmentSumAggregateOutputType | null
@@ -34853,6 +35169,7 @@ export namespace Prisma {
     courseId?: boolean
     userId?: boolean
     paymentId?: boolean
+    deletedAt?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     payment?: boolean | Enrollment$paymentArgs<ExtArgs>
@@ -34867,6 +35184,7 @@ export namespace Prisma {
     courseId?: boolean
     userId?: boolean
     paymentId?: boolean
+    deletedAt?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     payment?: boolean | Enrollment$paymentArgs<ExtArgs>
@@ -34881,6 +35199,7 @@ export namespace Prisma {
     courseId?: boolean
     userId?: boolean
     paymentId?: boolean
+    deletedAt?: boolean
     course?: boolean | CourseDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     payment?: boolean | Enrollment$paymentArgs<ExtArgs>
@@ -34895,9 +35214,10 @@ export namespace Prisma {
     courseId?: boolean
     userId?: boolean
     paymentId?: boolean
+    deletedAt?: boolean
   }
 
-  export type EnrollmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "amount" | "status" | "createdAt" | "updatedAt" | "courseId" | "userId" | "paymentId", ExtArgs["result"]["enrollment"]>
+  export type EnrollmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "amount" | "status" | "createdAt" | "updatedAt" | "courseId" | "userId" | "paymentId" | "deletedAt", ExtArgs["result"]["enrollment"]>
   export type EnrollmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | CourseDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -34930,6 +35250,7 @@ export namespace Prisma {
       courseId: string
       userId: string
       paymentId: string | null
+      deletedAt: Date | null
     }, ExtArgs["result"]["enrollment"]>
     composites: {}
   }
@@ -35364,6 +35685,7 @@ export namespace Prisma {
     readonly courseId: FieldRef<"Enrollment", 'String'>
     readonly userId: FieldRef<"Enrollment", 'String'>
     readonly paymentId: FieldRef<"Enrollment", 'String'>
+    readonly deletedAt: FieldRef<"Enrollment", 'DateTime'>
   }
     
 
@@ -35828,6 +36150,7 @@ export namespace Prisma {
     method: string | null
     receiptUrl: string | null
     createdAt: Date | null
+    deletedAt: Date | null
   }
 
   export type PaymentMaxAggregateOutputType = {
@@ -35841,6 +36164,7 @@ export namespace Prisma {
     method: string | null
     receiptUrl: string | null
     createdAt: Date | null
+    deletedAt: Date | null
   }
 
   export type PaymentCountAggregateOutputType = {
@@ -35854,6 +36178,7 @@ export namespace Prisma {
     method: number
     receiptUrl: number
     createdAt: number
+    deletedAt: number
     _all: number
   }
 
@@ -35877,6 +36202,7 @@ export namespace Prisma {
     method?: true
     receiptUrl?: true
     createdAt?: true
+    deletedAt?: true
   }
 
   export type PaymentMaxAggregateInputType = {
@@ -35890,6 +36216,7 @@ export namespace Prisma {
     method?: true
     receiptUrl?: true
     createdAt?: true
+    deletedAt?: true
   }
 
   export type PaymentCountAggregateInputType = {
@@ -35903,6 +36230,7 @@ export namespace Prisma {
     method?: true
     receiptUrl?: true
     createdAt?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -36003,6 +36331,7 @@ export namespace Prisma {
     method: string | null
     receiptUrl: string | null
     createdAt: Date
+    deletedAt: Date | null
     _count: PaymentCountAggregateOutputType | null
     _avg: PaymentAvgAggregateOutputType | null
     _sum: PaymentSumAggregateOutputType | null
@@ -36035,6 +36364,7 @@ export namespace Prisma {
     method?: boolean
     receiptUrl?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
     enrollment?: boolean | Payment$enrollmentArgs<ExtArgs>
@@ -36051,6 +36381,7 @@ export namespace Prisma {
     method?: boolean
     receiptUrl?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["payment"]>
@@ -36066,6 +36397,7 @@ export namespace Prisma {
     method?: boolean
     receiptUrl?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["payment"]>
@@ -36081,9 +36413,10 @@ export namespace Prisma {
     method?: boolean
     receiptUrl?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
   }
 
-  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "stripeId" | "userId" | "courseId" | "amount" | "currency" | "status" | "method" | "receiptUrl" | "createdAt", ExtArgs["result"]["payment"]>
+  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "stripeId" | "userId" | "courseId" | "amount" | "currency" | "status" | "method" | "receiptUrl" | "createdAt" | "deletedAt", ExtArgs["result"]["payment"]>
   export type PaymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
@@ -36116,6 +36449,7 @@ export namespace Prisma {
       method: string | null
       receiptUrl: string | null
       createdAt: Date
+      deletedAt: Date | null
     }, ExtArgs["result"]["payment"]>
     composites: {}
   }
@@ -36552,6 +36886,7 @@ export namespace Prisma {
     readonly method: FieldRef<"Payment", 'String'>
     readonly receiptUrl: FieldRef<"Payment", 'String'>
     readonly createdAt: FieldRef<"Payment", 'DateTime'>
+    readonly deletedAt: FieldRef<"Payment", 'DateTime'>
   }
     
 
@@ -37014,6 +37349,7 @@ export namespace Prisma {
     pdfUrl: string | null
     date: Date | null
     createdAt: Date | null
+    deletedAt: Date | null
   }
 
   export type InvoiceMaxAggregateOutputType = {
@@ -37025,6 +37361,7 @@ export namespace Prisma {
     pdfUrl: string | null
     date: Date | null
     createdAt: Date | null
+    deletedAt: Date | null
   }
 
   export type InvoiceCountAggregateOutputType = {
@@ -37036,6 +37373,7 @@ export namespace Prisma {
     pdfUrl: number
     date: number
     createdAt: number
+    deletedAt: number
     _all: number
   }
 
@@ -37057,6 +37395,7 @@ export namespace Prisma {
     pdfUrl?: true
     date?: true
     createdAt?: true
+    deletedAt?: true
   }
 
   export type InvoiceMaxAggregateInputType = {
@@ -37068,6 +37407,7 @@ export namespace Prisma {
     pdfUrl?: true
     date?: true
     createdAt?: true
+    deletedAt?: true
   }
 
   export type InvoiceCountAggregateInputType = {
@@ -37079,6 +37419,7 @@ export namespace Prisma {
     pdfUrl?: true
     date?: true
     createdAt?: true
+    deletedAt?: true
     _all?: true
   }
 
@@ -37177,6 +37518,7 @@ export namespace Prisma {
     pdfUrl: string | null
     date: Date
     createdAt: Date
+    deletedAt: Date | null
     _count: InvoiceCountAggregateOutputType | null
     _avg: InvoiceAvgAggregateOutputType | null
     _sum: InvoiceSumAggregateOutputType | null
@@ -37207,6 +37549,7 @@ export namespace Prisma {
     pdfUrl?: boolean
     date?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     items?: boolean | Invoice$itemsArgs<ExtArgs>
     _count?: boolean | InvoiceCountOutputTypeDefaultArgs<ExtArgs>
@@ -37221,6 +37564,7 @@ export namespace Prisma {
     pdfUrl?: boolean
     date?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["invoice"]>
 
@@ -37233,6 +37577,7 @@ export namespace Prisma {
     pdfUrl?: boolean
     date?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["invoice"]>
 
@@ -37245,9 +37590,10 @@ export namespace Prisma {
     pdfUrl?: boolean
     date?: boolean
     createdAt?: boolean
+    deletedAt?: boolean
   }
 
-  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "number" | "userId" | "amount" | "currency" | "pdfUrl" | "date" | "createdAt", ExtArgs["result"]["invoice"]>
+  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "number" | "userId" | "amount" | "currency" | "pdfUrl" | "date" | "createdAt" | "deletedAt", ExtArgs["result"]["invoice"]>
   export type InvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     items?: boolean | Invoice$itemsArgs<ExtArgs>
@@ -37275,6 +37621,7 @@ export namespace Prisma {
       pdfUrl: string | null
       date: Date
       createdAt: Date
+      deletedAt: Date | null
     }, ExtArgs["result"]["invoice"]>
     composites: {}
   }
@@ -37708,6 +38055,7 @@ export namespace Prisma {
     readonly pdfUrl: FieldRef<"Invoice", 'String'>
     readonly date: FieldRef<"Invoice", 'DateTime'>
     readonly createdAt: FieldRef<"Invoice", 'DateTime'>
+    readonly deletedAt: FieldRef<"Invoice", 'DateTime'>
   }
     
 
@@ -52043,7 +52391,8 @@ export namespace Prisma {
     role: 'role',
     banned: 'banned',
     banReason: 'banReason',
-    banExpires: 'banExpires'
+    banExpires: 'banExpires',
+    deletedAt: 'deletedAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -52104,7 +52453,8 @@ export namespace Prisma {
     iconName: 'iconName',
     iconLib: 'iconLib',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
   };
 
   export type DomainScalarFieldEnum = (typeof DomainScalarFieldEnum)[keyof typeof DomainScalarFieldEnum]
@@ -52120,7 +52470,8 @@ export namespace Prisma {
     iconLib: 'iconLib',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    domainId: 'domainId'
+    domainId: 'domainId',
+    deletedAt: 'deletedAt'
   };
 
   export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
@@ -52133,6 +52484,7 @@ export namespace Prisma {
     smallDescription: 'smallDescription',
     fileKey: 'fileKey',
     price: 'price',
+    currency: 'currency',
     duration: 'duration',
     slug: 'slug',
     status: 'status',
@@ -52140,7 +52492,8 @@ export namespace Prisma {
     stripePriceId: 'stripePriceId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    userId: 'userId'
+    userId: 'userId',
+    deletedAt: 'deletedAt'
   };
 
   export type LearningPathScalarFieldEnum = (typeof LearningPathScalarFieldEnum)[keyof typeof LearningPathScalarFieldEnum]
@@ -52167,6 +52520,7 @@ export namespace Prisma {
     description: 'description',
     fileKey: 'fileKey',
     price: 'price',
+    currency: 'currency',
     duration: 'duration',
     status: 'status',
     level: 'level',
@@ -52174,7 +52528,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     userId: 'userId',
-    categoryId: 'categoryId'
+    categoryId: 'categoryId',
+    deletedAt: 'deletedAt'
   };
 
   export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
@@ -52213,14 +52568,24 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     description: 'description',
-    duration: 'duration',
-    level: 'level',
-    videoKey: 'videoKey',
-    price: 'price',
     slug: 'slug',
+    statement: 'statement',
+    fileKey: 'fileKey',
+    statementsStartFileKey: 'statementsStartFileKey',
+    statementVideoKey: 'statementVideoKey',
+    price: 'price',
+    currency: 'currency',
+    duration: 'duration',
     status: 'status',
+    level: 'level',
+    stripePriceId: 'stripePriceId',
+    solution: 'solution',
+    solutionFileKey: 'solutionFileKey',
+    solutionVideoKey: 'solutionVideoKey',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    userId: 'userId',
+    deletedAt: 'deletedAt'
   };
 
   export type WorkshopScalarFieldEnum = (typeof WorkshopScalarFieldEnum)[keyof typeof WorkshopScalarFieldEnum]
@@ -52373,7 +52738,8 @@ export namespace Prisma {
     updatedAt: 'updatedAt',
     courseId: 'courseId',
     userId: 'userId',
-    paymentId: 'paymentId'
+    paymentId: 'paymentId',
+    deletedAt: 'deletedAt'
   };
 
   export type EnrollmentScalarFieldEnum = (typeof EnrollmentScalarFieldEnum)[keyof typeof EnrollmentScalarFieldEnum]
@@ -52389,7 +52755,8 @@ export namespace Prisma {
     status: 'status',
     method: 'method',
     receiptUrl: 'receiptUrl',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    deletedAt: 'deletedAt'
   };
 
   export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
@@ -52403,7 +52770,8 @@ export namespace Prisma {
     currency: 'currency',
     pdfUrl: 'pdfUrl',
     date: 'date',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    deletedAt: 'deletedAt'
   };
 
   export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum]
@@ -52639,48 +53007,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Levels'
-   */
-  export type EnumLevelsFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Levels'>
-    
-
-
-  /**
-   * Reference to a field of type 'Levels[]'
-   */
-  export type ListEnumLevelsFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Levels[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Status'
-   */
-  export type EnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status'>
-    
-
-
-  /**
-   * Reference to a field of type 'Status[]'
-   */
-  export type ListEnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status[]'>
-    
-
-
-  /**
    * Reference to a field of type 'ResourceType'
    */
   export type EnumResourceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ResourceType'>
@@ -52734,6 +53060,20 @@ export namespace Prisma {
    */
   export type ListEnumInvoiceItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvoiceItemType[]'>
     
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
   /**
    * Deep Input Types
    */
@@ -52755,14 +53095,16 @@ export namespace Prisma {
     banned?: BoolNullableFilter<"User"> | boolean | null
     banReason?: StringNullableFilter<"User"> | string | null
     banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
-    courses?: CourseListRelationFilter
-    enrollment?: EnrollmentListRelationFilter
     lessonProgress?: LessonProgressListRelationFilter
+    enrollment?: EnrollmentListRelationFilter
     Payment?: PaymentListRelationFilter
     Invoice?: InvoiceListRelationFilter
+    courses?: CourseListRelationFilter
     LearningPath?: LearningPathListRelationFilter
+    Workshop?: WorkshopListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -52778,14 +53120,16 @@ export namespace Prisma {
     banned?: SortOrderInput | SortOrder
     banReason?: SortOrderInput | SortOrder
     banExpires?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     sessions?: SessionOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
-    courses?: CourseOrderByRelationAggregateInput
-    enrollment?: EnrollmentOrderByRelationAggregateInput
     lessonProgress?: LessonProgressOrderByRelationAggregateInput
+    enrollment?: EnrollmentOrderByRelationAggregateInput
     Payment?: PaymentOrderByRelationAggregateInput
     Invoice?: InvoiceOrderByRelationAggregateInput
+    courses?: CourseOrderByRelationAggregateInput
     LearningPath?: LearningPathOrderByRelationAggregateInput
+    Workshop?: WorkshopOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -52804,14 +53148,16 @@ export namespace Prisma {
     banned?: BoolNullableFilter<"User"> | boolean | null
     banReason?: StringNullableFilter<"User"> | string | null
     banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
-    courses?: CourseListRelationFilter
-    enrollment?: EnrollmentListRelationFilter
     lessonProgress?: LessonProgressListRelationFilter
+    enrollment?: EnrollmentListRelationFilter
     Payment?: PaymentListRelationFilter
     Invoice?: InvoiceListRelationFilter
+    courses?: CourseListRelationFilter
     LearningPath?: LearningPathListRelationFilter
+    Workshop?: WorkshopListRelationFilter
   }, "id" | "stripeCustomerId" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -52827,6 +53173,7 @@ export namespace Prisma {
     banned?: SortOrderInput | SortOrder
     banReason?: SortOrderInput | SortOrder
     banExpires?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -52848,6 +53195,7 @@ export namespace Prisma {
     banned?: BoolNullableWithAggregatesFilter<"User"> | boolean | null
     banReason?: StringNullableWithAggregatesFilter<"User"> | string | null
     banExpires?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type SessionWhereInput = {
@@ -53090,6 +53438,7 @@ export namespace Prisma {
     iconLib?: StringNullableFilter<"Domain"> | string | null
     createdAt?: DateTimeFilter<"Domain"> | Date | string
     updatedAt?: DateTimeFilter<"Domain"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Domain"> | Date | string | null
     categories?: CategoryListRelationFilter
   }
 
@@ -53103,6 +53452,7 @@ export namespace Prisma {
     iconLib?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     categories?: CategoryOrderByRelationAggregateInput
   }
 
@@ -53119,6 +53469,7 @@ export namespace Prisma {
     iconLib?: StringNullableFilter<"Domain"> | string | null
     createdAt?: DateTimeFilter<"Domain"> | Date | string
     updatedAt?: DateTimeFilter<"Domain"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Domain"> | Date | string | null
     categories?: CategoryListRelationFilter
   }, "id" | "slug">
 
@@ -53132,6 +53483,7 @@ export namespace Prisma {
     iconLib?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: DomainCountOrderByAggregateInput
     _max?: DomainMaxOrderByAggregateInput
     _min?: DomainMinOrderByAggregateInput
@@ -53150,6 +53502,7 @@ export namespace Prisma {
     iconLib?: StringNullableWithAggregatesFilter<"Domain"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Domain"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Domain"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Domain"> | Date | string | null
   }
 
   export type CategoryWhereInput = {
@@ -53166,6 +53519,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Category"> | Date | string
     updatedAt?: DateTimeFilter<"Category"> | Date | string
     domainId?: StringFilter<"Category"> | string
+    deletedAt?: DateTimeNullableFilter<"Category"> | Date | string | null
     courses?: CourseListRelationFilter
     domain?: XOR<DomainScalarRelationFilter, DomainWhereInput>
   }
@@ -53181,6 +53535,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     domainId?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     courses?: CourseOrderByRelationAggregateInput
     domain?: DomainOrderByWithRelationInput
   }
@@ -53199,6 +53554,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Category"> | Date | string
     updatedAt?: DateTimeFilter<"Category"> | Date | string
     domainId?: StringFilter<"Category"> | string
+    deletedAt?: DateTimeNullableFilter<"Category"> | Date | string | null
     courses?: CourseListRelationFilter
     domain?: XOR<DomainScalarRelationFilter, DomainWhereInput>
   }, "id" | "slug">
@@ -53214,6 +53570,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     domainId?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: CategoryCountOrderByAggregateInput
     _max?: CategoryMaxOrderByAggregateInput
     _min?: CategoryMinOrderByAggregateInput
@@ -53233,6 +53590,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
     domainId?: StringWithAggregatesFilter<"Category"> | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Category"> | Date | string | null
   }
 
   export type LearningPathWhereInput = {
@@ -53245,6 +53603,7 @@ export namespace Prisma {
     smallDescription?: StringFilter<"LearningPath"> | string
     fileKey?: StringFilter<"LearningPath"> | string
     price?: IntFilter<"LearningPath"> | number
+    currency?: StringFilter<"LearningPath"> | string
     duration?: IntFilter<"LearningPath"> | number
     slug?: StringFilter<"LearningPath"> | string
     status?: StringFilter<"LearningPath"> | string
@@ -53253,6 +53612,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"LearningPath"> | Date | string
     updatedAt?: DateTimeFilter<"LearningPath"> | Date | string
     userId?: StringFilter<"LearningPath"> | string
+    deletedAt?: DateTimeNullableFilter<"LearningPath"> | Date | string | null
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     tags?: LearningPathTagListRelationFilter
     contents?: LearningPathItemListRelationFilter
@@ -53271,6 +53631,7 @@ export namespace Prisma {
     smallDescription?: SortOrder
     fileKey?: SortOrder
     price?: SortOrder
+    currency?: SortOrder
     duration?: SortOrder
     slug?: SortOrder
     status?: SortOrder
@@ -53279,6 +53640,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     tags?: LearningPathTagOrderByRelationAggregateInput
     contents?: LearningPathItemOrderByRelationAggregateInput
@@ -53301,6 +53663,7 @@ export namespace Prisma {
     smallDescription?: StringFilter<"LearningPath"> | string
     fileKey?: StringFilter<"LearningPath"> | string
     price?: IntFilter<"LearningPath"> | number
+    currency?: StringFilter<"LearningPath"> | string
     duration?: IntFilter<"LearningPath"> | number
     slug?: StringFilter<"LearningPath"> | string
     status?: StringFilter<"LearningPath"> | string
@@ -53308,6 +53671,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"LearningPath"> | Date | string
     updatedAt?: DateTimeFilter<"LearningPath"> | Date | string
     userId?: StringFilter<"LearningPath"> | string
+    deletedAt?: DateTimeNullableFilter<"LearningPath"> | Date | string | null
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     tags?: LearningPathTagListRelationFilter
     contents?: LearningPathItemListRelationFilter
@@ -53326,6 +53690,7 @@ export namespace Prisma {
     smallDescription?: SortOrder
     fileKey?: SortOrder
     price?: SortOrder
+    currency?: SortOrder
     duration?: SortOrder
     slug?: SortOrder
     status?: SortOrder
@@ -53334,6 +53699,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: LearningPathCountOrderByAggregateInput
     _avg?: LearningPathAvgOrderByAggregateInput
     _max?: LearningPathMaxOrderByAggregateInput
@@ -53351,6 +53717,7 @@ export namespace Prisma {
     smallDescription?: StringWithAggregatesFilter<"LearningPath"> | string
     fileKey?: StringWithAggregatesFilter<"LearningPath"> | string
     price?: IntWithAggregatesFilter<"LearningPath"> | number
+    currency?: StringWithAggregatesFilter<"LearningPath"> | string
     duration?: IntWithAggregatesFilter<"LearningPath"> | number
     slug?: StringWithAggregatesFilter<"LearningPath"> | string
     status?: StringWithAggregatesFilter<"LearningPath"> | string
@@ -53359,6 +53726,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"LearningPath"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"LearningPath"> | Date | string
     userId?: StringWithAggregatesFilter<"LearningPath"> | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"LearningPath"> | Date | string | null
   }
 
   export type LearningPathItemWhereInput = {
@@ -53448,6 +53816,7 @@ export namespace Prisma {
     description?: StringFilter<"Course"> | string
     fileKey?: StringFilter<"Course"> | string
     price?: IntFilter<"Course"> | number
+    currency?: StringFilter<"Course"> | string
     duration?: IntFilter<"Course"> | number
     status?: StringFilter<"Course"> | string
     level?: StringFilter<"Course"> | string
@@ -53456,6 +53825,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Course"> | Date | string
     userId?: StringFilter<"Course"> | string
     categoryId?: StringFilter<"Course"> | string
+    deletedAt?: DateTimeNullableFilter<"Course"> | Date | string | null
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     chapters?: ChapterListRelationFilter
     enrollment?: EnrollmentListRelationFilter
@@ -53479,6 +53849,7 @@ export namespace Prisma {
     description?: SortOrder
     fileKey?: SortOrder
     price?: SortOrder
+    currency?: SortOrder
     duration?: SortOrder
     status?: SortOrder
     level?: SortOrder
@@ -53487,6 +53858,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     chapters?: ChapterOrderByRelationAggregateInput
     enrollment?: EnrollmentOrderByRelationAggregateInput
@@ -53514,6 +53886,7 @@ export namespace Prisma {
     description?: StringFilter<"Course"> | string
     fileKey?: StringFilter<"Course"> | string
     price?: IntFilter<"Course"> | number
+    currency?: StringFilter<"Course"> | string
     duration?: IntFilter<"Course"> | number
     status?: StringFilter<"Course"> | string
     level?: StringFilter<"Course"> | string
@@ -53521,6 +53894,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Course"> | Date | string
     userId?: StringFilter<"Course"> | string
     categoryId?: StringFilter<"Course"> | string
+    deletedAt?: DateTimeNullableFilter<"Course"> | Date | string | null
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     chapters?: ChapterListRelationFilter
     enrollment?: EnrollmentListRelationFilter
@@ -53544,6 +53918,7 @@ export namespace Prisma {
     description?: SortOrder
     fileKey?: SortOrder
     price?: SortOrder
+    currency?: SortOrder
     duration?: SortOrder
     status?: SortOrder
     level?: SortOrder
@@ -53552,6 +53927,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: CourseCountOrderByAggregateInput
     _avg?: CourseAvgOrderByAggregateInput
     _max?: CourseMaxOrderByAggregateInput
@@ -53570,6 +53946,7 @@ export namespace Prisma {
     description?: StringWithAggregatesFilter<"Course"> | string
     fileKey?: StringWithAggregatesFilter<"Course"> | string
     price?: IntWithAggregatesFilter<"Course"> | number
+    currency?: StringWithAggregatesFilter<"Course"> | string
     duration?: IntWithAggregatesFilter<"Course"> | number
     status?: StringWithAggregatesFilter<"Course"> | string
     level?: StringWithAggregatesFilter<"Course"> | string
@@ -53578,6 +53955,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Course"> | Date | string
     userId?: StringWithAggregatesFilter<"Course"> | string
     categoryId?: StringWithAggregatesFilter<"Course"> | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Course"> | Date | string | null
   }
 
   export type ChapterWhereInput = {
@@ -53745,14 +54123,25 @@ export namespace Prisma {
     id?: StringFilter<"Workshop"> | string
     title?: StringFilter<"Workshop"> | string
     description?: StringFilter<"Workshop"> | string
-    duration?: IntFilter<"Workshop"> | number
-    level?: EnumLevelsFilter<"Workshop"> | $Enums.Levels
-    videoKey?: StringNullableFilter<"Workshop"> | string | null
-    price?: FloatFilter<"Workshop"> | number
     slug?: StringFilter<"Workshop"> | string
-    status?: EnumStatusFilter<"Workshop"> | $Enums.Status
+    statement?: StringFilter<"Workshop"> | string
+    fileKey?: StringFilter<"Workshop"> | string
+    statementsStartFileKey?: StringNullableFilter<"Workshop"> | string | null
+    statementVideoKey?: StringNullableFilter<"Workshop"> | string | null
+    price?: IntFilter<"Workshop"> | number
+    currency?: StringFilter<"Workshop"> | string
+    duration?: IntFilter<"Workshop"> | number
+    status?: StringFilter<"Workshop"> | string
+    level?: StringFilter<"Workshop"> | string
+    stripePriceId?: StringNullableFilter<"Workshop"> | string | null
+    solution?: StringNullableFilter<"Workshop"> | string | null
+    solutionFileKey?: StringNullableFilter<"Workshop"> | string | null
+    solutionVideoKey?: StringNullableFilter<"Workshop"> | string | null
     createdAt?: DateTimeFilter<"Workshop"> | Date | string
     updatedAt?: DateTimeFilter<"Workshop"> | Date | string
+    userId?: StringFilter<"Workshop"> | string
+    deletedAt?: DateTimeNullableFilter<"Workshop"> | Date | string | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     tags?: WorkshopTagListRelationFilter
     progress?: UserProgressListRelationFilter
     resources?: WorkshopResourceListRelationFilter
@@ -53767,14 +54156,25 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    duration?: SortOrder
-    level?: SortOrder
-    videoKey?: SortOrderInput | SortOrder
-    price?: SortOrder
     slug?: SortOrder
+    statement?: SortOrder
+    fileKey?: SortOrder
+    statementsStartFileKey?: SortOrderInput | SortOrder
+    statementVideoKey?: SortOrderInput | SortOrder
+    price?: SortOrder
+    currency?: SortOrder
+    duration?: SortOrder
     status?: SortOrder
+    level?: SortOrder
+    stripePriceId?: SortOrderInput | SortOrder
+    solution?: SortOrderInput | SortOrder
+    solutionFileKey?: SortOrderInput | SortOrder
+    solutionVideoKey?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
     tags?: WorkshopTagOrderByRelationAggregateInput
     progress?: UserProgressOrderByRelationAggregateInput
     resources?: WorkshopResourceOrderByRelationAggregateInput
@@ -53793,13 +54193,24 @@ export namespace Prisma {
     NOT?: WorkshopWhereInput | WorkshopWhereInput[]
     title?: StringFilter<"Workshop"> | string
     description?: StringFilter<"Workshop"> | string
+    statement?: StringFilter<"Workshop"> | string
+    fileKey?: StringFilter<"Workshop"> | string
+    statementsStartFileKey?: StringNullableFilter<"Workshop"> | string | null
+    statementVideoKey?: StringNullableFilter<"Workshop"> | string | null
+    price?: IntFilter<"Workshop"> | number
+    currency?: StringFilter<"Workshop"> | string
     duration?: IntFilter<"Workshop"> | number
-    level?: EnumLevelsFilter<"Workshop"> | $Enums.Levels
-    videoKey?: StringNullableFilter<"Workshop"> | string | null
-    price?: FloatFilter<"Workshop"> | number
-    status?: EnumStatusFilter<"Workshop"> | $Enums.Status
+    status?: StringFilter<"Workshop"> | string
+    level?: StringFilter<"Workshop"> | string
+    stripePriceId?: StringNullableFilter<"Workshop"> | string | null
+    solution?: StringNullableFilter<"Workshop"> | string | null
+    solutionFileKey?: StringNullableFilter<"Workshop"> | string | null
+    solutionVideoKey?: StringNullableFilter<"Workshop"> | string | null
     createdAt?: DateTimeFilter<"Workshop"> | Date | string
     updatedAt?: DateTimeFilter<"Workshop"> | Date | string
+    userId?: StringFilter<"Workshop"> | string
+    deletedAt?: DateTimeNullableFilter<"Workshop"> | Date | string | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     tags?: WorkshopTagListRelationFilter
     progress?: UserProgressListRelationFilter
     resources?: WorkshopResourceListRelationFilter
@@ -53814,14 +54225,24 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    duration?: SortOrder
-    level?: SortOrder
-    videoKey?: SortOrderInput | SortOrder
-    price?: SortOrder
     slug?: SortOrder
+    statement?: SortOrder
+    fileKey?: SortOrder
+    statementsStartFileKey?: SortOrderInput | SortOrder
+    statementVideoKey?: SortOrderInput | SortOrder
+    price?: SortOrder
+    currency?: SortOrder
+    duration?: SortOrder
     status?: SortOrder
+    level?: SortOrder
+    stripePriceId?: SortOrderInput | SortOrder
+    solution?: SortOrderInput | SortOrder
+    solutionFileKey?: SortOrderInput | SortOrder
+    solutionVideoKey?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: WorkshopCountOrderByAggregateInput
     _avg?: WorkshopAvgOrderByAggregateInput
     _max?: WorkshopMaxOrderByAggregateInput
@@ -53836,14 +54257,24 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Workshop"> | string
     title?: StringWithAggregatesFilter<"Workshop"> | string
     description?: StringWithAggregatesFilter<"Workshop"> | string
-    duration?: IntWithAggregatesFilter<"Workshop"> | number
-    level?: EnumLevelsWithAggregatesFilter<"Workshop"> | $Enums.Levels
-    videoKey?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
-    price?: FloatWithAggregatesFilter<"Workshop"> | number
     slug?: StringWithAggregatesFilter<"Workshop"> | string
-    status?: EnumStatusWithAggregatesFilter<"Workshop"> | $Enums.Status
+    statement?: StringWithAggregatesFilter<"Workshop"> | string
+    fileKey?: StringWithAggregatesFilter<"Workshop"> | string
+    statementsStartFileKey?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
+    statementVideoKey?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
+    price?: IntWithAggregatesFilter<"Workshop"> | number
+    currency?: StringWithAggregatesFilter<"Workshop"> | string
+    duration?: IntWithAggregatesFilter<"Workshop"> | number
+    status?: StringWithAggregatesFilter<"Workshop"> | string
+    level?: StringWithAggregatesFilter<"Workshop"> | string
+    stripePriceId?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
+    solution?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
+    solutionFileKey?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
+    solutionVideoKey?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Workshop"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Workshop"> | Date | string
+    userId?: StringWithAggregatesFilter<"Workshop"> | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Workshop"> | Date | string | null
   }
 
   export type ResourceWhereInput = {
@@ -54625,6 +55056,7 @@ export namespace Prisma {
     courseId?: StringFilter<"Enrollment"> | string
     userId?: StringFilter<"Enrollment"> | string
     paymentId?: StringNullableFilter<"Enrollment"> | string | null
+    deletedAt?: DateTimeNullableFilter<"Enrollment"> | Date | string | null
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     payment?: XOR<PaymentNullableScalarRelationFilter, PaymentWhereInput> | null
@@ -54639,6 +55071,7 @@ export namespace Prisma {
     courseId?: SortOrder
     userId?: SortOrder
     paymentId?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     course?: CourseOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
     payment?: PaymentOrderByWithRelationInput
@@ -54657,6 +55090,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Enrollment"> | Date | string
     courseId?: StringFilter<"Enrollment"> | string
     userId?: StringFilter<"Enrollment"> | string
+    deletedAt?: DateTimeNullableFilter<"Enrollment"> | Date | string | null
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     payment?: XOR<PaymentNullableScalarRelationFilter, PaymentWhereInput> | null
@@ -54671,6 +55105,7 @@ export namespace Prisma {
     courseId?: SortOrder
     userId?: SortOrder
     paymentId?: SortOrderInput | SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: EnrollmentCountOrderByAggregateInput
     _avg?: EnrollmentAvgOrderByAggregateInput
     _max?: EnrollmentMaxOrderByAggregateInput
@@ -54690,6 +55125,7 @@ export namespace Prisma {
     courseId?: StringWithAggregatesFilter<"Enrollment"> | string
     userId?: StringWithAggregatesFilter<"Enrollment"> | string
     paymentId?: StringNullableWithAggregatesFilter<"Enrollment"> | string | null
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Enrollment"> | Date | string | null
   }
 
   export type PaymentWhereInput = {
@@ -54706,6 +55142,7 @@ export namespace Prisma {
     method?: StringNullableFilter<"Payment"> | string | null
     receiptUrl?: StringNullableFilter<"Payment"> | string | null
     createdAt?: DateTimeFilter<"Payment"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
     enrollment?: XOR<EnrollmentNullableScalarRelationFilter, EnrollmentWhereInput> | null
@@ -54722,6 +55159,7 @@ export namespace Prisma {
     method?: SortOrderInput | SortOrder
     receiptUrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     course?: CourseOrderByWithRelationInput
     enrollment?: EnrollmentOrderByWithRelationInput
@@ -54741,6 +55179,7 @@ export namespace Prisma {
     method?: StringNullableFilter<"Payment"> | string | null
     receiptUrl?: StringNullableFilter<"Payment"> | string | null
     createdAt?: DateTimeFilter<"Payment"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
     enrollment?: XOR<EnrollmentNullableScalarRelationFilter, EnrollmentWhereInput> | null
@@ -54757,6 +55196,7 @@ export namespace Prisma {
     method?: SortOrderInput | SortOrder
     receiptUrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: PaymentCountOrderByAggregateInput
     _avg?: PaymentAvgOrderByAggregateInput
     _max?: PaymentMaxOrderByAggregateInput
@@ -54778,6 +55218,7 @@ export namespace Prisma {
     method?: StringNullableWithAggregatesFilter<"Payment"> | string | null
     receiptUrl?: StringNullableWithAggregatesFilter<"Payment"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Payment"> | Date | string | null
   }
 
   export type InvoiceWhereInput = {
@@ -54792,6 +55233,7 @@ export namespace Prisma {
     pdfUrl?: StringNullableFilter<"Invoice"> | string | null
     date?: DateTimeFilter<"Invoice"> | Date | string
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     items?: InvoiceItemListRelationFilter
   }
@@ -54805,6 +55247,7 @@ export namespace Prisma {
     pdfUrl?: SortOrderInput | SortOrder
     date?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     items?: InvoiceItemOrderByRelationAggregateInput
   }
@@ -54821,6 +55264,7 @@ export namespace Prisma {
     pdfUrl?: StringNullableFilter<"Invoice"> | string | null
     date?: DateTimeFilter<"Invoice"> | Date | string
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     items?: InvoiceItemListRelationFilter
   }, "id">
@@ -54834,6 +55278,7 @@ export namespace Prisma {
     pdfUrl?: SortOrderInput | SortOrder
     date?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
     _count?: InvoiceCountOrderByAggregateInput
     _avg?: InvoiceAvgOrderByAggregateInput
     _max?: InvoiceMaxOrderByAggregateInput
@@ -54853,6 +55298,7 @@ export namespace Prisma {
     pdfUrl?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
     date?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Invoice"> | Date | string | null
   }
 
   export type InvoiceItemWhereInput = {
@@ -55592,14 +56038,16 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    courses?: CourseCreateNestedManyWithoutUserInput
-    enrollment?: EnrollmentCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentCreateNestedManyWithoutUserInput
     Payment?: PaymentCreateNestedManyWithoutUserInput
     Invoice?: InvoiceCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUserInput
     LearningPath?: LearningPathCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -55615,14 +56063,16 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
     Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
     LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -55638,14 +56088,16 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    courses?: CourseUpdateManyWithoutUserNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
     Payment?: PaymentUpdateManyWithoutUserNestedInput
     Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUserNestedInput
     LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -55661,14 +56113,16 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
     LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -55684,6 +56138,7 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -55699,6 +56154,7 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -55714,6 +56170,7 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SessionCreateInput = {
@@ -55983,6 +56440,7 @@ export namespace Prisma {
     iconLib?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     categories?: CategoryCreateNestedManyWithoutDomainInput
   }
 
@@ -55996,6 +56454,7 @@ export namespace Prisma {
     iconLib?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     categories?: CategoryUncheckedCreateNestedManyWithoutDomainInput
   }
 
@@ -56009,6 +56468,7 @@ export namespace Prisma {
     iconLib?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categories?: CategoryUpdateManyWithoutDomainNestedInput
   }
 
@@ -56022,6 +56482,7 @@ export namespace Prisma {
     iconLib?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     categories?: CategoryUncheckedUpdateManyWithoutDomainNestedInput
   }
 
@@ -56035,6 +56496,7 @@ export namespace Prisma {
     iconLib?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type DomainUpdateManyMutationInput = {
@@ -56047,6 +56509,7 @@ export namespace Prisma {
     iconLib?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type DomainUncheckedUpdateManyInput = {
@@ -56059,6 +56522,7 @@ export namespace Prisma {
     iconLib?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CategoryCreateInput = {
@@ -56071,6 +56535,7 @@ export namespace Prisma {
     iconLib?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     courses?: CourseCreateNestedManyWithoutCategoryInput
     domain: DomainCreateNestedOneWithoutCategoriesInput
   }
@@ -56086,6 +56551,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     domainId: string
+    deletedAt?: Date | string | null
     courses?: CourseUncheckedCreateNestedManyWithoutCategoryInput
   }
 
@@ -56099,6 +56565,7 @@ export namespace Prisma {
     iconLib?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courses?: CourseUpdateManyWithoutCategoryNestedInput
     domain?: DomainUpdateOneRequiredWithoutCategoriesNestedInput
   }
@@ -56114,6 +56581,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     domainId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courses?: CourseUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
@@ -56128,6 +56596,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     domainId: string
+    deletedAt?: Date | string | null
   }
 
   export type CategoryUpdateManyMutationInput = {
@@ -56140,6 +56609,7 @@ export namespace Prisma {
     iconLib?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CategoryUncheckedUpdateManyInput = {
@@ -56153,6 +56623,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     domainId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type LearningPathCreateInput = {
@@ -56162,6 +56633,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -56169,6 +56641,7 @@ export namespace Prisma {
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutLearningPathInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
@@ -56187,6 +56660,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -56195,6 +56669,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+    deletedAt?: Date | string | null
     tags?: LearningPathTagUncheckedCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemUncheckedCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutPathInput
@@ -56212,6 +56687,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -56219,6 +56695,7 @@ export namespace Prisma {
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutLearningPathNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
@@ -56237,6 +56714,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -56245,6 +56723,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: LearningPathTagUncheckedUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUncheckedUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutPathNestedInput
@@ -56262,6 +56741,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -56270,6 +56750,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+    deletedAt?: Date | string | null
   }
 
   export type LearningPathUpdateManyMutationInput = {
@@ -56279,6 +56760,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -56286,6 +56768,7 @@ export namespace Prisma {
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type LearningPathUncheckedUpdateManyInput = {
@@ -56295,6 +56778,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -56303,6 +56787,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type LearningPathItemCreateInput = {
@@ -56379,12 +56864,14 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
@@ -56408,6 +56895,7 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
@@ -56416,6 +56904,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userId: string
     categoryId: string
+    deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
@@ -56437,12 +56926,14 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
@@ -56466,6 +56957,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
@@ -56474,6 +56966,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
@@ -56495,6 +56988,7 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
@@ -56503,6 +56997,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userId: string
     categoryId: string
+    deletedAt?: Date | string | null
   }
 
   export type CourseUpdateManyMutationInput = {
@@ -56513,12 +57008,14 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CourseUncheckedUpdateManyInput = {
@@ -56529,6 +57026,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
@@ -56537,6 +57035,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ChapterCreateInput = {
@@ -56714,14 +57213,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user?: UserCreateNestedOneWithoutWorkshopInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
@@ -56736,14 +57245,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    userId: string
+    deletedAt?: Date | string | null
     tags?: WorkshopTagUncheckedCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceUncheckedCreateNestedManyWithoutWorkshopInput
@@ -56758,14 +57277,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneWithoutWorkshopNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
@@ -56780,14 +57309,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: WorkshopTagUncheckedUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUncheckedUpdateManyWithoutWorkshopNestedInput
@@ -56802,42 +57341,71 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    userId: string
+    deletedAt?: Date | string | null
   }
 
   export type WorkshopUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type WorkshopUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ResourceCreateInput = {
@@ -57581,6 +58149,7 @@ export namespace Prisma {
     status?: $Enums.enrollmentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     course: CourseCreateNestedOneWithoutEnrollmentInput
     user: UserCreateNestedOneWithoutEnrollmentInput
     payment?: PaymentCreateNestedOneWithoutEnrollmentInput
@@ -57595,6 +58164,7 @@ export namespace Prisma {
     courseId: string
     userId: string
     paymentId?: string | null
+    deletedAt?: Date | string | null
   }
 
   export type EnrollmentUpdateInput = {
@@ -57603,6 +58173,7 @@ export namespace Prisma {
     status?: EnumenrollmentStatusFieldUpdateOperationsInput | $Enums.enrollmentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     course?: CourseUpdateOneRequiredWithoutEnrollmentNestedInput
     user?: UserUpdateOneRequiredWithoutEnrollmentNestedInput
     payment?: PaymentUpdateOneWithoutEnrollmentNestedInput
@@ -57617,6 +58188,7 @@ export namespace Prisma {
     courseId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type EnrollmentCreateManyInput = {
@@ -57628,6 +58200,7 @@ export namespace Prisma {
     courseId: string
     userId: string
     paymentId?: string | null
+    deletedAt?: Date | string | null
   }
 
   export type EnrollmentUpdateManyMutationInput = {
@@ -57636,6 +58209,7 @@ export namespace Prisma {
     status?: EnumenrollmentStatusFieldUpdateOperationsInput | $Enums.enrollmentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type EnrollmentUncheckedUpdateManyInput = {
@@ -57647,6 +58221,7 @@ export namespace Prisma {
     courseId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PaymentCreateInput = {
@@ -57658,6 +58233,7 @@ export namespace Prisma {
     method?: string | null
     receiptUrl?: string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     user: UserCreateNestedOneWithoutPaymentInput
     course: CourseCreateNestedOneWithoutPaymentInput
     enrollment?: EnrollmentCreateNestedOneWithoutPaymentInput
@@ -57674,6 +58250,7 @@ export namespace Prisma {
     method?: string | null
     receiptUrl?: string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     enrollment?: EnrollmentUncheckedCreateNestedOneWithoutPaymentInput
   }
 
@@ -57686,6 +58263,7 @@ export namespace Prisma {
     method?: NullableStringFieldUpdateOperationsInput | string | null
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutPaymentNestedInput
     course?: CourseUpdateOneRequiredWithoutPaymentNestedInput
     enrollment?: EnrollmentUpdateOneWithoutPaymentNestedInput
@@ -57702,6 +58280,7 @@ export namespace Prisma {
     method?: NullableStringFieldUpdateOperationsInput | string | null
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     enrollment?: EnrollmentUncheckedUpdateOneWithoutPaymentNestedInput
   }
 
@@ -57716,6 +58295,7 @@ export namespace Prisma {
     method?: string | null
     receiptUrl?: string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type PaymentUpdateManyMutationInput = {
@@ -57727,6 +58307,7 @@ export namespace Prisma {
     method?: NullableStringFieldUpdateOperationsInput | string | null
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PaymentUncheckedUpdateManyInput = {
@@ -57740,6 +58321,7 @@ export namespace Prisma {
     method?: NullableStringFieldUpdateOperationsInput | string | null
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type InvoiceCreateInput = {
@@ -57750,6 +58332,7 @@ export namespace Prisma {
     pdfUrl?: string | null
     date?: Date | string
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     user: UserCreateNestedOneWithoutInvoiceInput
     items?: InvoiceItemCreateNestedManyWithoutInvoiceInput
   }
@@ -57763,6 +58346,7 @@ export namespace Prisma {
     pdfUrl?: string | null
     date?: Date | string
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     items?: InvoiceItemUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
@@ -57774,6 +58358,7 @@ export namespace Prisma {
     pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutInvoiceNestedInput
     items?: InvoiceItemUpdateManyWithoutInvoiceNestedInput
   }
@@ -57787,6 +58372,7 @@ export namespace Prisma {
     pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     items?: InvoiceItemUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
@@ -57799,6 +58385,7 @@ export namespace Prisma {
     pdfUrl?: string | null
     date?: Date | string
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type InvoiceUpdateManyMutationInput = {
@@ -57809,6 +58396,7 @@ export namespace Prisma {
     pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type InvoiceUncheckedUpdateManyInput = {
@@ -57820,6 +58408,7 @@ export namespace Prisma {
     pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type InvoiceItemCreateInput = {
@@ -58605,22 +59194,16 @@ export namespace Prisma {
     none?: AccountWhereInput
   }
 
-  export type CourseListRelationFilter = {
-    every?: CourseWhereInput
-    some?: CourseWhereInput
-    none?: CourseWhereInput
+  export type LessonProgressListRelationFilter = {
+    every?: LessonProgressWhereInput
+    some?: LessonProgressWhereInput
+    none?: LessonProgressWhereInput
   }
 
   export type EnrollmentListRelationFilter = {
     every?: EnrollmentWhereInput
     some?: EnrollmentWhereInput
     none?: EnrollmentWhereInput
-  }
-
-  export type LessonProgressListRelationFilter = {
-    every?: LessonProgressWhereInput
-    some?: LessonProgressWhereInput
-    none?: LessonProgressWhereInput
   }
 
   export type PaymentListRelationFilter = {
@@ -58635,10 +59218,22 @@ export namespace Prisma {
     none?: InvoiceWhereInput
   }
 
+  export type CourseListRelationFilter = {
+    every?: CourseWhereInput
+    some?: CourseWhereInput
+    none?: CourseWhereInput
+  }
+
   export type LearningPathListRelationFilter = {
     every?: LearningPathWhereInput
     some?: LearningPathWhereInput
     none?: LearningPathWhereInput
+  }
+
+  export type WorkshopListRelationFilter = {
+    every?: WorkshopWhereInput
+    some?: WorkshopWhereInput
+    none?: WorkshopWhereInput
   }
 
   export type SortOrderInput = {
@@ -58654,15 +59249,11 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type CourseOrderByRelationAggregateInput = {
+  export type LessonProgressOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type EnrollmentOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type LessonProgressOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -58674,7 +59265,15 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type CourseOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type LearningPathOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WorkshopOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -58691,6 +59290,7 @@ export namespace Prisma {
     banned?: SortOrder
     banReason?: SortOrder
     banExpires?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -58706,6 +59306,7 @@ export namespace Prisma {
     banned?: SortOrder
     banReason?: SortOrder
     banExpires?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -58721,6 +59322,7 @@ export namespace Prisma {
     banned?: SortOrder
     banReason?: SortOrder
     banExpires?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -58939,6 +59541,7 @@ export namespace Prisma {
     iconLib?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type DomainMaxOrderByAggregateInput = {
@@ -58951,6 +59554,7 @@ export namespace Prisma {
     iconLib?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type DomainMinOrderByAggregateInput = {
@@ -58963,6 +59567,7 @@ export namespace Prisma {
     iconLib?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type DomainScalarRelationFilter = {
@@ -58981,6 +59586,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     domainId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type CategoryMaxOrderByAggregateInput = {
@@ -58994,6 +59600,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     domainId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type CategoryMinOrderByAggregateInput = {
@@ -59007,6 +59614,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     domainId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -59112,6 +59720,7 @@ export namespace Prisma {
     smallDescription?: SortOrder
     fileKey?: SortOrder
     price?: SortOrder
+    currency?: SortOrder
     duration?: SortOrder
     slug?: SortOrder
     status?: SortOrder
@@ -59120,6 +59729,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type LearningPathAvgOrderByAggregateInput = {
@@ -59134,6 +59744,7 @@ export namespace Prisma {
     smallDescription?: SortOrder
     fileKey?: SortOrder
     price?: SortOrder
+    currency?: SortOrder
     duration?: SortOrder
     slug?: SortOrder
     status?: SortOrder
@@ -59142,6 +59753,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type LearningPathMinOrderByAggregateInput = {
@@ -59151,6 +59763,7 @@ export namespace Prisma {
     smallDescription?: SortOrder
     fileKey?: SortOrder
     price?: SortOrder
+    currency?: SortOrder
     duration?: SortOrder
     slug?: SortOrder
     status?: SortOrder
@@ -59159,6 +59772,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type LearningPathSumOrderByAggregateInput = {
@@ -59320,6 +59934,7 @@ export namespace Prisma {
     description?: SortOrder
     fileKey?: SortOrder
     price?: SortOrder
+    currency?: SortOrder
     duration?: SortOrder
     status?: SortOrder
     level?: SortOrder
@@ -59328,6 +59943,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type CourseAvgOrderByAggregateInput = {
@@ -59343,6 +59959,7 @@ export namespace Prisma {
     description?: SortOrder
     fileKey?: SortOrder
     price?: SortOrder
+    currency?: SortOrder
     duration?: SortOrder
     status?: SortOrder
     level?: SortOrder
@@ -59351,6 +59968,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type CourseMinOrderByAggregateInput = {
@@ -59361,6 +59979,7 @@ export namespace Prisma {
     description?: SortOrder
     fileKey?: SortOrder
     price?: SortOrder
+    currency?: SortOrder
     duration?: SortOrder
     status?: SortOrder
     level?: SortOrder
@@ -59369,6 +59988,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type CourseSumOrderByAggregateInput = {
@@ -59493,31 +60113,6 @@ export namespace Prisma {
     duration?: SortOrder
   }
 
-  export type EnumLevelsFilter<$PrismaModel = never> = {
-    equals?: $Enums.Levels | EnumLevelsFieldRefInput<$PrismaModel>
-    in?: $Enums.Levels[] | ListEnumLevelsFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Levels[] | ListEnumLevelsFieldRefInput<$PrismaModel>
-    not?: NestedEnumLevelsFilter<$PrismaModel> | $Enums.Levels
-  }
-
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type EnumStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusFilter<$PrismaModel> | $Enums.Status
-  }
-
   export type WorkshopTagListRelationFilter = {
     every?: WorkshopTagWhereInput
     some?: WorkshopTagWhereInput
@@ -59562,88 +60157,82 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    duration?: SortOrder
-    level?: SortOrder
-    videoKey?: SortOrder
-    price?: SortOrder
     slug?: SortOrder
+    statement?: SortOrder
+    fileKey?: SortOrder
+    statementsStartFileKey?: SortOrder
+    statementVideoKey?: SortOrder
+    price?: SortOrder
+    currency?: SortOrder
+    duration?: SortOrder
     status?: SortOrder
+    level?: SortOrder
+    stripePriceId?: SortOrder
+    solution?: SortOrder
+    solutionFileKey?: SortOrder
+    solutionVideoKey?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type WorkshopAvgOrderByAggregateInput = {
-    duration?: SortOrder
     price?: SortOrder
+    duration?: SortOrder
   }
 
   export type WorkshopMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    duration?: SortOrder
-    level?: SortOrder
-    videoKey?: SortOrder
-    price?: SortOrder
     slug?: SortOrder
+    statement?: SortOrder
+    fileKey?: SortOrder
+    statementsStartFileKey?: SortOrder
+    statementVideoKey?: SortOrder
+    price?: SortOrder
+    currency?: SortOrder
+    duration?: SortOrder
     status?: SortOrder
+    level?: SortOrder
+    stripePriceId?: SortOrder
+    solution?: SortOrder
+    solutionFileKey?: SortOrder
+    solutionVideoKey?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type WorkshopMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    duration?: SortOrder
-    level?: SortOrder
-    videoKey?: SortOrder
-    price?: SortOrder
     slug?: SortOrder
+    statement?: SortOrder
+    fileKey?: SortOrder
+    statementsStartFileKey?: SortOrder
+    statementVideoKey?: SortOrder
+    price?: SortOrder
+    currency?: SortOrder
+    duration?: SortOrder
     status?: SortOrder
+    level?: SortOrder
+    stripePriceId?: SortOrder
+    solution?: SortOrder
+    solutionFileKey?: SortOrder
+    solutionVideoKey?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    userId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type WorkshopSumOrderByAggregateInput = {
-    duration?: SortOrder
     price?: SortOrder
-  }
-
-  export type EnumLevelsWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Levels | EnumLevelsFieldRefInput<$PrismaModel>
-    in?: $Enums.Levels[] | ListEnumLevelsFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Levels[] | ListEnumLevelsFieldRefInput<$PrismaModel>
-    not?: NestedEnumLevelsWithAggregatesFilter<$PrismaModel> | $Enums.Levels
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumLevelsFilter<$PrismaModel>
-    _max?: NestedEnumLevelsFilter<$PrismaModel>
-  }
-
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type EnumStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusWithAggregatesFilter<$PrismaModel> | $Enums.Status
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumStatusFilter<$PrismaModel>
-    _max?: NestedEnumStatusFilter<$PrismaModel>
+    duration?: SortOrder
   }
 
   export type EnumResourceTypeFilter<$PrismaModel = never> = {
@@ -60025,16 +60614,6 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type WorkshopListRelationFilter = {
-    every?: WorkshopWhereInput
-    some?: WorkshopWhereInput
-    none?: WorkshopWhereInput
-  }
-
-  export type WorkshopOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type PromoCodeCountOrderByAggregateInput = {
     id?: SortOrder
     code?: SortOrder
@@ -60128,6 +60707,7 @@ export namespace Prisma {
     courseId?: SortOrder
     userId?: SortOrder
     paymentId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type EnrollmentAvgOrderByAggregateInput = {
@@ -60143,6 +60723,7 @@ export namespace Prisma {
     courseId?: SortOrder
     userId?: SortOrder
     paymentId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type EnrollmentMinOrderByAggregateInput = {
@@ -60154,6 +60735,7 @@ export namespace Prisma {
     courseId?: SortOrder
     userId?: SortOrder
     paymentId?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type EnrollmentSumOrderByAggregateInput = {
@@ -60186,6 +60768,7 @@ export namespace Prisma {
     method?: SortOrder
     receiptUrl?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type PaymentAvgOrderByAggregateInput = {
@@ -60203,6 +60786,7 @@ export namespace Prisma {
     method?: SortOrder
     receiptUrl?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type PaymentMinOrderByAggregateInput = {
@@ -60216,6 +60800,7 @@ export namespace Prisma {
     method?: SortOrder
     receiptUrl?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type PaymentSumOrderByAggregateInput = {
@@ -60241,6 +60826,7 @@ export namespace Prisma {
     pdfUrl?: SortOrder
     date?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type InvoiceAvgOrderByAggregateInput = {
@@ -60256,6 +60842,7 @@ export namespace Prisma {
     pdfUrl?: SortOrder
     date?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type InvoiceMinOrderByAggregateInput = {
@@ -60267,6 +60854,7 @@ export namespace Prisma {
     pdfUrl?: SortOrder
     date?: SortOrder
     createdAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
   export type InvoiceSumOrderByAggregateInput = {
@@ -60680,11 +61268,11 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
-  export type CourseCreateNestedManyWithoutUserInput = {
-    create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
-    createMany?: CourseCreateManyUserInputEnvelope
-    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+  export type LessonProgressCreateNestedManyWithoutUserInput = {
+    create?: XOR<LessonProgressCreateWithoutUserInput, LessonProgressUncheckedCreateWithoutUserInput> | LessonProgressCreateWithoutUserInput[] | LessonProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LessonProgressCreateOrConnectWithoutUserInput | LessonProgressCreateOrConnectWithoutUserInput[]
+    createMany?: LessonProgressCreateManyUserInputEnvelope
+    connect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
   }
 
   export type EnrollmentCreateNestedManyWithoutUserInput = {
@@ -60692,13 +61280,6 @@ export namespace Prisma {
     connectOrCreate?: EnrollmentCreateOrConnectWithoutUserInput | EnrollmentCreateOrConnectWithoutUserInput[]
     createMany?: EnrollmentCreateManyUserInputEnvelope
     connect?: EnrollmentWhereUniqueInput | EnrollmentWhereUniqueInput[]
-  }
-
-  export type LessonProgressCreateNestedManyWithoutUserInput = {
-    create?: XOR<LessonProgressCreateWithoutUserInput, LessonProgressUncheckedCreateWithoutUserInput> | LessonProgressCreateWithoutUserInput[] | LessonProgressUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: LessonProgressCreateOrConnectWithoutUserInput | LessonProgressCreateOrConnectWithoutUserInput[]
-    createMany?: LessonProgressCreateManyUserInputEnvelope
-    connect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
   }
 
   export type PaymentCreateNestedManyWithoutUserInput = {
@@ -60715,11 +61296,25 @@ export namespace Prisma {
     connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
   }
 
+  export type CourseCreateNestedManyWithoutUserInput = {
+    create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
+    createMany?: CourseCreateManyUserInputEnvelope
+    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+  }
+
   export type LearningPathCreateNestedManyWithoutUserInput = {
     create?: XOR<LearningPathCreateWithoutUserInput, LearningPathUncheckedCreateWithoutUserInput> | LearningPathCreateWithoutUserInput[] | LearningPathUncheckedCreateWithoutUserInput[]
     connectOrCreate?: LearningPathCreateOrConnectWithoutUserInput | LearningPathCreateOrConnectWithoutUserInput[]
     createMany?: LearningPathCreateManyUserInputEnvelope
     connect?: LearningPathWhereUniqueInput | LearningPathWhereUniqueInput[]
+  }
+
+  export type WorkshopCreateNestedManyWithoutUserInput = {
+    create?: XOR<WorkshopCreateWithoutUserInput, WorkshopUncheckedCreateWithoutUserInput> | WorkshopCreateWithoutUserInput[] | WorkshopUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WorkshopCreateOrConnectWithoutUserInput | WorkshopCreateOrConnectWithoutUserInput[]
+    createMany?: WorkshopCreateManyUserInputEnvelope
+    connect?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
   }
 
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
@@ -60736,11 +61331,11 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
-  export type CourseUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
-    createMany?: CourseCreateManyUserInputEnvelope
-    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+  export type LessonProgressUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<LessonProgressCreateWithoutUserInput, LessonProgressUncheckedCreateWithoutUserInput> | LessonProgressCreateWithoutUserInput[] | LessonProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LessonProgressCreateOrConnectWithoutUserInput | LessonProgressCreateOrConnectWithoutUserInput[]
+    createMany?: LessonProgressCreateManyUserInputEnvelope
+    connect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
   }
 
   export type EnrollmentUncheckedCreateNestedManyWithoutUserInput = {
@@ -60748,13 +61343,6 @@ export namespace Prisma {
     connectOrCreate?: EnrollmentCreateOrConnectWithoutUserInput | EnrollmentCreateOrConnectWithoutUserInput[]
     createMany?: EnrollmentCreateManyUserInputEnvelope
     connect?: EnrollmentWhereUniqueInput | EnrollmentWhereUniqueInput[]
-  }
-
-  export type LessonProgressUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<LessonProgressCreateWithoutUserInput, LessonProgressUncheckedCreateWithoutUserInput> | LessonProgressCreateWithoutUserInput[] | LessonProgressUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: LessonProgressCreateOrConnectWithoutUserInput | LessonProgressCreateOrConnectWithoutUserInput[]
-    createMany?: LessonProgressCreateManyUserInputEnvelope
-    connect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
   }
 
   export type PaymentUncheckedCreateNestedManyWithoutUserInput = {
@@ -60771,11 +61359,25 @@ export namespace Prisma {
     connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
   }
 
+  export type CourseUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
+    createMany?: CourseCreateManyUserInputEnvelope
+    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+  }
+
   export type LearningPathUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<LearningPathCreateWithoutUserInput, LearningPathUncheckedCreateWithoutUserInput> | LearningPathCreateWithoutUserInput[] | LearningPathUncheckedCreateWithoutUserInput[]
     connectOrCreate?: LearningPathCreateOrConnectWithoutUserInput | LearningPathCreateOrConnectWithoutUserInput[]
     createMany?: LearningPathCreateManyUserInputEnvelope
     connect?: LearningPathWhereUniqueInput | LearningPathWhereUniqueInput[]
+  }
+
+  export type WorkshopUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<WorkshopCreateWithoutUserInput, WorkshopUncheckedCreateWithoutUserInput> | WorkshopCreateWithoutUserInput[] | WorkshopUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WorkshopCreateOrConnectWithoutUserInput | WorkshopCreateOrConnectWithoutUserInput[]
+    createMany?: WorkshopCreateManyUserInputEnvelope
+    connect?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -60830,18 +61432,18 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
-  export type CourseUpdateManyWithoutUserNestedInput = {
-    create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
-    upsert?: CourseUpsertWithWhereUniqueWithoutUserInput | CourseUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: CourseCreateManyUserInputEnvelope
-    set?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    disconnect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    delete?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    update?: CourseUpdateWithWhereUniqueWithoutUserInput | CourseUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: CourseUpdateManyWithWhereWithoutUserInput | CourseUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
+  export type LessonProgressUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LessonProgressCreateWithoutUserInput, LessonProgressUncheckedCreateWithoutUserInput> | LessonProgressCreateWithoutUserInput[] | LessonProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LessonProgressCreateOrConnectWithoutUserInput | LessonProgressCreateOrConnectWithoutUserInput[]
+    upsert?: LessonProgressUpsertWithWhereUniqueWithoutUserInput | LessonProgressUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LessonProgressCreateManyUserInputEnvelope
+    set?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
+    disconnect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
+    delete?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
+    connect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
+    update?: LessonProgressUpdateWithWhereUniqueWithoutUserInput | LessonProgressUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LessonProgressUpdateManyWithWhereWithoutUserInput | LessonProgressUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LessonProgressScalarWhereInput | LessonProgressScalarWhereInput[]
   }
 
   export type EnrollmentUpdateManyWithoutUserNestedInput = {
@@ -60856,20 +61458,6 @@ export namespace Prisma {
     update?: EnrollmentUpdateWithWhereUniqueWithoutUserInput | EnrollmentUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: EnrollmentUpdateManyWithWhereWithoutUserInput | EnrollmentUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: EnrollmentScalarWhereInput | EnrollmentScalarWhereInput[]
-  }
-
-  export type LessonProgressUpdateManyWithoutUserNestedInput = {
-    create?: XOR<LessonProgressCreateWithoutUserInput, LessonProgressUncheckedCreateWithoutUserInput> | LessonProgressCreateWithoutUserInput[] | LessonProgressUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: LessonProgressCreateOrConnectWithoutUserInput | LessonProgressCreateOrConnectWithoutUserInput[]
-    upsert?: LessonProgressUpsertWithWhereUniqueWithoutUserInput | LessonProgressUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: LessonProgressCreateManyUserInputEnvelope
-    set?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
-    disconnect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
-    delete?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
-    connect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
-    update?: LessonProgressUpdateWithWhereUniqueWithoutUserInput | LessonProgressUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: LessonProgressUpdateManyWithWhereWithoutUserInput | LessonProgressUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: LessonProgressScalarWhereInput | LessonProgressScalarWhereInput[]
   }
 
   export type PaymentUpdateManyWithoutUserNestedInput = {
@@ -60900,6 +61488,20 @@ export namespace Prisma {
     deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
   }
 
+  export type CourseUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
+    upsert?: CourseUpsertWithWhereUniqueWithoutUserInput | CourseUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CourseCreateManyUserInputEnvelope
+    set?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    disconnect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    delete?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    update?: CourseUpdateWithWhereUniqueWithoutUserInput | CourseUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CourseUpdateManyWithWhereWithoutUserInput | CourseUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
+  }
+
   export type LearningPathUpdateManyWithoutUserNestedInput = {
     create?: XOR<LearningPathCreateWithoutUserInput, LearningPathUncheckedCreateWithoutUserInput> | LearningPathCreateWithoutUserInput[] | LearningPathUncheckedCreateWithoutUserInput[]
     connectOrCreate?: LearningPathCreateOrConnectWithoutUserInput | LearningPathCreateOrConnectWithoutUserInput[]
@@ -60912,6 +61514,20 @@ export namespace Prisma {
     update?: LearningPathUpdateWithWhereUniqueWithoutUserInput | LearningPathUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: LearningPathUpdateManyWithWhereWithoutUserInput | LearningPathUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: LearningPathScalarWhereInput | LearningPathScalarWhereInput[]
+  }
+
+  export type WorkshopUpdateManyWithoutUserNestedInput = {
+    create?: XOR<WorkshopCreateWithoutUserInput, WorkshopUncheckedCreateWithoutUserInput> | WorkshopCreateWithoutUserInput[] | WorkshopUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WorkshopCreateOrConnectWithoutUserInput | WorkshopCreateOrConnectWithoutUserInput[]
+    upsert?: WorkshopUpsertWithWhereUniqueWithoutUserInput | WorkshopUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: WorkshopCreateManyUserInputEnvelope
+    set?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
+    disconnect?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
+    delete?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
+    connect?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
+    update?: WorkshopUpdateWithWhereUniqueWithoutUserInput | WorkshopUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: WorkshopUpdateManyWithWhereWithoutUserInput | WorkshopUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: WorkshopScalarWhereInput | WorkshopScalarWhereInput[]
   }
 
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
@@ -60942,18 +61558,18 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
-  export type CourseUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
-    upsert?: CourseUpsertWithWhereUniqueWithoutUserInput | CourseUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: CourseCreateManyUserInputEnvelope
-    set?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    disconnect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    delete?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
-    update?: CourseUpdateWithWhereUniqueWithoutUserInput | CourseUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: CourseUpdateManyWithWhereWithoutUserInput | CourseUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
+  export type LessonProgressUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LessonProgressCreateWithoutUserInput, LessonProgressUncheckedCreateWithoutUserInput> | LessonProgressCreateWithoutUserInput[] | LessonProgressUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LessonProgressCreateOrConnectWithoutUserInput | LessonProgressCreateOrConnectWithoutUserInput[]
+    upsert?: LessonProgressUpsertWithWhereUniqueWithoutUserInput | LessonProgressUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LessonProgressCreateManyUserInputEnvelope
+    set?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
+    disconnect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
+    delete?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
+    connect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
+    update?: LessonProgressUpdateWithWhereUniqueWithoutUserInput | LessonProgressUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LessonProgressUpdateManyWithWhereWithoutUserInput | LessonProgressUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LessonProgressScalarWhereInput | LessonProgressScalarWhereInput[]
   }
 
   export type EnrollmentUncheckedUpdateManyWithoutUserNestedInput = {
@@ -60968,20 +61584,6 @@ export namespace Prisma {
     update?: EnrollmentUpdateWithWhereUniqueWithoutUserInput | EnrollmentUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: EnrollmentUpdateManyWithWhereWithoutUserInput | EnrollmentUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: EnrollmentScalarWhereInput | EnrollmentScalarWhereInput[]
-  }
-
-  export type LessonProgressUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<LessonProgressCreateWithoutUserInput, LessonProgressUncheckedCreateWithoutUserInput> | LessonProgressCreateWithoutUserInput[] | LessonProgressUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: LessonProgressCreateOrConnectWithoutUserInput | LessonProgressCreateOrConnectWithoutUserInput[]
-    upsert?: LessonProgressUpsertWithWhereUniqueWithoutUserInput | LessonProgressUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: LessonProgressCreateManyUserInputEnvelope
-    set?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
-    disconnect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
-    delete?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
-    connect?: LessonProgressWhereUniqueInput | LessonProgressWhereUniqueInput[]
-    update?: LessonProgressUpdateWithWhereUniqueWithoutUserInput | LessonProgressUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: LessonProgressUpdateManyWithWhereWithoutUserInput | LessonProgressUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: LessonProgressScalarWhereInput | LessonProgressScalarWhereInput[]
   }
 
   export type PaymentUncheckedUpdateManyWithoutUserNestedInput = {
@@ -61012,6 +61614,20 @@ export namespace Prisma {
     deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
   }
 
+  export type CourseUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput> | CourseCreateWithoutUserInput[] | CourseUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CourseCreateOrConnectWithoutUserInput | CourseCreateOrConnectWithoutUserInput[]
+    upsert?: CourseUpsertWithWhereUniqueWithoutUserInput | CourseUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CourseCreateManyUserInputEnvelope
+    set?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    disconnect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    delete?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    connect?: CourseWhereUniqueInput | CourseWhereUniqueInput[]
+    update?: CourseUpdateWithWhereUniqueWithoutUserInput | CourseUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CourseUpdateManyWithWhereWithoutUserInput | CourseUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
+  }
+
   export type LearningPathUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<LearningPathCreateWithoutUserInput, LearningPathUncheckedCreateWithoutUserInput> | LearningPathCreateWithoutUserInput[] | LearningPathUncheckedCreateWithoutUserInput[]
     connectOrCreate?: LearningPathCreateOrConnectWithoutUserInput | LearningPathCreateOrConnectWithoutUserInput[]
@@ -61024,6 +61640,20 @@ export namespace Prisma {
     update?: LearningPathUpdateWithWhereUniqueWithoutUserInput | LearningPathUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: LearningPathUpdateManyWithWhereWithoutUserInput | LearningPathUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: LearningPathScalarWhereInput | LearningPathScalarWhereInput[]
+  }
+
+  export type WorkshopUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<WorkshopCreateWithoutUserInput, WorkshopUncheckedCreateWithoutUserInput> | WorkshopCreateWithoutUserInput[] | WorkshopUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WorkshopCreateOrConnectWithoutUserInput | WorkshopCreateOrConnectWithoutUserInput[]
+    upsert?: WorkshopUpsertWithWhereUniqueWithoutUserInput | WorkshopUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: WorkshopCreateManyUserInputEnvelope
+    set?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
+    disconnect?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
+    delete?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
+    connect?: WorkshopWhereUniqueInput | WorkshopWhereUniqueInput[]
+    update?: WorkshopUpdateWithWhereUniqueWithoutUserInput | WorkshopUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: WorkshopUpdateManyWithWhereWithoutUserInput | WorkshopUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: WorkshopScalarWhereInput | WorkshopScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutSessionsInput = {
@@ -62216,6 +62846,12 @@ export namespace Prisma {
     deleteMany?: LessonResourceScalarWhereInput | LessonResourceScalarWhereInput[]
   }
 
+  export type UserCreateNestedOneWithoutWorkshopInput = {
+    create?: XOR<UserCreateWithoutWorkshopInput, UserUncheckedCreateWithoutWorkshopInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWorkshopInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type WorkshopTagCreateNestedManyWithoutWorkshopInput = {
     create?: XOR<WorkshopTagCreateWithoutWorkshopInput, WorkshopTagUncheckedCreateWithoutWorkshopInput> | WorkshopTagCreateWithoutWorkshopInput[] | WorkshopTagUncheckedCreateWithoutWorkshopInput[]
     connectOrCreate?: WorkshopTagCreateOrConnectWithoutWorkshopInput | WorkshopTagCreateOrConnectWithoutWorkshopInput[]
@@ -62326,20 +62962,14 @@ export namespace Prisma {
     connect?: PromotionWhereUniqueInput | PromotionWhereUniqueInput[]
   }
 
-  export type EnumLevelsFieldUpdateOperationsInput = {
-    set?: $Enums.Levels
-  }
-
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
-  export type EnumStatusFieldUpdateOperationsInput = {
-    set?: $Enums.Status
+  export type UserUpdateOneWithoutWorkshopNestedInput = {
+    create?: XOR<UserCreateWithoutWorkshopInput, UserUncheckedCreateWithoutWorkshopInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWorkshopInput
+    upsert?: UserUpsertWithoutWorkshopInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWorkshopInput, UserUpdateWithoutWorkshopInput>, UserUncheckedUpdateWithoutWorkshopInput>
   }
 
   export type WorkshopTagUpdateManyWithoutWorkshopNestedInput = {
@@ -64268,56 +64898,6 @@ export namespace Prisma {
     _max?: NestedEnumItemTypeFilter<$PrismaModel>
   }
 
-  export type NestedEnumLevelsFilter<$PrismaModel = never> = {
-    equals?: $Enums.Levels | EnumLevelsFieldRefInput<$PrismaModel>
-    in?: $Enums.Levels[] | ListEnumLevelsFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Levels[] | ListEnumLevelsFieldRefInput<$PrismaModel>
-    not?: NestedEnumLevelsFilter<$PrismaModel> | $Enums.Levels
-  }
-
-  export type NestedEnumStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusFilter<$PrismaModel> | $Enums.Status
-  }
-
-  export type NestedEnumLevelsWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Levels | EnumLevelsFieldRefInput<$PrismaModel>
-    in?: $Enums.Levels[] | ListEnumLevelsFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Levels[] | ListEnumLevelsFieldRefInput<$PrismaModel>
-    not?: NestedEnumLevelsWithAggregatesFilter<$PrismaModel> | $Enums.Levels
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumLevelsFilter<$PrismaModel>
-    _max?: NestedEnumLevelsFilter<$PrismaModel>
-  }
-
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type NestedEnumStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusWithAggregatesFilter<$PrismaModel> | $Enums.Status
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumStatusFilter<$PrismaModel>
-    _max?: NestedEnumStatusFilter<$PrismaModel>
-  }
-
   export type NestedEnumResourceTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.ResourceType | EnumResourceTypeFieldRefInput<$PrismaModel>
     in?: $Enums.ResourceType[] | ListEnumResourceTypeFieldRefInput<$PrismaModel>
@@ -64485,102 +65065,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type CourseCreateWithoutUserInput = {
-    id?: string
-    title: string
-    slug: string
-    smallDescription: string
-    description: string
-    fileKey: string
-    price: number
-    duration: number
-    status: string
-    level: string
-    stripePriceId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    chapters?: ChapterCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
-    category: CategoryCreateNestedOneWithoutCoursesInput
-    Payment?: PaymentCreateNestedManyWithoutCourseInput
-    promotions?: PromotionCreateNestedManyWithoutCourseInput
-    promoCodes?: PromoCodeCreateNestedManyWithoutApplicableCoursesInput
-    tags?: CourseTagCreateNestedManyWithoutCourseInput
-    progress?: UserProgressCreateNestedManyWithoutCourseInput
-    resources?: CourseResourceCreateNestedManyWithoutCourseInput
-    learningPathItems?: LearningPathItemCreateNestedManyWithoutCourseInput
-    objectives?: CourseObjectiveCreateNestedManyWithoutCourseInput
-    prerequisites?: CoursePrerequisiteCreateNestedManyWithoutCourseInput
-  }
-
-  export type CourseUncheckedCreateWithoutUserInput = {
-    id?: string
-    title: string
-    slug: string
-    smallDescription: string
-    description: string
-    fileKey: string
-    price: number
-    duration: number
-    status: string
-    level: string
-    stripePriceId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    categoryId: string
-    chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
-    promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
-    promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableCoursesInput
-    tags?: CourseTagUncheckedCreateNestedManyWithoutCourseInput
-    progress?: UserProgressUncheckedCreateNestedManyWithoutCourseInput
-    resources?: CourseResourceUncheckedCreateNestedManyWithoutCourseInput
-    learningPathItems?: LearningPathItemUncheckedCreateNestedManyWithoutCourseInput
-    objectives?: CourseObjectiveUncheckedCreateNestedManyWithoutCourseInput
-    prerequisites?: CoursePrerequisiteUncheckedCreateNestedManyWithoutCourseInput
-  }
-
-  export type CourseCreateOrConnectWithoutUserInput = {
-    where: CourseWhereUniqueInput
-    create: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput>
-  }
-
-  export type CourseCreateManyUserInputEnvelope = {
-    data: CourseCreateManyUserInput | CourseCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type EnrollmentCreateWithoutUserInput = {
-    id?: string
-    amount: number
-    status?: $Enums.enrollmentStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    course: CourseCreateNestedOneWithoutEnrollmentInput
-    payment?: PaymentCreateNestedOneWithoutEnrollmentInput
-  }
-
-  export type EnrollmentUncheckedCreateWithoutUserInput = {
-    id?: string
-    amount: number
-    status?: $Enums.enrollmentStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    courseId: string
-    paymentId?: string | null
-  }
-
-  export type EnrollmentCreateOrConnectWithoutUserInput = {
-    where: EnrollmentWhereUniqueInput
-    create: XOR<EnrollmentCreateWithoutUserInput, EnrollmentUncheckedCreateWithoutUserInput>
-  }
-
-  export type EnrollmentCreateManyUserInputEnvelope = {
-    data: EnrollmentCreateManyUserInput | EnrollmentCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
   export type LessonProgressCreateWithoutUserInput = {
     id?: string
     completed?: boolean
@@ -64607,6 +65091,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type EnrollmentCreateWithoutUserInput = {
+    id?: string
+    amount: number
+    status?: $Enums.enrollmentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    course: CourseCreateNestedOneWithoutEnrollmentInput
+    payment?: PaymentCreateNestedOneWithoutEnrollmentInput
+  }
+
+  export type EnrollmentUncheckedCreateWithoutUserInput = {
+    id?: string
+    amount: number
+    status?: $Enums.enrollmentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    courseId: string
+    paymentId?: string | null
+    deletedAt?: Date | string | null
+  }
+
+  export type EnrollmentCreateOrConnectWithoutUserInput = {
+    where: EnrollmentWhereUniqueInput
+    create: XOR<EnrollmentCreateWithoutUserInput, EnrollmentUncheckedCreateWithoutUserInput>
+  }
+
+  export type EnrollmentCreateManyUserInputEnvelope = {
+    data: EnrollmentCreateManyUserInput | EnrollmentCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PaymentCreateWithoutUserInput = {
     id?: string
     stripeId: string
@@ -64616,6 +65132,7 @@ export namespace Prisma {
     method?: string | null
     receiptUrl?: string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     course: CourseCreateNestedOneWithoutPaymentInput
     enrollment?: EnrollmentCreateNestedOneWithoutPaymentInput
   }
@@ -64630,6 +65147,7 @@ export namespace Prisma {
     method?: string | null
     receiptUrl?: string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     enrollment?: EnrollmentUncheckedCreateNestedOneWithoutPaymentInput
   }
 
@@ -64651,6 +65169,7 @@ export namespace Prisma {
     pdfUrl?: string | null
     date?: Date | string
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     items?: InvoiceItemCreateNestedManyWithoutInvoiceInput
   }
 
@@ -64662,6 +65181,7 @@ export namespace Prisma {
     pdfUrl?: string | null
     date?: Date | string
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     items?: InvoiceItemUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
@@ -64675,6 +65195,76 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CourseCreateWithoutUserInput = {
+    id?: string
+    title: string
+    slug: string
+    smallDescription: string
+    description: string
+    fileKey: string
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    chapters?: ChapterCreateNestedManyWithoutCourseInput
+    enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
+    category: CategoryCreateNestedOneWithoutCoursesInput
+    Payment?: PaymentCreateNestedManyWithoutCourseInput
+    promotions?: PromotionCreateNestedManyWithoutCourseInput
+    promoCodes?: PromoCodeCreateNestedManyWithoutApplicableCoursesInput
+    tags?: CourseTagCreateNestedManyWithoutCourseInput
+    progress?: UserProgressCreateNestedManyWithoutCourseInput
+    resources?: CourseResourceCreateNestedManyWithoutCourseInput
+    learningPathItems?: LearningPathItemCreateNestedManyWithoutCourseInput
+    objectives?: CourseObjectiveCreateNestedManyWithoutCourseInput
+    prerequisites?: CoursePrerequisiteCreateNestedManyWithoutCourseInput
+  }
+
+  export type CourseUncheckedCreateWithoutUserInput = {
+    id?: string
+    title: string
+    slug: string
+    smallDescription: string
+    description: string
+    fileKey: string
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    categoryId: string
+    deletedAt?: Date | string | null
+    chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
+    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
+    promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableCoursesInput
+    tags?: CourseTagUncheckedCreateNestedManyWithoutCourseInput
+    progress?: UserProgressUncheckedCreateNestedManyWithoutCourseInput
+    resources?: CourseResourceUncheckedCreateNestedManyWithoutCourseInput
+    learningPathItems?: LearningPathItemUncheckedCreateNestedManyWithoutCourseInput
+    objectives?: CourseObjectiveUncheckedCreateNestedManyWithoutCourseInput
+    prerequisites?: CoursePrerequisiteUncheckedCreateNestedManyWithoutCourseInput
+  }
+
+  export type CourseCreateOrConnectWithoutUserInput = {
+    where: CourseWhereUniqueInput
+    create: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput>
+  }
+
+  export type CourseCreateManyUserInputEnvelope = {
+    data: CourseCreateManyUserInput | CourseCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type LearningPathCreateWithoutUserInput = {
     id?: string
     title: string
@@ -64682,6 +65272,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -64689,6 +65280,7 @@ export namespace Prisma {
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressCreateNestedManyWithoutPathInput
@@ -64706,6 +65298,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -64713,6 +65306,7 @@ export namespace Prisma {
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     tags?: LearningPathTagUncheckedCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemUncheckedCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutPathInput
@@ -64730,6 +65324,78 @@ export namespace Prisma {
 
   export type LearningPathCreateManyUserInputEnvelope = {
     data: LearningPathCreateManyUserInput | LearningPathCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WorkshopCreateWithoutUserInput = {
+    id?: string
+    title: string
+    description: string
+    slug: string
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
+    progress?: UserProgressCreateNestedManyWithoutWorkshopInput
+    resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
+    learningPathItems?: LearningPathItemCreateNestedManyWithoutWorkshopInput
+    objectives?: WorkshopObjectiveCreateNestedManyWithoutWorkshopInput
+    prerequisites?: WorkshopPrerequisiteCreateNestedManyWithoutWorkshopInput
+    promoCodes?: PromoCodeCreateNestedManyWithoutApplicableWorkshopsInput
+    promotions?: PromotionCreateNestedManyWithoutWorkshopInput
+  }
+
+  export type WorkshopUncheckedCreateWithoutUserInput = {
+    id?: string
+    title: string
+    description: string
+    slug: string
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    tags?: WorkshopTagUncheckedCreateNestedManyWithoutWorkshopInput
+    progress?: UserProgressUncheckedCreateNestedManyWithoutWorkshopInput
+    resources?: WorkshopResourceUncheckedCreateNestedManyWithoutWorkshopInput
+    learningPathItems?: LearningPathItemUncheckedCreateNestedManyWithoutWorkshopInput
+    objectives?: WorkshopObjectiveUncheckedCreateNestedManyWithoutWorkshopInput
+    prerequisites?: WorkshopPrerequisiteUncheckedCreateNestedManyWithoutWorkshopInput
+    promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableWorkshopsInput
+    promotions?: PromotionUncheckedCreateNestedManyWithoutWorkshopInput
+  }
+
+  export type WorkshopCreateOrConnectWithoutUserInput = {
+    where: WorkshopWhereUniqueInput
+    create: XOR<WorkshopCreateWithoutUserInput, WorkshopUncheckedCreateWithoutUserInput>
+  }
+
+  export type WorkshopCreateManyUserInputEnvelope = {
+    data: WorkshopCreateManyUserInput | WorkshopCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -64799,41 +65465,32 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Account"> | Date | string
   }
 
-  export type CourseUpsertWithWhereUniqueWithoutUserInput = {
-    where: CourseWhereUniqueInput
-    update: XOR<CourseUpdateWithoutUserInput, CourseUncheckedUpdateWithoutUserInput>
-    create: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput>
+  export type LessonProgressUpsertWithWhereUniqueWithoutUserInput = {
+    where: LessonProgressWhereUniqueInput
+    update: XOR<LessonProgressUpdateWithoutUserInput, LessonProgressUncheckedUpdateWithoutUserInput>
+    create: XOR<LessonProgressCreateWithoutUserInput, LessonProgressUncheckedCreateWithoutUserInput>
   }
 
-  export type CourseUpdateWithWhereUniqueWithoutUserInput = {
-    where: CourseWhereUniqueInput
-    data: XOR<CourseUpdateWithoutUserInput, CourseUncheckedUpdateWithoutUserInput>
+  export type LessonProgressUpdateWithWhereUniqueWithoutUserInput = {
+    where: LessonProgressWhereUniqueInput
+    data: XOR<LessonProgressUpdateWithoutUserInput, LessonProgressUncheckedUpdateWithoutUserInput>
   }
 
-  export type CourseUpdateManyWithWhereWithoutUserInput = {
-    where: CourseScalarWhereInput
-    data: XOR<CourseUpdateManyMutationInput, CourseUncheckedUpdateManyWithoutUserInput>
+  export type LessonProgressUpdateManyWithWhereWithoutUserInput = {
+    where: LessonProgressScalarWhereInput
+    data: XOR<LessonProgressUpdateManyMutationInput, LessonProgressUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type CourseScalarWhereInput = {
-    AND?: CourseScalarWhereInput | CourseScalarWhereInput[]
-    OR?: CourseScalarWhereInput[]
-    NOT?: CourseScalarWhereInput | CourseScalarWhereInput[]
-    id?: StringFilter<"Course"> | string
-    title?: StringFilter<"Course"> | string
-    slug?: StringFilter<"Course"> | string
-    smallDescription?: StringFilter<"Course"> | string
-    description?: StringFilter<"Course"> | string
-    fileKey?: StringFilter<"Course"> | string
-    price?: IntFilter<"Course"> | number
-    duration?: IntFilter<"Course"> | number
-    status?: StringFilter<"Course"> | string
-    level?: StringFilter<"Course"> | string
-    stripePriceId?: StringFilter<"Course"> | string
-    createdAt?: DateTimeFilter<"Course"> | Date | string
-    updatedAt?: DateTimeFilter<"Course"> | Date | string
-    userId?: StringFilter<"Course"> | string
-    categoryId?: StringFilter<"Course"> | string
+  export type LessonProgressScalarWhereInput = {
+    AND?: LessonProgressScalarWhereInput | LessonProgressScalarWhereInput[]
+    OR?: LessonProgressScalarWhereInput[]
+    NOT?: LessonProgressScalarWhereInput | LessonProgressScalarWhereInput[]
+    id?: StringFilter<"LessonProgress"> | string
+    completed?: BoolFilter<"LessonProgress"> | boolean
+    createdAt?: DateTimeFilter<"LessonProgress"> | Date | string
+    updatedAt?: DateTimeFilter<"LessonProgress"> | Date | string
+    userId?: StringFilter<"LessonProgress"> | string
+    lessonId?: StringFilter<"LessonProgress"> | string
   }
 
   export type EnrollmentUpsertWithWhereUniqueWithoutUserInput = {
@@ -64864,34 +65521,7 @@ export namespace Prisma {
     courseId?: StringFilter<"Enrollment"> | string
     userId?: StringFilter<"Enrollment"> | string
     paymentId?: StringNullableFilter<"Enrollment"> | string | null
-  }
-
-  export type LessonProgressUpsertWithWhereUniqueWithoutUserInput = {
-    where: LessonProgressWhereUniqueInput
-    update: XOR<LessonProgressUpdateWithoutUserInput, LessonProgressUncheckedUpdateWithoutUserInput>
-    create: XOR<LessonProgressCreateWithoutUserInput, LessonProgressUncheckedCreateWithoutUserInput>
-  }
-
-  export type LessonProgressUpdateWithWhereUniqueWithoutUserInput = {
-    where: LessonProgressWhereUniqueInput
-    data: XOR<LessonProgressUpdateWithoutUserInput, LessonProgressUncheckedUpdateWithoutUserInput>
-  }
-
-  export type LessonProgressUpdateManyWithWhereWithoutUserInput = {
-    where: LessonProgressScalarWhereInput
-    data: XOR<LessonProgressUpdateManyMutationInput, LessonProgressUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type LessonProgressScalarWhereInput = {
-    AND?: LessonProgressScalarWhereInput | LessonProgressScalarWhereInput[]
-    OR?: LessonProgressScalarWhereInput[]
-    NOT?: LessonProgressScalarWhereInput | LessonProgressScalarWhereInput[]
-    id?: StringFilter<"LessonProgress"> | string
-    completed?: BoolFilter<"LessonProgress"> | boolean
-    createdAt?: DateTimeFilter<"LessonProgress"> | Date | string
-    updatedAt?: DateTimeFilter<"LessonProgress"> | Date | string
-    userId?: StringFilter<"LessonProgress"> | string
-    lessonId?: StringFilter<"LessonProgress"> | string
+    deletedAt?: DateTimeNullableFilter<"Enrollment"> | Date | string | null
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutUserInput = {
@@ -64924,6 +65554,7 @@ export namespace Prisma {
     method?: StringNullableFilter<"Payment"> | string | null
     receiptUrl?: StringNullableFilter<"Payment"> | string | null
     createdAt?: DateTimeFilter<"Payment"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
   }
 
   export type InvoiceUpsertWithWhereUniqueWithoutUserInput = {
@@ -64954,6 +65585,46 @@ export namespace Prisma {
     pdfUrl?: StringNullableFilter<"Invoice"> | string | null
     date?: DateTimeFilter<"Invoice"> | Date | string
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+  }
+
+  export type CourseUpsertWithWhereUniqueWithoutUserInput = {
+    where: CourseWhereUniqueInput
+    update: XOR<CourseUpdateWithoutUserInput, CourseUncheckedUpdateWithoutUserInput>
+    create: XOR<CourseCreateWithoutUserInput, CourseUncheckedCreateWithoutUserInput>
+  }
+
+  export type CourseUpdateWithWhereUniqueWithoutUserInput = {
+    where: CourseWhereUniqueInput
+    data: XOR<CourseUpdateWithoutUserInput, CourseUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CourseUpdateManyWithWhereWithoutUserInput = {
+    where: CourseScalarWhereInput
+    data: XOR<CourseUpdateManyMutationInput, CourseUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type CourseScalarWhereInput = {
+    AND?: CourseScalarWhereInput | CourseScalarWhereInput[]
+    OR?: CourseScalarWhereInput[]
+    NOT?: CourseScalarWhereInput | CourseScalarWhereInput[]
+    id?: StringFilter<"Course"> | string
+    title?: StringFilter<"Course"> | string
+    slug?: StringFilter<"Course"> | string
+    smallDescription?: StringFilter<"Course"> | string
+    description?: StringFilter<"Course"> | string
+    fileKey?: StringFilter<"Course"> | string
+    price?: IntFilter<"Course"> | number
+    currency?: StringFilter<"Course"> | string
+    duration?: IntFilter<"Course"> | number
+    status?: StringFilter<"Course"> | string
+    level?: StringFilter<"Course"> | string
+    stripePriceId?: StringFilter<"Course"> | string
+    createdAt?: DateTimeFilter<"Course"> | Date | string
+    updatedAt?: DateTimeFilter<"Course"> | Date | string
+    userId?: StringFilter<"Course"> | string
+    categoryId?: StringFilter<"Course"> | string
+    deletedAt?: DateTimeNullableFilter<"Course"> | Date | string | null
   }
 
   export type LearningPathUpsertWithWhereUniqueWithoutUserInput = {
@@ -64982,6 +65653,7 @@ export namespace Prisma {
     smallDescription?: StringFilter<"LearningPath"> | string
     fileKey?: StringFilter<"LearningPath"> | string
     price?: IntFilter<"LearningPath"> | number
+    currency?: StringFilter<"LearningPath"> | string
     duration?: IntFilter<"LearningPath"> | number
     slug?: StringFilter<"LearningPath"> | string
     status?: StringFilter<"LearningPath"> | string
@@ -64990,6 +65662,50 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"LearningPath"> | Date | string
     updatedAt?: DateTimeFilter<"LearningPath"> | Date | string
     userId?: StringFilter<"LearningPath"> | string
+    deletedAt?: DateTimeNullableFilter<"LearningPath"> | Date | string | null
+  }
+
+  export type WorkshopUpsertWithWhereUniqueWithoutUserInput = {
+    where: WorkshopWhereUniqueInput
+    update: XOR<WorkshopUpdateWithoutUserInput, WorkshopUncheckedUpdateWithoutUserInput>
+    create: XOR<WorkshopCreateWithoutUserInput, WorkshopUncheckedCreateWithoutUserInput>
+  }
+
+  export type WorkshopUpdateWithWhereUniqueWithoutUserInput = {
+    where: WorkshopWhereUniqueInput
+    data: XOR<WorkshopUpdateWithoutUserInput, WorkshopUncheckedUpdateWithoutUserInput>
+  }
+
+  export type WorkshopUpdateManyWithWhereWithoutUserInput = {
+    where: WorkshopScalarWhereInput
+    data: XOR<WorkshopUpdateManyMutationInput, WorkshopUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type WorkshopScalarWhereInput = {
+    AND?: WorkshopScalarWhereInput | WorkshopScalarWhereInput[]
+    OR?: WorkshopScalarWhereInput[]
+    NOT?: WorkshopScalarWhereInput | WorkshopScalarWhereInput[]
+    id?: StringFilter<"Workshop"> | string
+    title?: StringFilter<"Workshop"> | string
+    description?: StringFilter<"Workshop"> | string
+    slug?: StringFilter<"Workshop"> | string
+    statement?: StringFilter<"Workshop"> | string
+    fileKey?: StringFilter<"Workshop"> | string
+    statementsStartFileKey?: StringNullableFilter<"Workshop"> | string | null
+    statementVideoKey?: StringNullableFilter<"Workshop"> | string | null
+    price?: IntFilter<"Workshop"> | number
+    currency?: StringFilter<"Workshop"> | string
+    duration?: IntFilter<"Workshop"> | number
+    status?: StringFilter<"Workshop"> | string
+    level?: StringFilter<"Workshop"> | string
+    stripePriceId?: StringNullableFilter<"Workshop"> | string | null
+    solution?: StringNullableFilter<"Workshop"> | string | null
+    solutionFileKey?: StringNullableFilter<"Workshop"> | string | null
+    solutionVideoKey?: StringNullableFilter<"Workshop"> | string | null
+    createdAt?: DateTimeFilter<"Workshop"> | Date | string
+    updatedAt?: DateTimeFilter<"Workshop"> | Date | string
+    userId?: StringFilter<"Workshop"> | string
+    deletedAt?: DateTimeNullableFilter<"Workshop"> | Date | string | null
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -65005,13 +65721,15 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
-    courses?: CourseCreateNestedManyWithoutUserInput
-    enrollment?: EnrollmentCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentCreateNestedManyWithoutUserInput
     Payment?: PaymentCreateNestedManyWithoutUserInput
     Invoice?: InvoiceCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUserInput
     LearningPath?: LearningPathCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -65027,13 +65745,15 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
     Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
     LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -65065,13 +65785,15 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    courses?: CourseUpdateManyWithoutUserNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
     Payment?: PaymentUpdateManyWithoutUserNestedInput
     Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUserNestedInput
     LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -65087,13 +65809,15 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
     LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -65109,13 +65833,15 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
-    courses?: CourseCreateNestedManyWithoutUserInput
-    enrollment?: EnrollmentCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentCreateNestedManyWithoutUserInput
     Payment?: PaymentCreateNestedManyWithoutUserInput
     Invoice?: InvoiceCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUserInput
     LearningPath?: LearningPathCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -65131,13 +65857,15 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
     Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
     LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -65169,13 +65897,15 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    courses?: CourseUpdateManyWithoutUserNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
     Payment?: PaymentUpdateManyWithoutUserNestedInput
     Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUserNestedInput
     LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -65191,13 +65921,15 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
     LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CategoryCreateWithoutDomainInput = {
@@ -65210,6 +65942,7 @@ export namespace Prisma {
     iconLib?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     courses?: CourseCreateNestedManyWithoutCategoryInput
   }
 
@@ -65223,6 +65956,7 @@ export namespace Prisma {
     iconLib?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     courses?: CourseUncheckedCreateNestedManyWithoutCategoryInput
   }
 
@@ -65266,6 +66000,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Category"> | Date | string
     updatedAt?: DateTimeFilter<"Category"> | Date | string
     domainId?: StringFilter<"Category"> | string
+    deletedAt?: DateTimeNullableFilter<"Category"> | Date | string | null
   }
 
   export type CourseCreateWithoutCategoryInput = {
@@ -65276,12 +66011,14 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
@@ -65304,6 +66041,7 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
@@ -65311,6 +66049,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+    deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
@@ -65344,6 +66083,7 @@ export namespace Prisma {
     iconLib?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type DomainUncheckedCreateWithoutCategoriesInput = {
@@ -65356,6 +66096,7 @@ export namespace Prisma {
     iconLib?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type DomainCreateOrConnectWithoutCategoriesInput = {
@@ -65400,6 +66141,7 @@ export namespace Prisma {
     iconLib?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type DomainUncheckedUpdateWithoutCategoriesInput = {
@@ -65412,6 +66154,7 @@ export namespace Prisma {
     iconLib?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserCreateWithoutLearningPathInput = {
@@ -65427,13 +66170,15 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    courses?: CourseCreateNestedManyWithoutUserInput
-    enrollment?: EnrollmentCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentCreateNestedManyWithoutUserInput
     Payment?: PaymentCreateNestedManyWithoutUserInput
     Invoice?: InvoiceCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLearningPathInput = {
@@ -65449,13 +66194,15 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
     Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLearningPathInput = {
@@ -65688,13 +66435,15 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    courses?: CourseUpdateManyWithoutUserNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
     Payment?: PaymentUpdateManyWithoutUserNestedInput
     Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLearningPathInput = {
@@ -65710,13 +66459,15 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LearningPathTagUpsertWithWhereUniqueWithoutLearningPathInput = {
@@ -65945,6 +66696,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -65952,6 +66704,7 @@ export namespace Prisma {
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutLearningPathInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressCreateNestedManyWithoutPathInput
@@ -65969,6 +66722,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -65977,6 +66731,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+    deletedAt?: Date | string | null
     tags?: LearningPathTagUncheckedCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutPathInput
     resources?: LearningPathResourceUncheckedCreateNestedManyWithoutLearningPathInput
@@ -65999,12 +66754,14 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
@@ -66027,6 +66784,7 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
@@ -66035,6 +66793,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userId: string
     categoryId: string
+    deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
@@ -66056,14 +66815,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user?: UserCreateNestedOneWithoutWorkshopInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
@@ -66077,14 +66846,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    userId: string
+    deletedAt?: Date | string | null
     tags?: WorkshopTagUncheckedCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceUncheckedCreateNestedManyWithoutWorkshopInput
@@ -66150,6 +66929,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -66157,6 +66937,7 @@ export namespace Prisma {
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutLearningPathNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUpdateManyWithoutPathNestedInput
@@ -66174,6 +66955,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -66182,6 +66964,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: LearningPathTagUncheckedUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutPathNestedInput
     resources?: LearningPathResourceUncheckedUpdateManyWithoutLearningPathNestedInput
@@ -66210,12 +66993,14 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
@@ -66238,6 +67023,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
@@ -66246,6 +67032,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
@@ -66273,14 +67060,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneWithoutWorkshopNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
@@ -66294,14 +67091,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: WorkshopTagUncheckedUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUncheckedUpdateManyWithoutWorkshopNestedInput
@@ -66363,13 +67170,15 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    enrollment?: EnrollmentCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentCreateNestedManyWithoutUserInput
     Payment?: PaymentCreateNestedManyWithoutUserInput
     Invoice?: InvoiceCreateNestedManyWithoutUserInput
     LearningPath?: LearningPathCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCoursesInput = {
@@ -66385,13 +67194,15 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
     Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
     LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCoursesInput = {
@@ -66433,6 +67244,7 @@ export namespace Prisma {
     status?: $Enums.enrollmentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user: UserCreateNestedOneWithoutEnrollmentInput
     payment?: PaymentCreateNestedOneWithoutEnrollmentInput
   }
@@ -66445,6 +67257,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userId: string
     paymentId?: string | null
+    deletedAt?: Date | string | null
   }
 
   export type EnrollmentCreateOrConnectWithoutCourseInput = {
@@ -66467,6 +67280,7 @@ export namespace Prisma {
     iconLib?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     domain: DomainCreateNestedOneWithoutCategoriesInput
   }
 
@@ -66481,6 +67295,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     domainId: string
+    deletedAt?: Date | string | null
   }
 
   export type CategoryCreateOrConnectWithoutCoursesInput = {
@@ -66497,6 +67312,7 @@ export namespace Prisma {
     method?: string | null
     receiptUrl?: string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     user: UserCreateNestedOneWithoutPaymentInput
     enrollment?: EnrollmentCreateNestedOneWithoutPaymentInput
   }
@@ -66511,6 +67327,7 @@ export namespace Prisma {
     method?: string | null
     receiptUrl?: string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     enrollment?: EnrollmentUncheckedCreateNestedOneWithoutPaymentInput
   }
 
@@ -66749,13 +67566,15 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
     Payment?: PaymentUpdateManyWithoutUserNestedInput
     Invoice?: InvoiceUpdateManyWithoutUserNestedInput
     LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -66771,13 +67590,15 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
     LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ChapterUpsertWithWhereUniqueWithoutCourseInput = {
@@ -66845,6 +67666,7 @@ export namespace Prisma {
     iconLib?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     domain?: DomainUpdateOneRequiredWithoutCategoriesNestedInput
   }
 
@@ -66859,6 +67681,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     domainId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutCourseInput = {
@@ -67045,12 +67868,14 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
     category: CategoryCreateNestedOneWithoutCoursesInput
@@ -67073,6 +67898,7 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
@@ -67081,6 +67907,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userId: string
     categoryId: string
+    deletedAt?: Date | string | null
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
@@ -67157,12 +67984,14 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
@@ -67185,6 +68014,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
@@ -67193,6 +68023,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
@@ -67372,6 +68203,59 @@ export namespace Prisma {
     NOT?: LessonResourceScalarWhereInput | LessonResourceScalarWhereInput[]
     lessonId?: StringFilter<"LessonResource"> | string
     resourceId?: StringFilter<"LessonResource"> | string
+  }
+
+  export type UserCreateWithoutWorkshopInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    stripeCustomerId?: string | null
+    role?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    deletedAt?: Date | string | null
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentCreateNestedManyWithoutUserInput
+    Payment?: PaymentCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUserInput
+    LearningPath?: LearningPathCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutWorkshopInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    stripeCustomerId?: string | null
+    role?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    deletedAt?: Date | string | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
+    Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
+    LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutWorkshopInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutWorkshopInput, UserUncheckedCreateWithoutWorkshopInput>
   }
 
   export type WorkshopTagCreateWithoutWorkshopInput = {
@@ -67573,6 +68457,65 @@ export namespace Prisma {
   export type PromotionCreateManyWorkshopInputEnvelope = {
     data: PromotionCreateManyWorkshopInput | PromotionCreateManyWorkshopInput[]
     skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutWorkshopInput = {
+    update: XOR<UserUpdateWithoutWorkshopInput, UserUncheckedUpdateWithoutWorkshopInput>
+    create: XOR<UserCreateWithoutWorkshopInput, UserUncheckedCreateWithoutWorkshopInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutWorkshopInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutWorkshopInput, UserUncheckedUpdateWithoutWorkshopInput>
+  }
+
+  export type UserUpdateWithoutWorkshopInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
+    Payment?: PaymentUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUserNestedInput
+    LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutWorkshopInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
+    Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
+    LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type WorkshopTagUpsertWithWhereUniqueWithoutWorkshopInput = {
@@ -67922,6 +68865,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -67929,6 +68873,7 @@ export namespace Prisma {
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutLearningPathInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
@@ -67946,6 +68891,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -67954,6 +68900,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+    deletedAt?: Date | string | null
     tags?: LearningPathTagUncheckedCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemUncheckedCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutPathInput
@@ -68019,6 +68966,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -68026,6 +68974,7 @@ export namespace Prisma {
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutLearningPathNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
@@ -68043,6 +68992,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -68051,6 +69001,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: LearningPathTagUncheckedUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUncheckedUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutPathNestedInput
@@ -68107,12 +69058,14 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
@@ -68135,6 +69088,7 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
@@ -68143,6 +69097,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userId: string
     categoryId: string
+    deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
@@ -68212,12 +69167,14 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
@@ -68240,6 +69197,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
@@ -68248,6 +69206,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
@@ -68451,14 +69410,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user?: UserCreateNestedOneWithoutWorkshopInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     learningPathItems?: LearningPathItemCreateNestedManyWithoutWorkshopInput
@@ -68472,14 +69441,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    userId: string
+    deletedAt?: Date | string | null
     tags?: WorkshopTagUncheckedCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutWorkshopInput
     learningPathItems?: LearningPathItemUncheckedCreateNestedManyWithoutWorkshopInput
@@ -68542,14 +69521,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneWithoutWorkshopNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     learningPathItems?: LearningPathItemUpdateManyWithoutWorkshopNestedInput
@@ -68563,14 +69552,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: WorkshopTagUncheckedUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutWorkshopNestedInput
     learningPathItems?: LearningPathItemUncheckedUpdateManyWithoutWorkshopNestedInput
@@ -68632,13 +69631,15 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    courses?: CourseCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentCreateNestedManyWithoutUserInput
     Payment?: PaymentCreateNestedManyWithoutUserInput
     Invoice?: InvoiceCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUserInput
     LearningPath?: LearningPathCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLessonProgressInput = {
@@ -68654,13 +69655,15 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
     Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
     LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLessonProgressInput = {
@@ -68727,13 +69730,15 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    courses?: CourseUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
     Payment?: PaymentUpdateManyWithoutUserNestedInput
     Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUserNestedInput
     LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLessonProgressInput = {
@@ -68749,13 +69754,15 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
     LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LessonUpsertWithoutLessonProgressInput = {
@@ -68807,12 +69814,14 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
@@ -68835,6 +69844,7 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
@@ -68843,6 +69853,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userId: string
     categoryId: string
+    deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
@@ -68864,14 +69875,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user?: UserCreateNestedOneWithoutWorkshopInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
     learningPathItems?: LearningPathItemCreateNestedManyWithoutWorkshopInput
@@ -68885,14 +69906,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    userId: string
+    deletedAt?: Date | string | null
     tags?: WorkshopTagUncheckedCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceUncheckedCreateNestedManyWithoutWorkshopInput
     learningPathItems?: LearningPathItemUncheckedCreateNestedManyWithoutWorkshopInput
@@ -68914,6 +69945,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -68921,6 +69953,7 @@ export namespace Prisma {
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutLearningPathInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
@@ -68938,6 +69971,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -68946,6 +69980,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+    deletedAt?: Date | string | null
     tags?: LearningPathTagUncheckedCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemUncheckedCreateNestedManyWithoutLearningPathInput
     resources?: LearningPathResourceUncheckedCreateNestedManyWithoutLearningPathInput
@@ -68979,12 +70014,14 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
@@ -69007,6 +70044,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
@@ -69015,6 +70053,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
@@ -69042,14 +70081,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneWithoutWorkshopNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
     learningPathItems?: LearningPathItemUpdateManyWithoutWorkshopNestedInput
@@ -69063,14 +70112,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: WorkshopTagUncheckedUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUncheckedUpdateManyWithoutWorkshopNestedInput
     learningPathItems?: LearningPathItemUncheckedUpdateManyWithoutWorkshopNestedInput
@@ -69098,6 +70157,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -69105,6 +70165,7 @@ export namespace Prisma {
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutLearningPathNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
@@ -69122,6 +70183,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -69130,6 +70192,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: LearningPathTagUncheckedUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUncheckedUpdateManyWithoutLearningPathNestedInput
     resources?: LearningPathResourceUncheckedUpdateManyWithoutLearningPathNestedInput
@@ -69249,12 +70312,14 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
@@ -69277,6 +70342,7 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
@@ -69285,6 +70351,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userId: string
     categoryId: string
+    deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
@@ -69348,12 +70415,14 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
@@ -69376,6 +70445,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
@@ -69384,6 +70454,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
@@ -69433,14 +70504,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user?: UserCreateNestedOneWithoutWorkshopInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
     learningPathItems?: LearningPathItemCreateNestedManyWithoutWorkshopInput
@@ -69454,14 +70535,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    userId: string
+    deletedAt?: Date | string | null
     progress?: UserProgressUncheckedCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceUncheckedCreateNestedManyWithoutWorkshopInput
     learningPathItems?: LearningPathItemUncheckedCreateNestedManyWithoutWorkshopInput
@@ -69518,14 +70609,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneWithoutWorkshopNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
     learningPathItems?: LearningPathItemUpdateManyWithoutWorkshopNestedInput
@@ -69539,14 +70640,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     progress?: UserProgressUncheckedUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUncheckedUpdateManyWithoutWorkshopNestedInput
     learningPathItems?: LearningPathItemUncheckedUpdateManyWithoutWorkshopNestedInput
@@ -69596,6 +70707,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -69603,6 +70715,7 @@ export namespace Prisma {
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressCreateNestedManyWithoutPathInput
@@ -69620,6 +70733,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -69628,6 +70742,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+    deletedAt?: Date | string | null
     contents?: LearningPathItemUncheckedCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutPathInput
     resources?: LearningPathResourceUncheckedCreateNestedManyWithoutLearningPathInput
@@ -69687,6 +70802,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -69694,6 +70810,7 @@ export namespace Prisma {
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUpdateManyWithoutPathNestedInput
@@ -69711,6 +70828,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -69719,6 +70837,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     contents?: LearningPathItemUncheckedUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutPathNestedInput
     resources?: LearningPathResourceUncheckedUpdateManyWithoutLearningPathNestedInput
@@ -69769,12 +70888,14 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
@@ -69797,6 +70918,7 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
@@ -69805,6 +70927,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userId: string
     categoryId: string
+    deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
@@ -69826,14 +70949,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user?: UserCreateNestedOneWithoutWorkshopInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
@@ -69847,14 +70980,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    userId: string
+    deletedAt?: Date | string | null
     tags?: WorkshopTagUncheckedCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceUncheckedCreateNestedManyWithoutWorkshopInput
@@ -69876,6 +71019,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -69883,6 +71027,7 @@ export namespace Prisma {
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutLearningPathInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
@@ -69900,6 +71045,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -69908,6 +71054,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+    deletedAt?: Date | string | null
     tags?: LearningPathTagUncheckedCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemUncheckedCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutPathInput
@@ -69941,12 +71088,14 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
@@ -69969,6 +71118,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
@@ -69977,6 +71127,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
@@ -70004,14 +71155,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneWithoutWorkshopNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
@@ -70025,14 +71186,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: WorkshopTagUncheckedUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUncheckedUpdateManyWithoutWorkshopNestedInput
@@ -70060,6 +71231,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -70067,6 +71239,7 @@ export namespace Prisma {
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutLearningPathNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
@@ -70084,6 +71257,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -70092,6 +71266,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: LearningPathTagUncheckedUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUncheckedUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutPathNestedInput
@@ -70109,12 +71284,14 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
@@ -70137,6 +71314,7 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
@@ -70145,6 +71323,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userId: string
     categoryId: string
+    deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
@@ -70166,14 +71345,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user?: UserCreateNestedOneWithoutWorkshopInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
@@ -70187,14 +71376,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    userId: string
+    deletedAt?: Date | string | null
     tags?: WorkshopTagUncheckedCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceUncheckedCreateNestedManyWithoutWorkshopInput
@@ -70216,6 +71415,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -70223,6 +71423,7 @@ export namespace Prisma {
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutLearningPathInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
@@ -70240,6 +71441,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -70248,6 +71450,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+    deletedAt?: Date | string | null
     tags?: LearningPathTagUncheckedCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemUncheckedCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutPathInput
@@ -70294,23 +71497,6 @@ export namespace Prisma {
     data: XOR<WorkshopUpdateManyMutationInput, WorkshopUncheckedUpdateManyWithoutPromoCodesInput>
   }
 
-  export type WorkshopScalarWhereInput = {
-    AND?: WorkshopScalarWhereInput | WorkshopScalarWhereInput[]
-    OR?: WorkshopScalarWhereInput[]
-    NOT?: WorkshopScalarWhereInput | WorkshopScalarWhereInput[]
-    id?: StringFilter<"Workshop"> | string
-    title?: StringFilter<"Workshop"> | string
-    description?: StringFilter<"Workshop"> | string
-    duration?: IntFilter<"Workshop"> | number
-    level?: EnumLevelsFilter<"Workshop"> | $Enums.Levels
-    videoKey?: StringNullableFilter<"Workshop"> | string | null
-    price?: FloatFilter<"Workshop"> | number
-    slug?: StringFilter<"Workshop"> | string
-    status?: EnumStatusFilter<"Workshop"> | $Enums.Status
-    createdAt?: DateTimeFilter<"Workshop"> | Date | string
-    updatedAt?: DateTimeFilter<"Workshop"> | Date | string
-  }
-
   export type LearningPathUpsertWithWhereUniqueWithoutPromoCodesInput = {
     where: LearningPathWhereUniqueInput
     update: XOR<LearningPathUpdateWithoutPromoCodesInput, LearningPathUncheckedUpdateWithoutPromoCodesInput>
@@ -70335,12 +71521,14 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
     category: CategoryCreateNestedOneWithoutCoursesInput
@@ -70363,6 +71551,7 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
@@ -70371,6 +71560,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userId: string
     categoryId: string
+    deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
@@ -70401,13 +71591,15 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    courses?: CourseCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     Payment?: PaymentCreateNestedManyWithoutUserInput
     Invoice?: InvoiceCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUserInput
     LearningPath?: LearningPathCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEnrollmentInput = {
@@ -70423,13 +71615,15 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
     Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
     LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEnrollmentInput = {
@@ -70446,6 +71640,7 @@ export namespace Prisma {
     method?: string | null
     receiptUrl?: string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     user: UserCreateNestedOneWithoutPaymentInput
     course: CourseCreateNestedOneWithoutPaymentInput
   }
@@ -70461,6 +71656,7 @@ export namespace Prisma {
     method?: string | null
     receiptUrl?: string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type PaymentCreateOrConnectWithoutEnrollmentInput = {
@@ -70487,12 +71683,14 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
@@ -70515,6 +71713,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
@@ -70523,6 +71722,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
@@ -70559,13 +71759,15 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    courses?: CourseUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     Payment?: PaymentUpdateManyWithoutUserNestedInput
     Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUserNestedInput
     LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEnrollmentInput = {
@@ -70581,13 +71783,15 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
     LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PaymentUpsertWithoutEnrollmentInput = {
@@ -70610,6 +71814,7 @@ export namespace Prisma {
     method?: NullableStringFieldUpdateOperationsInput | string | null
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutPaymentNestedInput
     course?: CourseUpdateOneRequiredWithoutPaymentNestedInput
   }
@@ -70625,6 +71830,7 @@ export namespace Prisma {
     method?: NullableStringFieldUpdateOperationsInput | string | null
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserCreateWithoutPaymentInput = {
@@ -70640,13 +71846,15 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    courses?: CourseCreateNestedManyWithoutUserInput
-    enrollment?: EnrollmentCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentCreateNestedManyWithoutUserInput
     Invoice?: InvoiceCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUserInput
     LearningPath?: LearningPathCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPaymentInput = {
@@ -70662,13 +71870,15 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
     LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPaymentInput = {
@@ -70684,12 +71894,14 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
@@ -70712,6 +71924,7 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
@@ -70720,6 +71933,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userId: string
     categoryId: string
+    deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
@@ -70743,6 +71957,7 @@ export namespace Prisma {
     status?: $Enums.enrollmentStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     course: CourseCreateNestedOneWithoutEnrollmentInput
     user: UserCreateNestedOneWithoutEnrollmentInput
   }
@@ -70755,6 +71970,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     courseId: string
     userId: string
+    deletedAt?: Date | string | null
   }
 
   export type EnrollmentCreateOrConnectWithoutPaymentInput = {
@@ -70786,13 +72002,15 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    courses?: CourseUpdateManyWithoutUserNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
     Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUserNestedInput
     LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPaymentInput = {
@@ -70808,13 +72026,15 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
     LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutPaymentInput = {
@@ -70836,12 +72056,14 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
@@ -70864,6 +72086,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
@@ -70872,6 +72095,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
@@ -70901,6 +72125,7 @@ export namespace Prisma {
     status?: EnumenrollmentStatusFieldUpdateOperationsInput | $Enums.enrollmentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     course?: CourseUpdateOneRequiredWithoutEnrollmentNestedInput
     user?: UserUpdateOneRequiredWithoutEnrollmentNestedInput
   }
@@ -70913,6 +72138,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courseId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserCreateWithoutInvoiceInput = {
@@ -70928,13 +72154,15 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    courses?: CourseCreateNestedManyWithoutUserInput
-    enrollment?: EnrollmentCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentCreateNestedManyWithoutUserInput
     Payment?: PaymentCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUserInput
     LearningPath?: LearningPathCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInvoiceInput = {
@@ -70950,13 +72178,15 @@ export namespace Prisma {
     banned?: boolean | null
     banReason?: string | null
     banExpires?: Date | string | null
+    deletedAt?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
     LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutInvoiceInput = {
@@ -71018,13 +72248,15 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    courses?: CourseUpdateManyWithoutUserNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
     Payment?: PaymentUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUserNestedInput
     LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInvoiceInput = {
@@ -71040,13 +72272,15 @@ export namespace Prisma {
     banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
     LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type InvoiceItemUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -71087,6 +72321,7 @@ export namespace Prisma {
     pdfUrl?: string | null
     date?: Date | string
     createdAt?: Date | string
+    deletedAt?: Date | string | null
     user: UserCreateNestedOneWithoutInvoiceInput
   }
 
@@ -71099,6 +72334,7 @@ export namespace Prisma {
     pdfUrl?: string | null
     date?: Date | string
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type InvoiceCreateOrConnectWithoutItemsInput = {
@@ -71125,6 +72361,7 @@ export namespace Prisma {
     pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutInvoiceNestedInput
   }
 
@@ -71137,6 +72374,7 @@ export namespace Prisma {
     pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CourseObjectiveCreateWithoutObjectiveInput = {
@@ -71351,12 +72589,14 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
@@ -71379,6 +72619,7 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
@@ -71387,6 +72628,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userId: string
     categoryId: string
+    deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
@@ -71444,12 +72686,14 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
@@ -71472,6 +72716,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
@@ -71480,6 +72725,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
@@ -71527,12 +72773,14 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
@@ -71555,6 +72803,7 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
@@ -71563,6 +72812,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userId: string
     categoryId: string
+    deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
     Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
@@ -71620,12 +72870,14 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
@@ -71648,6 +72900,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
@@ -71656,6 +72909,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
@@ -71699,14 +72953,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user?: UserCreateNestedOneWithoutWorkshopInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
@@ -71720,14 +72984,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    userId: string
+    deletedAt?: Date | string | null
     tags?: WorkshopTagUncheckedCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceUncheckedCreateNestedManyWithoutWorkshopInput
@@ -71778,14 +73052,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneWithoutWorkshopNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
@@ -71799,14 +73083,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: WorkshopTagUncheckedUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUncheckedUpdateManyWithoutWorkshopNestedInput
@@ -71847,14 +73141,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user?: UserCreateNestedOneWithoutWorkshopInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
@@ -71868,14 +73172,24 @@ export namespace Prisma {
     id?: string
     title: string
     description: string
-    duration: number
-    level: $Enums.Levels
-    videoKey?: string | null
-    price: number
     slug: string
-    status: $Enums.Status
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    userId: string
+    deletedAt?: Date | string | null
     tags?: WorkshopTagUncheckedCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceUncheckedCreateNestedManyWithoutWorkshopInput
@@ -71926,14 +73240,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneWithoutWorkshopNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
@@ -71947,14 +73271,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: WorkshopTagUncheckedUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUncheckedUpdateManyWithoutWorkshopNestedInput
@@ -71998,6 +73332,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -72005,6 +73340,7 @@ export namespace Prisma {
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutLearningPathInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
@@ -72022,6 +73358,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -72030,6 +73367,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+    deletedAt?: Date | string | null
     tags?: LearningPathTagUncheckedCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemUncheckedCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutPathInput
@@ -72083,6 +73421,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -72090,6 +73429,7 @@ export namespace Prisma {
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutLearningPathNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
@@ -72107,6 +73447,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -72115,6 +73456,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: LearningPathTagUncheckedUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUncheckedUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutPathNestedInput
@@ -72158,6 +73500,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -72165,6 +73508,7 @@ export namespace Prisma {
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutLearningPathInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
@@ -72182,6 +73526,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -72190,6 +73535,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+    deletedAt?: Date | string | null
     tags?: LearningPathTagUncheckedCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemUncheckedCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutPathInput
@@ -72243,6 +73589,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -72250,6 +73597,7 @@ export namespace Prisma {
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutLearningPathNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
@@ -72267,6 +73615,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -72275,6 +73624,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: LearningPathTagUncheckedUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUncheckedUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutPathNestedInput
@@ -72565,21 +73915,12 @@ export namespace Prisma {
     updatedAt: Date | string
   }
 
-  export type CourseCreateManyUserInput = {
+  export type LessonProgressCreateManyUserInput = {
     id?: string
-    title: string
-    slug: string
-    smallDescription: string
-    description: string
-    fileKey: string
-    price: number
-    duration: number
-    status: string
-    level: string
-    stripePriceId: string
+    completed?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    categoryId: string
+    lessonId: string
   }
 
   export type EnrollmentCreateManyUserInput = {
@@ -72590,14 +73931,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     courseId: string
     paymentId?: string | null
-  }
-
-  export type LessonProgressCreateManyUserInput = {
-    id?: string
-    completed?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    lessonId: string
+    deletedAt?: Date | string | null
   }
 
   export type PaymentCreateManyUserInput = {
@@ -72610,6 +73944,7 @@ export namespace Prisma {
     method?: string | null
     receiptUrl?: string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type InvoiceCreateManyUserInput = {
@@ -72620,6 +73955,26 @@ export namespace Prisma {
     pdfUrl?: string | null
     date?: Date | string
     createdAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type CourseCreateManyUserInput = {
+    id?: string
+    title: string
+    slug: string
+    smallDescription: string
+    description: string
+    fileKey: string
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    categoryId: string
+    deletedAt?: Date | string | null
   }
 
   export type LearningPathCreateManyUserInput = {
@@ -72629,6 +73984,7 @@ export namespace Prisma {
     smallDescription: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     slug: string
     status: string
@@ -72636,6 +73992,30 @@ export namespace Prisma {
     stripePriceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type WorkshopCreateManyUserInput = {
+    id?: string
+    title: string
+    description: string
+    slug: string
+    statement: string
+    fileKey: string
+    statementsStartFileKey?: string | null
+    statementVideoKey?: string | null
+    price: number
+    currency?: string
+    duration: number
+    status: string
+    level: string
+    stripePriceId?: string | null
+    solution?: string | null
+    solutionFileKey?: string | null
+    solutionVideoKey?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -72716,109 +74096,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type CourseUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    smallDescription?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    fileKey?: StringFieldUpdateOperationsInput | string
-    price?: IntFieldUpdateOperationsInput | number
-    duration?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    level?: StringFieldUpdateOperationsInput | string
-    stripePriceId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    chapters?: ChapterUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
-    category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
-    Payment?: PaymentUpdateManyWithoutCourseNestedInput
-    promotions?: PromotionUpdateManyWithoutCourseNestedInput
-    promoCodes?: PromoCodeUpdateManyWithoutApplicableCoursesNestedInput
-    tags?: CourseTagUpdateManyWithoutCourseNestedInput
-    progress?: UserProgressUpdateManyWithoutCourseNestedInput
-    resources?: CourseResourceUpdateManyWithoutCourseNestedInput
-    learningPathItems?: LearningPathItemUpdateManyWithoutCourseNestedInput
-    objectives?: CourseObjectiveUpdateManyWithoutCourseNestedInput
-    prerequisites?: CoursePrerequisiteUpdateManyWithoutCourseNestedInput
-  }
-
-  export type CourseUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    smallDescription?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    fileKey?: StringFieldUpdateOperationsInput | string
-    price?: IntFieldUpdateOperationsInput | number
-    duration?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    level?: StringFieldUpdateOperationsInput | string
-    stripePriceId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    categoryId?: StringFieldUpdateOperationsInput | string
-    chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
-    promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
-    promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableCoursesNestedInput
-    tags?: CourseTagUncheckedUpdateManyWithoutCourseNestedInput
-    progress?: UserProgressUncheckedUpdateManyWithoutCourseNestedInput
-    resources?: CourseResourceUncheckedUpdateManyWithoutCourseNestedInput
-    learningPathItems?: LearningPathItemUncheckedUpdateManyWithoutCourseNestedInput
-    objectives?: CourseObjectiveUncheckedUpdateManyWithoutCourseNestedInput
-    prerequisites?: CoursePrerequisiteUncheckedUpdateManyWithoutCourseNestedInput
-  }
-
-  export type CourseUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    smallDescription?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    fileKey?: StringFieldUpdateOperationsInput | string
-    price?: IntFieldUpdateOperationsInput | number
-    duration?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    level?: StringFieldUpdateOperationsInput | string
-    stripePriceId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    categoryId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type EnrollmentUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    amount?: IntFieldUpdateOperationsInput | number
-    status?: EnumenrollmentStatusFieldUpdateOperationsInput | $Enums.enrollmentStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    course?: CourseUpdateOneRequiredWithoutEnrollmentNestedInput
-    payment?: PaymentUpdateOneWithoutEnrollmentNestedInput
-  }
-
-  export type EnrollmentUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    amount?: IntFieldUpdateOperationsInput | number
-    status?: EnumenrollmentStatusFieldUpdateOperationsInput | $Enums.enrollmentStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    courseId?: StringFieldUpdateOperationsInput | string
-    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type EnrollmentUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    amount?: IntFieldUpdateOperationsInput | number
-    status?: EnumenrollmentStatusFieldUpdateOperationsInput | $Enums.enrollmentStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    courseId?: StringFieldUpdateOperationsInput | string
-    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
   export type LessonProgressUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
@@ -72843,6 +74120,39 @@ export namespace Prisma {
     lessonId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type EnrollmentUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    status?: EnumenrollmentStatusFieldUpdateOperationsInput | $Enums.enrollmentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    course?: CourseUpdateOneRequiredWithoutEnrollmentNestedInput
+    payment?: PaymentUpdateOneWithoutEnrollmentNestedInput
+  }
+
+  export type EnrollmentUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    status?: EnumenrollmentStatusFieldUpdateOperationsInput | $Enums.enrollmentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EnrollmentUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: IntFieldUpdateOperationsInput | number
+    status?: EnumenrollmentStatusFieldUpdateOperationsInput | $Enums.enrollmentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type PaymentUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     stripeId?: StringFieldUpdateOperationsInput | string
@@ -72852,6 +74162,7 @@ export namespace Prisma {
     method?: NullableStringFieldUpdateOperationsInput | string | null
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     course?: CourseUpdateOneRequiredWithoutPaymentNestedInput
     enrollment?: EnrollmentUpdateOneWithoutPaymentNestedInput
   }
@@ -72866,6 +74177,7 @@ export namespace Prisma {
     method?: NullableStringFieldUpdateOperationsInput | string | null
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     enrollment?: EnrollmentUncheckedUpdateOneWithoutPaymentNestedInput
   }
 
@@ -72879,6 +74191,7 @@ export namespace Prisma {
     method?: NullableStringFieldUpdateOperationsInput | string | null
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type InvoiceUpdateWithoutUserInput = {
@@ -72889,6 +74202,7 @@ export namespace Prisma {
     pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     items?: InvoiceItemUpdateManyWithoutInvoiceNestedInput
   }
 
@@ -72900,6 +74214,7 @@ export namespace Prisma {
     pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     items?: InvoiceItemUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
@@ -72911,6 +74226,86 @@ export namespace Prisma {
     pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CourseUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    smallDescription?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    chapters?: ChapterUpdateManyWithoutCourseNestedInput
+    enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
+    category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
+    Payment?: PaymentUpdateManyWithoutCourseNestedInput
+    promotions?: PromotionUpdateManyWithoutCourseNestedInput
+    promoCodes?: PromoCodeUpdateManyWithoutApplicableCoursesNestedInput
+    tags?: CourseTagUpdateManyWithoutCourseNestedInput
+    progress?: UserProgressUpdateManyWithoutCourseNestedInput
+    resources?: CourseResourceUpdateManyWithoutCourseNestedInput
+    learningPathItems?: LearningPathItemUpdateManyWithoutCourseNestedInput
+    objectives?: CourseObjectiveUpdateManyWithoutCourseNestedInput
+    prerequisites?: CoursePrerequisiteUpdateManyWithoutCourseNestedInput
+  }
+
+  export type CourseUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    smallDescription?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
+    enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
+    promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableCoursesNestedInput
+    tags?: CourseTagUncheckedUpdateManyWithoutCourseNestedInput
+    progress?: UserProgressUncheckedUpdateManyWithoutCourseNestedInput
+    resources?: CourseResourceUncheckedUpdateManyWithoutCourseNestedInput
+    learningPathItems?: LearningPathItemUncheckedUpdateManyWithoutCourseNestedInput
+    objectives?: CourseObjectiveUncheckedUpdateManyWithoutCourseNestedInput
+    prerequisites?: CoursePrerequisiteUncheckedUpdateManyWithoutCourseNestedInput
+  }
+
+  export type CourseUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    smallDescription?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type LearningPathUpdateWithoutUserInput = {
@@ -72920,6 +74315,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -72927,6 +74323,7 @@ export namespace Prisma {
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUpdateManyWithoutPathNestedInput
@@ -72944,6 +74341,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -72951,6 +74349,7 @@ export namespace Prisma {
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: LearningPathTagUncheckedUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUncheckedUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutPathNestedInput
@@ -72968,6 +74367,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -72975,6 +74375,92 @@ export namespace Prisma {
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type WorkshopUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
+    progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
+    resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
+    learningPathItems?: LearningPathItemUpdateManyWithoutWorkshopNestedInput
+    objectives?: WorkshopObjectiveUpdateManyWithoutWorkshopNestedInput
+    prerequisites?: WorkshopPrerequisiteUpdateManyWithoutWorkshopNestedInput
+    promoCodes?: PromoCodeUpdateManyWithoutApplicableWorkshopsNestedInput
+    promotions?: PromotionUpdateManyWithoutWorkshopNestedInput
+  }
+
+  export type WorkshopUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tags?: WorkshopTagUncheckedUpdateManyWithoutWorkshopNestedInput
+    progress?: UserProgressUncheckedUpdateManyWithoutWorkshopNestedInput
+    resources?: WorkshopResourceUncheckedUpdateManyWithoutWorkshopNestedInput
+    learningPathItems?: LearningPathItemUncheckedUpdateManyWithoutWorkshopNestedInput
+    objectives?: WorkshopObjectiveUncheckedUpdateManyWithoutWorkshopNestedInput
+    prerequisites?: WorkshopPrerequisiteUncheckedUpdateManyWithoutWorkshopNestedInput
+    promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableWorkshopsNestedInput
+    promotions?: PromotionUncheckedUpdateManyWithoutWorkshopNestedInput
+  }
+
+  export type WorkshopUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CategoryCreateManyDomainInput = {
@@ -72987,6 +74473,7 @@ export namespace Prisma {
     iconLib?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type CategoryUpdateWithoutDomainInput = {
@@ -72999,6 +74486,7 @@ export namespace Prisma {
     iconLib?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courses?: CourseUpdateManyWithoutCategoryNestedInput
   }
 
@@ -73012,6 +74500,7 @@ export namespace Prisma {
     iconLib?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     courses?: CourseUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
@@ -73025,6 +74514,7 @@ export namespace Prisma {
     iconLib?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CourseCreateManyCategoryInput = {
@@ -73035,6 +74525,7 @@ export namespace Prisma {
     description: string
     fileKey: string
     price: number
+    currency?: string
     duration: number
     status: string
     level: string
@@ -73042,6 +74533,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+    deletedAt?: Date | string | null
   }
 
   export type CourseUpdateWithoutCategoryInput = {
@@ -73052,12 +74544,14 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
@@ -73080,6 +74574,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
@@ -73087,6 +74582,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
@@ -73108,6 +74604,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
@@ -73115,6 +74612,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type LearningPathTagCreateManyLearningPathInput = {
@@ -73366,6 +74864,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userId: string
     paymentId?: string | null
+    deletedAt?: Date | string | null
   }
 
   export type PaymentCreateManyCourseInput = {
@@ -73378,6 +74877,7 @@ export namespace Prisma {
     method?: string | null
     receiptUrl?: string | null
     createdAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
   export type PromotionCreateManyCourseInput = {
@@ -73459,6 +74959,7 @@ export namespace Prisma {
     status?: EnumenrollmentStatusFieldUpdateOperationsInput | $Enums.enrollmentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutEnrollmentNestedInput
     payment?: PaymentUpdateOneWithoutEnrollmentNestedInput
   }
@@ -73471,6 +74972,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type EnrollmentUncheckedUpdateManyWithoutCourseInput = {
@@ -73481,6 +74983,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     paymentId?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PaymentUpdateWithoutCourseInput = {
@@ -73492,6 +74995,7 @@ export namespace Prisma {
     method?: NullableStringFieldUpdateOperationsInput | string | null
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutPaymentNestedInput
     enrollment?: EnrollmentUpdateOneWithoutPaymentNestedInput
   }
@@ -73506,6 +75010,7 @@ export namespace Prisma {
     method?: NullableStringFieldUpdateOperationsInput | string | null
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     enrollment?: EnrollmentUncheckedUpdateOneWithoutPaymentNestedInput
   }
 
@@ -73519,6 +75024,7 @@ export namespace Prisma {
     method?: NullableStringFieldUpdateOperationsInput | string | null
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PromotionUpdateWithoutCourseInput = {
@@ -74200,12 +75706,14 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
@@ -74228,6 +75736,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
@@ -74236,6 +75745,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
     Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
@@ -74256,6 +75766,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     level?: StringFieldUpdateOperationsInput | string
@@ -74264,20 +75775,31 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type WorkshopUpdateWithoutPromoCodesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneWithoutWorkshopNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
@@ -74291,14 +75813,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: WorkshopTagUncheckedUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUncheckedUpdateManyWithoutWorkshopNestedInput
@@ -74312,14 +75844,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    duration?: IntFieldUpdateOperationsInput | number
-    level?: EnumLevelsFieldUpdateOperationsInput | $Enums.Levels
-    videoKey?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: FloatFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    statement?: StringFieldUpdateOperationsInput | string
+    fileKey?: StringFieldUpdateOperationsInput | string
+    statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    duration?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    solution?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type LearningPathUpdateWithoutPromoCodesInput = {
@@ -74329,6 +75871,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -74336,6 +75879,7 @@ export namespace Prisma {
     stripePriceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutLearningPathNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
@@ -74353,6 +75897,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -74361,6 +75906,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: LearningPathTagUncheckedUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUncheckedUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutPathNestedInput
@@ -74377,6 +75923,7 @@ export namespace Prisma {
     smallDescription?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
     duration?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -74385,6 +75932,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type InvoiceItemCreateManyInvoiceInput = {

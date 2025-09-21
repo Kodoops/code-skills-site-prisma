@@ -21,7 +21,6 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import {Skeleton} from "@/components/ui/skeleton";
-import {IconCash} from "@tabler/icons-react";
 import {SimpleCourse} from "@/lib/models";
 import ProductPrice from "@/components/custom-ui/ProductPrice";
 import {calculatedPrice} from "@/lib/price";

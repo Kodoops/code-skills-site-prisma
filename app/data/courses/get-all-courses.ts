@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/db";
 import {notFound} from "next/navigation";
-import { getCourseLevels } from "../get-course-levels";
+import { getLevels } from "../get-levels";
 import {CourseType} from "@/lib/types";
 
 export async function getAllCourses({
@@ -22,7 +22,7 @@ export async function getAllCourses({
     perPage: number,
 }> {
 
-    const levels = await getCourseLevels();
+    const levels = await getLevels();
 
     const where: any = {
         status: "Published",

@@ -3,6 +3,9 @@ import {CloudUploadIcon, ImageIcon, Loader2, XIcon} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {Button} from "@/components/ui/button";
 import Image from "next/image";
+import {UploaderFileType} from '@/lib/types';
+import FileSVG from '../custom-ui/FileSVG';
+import {useConstructUrl} from "@/hooks/use-construct-url";
 
 export function RenderEmptyState({isDragActive}: { isDragActive: boolean }) {
     return (
@@ -21,7 +24,7 @@ export function RenderEmptyState({isDragActive}: { isDragActive: boolean }) {
 };
 
 export function RenderErrorState({error}: { error: string }) {
-    console.log(error);
+
     return (
         <div className={"text-center "}>
             <div className="flex items-center justify-center size-12 mx-auto rounded-full bg-destructive/30 mb-4">
@@ -43,23 +46,37 @@ export function RenderErrorState({error}: { error: string }) {
     )
 }
 
-export function RenderUploadedState({previewUrl, isDeleting, handleRemoveFile, fileType}:
+export function RenderUploadedState({previewUrl, isDeleting, handleRemoveFile, fileType, file}:
                                     {
                                         previewUrl: string, isDeleting: boolean, handleRemoveFile: () => void,
-                                        fileType: 'image' | 'video'
+                                        fileType: UploaderFileType,
+                                        file : string
                                     }) {
+
+    const url = useConstructUrl(file);
 
     return <div className={"relative group w-full h-full flex items-center justify-center"}>
         {
-            fileType === 'image' ?
-                <Image src={previewUrl} alt={"File Uploaded"} className={"object-contain p-2"} width={400}
-                       height={200}/> :
-                <video src={previewUrl} controls className={"object-contain p-2 w-full h-full"} width={400} height={200}/>
+            fileType === 'image' &&
+            <Image src={url} alt={"File Uploaded"} className={"object-contain p-2"} width={400}
+                   height={200}/>}
+        {fileType === 'video' &&
+            <video src={url} controls className={"object-contain p-2 w-full h-full"} width={400} height={200}/>}
+
+        {fileType === 'file' &&
+           <div className={"flex flex-col items-center justify-center"}>
+                <FileSVG size={"128"} />
+               <span>{file}</span>
+           </div>
         }
+
         <Button className={cn(
             'absolute top-4 right-4'
         )} variant={"destructive"}
-                onClick={handleRemoveFile}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    handleRemoveFile();
+                }}
                 disabled={isDeleting}
                 size={"icon"}>
             {isDeleting ? <Loader2 size={"size-4 animate-spin"}/> : <XIcon className={"size-4"}/>}

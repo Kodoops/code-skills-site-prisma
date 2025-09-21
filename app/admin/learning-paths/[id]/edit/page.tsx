@@ -6,8 +6,8 @@ import {AdminCategoryCardSkeleton} from "@/app/admin/categories/_components/Admi
 import {TagType} from "@/lib/types";
 import {Ban} from "lucide-react";
 import {adminGetAllTags} from "@/app/data/admin/admin-get-all-tags";
-import { getCourseLevels } from '@/app/data/get-course-levels';
-import {getCourseStatus} from "@/app/data/get-course-status";
+import { getLevels } from '@/app/data/get-levels';
+import {getStatus} from "@/app/data/get-status";
 import {adminGetLearningPath} from "@/app/data/admin/admin-get-learning-path";
 import EditLearningPathForm from './_components/EditLearningPathForm';
 import UpdateTagsList from "@/app/admin/learning-paths/[id]/edit/_components/TagsLis";
@@ -23,8 +23,8 @@ const LearningPathEditPage = async ({params}: { params: Params }) => {
     const data = await adminGetLearningPath(id);
     if (!data) notFound();
 
-    const levels : string[] = await getCourseLevels();
-    const status: string[] = await getCourseStatus();
+    const levels : string[] = await getLevels();
+    const status: string[] = await getStatus();
 
     return (
         <div>

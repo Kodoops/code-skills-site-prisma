@@ -2,6 +2,8 @@
 export const IMAGE_MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 export const VIDEO_MAX_FILE_SIZE = 5000 * 1024 * 1024; // 5GB
 export const FILE_MAX_FILE_SIZE = 5000 * 1024 * 1024; // 5GB
+export const NBR_MAX_FILE_RESOURCES_TO_UPLOAD = 6;
+
 export const UPLOADER_FILE_PLACEHOLDER = '/images/upload-placeholder.png'
 
 export const COURSES_PER_PAGE = 4;

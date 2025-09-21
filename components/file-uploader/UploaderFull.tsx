@@ -13,6 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 import {
     FILE_MAX_FILE_SIZE,
     IMAGE_MAX_FILE_SIZE,
+    NBR_MAX_FILE_RESOURCES_TO_UPLOAD,
     VIDEO_MAX_FILE_SIZE,
 } from "@/constants/admin-contants";
 import { UploaderFileType } from "@/lib/types";
@@ -47,7 +48,7 @@ const sizeMap = {
 const acceptFileNbr = {
     image: 1,
     video: 1,
-    file: 5,
+    file: NBR_MAX_FILE_RESOURCES_TO_UPLOAD,
 };
 
 const acceptMap: Record<UploaderFileType, Record<string, string[]>> = {
@@ -91,7 +92,7 @@ const Uploader = ({ onChange, value, fileTypeAccepted, multipleFiles }: iAppProp
                 });
 
                 if (!presignedResponse.ok) {
-                    toast.error("Failed to get presigned URL", {
+                    toast.error(presignedResponse.statusText + " , Failed to get presigned URL", {
                         style: {
                             background: "#FEE2E2",
                             color: "#991B1B",
@@ -210,14 +211,14 @@ const Uploader = ({ onChange, value, fileTypeAccepted, multipleFiles }: iAppProp
             });
 
             if (!response.ok) {
-                toast.error("Failed to remove file from storage", {
+                toast.error( response.statusText +  " , Failed to remove file from storage", {
                     style: {
                         background: "#FEE2E2",
                         color: "#991B1B",
                     },
                 });
 
-               setFileStates((prev) => prev.map((f) => (f.id === id ? { ...f, isDeleting: true, error:true } : f)));
+               setFileStates((prev) => prev.map((f) => (f.id === id ? { ...f, isDeleting: false } : f)));
                 return;
             }
 
@@ -258,57 +259,91 @@ const Uploader = ({ onChange, value, fileTypeAccepted, multipleFiles }: iAppProp
     };
 
     const renderContent = () => {
-        if (fileStates.length === 0) return <RenderEmptyState isDragActive={isDragActive} />;
+        const maxReached = fileStates.length >= acceptFileNbr[fileTypeAccepted];
 
-        if(multiple)
+        if (fileStates.length === 0) {
+            return <RenderEmptyState isDragActive={isDragActive} />;
+        }
+
+        if (multiple) {
             return (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
-                    {fileStates.map((state) => {
-                        if (state.uploading) {
-                            return <RenderUploadingState key={state.id} progress={state.progress} file={state.file} />;
-                        }
-                        if (state.error) {
-                            return <RenderErrorState key={state.id} error="Failed to upload file" />;
-                        }
-                        if (state.objectUrl) {
-                            return (
-                                <RenderUploadedState
-                                    key={state.id}
-                                    previewUrl={state.objectUrl}
-                                    handleRemoveFile={() => handleRemoveFile(state.id)}
-                                    isDeleting={state.isDeleting}
-                                    fileType={state.fileType as UploaderFileType}
-                                    file={state.key as string}
-                                />
-                            );
-                        }
-                    })}
+                <div className="flex flex-col gap-4 w-full">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        {fileStates.map((state) => {
+                            if (state.uploading) {
+                                return (
+                                    <RenderUploadingState
+                                        key={state.id}
+                                        progress={state.progress}
+                                        file={state.file}
+                                    />
+                                );
+                            }
+                            if (state.error) {
+                                // N'affiche PAS RenderErrorState si multiple === true
+                                if (!multiple) {
+                                    return (
+                                        <RenderErrorState
+                                            key={state.id}
+                                            error="Échec de l'upload du fichier"
+                                        />
+                                    );
+                                }
+                                return null;
+                            }
+
+                            if (state.objectUrl) {
+                                return (
+                                    <RenderUploadedState
+                                        key={state.id}
+                                        previewUrl={state.objectUrl}
+                                        handleRemoveFile={() => handleRemoveFile(state.id)}
+                                        isDeleting={state.isDeleting}
+                                        fileType={state.fileType as UploaderFileType}
+                                        file={state.key as string}
+                                    />
+                                );
+                            }
+                        })}
+                    </div>
+
+                    {!maxReached && (
+                        <div className="mt-2 text-sm text-muted-foreground text-center">
+                            <RenderEmptyState isDragActive={isDragActive} />
+                        </div>
+                    )}
+                    {maxReached && (
+                        <div className="mt-2 text-sm text-red-500 text-center">
+                            Nombre maximal de fichiers atteint ({acceptFileNbr[fileTypeAccepted]})
+                        </div>
+                    )}
                 </div>
             );
-        else {
-            if (fileStates[0].uploading) {
-                return (
-                    <RenderUploadingState progress={fileStates[0].progress} file={fileStates[0].file as File}/>
-                )
-            }
-
-            if (fileStates[0].error) {
-                return (
-                    <RenderErrorState error={"Failed to upload file"}/>
-                )
-            }
-
-            if (fileStates[0].objectUrl) {
-                return (
-                    <RenderUploadedState previewUrl={fileStates[0].objectUrl}
-                                         handleRemoveFile={() => handleRemoveFile(fileStates[0].id)}
-                                         isDeleting={fileStates[0].isDeleting}
-                                         fileType={fileStates[0].fileType as UploaderFileType}
-                                         file={fileStates[0].key as string}
-                    />
-                )
-            }
         }
+
+        // Cas mono-fichier (image, video)
+        const file = fileStates[0];
+        if (file.uploading) {
+            return <RenderUploadingState progress={file.progress} file={file.file} />;
+        }
+
+        if (file.error) {
+            return <RenderErrorState error="Failed to upload file" />;
+        }
+
+        if (file.objectUrl) {
+            return (
+                <RenderUploadedState
+                    previewUrl={file.objectUrl}
+                    handleRemoveFile={() => handleRemoveFile(file.id)}
+                    isDeleting={file.isDeleting}
+                    fileType={file.fileType as UploaderFileType}
+                    file={file.key as string}
+                />
+            );
+        }
+
+        return null;
     };
 
     useEffect(() => {

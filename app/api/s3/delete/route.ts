@@ -6,17 +6,11 @@ import { fixedWindow} from "@arcjet/next";
 import {requireAdmin} from "@/app/data/admin/require-admin";
 
 const aj = arcjet
-    // .withRule(
-    //     detectBot({
-    //         mode: "LIVE",
-    //         allow: [],
-    //     })
-    // )
     .withRule(
         fixedWindow({
             mode: "LIVE",
             window: "1m",
-            max: 5
+            max: 10
         })
     );
 

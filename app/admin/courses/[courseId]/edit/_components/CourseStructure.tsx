@@ -126,14 +126,24 @@ const CourseStructure = ({data}: Props) => {
                 }
 
                 if (!targetChapterId) {
-                    toast.error("Could not determine the chapter for ordering");
+                    toast.error("Could not determine the chapter for ordering", {
+                        style: {
+                            background: "#FEE2E2",
+                            color: "#991B1B",
+                        },
+                    });
                     return;
                 }
 
                 const oldIndex = items.findIndex((item) => item.id === activeId);
                 const newIndex = items.findIndex((item) => item.id === targetChapterId);
                 if (oldIndex === -1 || newIndex === -1) {
-                    toast.error("Could not determine the chapter new/old index for ordering");
+                    toast.error("Could not determine the chapter new/old index for ordering", {
+                        style: {
+                            background: "#FEE2E2",
+                            color: "#991B1B",
+                        },
+                    });
                     return;
                 }
 
@@ -190,13 +200,23 @@ const CourseStructure = ({data}: Props) => {
                 const overChapterId = over.data.current?.chapterId;
 
                 if (!chapterId || !overChapterId || chapterId !== overChapterId) {
-                    toast.error("Lessons move between different chapters or invalid chapter ID is not allowed.");
+                    toast.error("Lessons move between different chapters or invalid chapter ID is not allowed.", {
+                        style: {
+                            background: "#FEE2E2",
+                            color: "#991B1B",
+                        },
+                    });
                     return;
                 }
 
                 const chapterIndex = items.findIndex((chapter) => chapter.id === chapterId);
                 if (chapterIndex === -1) {
-                    toast.error("Could not determine the chapter for ordering");
+                    toast.error("Could not determine the chapter for ordering", {
+                        style: {
+                            background: "#FEE2E2",
+                            color: "#991B1B",
+                        },
+                    });
                     return;
                 }
                 const chapterToUpdate = items[chapterIndex];
@@ -205,7 +225,12 @@ const CourseStructure = ({data}: Props) => {
                 const newLessonIndex = chapterToUpdate.lessons.findIndex((lesson) => lesson.id === overId);
 
                 if (oldLessonIndex === -1 || newLessonIndex === -1) {
-                    toast.error("Could not determine the lesson new/old index for ordering");
+                    toast.error("Could not determine the lesson new/old index for ordering", {
+                        style: {
+                            background: "#FEE2E2",
+                            color: "#991B1B",
+                        },
+                    });
                     return;
                 }
                 const reorderedLocalLessons = arrayMove(chapterToUpdate.lessons, oldLessonIndex, newLessonIndex);

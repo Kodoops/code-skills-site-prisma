@@ -8,7 +8,7 @@ import {TagType} from "@/lib/types";
 import {updateCourseTags} from '../actions';
 import {toast} from "sonner";
 
-const UpdateTagsList = ({listTags, courseId, existingTags}:
+const CourseTagList = ({listTags, courseId, existingTags}:
                         { listTags: TagType[] | null, courseId: string, existingTags: TagType [] }) => {
 
     const selection = existingTags.map(t => t.id)
@@ -81,4 +81,4 @@ const UpdateTagsList = ({listTags, courseId, existingTags}:
     );
 };
 
-export default UpdateTagsList;
+export default CourseTagList;

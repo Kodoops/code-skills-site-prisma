@@ -45,9 +45,11 @@ export async function adminGetWorkshop(id: string) : Promise<WorkshopType | null
             },
             statement: true,
             statementsStartFileKey: true,
+            statementsStartFileUrl: true,
             statementVideoKey: true,
             solution: true,
             solutionFileKey: true,
+            solutionFileUrl: true,
             solutionVideoKey: true,
 
         }

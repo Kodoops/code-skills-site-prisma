@@ -33,8 +33,8 @@ const AdminWorkshopCard = ({data}:AdminCourseCardProps) => {
     const thumbnailUrl  = useConstructUrl(data.fileKey);
     const finalPrice = calculatedPrice(data.price!, data?.promotions?.[0])
 
-    console.log(data)
     const isDeleted = data.deletedAt !== null && data.deletedAt !== undefined;
+
     return (
         <Card className={`group relative py-1 gap-0 ` + (isDeleted ?"bg-red-500/20" :"")}>
             {/*    absolute dropdown */}

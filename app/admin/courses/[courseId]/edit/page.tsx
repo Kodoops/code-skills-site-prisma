@@ -9,10 +9,10 @@ import {getAllCategories} from "@/app/data/categories/get-all-categories";
 import {AdminCategoryCardSkeleton} from "@/app/admin/categories/_components/AdminCategoryCard";
 import {TagType} from "@/lib/types";
 import {Ban} from "lucide-react";
-import UpdateTagsList from "@/app/admin/courses/[courseId]/edit/_components/TagsLis";
 import {adminGetAllTags} from "@/app/data/admin/admin-get-all-tags";
 import { getLevels } from '@/app/data/get-levels';
 import {getStatus} from "@/app/data/get-status";
+import CourseTagList from "@/app/admin/courses/[courseId]/edit/_components/CourseTagsLis";
 
 type Params = Promise<{ courseId: string }>;
 
@@ -131,7 +131,7 @@ async function RenderTags({tags, courseId}:{tags: TagType [], courseId:string}) 
                     </div>
                 )
                 }
-                <UpdateTagsList listTags={allTags} courseId={courseId} existingTags={tags}/>
+                <CourseTagList listTags={allTags} courseId={courseId} existingTags={tags}/>
             </div>
 
         </>

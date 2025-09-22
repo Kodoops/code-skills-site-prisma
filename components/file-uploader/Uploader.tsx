@@ -1,3 +1,4 @@
+// Uploader.tsx
 "use client"
 
 import React, {useCallback, useEffect, useState, useTransition} from 'react';
@@ -11,8 +12,8 @@ import {
 import {toast} from "sonner";
 import {v4 as uuidv4} from 'uuid'
 import {FILE_MAX_FILE_SIZE, IMAGE_MAX_FILE_SIZE, VIDEO_MAX_FILE_SIZE} from "@/constants/admin-contants";
-import { UploaderFileType } from '@/lib/types';
-import {useConstructUrl} from "@/hooks/use-construct-url";
+import {UploaderFileType} from '@/lib/types';
+import {constructUrl, useConstructUrl} from "@/hooks/use-construct-url";
 import {Card, CardContent} from "@/components/ui/card";
 import {cn} from "@/lib/utils";
 
@@ -67,7 +68,7 @@ const acceptMap: Record<
 const Uploader = ({onChange, value, fileTypeAccepted, multipleFiles}: iAppProps) => {
     const multiple = multipleFiles || false;
 
-    const fileUrl = useConstructUrl(value || '');
+    const fileUrl =  useConstructUrl(value || '');
 
     const [fileState, setFileState] = useState<UploaderState>({
         error: false,
@@ -140,7 +141,8 @@ const Uploader = ({onChange, value, fileTypeAccepted, multipleFiles}: iAppProps)
                                 uploading: false,
                                 key: key,
                             }));
-                            onChange?.(key);
+                            const link = constructUrl(key);
+                            onChange?.(link ?? '');
                             toast.success("File uploaded successfully", {
                                 style: {
                                     background: "#D1FAE5",
@@ -349,11 +351,12 @@ const Uploader = ({onChange, value, fileTypeAccepted, multipleFiles}: iAppProps)
 
         if (fileState.objectUrl) {
             return (
-                <RenderUploadedState previewUrl={fileState.objectUrl}
-                                     handleRemoveFile={handleRemoveFile}
-                                     isDeleting={fileState.isDeleting}
-                                     fileType={fileState.fileType as UploaderFileType}
-                                     file={fileState.key as string}
+                <RenderUploadedState
+                    previewUrl={fileState.objectUrl}
+                    handleRemoveFile={handleRemoveFile}
+                    isDeleting={fileState.isDeleting}
+                    fileType={fileState.fileType as UploaderFileType}
+                    file={fileState.key as string}
                 />
             )
         }

@@ -11,13 +11,12 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {tryCatch} from "@/hooks/try-catch";
 import {toast} from "sonner";
 import {notFound, useRouter} from "next/navigation";
-import Uploader from '@/components/file-uploader/Uploader';
 import { Button } from '@/components/ui/button';
-import RichTextEditor from "@/components/rich-text-editor/Editor";
 import { Textarea } from '@/components/ui/textarea';
 import slugify from 'slugify';
 import { WorkshopType} from '@/lib/types';
 import {updateWorkshop} from "@/app/admin/workshops/[workshopId]/edit/actions";
+import Uploader from "@/components/file-uploader/Uploader";
 
 interface EditWorkshopFormProps {
     data   :WorkshopType;
@@ -32,7 +31,6 @@ const EditWorkshopForm = ({data, levels, status}:EditWorkshopFormProps) => {
     const router = useRouter();
 
     const form = useForm<WorkshopSchema>({
-       // resolver: zodResolver(courseSchema),
         resolver: zodResolver(workshopSchema) as Resolver<WorkshopSchema>,
         defaultValues: {
             title: data.title,
@@ -46,6 +44,7 @@ const EditWorkshopForm = ({data, levels, status}:EditWorkshopFormProps) => {
             statement: data.statement
         },
     })
+
 
     function onSubmit(values: WorkshopSchema) {
         startTransition(async () => {

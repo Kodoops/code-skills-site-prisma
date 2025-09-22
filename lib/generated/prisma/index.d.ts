@@ -19173,6 +19173,7 @@ export namespace Prisma {
     statement: string | null
     fileKey: string | null
     statementsStartFileKey: string | null
+    statementsStartFileUrl: string | null
     statementVideoKey: string | null
     price: number | null
     currency: string | null
@@ -19182,6 +19183,7 @@ export namespace Prisma {
     stripePriceId: string | null
     solution: string | null
     solutionFileKey: string | null
+    solutionFileUrl: string | null
     solutionVideoKey: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -19197,6 +19199,7 @@ export namespace Prisma {
     statement: string | null
     fileKey: string | null
     statementsStartFileKey: string | null
+    statementsStartFileUrl: string | null
     statementVideoKey: string | null
     price: number | null
     currency: string | null
@@ -19206,6 +19209,7 @@ export namespace Prisma {
     stripePriceId: string | null
     solution: string | null
     solutionFileKey: string | null
+    solutionFileUrl: string | null
     solutionVideoKey: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -19221,6 +19225,7 @@ export namespace Prisma {
     statement: number
     fileKey: number
     statementsStartFileKey: number
+    statementsStartFileUrl: number
     statementVideoKey: number
     price: number
     currency: number
@@ -19230,6 +19235,7 @@ export namespace Prisma {
     stripePriceId: number
     solution: number
     solutionFileKey: number
+    solutionFileUrl: number
     solutionVideoKey: number
     createdAt: number
     updatedAt: number
@@ -19257,6 +19263,7 @@ export namespace Prisma {
     statement?: true
     fileKey?: true
     statementsStartFileKey?: true
+    statementsStartFileUrl?: true
     statementVideoKey?: true
     price?: true
     currency?: true
@@ -19266,6 +19273,7 @@ export namespace Prisma {
     stripePriceId?: true
     solution?: true
     solutionFileKey?: true
+    solutionFileUrl?: true
     solutionVideoKey?: true
     createdAt?: true
     updatedAt?: true
@@ -19281,6 +19289,7 @@ export namespace Prisma {
     statement?: true
     fileKey?: true
     statementsStartFileKey?: true
+    statementsStartFileUrl?: true
     statementVideoKey?: true
     price?: true
     currency?: true
@@ -19290,6 +19299,7 @@ export namespace Prisma {
     stripePriceId?: true
     solution?: true
     solutionFileKey?: true
+    solutionFileUrl?: true
     solutionVideoKey?: true
     createdAt?: true
     updatedAt?: true
@@ -19305,6 +19315,7 @@ export namespace Prisma {
     statement?: true
     fileKey?: true
     statementsStartFileKey?: true
+    statementsStartFileUrl?: true
     statementVideoKey?: true
     price?: true
     currency?: true
@@ -19314,6 +19325,7 @@ export namespace Prisma {
     stripePriceId?: true
     solution?: true
     solutionFileKey?: true
+    solutionFileUrl?: true
     solutionVideoKey?: true
     createdAt?: true
     updatedAt?: true
@@ -19416,6 +19428,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey: string | null
+    statementsStartFileUrl: string | null
     statementVideoKey: string | null
     price: number
     currency: string
@@ -19425,6 +19438,7 @@ export namespace Prisma {
     stripePriceId: string | null
     solution: string | null
     solutionFileKey: string | null
+    solutionFileUrl: string | null
     solutionVideoKey: string | null
     createdAt: Date
     updatedAt: Date
@@ -19459,6 +19473,7 @@ export namespace Prisma {
     statement?: boolean
     fileKey?: boolean
     statementsStartFileKey?: boolean
+    statementsStartFileUrl?: boolean
     statementVideoKey?: boolean
     price?: boolean
     currency?: boolean
@@ -19468,6 +19483,7 @@ export namespace Prisma {
     stripePriceId?: boolean
     solution?: boolean
     solutionFileKey?: boolean
+    solutionFileUrl?: boolean
     solutionVideoKey?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -19493,6 +19509,7 @@ export namespace Prisma {
     statement?: boolean
     fileKey?: boolean
     statementsStartFileKey?: boolean
+    statementsStartFileUrl?: boolean
     statementVideoKey?: boolean
     price?: boolean
     currency?: boolean
@@ -19502,6 +19519,7 @@ export namespace Prisma {
     stripePriceId?: boolean
     solution?: boolean
     solutionFileKey?: boolean
+    solutionFileUrl?: boolean
     solutionVideoKey?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -19518,6 +19536,7 @@ export namespace Prisma {
     statement?: boolean
     fileKey?: boolean
     statementsStartFileKey?: boolean
+    statementsStartFileUrl?: boolean
     statementVideoKey?: boolean
     price?: boolean
     currency?: boolean
@@ -19527,6 +19546,7 @@ export namespace Prisma {
     stripePriceId?: boolean
     solution?: boolean
     solutionFileKey?: boolean
+    solutionFileUrl?: boolean
     solutionVideoKey?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -19543,6 +19563,7 @@ export namespace Prisma {
     statement?: boolean
     fileKey?: boolean
     statementsStartFileKey?: boolean
+    statementsStartFileUrl?: boolean
     statementVideoKey?: boolean
     price?: boolean
     currency?: boolean
@@ -19552,6 +19573,7 @@ export namespace Prisma {
     stripePriceId?: boolean
     solution?: boolean
     solutionFileKey?: boolean
+    solutionFileUrl?: boolean
     solutionVideoKey?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -19559,7 +19581,7 @@ export namespace Prisma {
     deletedAt?: boolean
   }
 
-  export type WorkshopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "slug" | "statement" | "fileKey" | "statementsStartFileKey" | "statementVideoKey" | "price" | "currency" | "duration" | "status" | "level" | "stripePriceId" | "solution" | "solutionFileKey" | "solutionVideoKey" | "createdAt" | "updatedAt" | "userId" | "deletedAt", ExtArgs["result"]["workshop"]>
+  export type WorkshopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "slug" | "statement" | "fileKey" | "statementsStartFileKey" | "statementsStartFileUrl" | "statementVideoKey" | "price" | "currency" | "duration" | "status" | "level" | "stripePriceId" | "solution" | "solutionFileKey" | "solutionFileUrl" | "solutionVideoKey" | "createdAt" | "updatedAt" | "userId" | "deletedAt", ExtArgs["result"]["workshop"]>
   export type WorkshopInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Workshop$userArgs<ExtArgs>
     tags?: boolean | Workshop$tagsArgs<ExtArgs>
@@ -19600,6 +19622,7 @@ export namespace Prisma {
       statement: string
       fileKey: string
       statementsStartFileKey: string | null
+      statementsStartFileUrl: string | null
       statementVideoKey: string | null
       price: number
       currency: string
@@ -19609,6 +19632,7 @@ export namespace Prisma {
       stripePriceId: string | null
       solution: string | null
       solutionFileKey: string | null
+      solutionFileUrl: string | null
       solutionVideoKey: string | null
       createdAt: Date
       updatedAt: Date
@@ -20053,6 +20077,7 @@ export namespace Prisma {
     readonly statement: FieldRef<"Workshop", 'String'>
     readonly fileKey: FieldRef<"Workshop", 'String'>
     readonly statementsStartFileKey: FieldRef<"Workshop", 'String'>
+    readonly statementsStartFileUrl: FieldRef<"Workshop", 'String'>
     readonly statementVideoKey: FieldRef<"Workshop", 'String'>
     readonly price: FieldRef<"Workshop", 'Int'>
     readonly currency: FieldRef<"Workshop", 'String'>
@@ -20062,6 +20087,7 @@ export namespace Prisma {
     readonly stripePriceId: FieldRef<"Workshop", 'String'>
     readonly solution: FieldRef<"Workshop", 'String'>
     readonly solutionFileKey: FieldRef<"Workshop", 'String'>
+    readonly solutionFileUrl: FieldRef<"Workshop", 'String'>
     readonly solutionVideoKey: FieldRef<"Workshop", 'String'>
     readonly createdAt: FieldRef<"Workshop", 'DateTime'>
     readonly updatedAt: FieldRef<"Workshop", 'DateTime'>
@@ -52572,6 +52598,7 @@ export namespace Prisma {
     statement: 'statement',
     fileKey: 'fileKey',
     statementsStartFileKey: 'statementsStartFileKey',
+    statementsStartFileUrl: 'statementsStartFileUrl',
     statementVideoKey: 'statementVideoKey',
     price: 'price',
     currency: 'currency',
@@ -52581,6 +52608,7 @@ export namespace Prisma {
     stripePriceId: 'stripePriceId',
     solution: 'solution',
     solutionFileKey: 'solutionFileKey',
+    solutionFileUrl: 'solutionFileUrl',
     solutionVideoKey: 'solutionVideoKey',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -54127,6 +54155,7 @@ export namespace Prisma {
     statement?: StringFilter<"Workshop"> | string
     fileKey?: StringFilter<"Workshop"> | string
     statementsStartFileKey?: StringNullableFilter<"Workshop"> | string | null
+    statementsStartFileUrl?: StringNullableFilter<"Workshop"> | string | null
     statementVideoKey?: StringNullableFilter<"Workshop"> | string | null
     price?: IntFilter<"Workshop"> | number
     currency?: StringFilter<"Workshop"> | string
@@ -54136,6 +54165,7 @@ export namespace Prisma {
     stripePriceId?: StringNullableFilter<"Workshop"> | string | null
     solution?: StringNullableFilter<"Workshop"> | string | null
     solutionFileKey?: StringNullableFilter<"Workshop"> | string | null
+    solutionFileUrl?: StringNullableFilter<"Workshop"> | string | null
     solutionVideoKey?: StringNullableFilter<"Workshop"> | string | null
     createdAt?: DateTimeFilter<"Workshop"> | Date | string
     updatedAt?: DateTimeFilter<"Workshop"> | Date | string
@@ -54160,6 +54190,7 @@ export namespace Prisma {
     statement?: SortOrder
     fileKey?: SortOrder
     statementsStartFileKey?: SortOrderInput | SortOrder
+    statementsStartFileUrl?: SortOrderInput | SortOrder
     statementVideoKey?: SortOrderInput | SortOrder
     price?: SortOrder
     currency?: SortOrder
@@ -54169,6 +54200,7 @@ export namespace Prisma {
     stripePriceId?: SortOrderInput | SortOrder
     solution?: SortOrderInput | SortOrder
     solutionFileKey?: SortOrderInput | SortOrder
+    solutionFileUrl?: SortOrderInput | SortOrder
     solutionVideoKey?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -54196,6 +54228,7 @@ export namespace Prisma {
     statement?: StringFilter<"Workshop"> | string
     fileKey?: StringFilter<"Workshop"> | string
     statementsStartFileKey?: StringNullableFilter<"Workshop"> | string | null
+    statementsStartFileUrl?: StringNullableFilter<"Workshop"> | string | null
     statementVideoKey?: StringNullableFilter<"Workshop"> | string | null
     price?: IntFilter<"Workshop"> | number
     currency?: StringFilter<"Workshop"> | string
@@ -54205,6 +54238,7 @@ export namespace Prisma {
     stripePriceId?: StringNullableFilter<"Workshop"> | string | null
     solution?: StringNullableFilter<"Workshop"> | string | null
     solutionFileKey?: StringNullableFilter<"Workshop"> | string | null
+    solutionFileUrl?: StringNullableFilter<"Workshop"> | string | null
     solutionVideoKey?: StringNullableFilter<"Workshop"> | string | null
     createdAt?: DateTimeFilter<"Workshop"> | Date | string
     updatedAt?: DateTimeFilter<"Workshop"> | Date | string
@@ -54229,6 +54263,7 @@ export namespace Prisma {
     statement?: SortOrder
     fileKey?: SortOrder
     statementsStartFileKey?: SortOrderInput | SortOrder
+    statementsStartFileUrl?: SortOrderInput | SortOrder
     statementVideoKey?: SortOrderInput | SortOrder
     price?: SortOrder
     currency?: SortOrder
@@ -54238,6 +54273,7 @@ export namespace Prisma {
     stripePriceId?: SortOrderInput | SortOrder
     solution?: SortOrderInput | SortOrder
     solutionFileKey?: SortOrderInput | SortOrder
+    solutionFileUrl?: SortOrderInput | SortOrder
     solutionVideoKey?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -54261,6 +54297,7 @@ export namespace Prisma {
     statement?: StringWithAggregatesFilter<"Workshop"> | string
     fileKey?: StringWithAggregatesFilter<"Workshop"> | string
     statementsStartFileKey?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
+    statementsStartFileUrl?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
     statementVideoKey?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
     price?: IntWithAggregatesFilter<"Workshop"> | number
     currency?: StringWithAggregatesFilter<"Workshop"> | string
@@ -54270,6 +54307,7 @@ export namespace Prisma {
     stripePriceId?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
     solution?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
     solutionFileKey?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
+    solutionFileUrl?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
     solutionVideoKey?: StringNullableWithAggregatesFilter<"Workshop"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Workshop"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Workshop"> | Date | string
@@ -57217,6 +57255,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -57226,6 +57265,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -57249,6 +57289,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -57258,6 +57299,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -57281,6 +57323,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -57290,6 +57333,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -57313,6 +57357,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -57322,6 +57367,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -57345,6 +57391,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -57354,6 +57401,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -57369,6 +57417,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -57378,6 +57427,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -57392,6 +57442,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -57401,6 +57452,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -60161,6 +60213,7 @@ export namespace Prisma {
     statement?: SortOrder
     fileKey?: SortOrder
     statementsStartFileKey?: SortOrder
+    statementsStartFileUrl?: SortOrder
     statementVideoKey?: SortOrder
     price?: SortOrder
     currency?: SortOrder
@@ -60170,6 +60223,7 @@ export namespace Prisma {
     stripePriceId?: SortOrder
     solution?: SortOrder
     solutionFileKey?: SortOrder
+    solutionFileUrl?: SortOrder
     solutionVideoKey?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -60190,6 +60244,7 @@ export namespace Prisma {
     statement?: SortOrder
     fileKey?: SortOrder
     statementsStartFileKey?: SortOrder
+    statementsStartFileUrl?: SortOrder
     statementVideoKey?: SortOrder
     price?: SortOrder
     currency?: SortOrder
@@ -60199,6 +60254,7 @@ export namespace Prisma {
     stripePriceId?: SortOrder
     solution?: SortOrder
     solutionFileKey?: SortOrder
+    solutionFileUrl?: SortOrder
     solutionVideoKey?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -60214,6 +60270,7 @@ export namespace Prisma {
     statement?: SortOrder
     fileKey?: SortOrder
     statementsStartFileKey?: SortOrder
+    statementsStartFileUrl?: SortOrder
     statementVideoKey?: SortOrder
     price?: SortOrder
     currency?: SortOrder
@@ -60223,6 +60280,7 @@ export namespace Prisma {
     stripePriceId?: SortOrder
     solution?: SortOrder
     solutionFileKey?: SortOrder
+    solutionFileUrl?: SortOrder
     solutionVideoKey?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -65335,6 +65393,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -65344,6 +65403,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -65366,6 +65426,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -65375,6 +65436,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -65692,6 +65754,7 @@ export namespace Prisma {
     statement?: StringFilter<"Workshop"> | string
     fileKey?: StringFilter<"Workshop"> | string
     statementsStartFileKey?: StringNullableFilter<"Workshop"> | string | null
+    statementsStartFileUrl?: StringNullableFilter<"Workshop"> | string | null
     statementVideoKey?: StringNullableFilter<"Workshop"> | string | null
     price?: IntFilter<"Workshop"> | number
     currency?: StringFilter<"Workshop"> | string
@@ -65701,6 +65764,7 @@ export namespace Prisma {
     stripePriceId?: StringNullableFilter<"Workshop"> | string | null
     solution?: StringNullableFilter<"Workshop"> | string | null
     solutionFileKey?: StringNullableFilter<"Workshop"> | string | null
+    solutionFileUrl?: StringNullableFilter<"Workshop"> | string | null
     solutionVideoKey?: StringNullableFilter<"Workshop"> | string | null
     createdAt?: DateTimeFilter<"Workshop"> | Date | string
     updatedAt?: DateTimeFilter<"Workshop"> | Date | string
@@ -66819,6 +66883,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -66828,6 +66893,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -66850,6 +66916,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -66859,6 +66926,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -67064,6 +67132,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -67073,6 +67142,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -67095,6 +67165,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -67104,6 +67175,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -69414,6 +69486,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -69423,6 +69496,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -69445,6 +69519,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -69454,6 +69529,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -69525,6 +69601,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -69534,6 +69611,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -69556,6 +69634,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -69565,6 +69644,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -69879,6 +69959,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -69888,6 +69969,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -69910,6 +69992,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -69919,6 +70002,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -70085,6 +70169,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -70094,6 +70179,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -70116,6 +70202,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -70125,6 +70212,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -70508,6 +70596,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -70517,6 +70606,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -70539,6 +70629,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -70548,6 +70639,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -70613,6 +70705,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -70622,6 +70715,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -70644,6 +70738,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -70653,6 +70748,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -70953,6 +71049,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -70962,6 +71059,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -70984,6 +71082,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -70993,6 +71092,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -71159,6 +71259,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -71168,6 +71269,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -71190,6 +71292,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -71199,6 +71302,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -71349,6 +71453,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -71358,6 +71463,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -71380,6 +71486,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -71389,6 +71496,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -72957,6 +73065,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -72966,6 +73075,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -72988,6 +73098,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -72997,6 +73108,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -73056,6 +73168,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -73065,6 +73178,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -73087,6 +73201,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -73096,6 +73211,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -73145,6 +73261,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -73154,6 +73271,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -73176,6 +73294,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -73185,6 +73304,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -73244,6 +73364,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -73253,6 +73374,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -73275,6 +73397,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -73284,6 +73407,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -74003,6 +74127,7 @@ export namespace Prisma {
     statement: string
     fileKey: string
     statementsStartFileKey?: string | null
+    statementsStartFileUrl?: string | null
     statementVideoKey?: string | null
     price: number
     currency?: string
@@ -74012,6 +74137,7 @@ export namespace Prisma {
     stripePriceId?: string | null
     solution?: string | null
     solutionFileKey?: string | null
+    solutionFileUrl?: string | null
     solutionVideoKey?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -74386,6 +74512,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -74395,6 +74522,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -74417,6 +74545,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -74426,6 +74555,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -74448,6 +74578,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -74457,6 +74588,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -75786,6 +75918,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -75795,6 +75928,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -75817,6 +75951,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -75826,6 +75961,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -75848,6 +75984,7 @@ export namespace Prisma {
     statement?: StringFieldUpdateOperationsInput | string
     fileKey?: StringFieldUpdateOperationsInput | string
     statementsStartFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    statementsStartFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statementVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     price?: IntFieldUpdateOperationsInput | number
     currency?: StringFieldUpdateOperationsInput | string
@@ -75857,6 +75994,7 @@ export namespace Prisma {
     stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
     solution?: NullableStringFieldUpdateOperationsInput | string | null
     solutionFileKey?: NullableStringFieldUpdateOperationsInput | string | null
+    solutionFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     solutionVideoKey?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

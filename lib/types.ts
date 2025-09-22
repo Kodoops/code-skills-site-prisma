@@ -281,12 +281,14 @@ export type WorkshopType = {
     status: string; // ENUM_STATUS
 
     statement : string;
-    statementsStartFileKey? : string;
-    statementVideoKey? : string;
+    statementsStartFileKey? : string; // url :eip files starter kit
+    statementsStartFileUrl? : string; // url :eip files starter kit
+    statementVideoKey? : string;// presentation workshop video url
 
-    solution?: string;
-    solutionFileKey?: string;
-    solutionVideoKey?: string;
+    solution?: string; // description of solution
+    solutionFileKey?: string; // final url files solution
+    solutionFileUrl? : string; // url :eip files solution
+    solutionVideoKey?: string; // url video solution
 
     stripePriceId? : string;
 
@@ -354,6 +356,7 @@ export type LessonResourceType = {
 export type WorkshopResourceType = {
     workshopId: string;
     resourceId: string;
+    type?: string;  // statement or solution
 
     workshop: WorkshopType;
     resource: ResourceType;

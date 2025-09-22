@@ -3,13 +3,8 @@
 import {requireAdmin} from "@/app/data/admin/require-admin";
 import {ApiResponseType} from "@/lib/types";
 import {
-    chapterSchema,
-    ChapterSchema,
-    courseSchema,
-    CourseSchema,
-    lessonSchema,
-    LessonSchema, workshopSchema,
-    WorkshopSchema, workshopStatementSchema, WorkshopStatementSchema
+ workshopSchema,
+    WorkshopSchema, workshopSolutionSchema, WorkshopSolutionSchema, workshopStatementSchema, WorkshopStatementSchema
 } from "@/lib/zodSchemas";
 import {prisma} from "@/lib/db";
 import arcjet from "@/lib/arcjet";
@@ -128,28 +123,76 @@ export async function updateWorkshopStatement(data: WorkshopStatementSchema, wor
     }
 }
 
+export async function updateWorkshopSolution(data: WorkshopSolutionSchema, workshopId: string): Promise<ApiResponseType> {
+    const session = await requireAdmin();
+
+    try {
+        const req = await request();
+        const decision = await aj.protect(req, {fingerprint: session?.user.id as string});
+
+        if (decision.isDenied()) {
+            if (decision.reason.isRateLimit()) {
+                return {
+                    status: 'error',
+                    message: "Looks like you are making too many requests. Please try again in a minute",
+                }
+            } else {
+                return {
+                    status: 'error',
+                    message: "you are a bot! , if you are human please try again in a minute or contact support",
+                }
+            }
+        }
+
+        const result = workshopSolutionSchema.safeParse(data);
+        if (!result.success) {
+            return {
+                status: "error",
+                message: "Invalid form data"
+            };
+        }
+
+        await prisma.workshop.update({
+            where: {
+                id: workshopId,
+            },
+            data: {
+                ...result.data,
+            },
+        })
+
+        return {
+            status: "success",
+            message: "Workshop solution updated successfully"
+        }
+    } catch {
+        return {
+            status: "error",
+            message: "Fail to update workshop solution"
+        }
+    }
+}
 
 
-
-export async function updateCourseTags(courseId: string, tagIds: string[]): Promise<ApiResponseType> {
+export async function updateWorkshopTags(workshopId: string, tagIds: string[]): Promise<ApiResponseType> {
 
     await requireAdmin();
 
     try {
         await prisma.$transaction([
-             prisma.courseTag.deleteMany({
-                where: {courseId}
+             prisma.workshopTag.deleteMany({
+                where: {workshopId}
             }),
 
-             prisma.courseTag.createMany({
+             prisma.workshopTag.createMany({
                 data: tagIds.map(tagId => ({
-                    courseId,
+                    workshopId,
                     tagId
                 })),
                 skipDuplicates: true
             }),
         ]);
-        revalidatePath(`/admin/courses/${courseId}/edit`)
+        revalidatePath(`/admin/workshops/${workshopId}/edit`)
 
         return {
             status: "success",

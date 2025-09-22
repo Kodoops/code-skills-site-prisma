@@ -5,7 +5,7 @@ import {Button} from "@/components/ui/button";
 import Image from "next/image";
 import {UploaderFileType} from '@/lib/types';
 import FileSVG from '../custom-ui/FileSVG';
-import {useConstructUrl} from "@/hooks/use-construct-url";
+import {constructUrl, useConstructUrl} from "@/hooks/use-construct-url";
 
 export function RenderEmptyState({isDragActive}: { isDragActive: boolean }) {
     return (
@@ -53,20 +53,18 @@ export function RenderUploadedState({previewUrl, isDeleting, handleRemoveFile, f
                                         file : string
                                     }) {
 
-    const url = useConstructUrl(file);
-
     return <div className={"relative group w-full h-full flex items-center justify-center"}>
         {
             fileType === 'image' &&
-            <Image src={url} alt={"File Uploaded"} className={"object-contain p-2"} width={400}
+            <Image src={previewUrl} alt={"File Uploaded"} className={"object-contain p-2"} width={400}
                    height={200}/>}
         {fileType === 'video' &&
-            <video src={url} controls className={"object-contain p-2 w-full h-full"} width={400} height={200}/>}
+            <video src={previewUrl} controls className={"object-contain p-2 w-full h-full"} width={400} height={200}/>}
 
         {fileType === 'file' &&
            <div className={"flex flex-col items-center justify-center"}>
                 <FileSVG size={"128"} />
-               <span>{file}</span>
+               <span>{file.split("/").pop()}</span>
            </div>
         }
 

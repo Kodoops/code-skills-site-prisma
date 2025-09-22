@@ -59,13 +59,37 @@ export const workshopSchema =z.object({
     status: z.string().min(1,{message:'Status must be one of the following: draft, published, archived'}),
 })
 
-export const workshopStatementSchema =z.object({
-    statement: z.string().min(3, {message:'Statement must be at least 3 characters long'}),
+export const workshopStatementSchema = z.object({
+    statement: z.string().min(3, { message: 'Statement must be at least 3 characters long' }),
     statementsStartFileKey: z.string().optional(),
+    statementsStartFileUrl: z.string().url().optional(),
     statementVideoKey: z.string().optional(),
-//to delete
+});
+//     .refine((data) => {
+//     const hasKey = !!data.statementsStartFileKey;
+//     const hasUrl = !!data.statementsStartFileUrl;
+//
+//     return !(hasKey && hasUrl); // seulement les deux remplis est interdit
+// }, {
+//     message: "You can't provide both a file upload and a URL at the same time.",
+//     path: ["statementsStartFileKey"], // ou ["statementsStartFileUrl"], selon où tu veux afficher l'erreur
+// });
+
+export const workshopSolutionSchema = z.object({
+    solution: z.string().min(3, { message: 'Solution must be at least 3 characters long' }),
     solutionFileKey: z.string().optional(),
-})
+    solutionFileUrl: z.string().url().optional(),
+    solutionVideoKey: z.string().optional(),
+});
+//     .refine((data) => {
+//     const hasKey = !!data.solutionFileKey;
+//     const hasUrl = !!data.solutionFileUrl;
+//
+//     return !(hasKey && hasUrl); // seulement les deux remplis est interdit
+// }, {
+//     message: "You can't provide both a file upload and a URL at the same time.",
+//     path: ["solutionFileKey"], // ou ["solutionFileUrl"], selon où tu veux afficher l'erreur
+// });
 
 export const categorySchema = z.object({
     title: z.string().min(3, {message:'Name must be at least 3 characters long'}),
@@ -167,7 +191,7 @@ export type ChapterSchema = z.infer<typeof chapterSchema>
 export type LessonSchema = z.infer<typeof lessonSchema>
 export type WorkshopSchema = z.infer<typeof workshopSchema>
 export type WorkshopStatementSchema = z.infer<typeof workshopStatementSchema>
-
+export type WorkshopSolutionSchema = z.infer<typeof workshopSolutionSchema>
 export type CategorySchema = z.infer<typeof categorySchema>
 export type DomainSchema = z.infer<typeof domainSchema>
 export type TagSchema = z.infer<typeof tagSchema>

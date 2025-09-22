@@ -1,3 +1,4 @@
+// UploaderMulti.tsx
 "use client"
 
 import React, { useCallback, useEffect, useState } from "react";
@@ -19,10 +20,11 @@ import {
 import { UploaderFileType } from "@/lib/types";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import {constructUrl} from "@/hooks/use-construct-url";
 
 interface UploaderState {
     id: string;
-    file: File;
+    file: File | null;
     uploading: boolean;
     progress: number;
     key?: string;
@@ -33,8 +35,8 @@ interface UploaderState {
 }
 
 interface iAppProps {
-    value?: string;
-    onChange?: (value: string | string[]) => void;
+    value?: string | string[];
+    onChange: (value: string | string[]) => void;
     fileTypeAccepted: UploaderFileType;
     multipleFiles?: boolean;
 }
@@ -67,13 +69,40 @@ const acceptMap: Record<UploaderFileType, Record<string, string[]>> = {
     },
 };
 
-const Uploader = ({ onChange, value, fileTypeAccepted, multipleFiles }: iAppProps) => {
+function inferFileTypeFromKey(key: string): UploaderFileType {
+    if (key.match(/\.(jpg|jpeg|png|gif)$/)) return "image";
+    if (key.match(/\.(mp4|webm|avi)$/)) return "video";
+    return "file";
+}
+
+const UploaderMulti = ({ onChange, value, fileTypeAccepted, multipleFiles }: iAppProps) => {
     const multiple = multipleFiles || false;
     const [fileStates, setFileStates] = useState<UploaderState[]>([]);
+
+    useEffect(() => {
+        if (!value) return;
+
+        const keys = Array.isArray(value) ? value : [value];
+
+        const initialStates: UploaderState[] = keys.map((key) => ({
+            id: key,
+            file: null,
+            uploading: false,
+            progress: 100,
+            key,
+            isDeleting: false,
+            error: false,
+            objectUrl: constructUrl(key),
+            fileType: inferFileTypeFromKey(key),
+        }));
+
+        setFileStates(initialStates);
+    }, [value]);
 
     // Upload d'un fichier individuel
     const uploadFile = useCallback(
         async (file: File, id: string) => {
+
             setFileStates((prev) =>
                 prev.map((f) => (f.id === id ? { ...f, uploading: true, progress: 0 } : f))
             );
@@ -185,6 +214,7 @@ const Uploader = ({ onChange, value, fileTypeAccepted, multipleFiles }: iAppProp
             });
 
             setFileStates((prev) => (multiple ? [...prev, ...newStates] : [...newStates]));
+
         },
         [multiple, uploadFile, fileTypeAccepted]
     );
@@ -275,7 +305,7 @@ const Uploader = ({ onChange, value, fileTypeAccepted, multipleFiles }: iAppProp
                                     <RenderUploadingState
                                         key={state.id}
                                         progress={state.progress}
-                                        file={state.file}
+                                        file={state.file as File}
                                     />
                                 );
                             }
@@ -324,7 +354,7 @@ const Uploader = ({ onChange, value, fileTypeAccepted, multipleFiles }: iAppProp
         // Cas mono-fichier (image, video)
         const file = fileStates[0];
         if (file.uploading) {
-            return <RenderUploadingState progress={file.progress} file={file.file} />;
+            return <RenderUploadingState progress={file.progress} file={file.file as File} />;
         }
 
         if (file.error) {
@@ -382,4 +412,4 @@ const Uploader = ({ onChange, value, fileTypeAccepted, multipleFiles }: iAppProp
     );
 };
 
-export default Uploader;
+export default UploaderMulti;

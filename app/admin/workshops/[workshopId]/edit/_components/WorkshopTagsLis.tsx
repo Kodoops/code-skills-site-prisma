@@ -5,11 +5,11 @@ import {PlusIcon} from "lucide-react";
 import {Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger} from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
 import {TagType} from "@/lib/types";
-import {updateCourseTags} from '../actions';
 import {toast} from "sonner";
+import { updateWorkshopTags } from '../actions';
 
-const UpdateTagsList = ({listTags, courseId, existingTags}:
-                        { listTags: TagType[] | null, courseId: string, existingTags: TagType [] }) => {
+const WorkshopTagsList = ({listTags, workshopId, existingTags}:
+                        { listTags: TagType[] | null, workshopId: string, existingTags: TagType [] }) => {
 
     const selection = existingTags.map(t => t.id)
     const [tags, setTags] = useState<TagType []>(existingTags) // fetched tags of the course
@@ -20,7 +20,7 @@ const UpdateTagsList = ({listTags, courseId, existingTags}:
 
     const handleUpdate = () => {
         startTransition(async () => {
-            await updateCourseTags(courseId, selected)
+            await updateWorkshopTags(workshopId, selected)
             if (allTags !== null)
                 setTags(allTags.filter(t => selected.includes(t.id)))
             setOpen(false)
@@ -51,7 +51,7 @@ const UpdateTagsList = ({listTags, courseId, existingTags}:
             </DialogTrigger>
             <DialogContent className="max-w-lg">
                 <DialogHeader>
-                    <DialogTitle>Update Course Tags</DialogTitle>
+                    <DialogTitle>Update Workshop Tags</DialogTitle>
                 </DialogHeader>
 
                 <div className="flex flex-wrap gap-2 py-4 max-h-[300px] overflow-y-auto">
@@ -81,4 +81,4 @@ const UpdateTagsList = ({listTags, courseId, existingTags}:
     );
 };
 
-export default UpdateTagsList;
+export default WorkshopTagsList;

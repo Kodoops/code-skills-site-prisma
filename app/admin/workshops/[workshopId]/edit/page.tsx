@@ -4,8 +4,7 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {AdminCategoryCardSkeleton} from "@/app/admin/categories/_components/AdminCategoryCard";
 import {TagType} from "@/lib/types";
-import {Ban} from "lucide-react";
-import UpdateTagsList from "@/app/admin/courses/[courseId]/edit/_components/TagsLis";
+import {ArrowLeft, Ban} from "lucide-react";
 import {adminGetAllTags} from "@/app/data/admin/admin-get-all-tags";
 import { getLevels } from '@/app/data/get-levels';
 import {getStatus} from "@/app/data/get-status";
@@ -13,6 +12,9 @@ import { adminGetWorkshop } from '@/app/data/admin/admin-get-workshop';
 import EditWorkshopForm from "@/app/admin/workshops/[workshopId]/edit/_components/EditWorkshopForm";
 import WorkshopStatement from './_components/WorkshopStatement';
 import WorkshopSolution from "@/app/admin/workshops/[workshopId]/edit/_components/WorkshopSolution";
+import Link from "next/link";
+import {buttonVariants} from "@/components/ui/button";
+import WorkshopTagsLis from "@/app/admin/workshops/[workshopId]/edit/_components/WorkshopTagsLis";
 
 type Params = Promise<{ workshopId: string }>;
 
@@ -32,6 +34,11 @@ const Page = async ({params}: { params: Params }) => {
             <h1 className={"text-xl font-bold mb-8"}>
                 Edit Workshop : <span className={"text-primary underline"}>{data.title}</span>
             </h1>
+            <div className="">
+                <Link href={`/admin/workshops`}  className={buttonVariants({className: "mb-6"})} >
+                    <ArrowLeft className={"size-4"} /> Go back
+                </Link>
+            </div>
             <Tabs defaultValue={"basic-info"} className={"w-full"}>
                 <TabsList className={"grid grid-cols-4 w-full "}>
                     <TabsTrigger value={"basic-info"}>
@@ -47,13 +54,16 @@ const Page = async ({params}: { params: Params }) => {
                         Workshop settings
                     </TabsTrigger>
                 </TabsList>
+
                 <TabsContent value={"basic-info"}>
                     <Card>
                         <CardHeader>
-                            <CardTitle>Basic Infos</CardTitle>
+                            <CardTitle>Basic Infos </CardTitle>
+
                             <CardDescription>
                                 Provide basic information about the workshop.
                             </CardDescription>
+
                         </CardHeader>
                         <CardContent>
                             <EditWorkshopForm data={data} levels={levels} status={status}/>
@@ -98,7 +108,7 @@ const Page = async ({params}: { params: Params }) => {
                             <div className=" space-y-3">
                                 <h2>Attached tags :</h2>
                                 <Suspense fallback={<AdminTagCardSkeletonLayout />}>
-                                    <RenderTags courseId={data.id} tags={data.tags.map(tag => ({...tag.tag}))} />
+                                    <RenderTags workshopId={data.id} tags={data.tags.map(tag => ({...tag.tag}))} />
                                 </Suspense>
                             </div>
                         </CardContent>
@@ -140,7 +150,7 @@ async function RenderTags({tags, workshopId}:{tags: TagType [], workshopId:strin
                     </div>
                 )
                 }
-                <UpdateTagsList listTags={allTags} courseId={workshopId} existingTags={tags}/>
+                <WorkshopTagsLis listTags={allTags} workshopId={workshopId} existingTags={tags}/>
             </div>
 
         </>

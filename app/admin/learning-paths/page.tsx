@@ -30,7 +30,7 @@ const LearningPathsPage = async (props: {
                 </Link>
             </div>
             <Suspense fallback={<AdminCourseCardSkeletonLayout/>}>
-                <RenderCourses current={page} nbrPage={LEARNING_PATHS_PER_PAGE}/>
+                <RenderLearningPaths current={page} nbrPage={LEARNING_PATHS_PER_PAGE}/>
             </Suspense>
         </>
     );
@@ -38,21 +38,23 @@ const LearningPathsPage = async (props: {
 
 export default LearningPathsPage;
 
-async function RenderCourses({current, nbrPage}:{current?: number | undefined, nbrPage: number}) {
+async function RenderLearningPaths({current, nbrPage}:{current?: number | undefined, nbrPage: number}) {
 
      const {data, totalPages, perPage, currentPage} = await adminGetLearningPaths(current , nbrPage);
+
+
 
     return (
         <>
             {data?.length === 0 ?
-                <EmptyState title={"No Courses Found"}
-                            description={"You don't have any courses yet. Create a new course to get started."}
-                            buttonText={"Create Course"}
-                            href={"/admin/courses/create"}
+                <EmptyState title={"No Learning Path Found"}
+                            description={"You don't have any Learning Path yet. Create a new learning path to get started."}
+                            buttonText={"Create  Learning Path"}
+                            href={"/admin/learning-paths/create"}
                 />
                 :
                 <>
-                    <div className="grid grid-cols-1  xl:grid-cols-2 gap-7 ">
+                    <div className="grid grid-cols-1  xl:grid-cols-1 gap-7 ">
                         {data?.map((path) => (
                             <AdminLearningPathCard key={path.id} data={path}/>
                         ))}

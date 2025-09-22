@@ -4,7 +4,7 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {AdminCategoryCardSkeleton} from "@/app/admin/categories/_components/AdminCategoryCard";
 import {TagType} from "@/lib/types";
-import {Ban} from "lucide-react";
+import {ArrowLeft, Ban} from "lucide-react";
 import {adminGetAllTags} from "@/app/data/admin/admin-get-all-tags";
 import { getLevels } from '@/app/data/get-levels';
 import {getStatus} from "@/app/data/get-status";
@@ -12,6 +12,8 @@ import {adminGetLearningPath} from "@/app/data/admin/admin-get-learning-path";
 import EditLearningPathForm from './_components/EditLearningPathForm';
 import UpdateTagsList from "@/app/admin/learning-paths/[id]/edit/_components/TagsLis";
 import LearningPathStructure from "@/app/admin/learning-paths/[id]/edit/_components/LearningPathStructure";
+import Link from "next/link";
+import {buttonVariants} from "@/components/ui/button";
 
 type Params = Promise<{ id: string }>;
 
@@ -29,17 +31,21 @@ const LearningPathEditPage = async ({params}: { params: Params }) => {
     return (
         <div>
             <h1 className={"text-xl font-bold mb-8"}>
-                Edit Course : <span className={"text-primary underline"}>{data.title}</span>
+                Edit Learning Path : <span className={"text-primary underline"}>{data.title}</span>
             </h1>
+            <Link href={`/admin/learning-paths`}
+                  className={buttonVariants({className: "mb-6"})}>
+                <ArrowLeft className={"size-4"} />Go Back
+            </Link>
             <Tabs defaultValue={"basic-info"} className={"w-full"}>
                 <TabsList className={"grid grid-cols-3 w-full "}>
                     <TabsTrigger value={"basic-info"}>
                         Basic Infos
                     </TabsTrigger>
-                    <TabsTrigger value={"course-structure"}>
+                    <TabsTrigger value={"path-structure"}>
                         Learning Path Structure
                     </TabsTrigger>
-                    <TabsTrigger value={"course-settings"}>
+                    <TabsTrigger value={"path-settings"}>
                         Learning Path settings
                     </TabsTrigger>
                 </TabsList>
@@ -56,12 +62,12 @@ const LearningPathEditPage = async ({params}: { params: Params }) => {
                         </CardContent>
                     </Card>
                 </TabsContent>
-                <TabsContent value={"course-structure"}>
+                <TabsContent value={"path-structure"}>
                     <Card>
                         <CardHeader>
-                            <CardTitle> Course Structure</CardTitle>
+                            <CardTitle> Leaning Path Structure</CardTitle>
                             <CardDescription>
-                                Here you can update your course structure.
+                                Here you can update your leaning path structure.
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -69,12 +75,12 @@ const LearningPathEditPage = async ({params}: { params: Params }) => {
                         </CardContent>
                     </Card>
                 </TabsContent>
-                <TabsContent value={"course-settings"}>
+                <TabsContent value={"path-settings"}>
                     <Card>
                         <CardHeader>
-                            <CardTitle> Course settings and options</CardTitle>
+                            <CardTitle> Leaning Path settings and options</CardTitle>
                             <CardDescription>
-                                Here you can update your course options and settings.
+                                Here you can update your Leaning Path options and settings.
                             </CardDescription>
                         </CardHeader>
                         <CardContent>

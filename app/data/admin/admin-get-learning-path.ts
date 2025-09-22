@@ -53,9 +53,38 @@ export async function adminGetLearningPath(id: string) : Promise<LearningPathTyp
                     workshopId: true,
                     resourceId: true,
                     learningPathId: true,
-                    course: true,
-                    workshop: true,
-                    resource: true,
+                    course: {
+                        select: {
+                            id: true,
+                            title: true,
+                            smallDescription: true,
+                            fileKey: true,
+                            price: true,
+                            duration: true,
+                            level: true,
+                            status: true,
+                        }
+                    },
+                    workshop: {
+                        select: {
+                            id: true,
+                            title: true,
+                            description: true,
+                            fileKey: true,
+                            price: true,
+                            duration: true,
+                            level: true,
+                            status: true,
+                        }
+                    },
+                    resource: {
+                        select: {
+                            id: true,
+                            title: true,
+                            description: true,
+                            fileKey: true,
+                        }
+                    },
                 }
             },
         }

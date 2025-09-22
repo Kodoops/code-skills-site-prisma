@@ -26,24 +26,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import {SimpleCourse} from "@/lib/models";
+import {ResourceType, WorkshopType} from "@/lib/types";
 
-const courses = [
-    {id: "c1", title: "HTML & CSS", description: "Apprenez à créer des pages web modernes."},
-    {id: "c2", title: "JavaScript", description: "Maîtrisez le langage du web dynamique."},
-    {id: "c3", title: "Frameworks", description: "Maîtrisez les frameworks du web."},
-];
-
-const workshops = [
-    {id: "w1", title: "Projet Portfolio", description: "Créez votre portfolio professionnel."},
-    {id: "w2", title: "Projet Todo list", description: "Créez votre TODO List."},
-    {id: "w3", title: "Projet App", description: "Créez votre application professionnelle."},
-];
-
-const resources = [
-    "Guide PDF complet",
-    "Modèle Figma UI",
-    "Vidéo bonus : Conseils de carrière",
-];
+// const resources = [
+//     "Guide PDF complet",
+//     "Modèle Figma UI",
+//     "Vidéo bonus : Conseils de carrière",
+// ];
 
 export default function AdminLearningPathCard({
                                                   data,
@@ -51,6 +41,17 @@ export default function AdminLearningPathCard({
     data: any;
 }) {
     const finalPrice = calculatedPrice(data.price!, data?.promotions?.[0])
+    const courses = data.contents
+        .filter((c: any) => c.course !== null)
+        .map((c: any) => c.course);
+
+    const workshops = data.contents
+        .filter((c: any) => c.workshop !== null)
+        .map((c: any) => c.workshop);
+
+    const resources = data.contents
+      .filter((c: any) => c.resource !== null)
+      .map((c: any) => c.resource);
 
     return (
         <Card className="max-w-4xl mx-auto p-6 space-y-6 rounded-xl border shadow-md relative">
@@ -120,36 +121,48 @@ export default function AdminLearningPathCard({
                 {/* 🔁 Carousel des cours */}
                 <div>
                     <h3 className="text-lg font-semibold mb-3">Cours inclus</h3>
-                    <CarouselGrid
+                    {courses && courses.length > 0 ?  <CarouselGrid
                         items={courses}
                         perPage={2} // 2 par slide avec grid 2 colonnes
                         grid={{baseCols: 1, smCols: 2, lgCols: 2}}
-                        renderItem={(course) => <MiniCard {...course} />}
-                        itemKey={(course) => course.id}
+                        renderItem={(course: SimpleCourse) => <MiniCard title={course.title} description={course.smallDescription}/>}
+                        itemKey={(course: SimpleCourse) => course.id}
                         autoplayMs={0}
-                    />
+                    /> :
+                    <p className="text-sm text-muted-foreground">
+                        Aucun cours inclus pour le moment.
+                    </p>
+                    }
                 </div>
 
                 {/* 🔁 Carousel des workshops */}
                 <div>
                     <h3 className="text-lg font-semibold mb-3">Workshops</h3>
-                    <CarouselGrid
+                    {workshops && workshops.length > 0 ?   <CarouselGrid
                         items={workshops}
                         perPage={2} // 2 par slide
                         grid={{baseCols: 1, smCols: 2, lgCols: 2}}
                         renderItem={(workshop) => <MiniCard {...workshop} />}
-                        itemKey={(workshop) => workshop.id}
+                        itemKey={(workshop: WorkshopType) => workshop.id}
                         autoplayMs={0}
-                    />
+                    /> :
+                        <p className="text-sm text-muted-foreground">
+                            Aucun atelier d&apos;inclus pour le moment.
+                        </p>
+                    }
                 </div>
 
                 {/* ✅ Liste simple des ressources */}
                 <div>
                     <h3 className="text-lg font-semibold mb-2">Ressources complémentaires</h3>
                     <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                        {resources.map((res, i) => (
-                            <li key={i}>{res}</li>
-                        ))}
+                        {resources && resources.length >0 ? resources.map((res: ResourceType, i:number) => (
+                            <li key={i}>{res.title}</li>
+                        )) :
+                            <p className="text-sm text-muted-foreground">
+                                Aucune ressources d&apos;inclus pour le moment.
+                            </p>
+                        }
                     </ul>
                 </div>
             </CardContent>

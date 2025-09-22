@@ -166,7 +166,7 @@ export function NewLearningPathItem({learningPathId, contents}:
                                 </FormItem>
                             )}
                         />
-                        {type && <div className="">
+                        {type && type=== 'Course' && <div className="">
                             <ScrollArea className="h-72 w-full rounded-md border">
                                 <div className=" ">
                                     <h4 className="mb-4 text-sm leading-none font-semibold bg-muted-foreground/10 h-10
@@ -201,11 +201,49 @@ export function NewLearningPathItem({learningPathId, contents}:
                                         }
 
                                     </div>
-
                                 </div>
                             </ScrollArea>
                         </div>}
-                        {form.formState.isValid && <DialogFooter>
+                        {type && type=== 'Workshop' && <div className="">
+                            <ScrollArea className="h-72 w-full rounded-md border">
+                                <div className=" ">
+                                    <h4 className="mb-4 text-sm leading-none font-semibold bg-muted-foreground/10 h-10
+                                    flex items-center justify-center text-lg">
+                                        Select a workshop
+                                    </h4>
+                                    <div className="">
+                                        {workshops.length > 0  ? workshops?.map((item) => (
+                                                <React.Fragment key={item.id}>
+                                                    <div
+                                                        className={`text-sm px-4 cursor-pointer hover:text-primary flex items-center justify-start gap-2                                                
+                                                    ${
+                                                            form.watch("workshopId") === item.id ? "text-primary font-semibold" : "text-muted-foreground"
+                                                        }`}
+                                                        onClick={() => {
+                                                            form.setValue("workshopId", item.id, {
+                                                                shouldValidate: true,
+                                                                shouldDirty: true,
+                                                            });
+                                                        }}
+                                                    >
+                                                        {form.watch("workshopId") === item.id ? <CheckIcon className={"size-4"} /> :<SpaceIcon className={"size-4"} /> }
+                                                        {item.title}
+                                                    </div>
+                                                    <Separator className="my-2"/>
+                                                </React.Fragment>
+                                            ))
+                                            : <div className="text-sm px-4 cursor-pointer hover:text-primary flex items-center justify-start gap-2">
+                                                <SpaceIcon className={"size-4"} />
+                                                No workshop available
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </ScrollArea>
+                        </div>}
+                        { ( type=== 'Course' && courses.length>0 || type=== 'Workshop' && workshops.length>0 )
+                            && form.formState.isValid && <DialogFooter>
                             <Button type={"submit"} disabled={pending}>
                                 {pending ? <>
                                     <Loader2 className={"size-4 animate-spin"}/> Saving ...

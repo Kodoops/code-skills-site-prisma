@@ -36,6 +36,31 @@ export async function adminGetLearningPaths( page: number=1, perPage: number=1 )
                 updatedAt:true,
                 promotions: true,
                 tags:true,
+                contents:{
+                    select:{
+                        course:{
+                            select:{
+                                id:true,
+                                title:true,
+                                smallDescription:true,
+                            }
+                        },
+                        resource:{
+                            select:{
+                                id:true,
+                                title:true,
+                                description: true
+                            }
+                        },
+                        workshop:{
+                            select:{
+                                id:true,
+                                title:true,
+                                description: true
+                            }
+                        }
+                    }
+                }
             }
         }),
         prisma.course.count()
@@ -45,7 +70,6 @@ export async function adminGetLearningPaths( page: number=1, perPage: number=1 )
         ...course,
         createdAt: course.createdAt.toISOString(),
         updatedAt: course.updatedAt.toISOString(),
-
     }))
     return {
         data: courses,

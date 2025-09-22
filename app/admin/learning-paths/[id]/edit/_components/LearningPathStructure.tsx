@@ -20,7 +20,7 @@ import {
 import {CSS} from '@dnd-kit/utilities';
 import {cn} from "@/lib/utils";
 import {toast} from "sonner";
-import {LearningPathType, levelBgColors} from "@/lib/types";
+import {LearningPathType, levelBgColors, WorkshopType} from "@/lib/types";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from '@/components/ui/collapsible';
 import {Button} from '@/components/ui/button';
 import {ChevronDownIcon, ChevronRightIcon, GripVertical, SchoolIcon, TimerIcon} from 'lucide-react';
@@ -116,14 +116,24 @@ const LearningPathStructure = ({data}: Props) => {
             targetChapterId = overId;
 
             if (!targetChapterId) {
-                toast.error("Could not determine the learning path item for ordering");
+                toast.error("Could not determine the learning path item for ordering",{
+                    style: {
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                    }
+                });
                 return;
             }
 
             const oldIndex = items.findIndex((item) => item.id === activeId);
             const newIndex = items.findIndex((item) => item.id === targetChapterId);
             if (oldIndex === -1 || newIndex === -1) {
-                toast.error("Could not determine the learning path item new/old index for ordering");
+                toast.error("Could not determine the learning path item new/old index for ordering",{
+                    style: {
+                        background: "#FEE2E2",
+                        color: "#991B1B",
+                    }
+                });
                 return;
             }
 
@@ -221,13 +231,19 @@ const LearningPathStructure = ({data}: Props) => {
                                                                     : <ChevronRightIcon className={"size-4"}/>}
                                                             </Button>
                                                         </CollapsibleTrigger>
-                                                        <p className={"cursor-pointer hover:text-primary pl-2"}>{item.type} : {item.course?.title}</p>
+                                                        <p className={"cursor-pointer hover:text-primary pl-2"}>
+                                                            {item.type} :
+                                                            {item.type === 'Course'  && item.course?.title}
+                                                            {item.type === 'Workshop'  && item.workshop?.title}
+                                                            {item.type === 'Resource'  && item.workshop?.title}
+                                                        </p>
                                                     </div>
                                                     {data && <DeleteLearningPathItem itemId={item.id} learningPathId={data?.id}/>}
                                                 </div>
 
                                                 <CollapsibleContent className={"p-3"}>
-                                                    <CourseCardItem data={item.course!}/>
+                                                    {item.type === 'Course' && <CardItem data={item.course!}/>}
+                                                    {item.type === 'Workshop' && <CardItem data={item.workshop!}/>}
                                                 </CollapsibleContent>
                                             </Collapsible>
                                         </Card>
@@ -244,10 +260,14 @@ const LearningPathStructure = ({data}: Props) => {
 
 export default LearningPathStructure;
 
-const CourseCardItem = ({data}: { data: SimpleCourse }) => {
+const CardItem = ({data}: { data: SimpleCourse | WorkshopType}) => {
     const thumbnailURl = useConstructUrl(data.fileKey);
 
     const finalPrice = calculatedPrice(data.price!, data?.promotions?.[0])
+
+    function isSimpleCourse(obj: SimpleCourse | WorkshopType ): obj is SimpleCourse {
+        return obj && "smallDescription" in obj && "title" in obj;
+    }
 
     return (
         <div className={"group  py-0 gap-0 flex flex-col md:flex-row  "}>
@@ -270,7 +290,7 @@ const CourseCardItem = ({data}: { data: SimpleCourse }) => {
                         {data.title}
                     </Link>
                     <p className={"line-clamp-2 text-sm text-muted-foreground leading-tight mt-2"}>
-                        {data.smallDescription}
+                        {isSimpleCourse(data) ? data.smallDescription : data.description}
                     </p>
                 </div>
                 <div className="flex items-center justify-between mt-4">

@@ -15,6 +15,7 @@ import WorkshopSolution from "@/app/admin/workshops/[workshopId]/edit/_component
 import Link from "next/link";
 import {buttonVariants} from "@/components/ui/button";
 import WorkshopTagsLis from "@/app/admin/workshops/[workshopId]/edit/_components/WorkshopTagsLis";
+import WorkshopSettings from "@/app/admin/workshops/[workshopId]/edit/_components/WorkshopSettings";
 
 type Params = Promise<{ workshopId: string }>;
 
@@ -25,6 +26,21 @@ const Page = async ({params}: { params: Params }) => {
 
     const data = await adminGetWorkshop(workshopId);
     if (!data) notFound();
+
+    const {prerequisites: preqs, objectives: objs} = data;
+
+    const prerequisites = preqs.map(preq => {
+        return {
+            content: preq.prerequisite.content,
+            id: preq.prerequisite.id,
+        }
+    });
+    const objectives =  objs.map(obj => {
+        return {
+            content: obj.objective.content,
+            id: obj.objective.id,
+        }
+    });
 
     const levels : string[] = await getLevels();
     const status: string[] = await getStatus();
@@ -97,22 +113,7 @@ const Page = async ({params}: { params: Params }) => {
                     </Card>
                 </TabsContent>
                 <TabsContent value={"workshop-settings"}>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle> Workshop settings and options</CardTitle>
-                            <CardDescription>
-                                Here you can update your workshop options and settings.
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className=" space-y-3">
-                                <h2>Attached tags :</h2>
-                                <Suspense fallback={<AdminTagCardSkeletonLayout />}>
-                                    <RenderTags workshopId={data.id} tags={data.tags.map(tag => ({...tag.tag}))} />
-                                </Suspense>
-                            </div>
-                        </CardContent>
-                    </Card>
+                    <WorkshopSettings id={data.id} tags={data.tags} requisites={prerequisites} objectives={objectives} />
                 </TabsContent>
             </Tabs>
         </div>

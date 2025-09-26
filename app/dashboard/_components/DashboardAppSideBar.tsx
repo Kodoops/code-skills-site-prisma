@@ -3,7 +3,7 @@
 import * as React from "react"
 import {
     IconDashboard, IconFileText,
-    IconHelp, IconPlayerPlay,
+    IconHelp, IconListDetails,
     IconSearch,
     IconSettings,
 } from "@tabler/icons-react"
@@ -23,7 +23,9 @@ import {
 import Link from "next/link"
 import AppLogoShape from "@/components/custom-ui/AppLogoShape";
 import AppLogoText from "@/components/custom-ui/AppLogoText";
-import {RouteIcon} from "lucide-react";
+import { RouteIcon,ToolCaseIcon, TrafficConeIcon} from "lucide-react";
+import {NavAccount} from "@/components/sidebar/nav-account";
+import {Separator} from "@/components/ui/separator";
 
 const data = {
 
@@ -41,8 +43,21 @@ const data = {
         {
             title: "My Courses",
             url: "/dashboard/courses",
-            icon: IconPlayerPlay,
+            icon: IconListDetails,
         },
+        {
+            title: "My Workshops",
+            url: "/dashboard/workshops",
+            icon: TrafficConeIcon,
+        },
+        {
+            title: "My Resources",
+            url: "/dashboard/resources",
+            icon: ToolCaseIcon,
+        },
+
+    ],
+    navAccount:[
         {
             title: "My Invoices",
             url: "/dashboard/invoices",
@@ -99,11 +114,14 @@ export function DashboardAppSidebar({ ...props }: React.ComponentProps<typeof Si
                 </SidebarMenu>
             </SidebarHeader>
             <SidebarContent>
-                <NavMain items={data.navMain} />
-                <NavSecondary items={data.navSecondary} className="mt-auto" />
+                <NavMain items={data.navMain}/>
+                <Separator className="mt-4"/>
+                <span>Account</span>
+                <NavAccount items={data.navAccount}/>
+                <NavSecondary items={data.navSecondary} className="mt-auto"/>
             </SidebarContent>
             <SidebarFooter>
-                <NavUser  />
+                <NavUser/>
             </SidebarFooter>
         </Sidebar>
     )

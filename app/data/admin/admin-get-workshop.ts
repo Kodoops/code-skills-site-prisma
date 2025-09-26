@@ -51,6 +51,26 @@ export async function adminGetWorkshop(id: string) : Promise<WorkshopType | null
             solutionFileKey: true,
             solutionFileUrl: true,
             solutionVideoKey: true,
+            prerequisites: {
+                select: {
+                    prerequisite:{
+                        select: {
+                            id: true,
+                            content: true,
+                        }
+                    }
+                }
+            },
+            objectives: {
+                select: {
+                    objective:{
+                        select: {
+                            id: true,
+                            content: true,
+                        }
+                    }
+                }
+            },
 
         }
     });

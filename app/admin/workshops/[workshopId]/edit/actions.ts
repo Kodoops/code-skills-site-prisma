@@ -3,7 +3,9 @@
 import {requireAdmin} from "@/app/data/admin/require-admin";
 import {ApiResponseType} from "@/lib/types";
 import {
- workshopSchema,
+    objectiveRequisiteSchema,
+    ObjectiveRequisiteSchema,
+    workshopSchema,
     WorkshopSchema, workshopSolutionSchema, WorkshopSolutionSchema, workshopStatementSchema, WorkshopStatementSchema
 } from "@/lib/zodSchemas";
 import {prisma} from "@/lib/db";
@@ -205,4 +207,198 @@ export async function updateWorkshopTags(workshopId: string, tagIds: string[]): 
             message: "Failed to update tags"
         }
     }
+}
+
+export async function addObjectiveToWorkshop(workshopId: string, data:ObjectiveRequisiteSchema): Promise<ApiResponseType> {
+    await requireAdmin();
+
+    const parsed = objectiveRequisiteSchema.safeParse(data);
+    if (!parsed.success) {
+        return {
+            status: "error",
+            message: "Invalid form data"
+        };
+    }
+
+    const { content } = parsed.data;
+
+    try {
+        await prisma.objective.create({
+            data: {
+                content,
+                workshops: {
+                    create: { workshopId },
+                },
+            },
+            include: {
+                workshops: {
+                    include: { workshop: true },
+                },
+            },
+        });
+
+        revalidatePath(`/admin/workshops/${workshopId}/edit`);
+
+        return {
+            status: "success",
+            message: "Objective added successfully"
+        }
+    } catch (e) {
+        console.error(e);
+        return {
+            status: "error",
+            message: "Failed to add Objective"
+        }
+    }
+}
+
+export async function addRequisiteToWorkshop(workshopId: string, data:ObjectiveRequisiteSchema): Promise<ApiResponseType> {
+    await requireAdmin();
+
+    const parsed = objectiveRequisiteSchema.safeParse(data);
+    if (!parsed.success) {
+        return {
+            status: "error",
+            message: "Invalid form data"
+        };
+    }
+
+    const { content } = parsed.data;
+
+    try {
+        await prisma.prerequisite.create({
+            data: {
+                content,
+                workshops: {
+                    create: { workshopId },
+                },
+            },
+            include: {
+                workshops: {
+                    include: { workshop: true },
+                },
+            },
+        });
+
+        revalidatePath(`/admin/workshops/${workshopId}/edit`);
+
+        return {
+            status: "success",
+            message: "Requisite added successfully"
+        }
+    } catch (e) {
+        console.error(e);
+        return {
+            status: "error",
+            message: "Failed to add Requisite"
+        }
+    }
+}
+
+export async function removeRequisite(id: string, workshopId:string) :Promise<ApiResponseType>{
+
+    const session = await requireAdmin();
+
+    try {
+        const req = await request();
+        const decision = await aj.protect(req, {fingerprint: session?.user.id as string});
+
+        if (decision.isDenied()) {
+            if(decision.reason.isRateLimit()){
+                return {
+                    status: 'error',
+                    message: "Looks like you are making too many requests. Please try again in a minute",
+                }
+            }else{
+                return {
+                    status: 'error',
+                    message: "you are a bot! , if you are human please try again in a minute or contact support",
+                }
+            }
+        }
+
+        await prisma.workshopPrerequisite.delete({
+            where: {
+                workshopId_prerequisiteId: {
+                    workshopId: workshopId,
+                    prerequisiteId: id,
+                },
+            },
+        });
+
+        // Supprimer aussi le requisite de la table
+        await prisma.prerequisite.delete({
+            where: {
+                id: id
+            },
+        })
+
+        revalidatePath(`/admin/workshops/${workshopId}/edit`)
+
+        return{
+            status: "success",
+            message: "Requisite deleted successfully"
+        }
+    }catch(e) {
+        console.log(e)
+        return{
+            status: "error",
+            message: "Failed to delete requisite"
+        }
+    }
+
+}
+
+export async function removeObjective(id: string, workshopId:string) :Promise<ApiResponseType>{
+
+    const session = await requireAdmin();
+
+    try {
+        const req = await request();
+        const decision = await aj.protect(req, {fingerprint: session?.user.id as string});
+
+        if (decision.isDenied()) {
+            if(decision.reason.isRateLimit()){
+                return {
+                    status: 'error',
+                    message: "Looks like you are making too many requests. Please try again in a minute",
+                }
+            }else{
+                return {
+                    status: 'error',
+                    message: "you are a bot! , if you are human please try again in a minute or contact support",
+                }
+            }
+        }
+
+        await prisma.workshopObjective.delete({
+            where: {
+                workshopId_objectiveId: {
+                    workshopId: workshopId,
+                    objectiveId: id,
+                },
+            },
+        });
+
+        // Supprimer aussi l'objectif de la table
+        await prisma.objective.delete({
+            where: {
+                id: id
+            },
+        })
+
+        revalidatePath(`/admin/workshops/${workshopId}/edit`)
+
+        return{
+            status: "success",
+            message: "Objective deleted successfully"
+        }
+    }catch(e) {
+        console.log(e)
+        return{
+            status: "error",
+            message: "Failed to delete objective"
+        }
+    }
+
 }

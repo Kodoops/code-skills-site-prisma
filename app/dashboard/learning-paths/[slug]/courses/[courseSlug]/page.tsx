@@ -18,6 +18,7 @@ const LearningPathCourseSlugPage = async ({params}: Props) => {
 
     //TODO : gérer le cas avec la sauvegarde de l'historique d'avancement, pour renvoyer user a sa dernière lecture
     // Si cours gratuit OU inscrit, on redirige vers la première leçon
+
     if(course.price === 0 || (enrollment && enrollment.status ==='Active')){
         const firstChapter = course.chapters[0];
 

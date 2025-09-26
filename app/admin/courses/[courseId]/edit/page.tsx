@@ -13,6 +13,7 @@ import {adminGetAllTags} from "@/app/data/admin/admin-get-all-tags";
 import { getLevels } from '@/app/data/get-levels';
 import {getStatus} from "@/app/data/get-status";
 import CourseTagList from "@/app/admin/courses/[courseId]/edit/_components/CourseTagsLis";
+import CourseSettings from "@/app/admin/courses/[courseId]/edit/_components/CourseSettings";
 
 type Params = Promise<{ courseId: string }>;
 
@@ -23,6 +24,21 @@ const Page = async ({params}: { params: Params }) => {
 
     const data = await adminGetCourse(courseId);
     if (!data) notFound();
+
+    const {prerequisites: preqs, objectives: objs} = data;
+
+    const prerequisites = preqs.map(preq => {
+        return {
+            content: preq.prerequisite.content,
+            id: preq.prerequisite.id,
+        }
+    });
+    const objectives =  objs.map(obj => {
+        return {
+            content: obj.objective.content,
+            id: obj.objective.id,
+        }
+    });
 
     const levels : string[] = await getLevels();
     const status: string[] = await getStatus();
@@ -78,22 +94,9 @@ const Page = async ({params}: { params: Params }) => {
                     </Card>
                 </TabsContent>
                 <TabsContent value={"course-settings"}>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle> Course settings and options</CardTitle>
-                            <CardDescription>
-                                Here you can update your course options and settings.
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className=" space-y-3">
-                                <h2>Attached tags :</h2>
-                                <Suspense fallback={<AdminTagCardSkeletonLayout />}>
-                                    <RenderTags courseId={data.id} tags={data.tags.map(tag => ({...tag.tag}))} />
-                                </Suspense>
-                            </div>
-                        </CardContent>
-                    </Card>
+
+                    <CourseSettings tags={data.tags} id={data.id} requisites={prerequisites} objectives={ objectives}/>
+
                 </TabsContent>
             </Tabs>
         </div>

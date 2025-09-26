@@ -78,49 +78,6 @@ export async function updateLearningPath(data: LearningPathSchema, id: string): 
     }
 }
 
-export async function reorderLessons(courseId: string,
-                                     chapterId: string,
-                                     lessons: {
-                                         id: string, position: number
-                                     }[]
-): Promise<ApiResponseType> {
-    await requireAdmin();
-
-    try {
-        if (!lessons || lessons.length === 0) {
-            return {
-                status: "error",
-                message: "Invalid request, No lessons provided for ordering."
-            };
-        }
-
-        const updated = lessons.map((lesson) => prisma.lesson.update({
-            where: {
-                id: lesson.id,
-                chapterId: chapterId,
-            },
-            data: {
-                position: lesson.position,
-            }
-        }));
-
-        await prisma.$transaction(updated);
-
-        revalidatePath(`/admin/courses/${courseId}/edit`);
-
-        return {
-            status: "success",
-            message: "Lessons reordered successfully"
-        }
-
-    } catch {
-        return {
-            status: "error",
-            message: "Failed to reorder lessons"
-        }
-    }
-}
-
 export async function reorderLearningPathItems(
     learningPathId: string,
     items: { id: string, position: number }[]): Promise<ApiResponseType> {
@@ -318,12 +275,10 @@ export async function updateLearningPathTags(learningPathId: string, tagIds: str
 }
 
 
-export async function adminGetCatalogue(page: number = 1, perPage: number = 1):
-    Promise<{
+export async function adminGetCatalogue(page: number = 1, perPage: number = 1): Promise<{
         courses: { id: string, title: string }[],
         workshops: { id: string, title: string }[],
-        resources: { id: string, title: string }[],
-    }> {
+        resources: { id: string, title: string }[], }> {
 
     await requireAdmin();
 
@@ -513,7 +468,6 @@ export async function removeRequisite(id: string, learningPathId:string) :Promis
     }
 
 }
-
 
 
 export async function removeObjective(id: string, learningPathId:string) :Promise<ApiResponseType>{

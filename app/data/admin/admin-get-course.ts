@@ -70,7 +70,27 @@ export async function adminGetCourse(id: string) : Promise<CourseType | null> {
                         }
                     }
                 }
-            }
+            },
+            prerequisites: {
+                select: {
+                    prerequisite:{
+                        select: {
+                            id: true,
+                            content: true,
+                        }
+                    }
+                }
+            },
+            objectives: {
+                select: {
+                    objective:{
+                        select: {
+                            id: true,
+                            content: true,
+                        }
+                    }
+                }
+            },
         }
     });
 

@@ -10,6 +10,9 @@ export async function getEnrolledCourses(page: number = 1, perPage: number ) {
         await prisma.enrollment.findMany({
             where: {
                 userId: user.id,
+                courseId:{
+                    not: null,
+                },
                 status: 'Active'
             },
             take: perPage,
@@ -67,8 +70,6 @@ export async function getEnrolledCourses(page: number = 1, perPage: number ) {
 
 }
 
-export type EnrolledCoursesType = Awaited<ReturnType<typeof getEnrolledCourses>>['data'][0];
-
 export async function getAllEnrolledCoursesByUser() {
 
     const authenticate = await isAuthenticated();
@@ -80,6 +81,9 @@ export async function getAllEnrolledCoursesByUser() {
     const data = await prisma.enrollment.findMany({
             where: {
                 userId: user.id,
+                courseId: {
+                    not: null,
+                },
                 status: 'Active'
             },
             select: {

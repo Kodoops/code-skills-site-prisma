@@ -183,6 +183,8 @@ export type LearningPathType = {
     promoCodes: PromoCodeType[];
     promotions: PromotionType[];
 
+    enrollments: EnrollmentType[];
+
     createdAt: string;
     updatedAt: string;
     deletedAt: string;
@@ -201,7 +203,7 @@ export type LearningPathItemType = {
 
     course?: CourseType;
     workshop?: WorkshopType;
-    resource?: string;  //ResourceTypeEnum;
+    resource?: ResourceType;  //ResourceTypeEnum;
 
     createdAt: string;
     updatedAt: string;
@@ -303,6 +305,8 @@ export type WorkshopType = {
     promoCodes: PromoCodeType[];
     promotions: PromotionType[];
 
+    enrollments: EnrollmentType[];
+
     createdAt: string;
     updatedAt: string;
     deletedAt: string;
@@ -315,7 +319,7 @@ export type ResourceType = {
     description?: string;
     type: string;   //      ResourceTypeEnum
     fileKey?: string;
-    url?: string;
+    url: string;
 
     courseResources: CourseResourceType[];
     lessonResources: LessonResourceType[];
@@ -324,8 +328,10 @@ export type ResourceType = {
     learningPathItems: LearningPathItemType[];
 
     createdAt: string;
-    updatedAt: string;
-    deletedAt: string;
+    // updatedAt: string;
+    // deletedAt: string;
+
+    user: UserType;
 }
 
 export type LearningPathResourceType = {
@@ -478,7 +484,9 @@ export type  EnrollmentType = {
     amount: number;
     status: string; // EnrollmentStatusEnum
 
-    course: CourseType;
+    course?: CourseType;
+    learningPath?: LearningPathType;
+    workshop?: WorkshopType;
     user: UserType;
     payment?: PaymentType;
 

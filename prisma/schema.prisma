@@ -54,6 +54,7 @@ enum InvoiceItemType {
   COURSE
   WORKSHOP
   SUBSCRIPTION
+  LEARNING_PATH
 }
 
 enum enrollmentStatus {
@@ -83,7 +84,7 @@ model User {
   sessions      Session[]
   accounts      Account[]
 
-  stripeCustomerId String?   @unique
+  stripeCustomerId String?   @unique(map: "uq_user_stripeCustomerId")
   role             String?
   // TODO ::  role UserRole @default(STUDENT) // Au lieu de String?
   banned           Boolean?
@@ -102,8 +103,9 @@ model User {
 
   // Soft delete
   deletedAt DateTime?
+  Resource  Resource[]
 
-  @@unique([email])
+  @@unique([email], map: "uq_user_email")
   @@map("user")
 }
 
@@ -120,7 +122,7 @@ model Session {
 
   impersonatedBy String?
 
-  @@unique([token])
+  @@unique([token], map: "uq_session_token")
   @@map("session")
 }
 
@@ -161,7 +163,7 @@ model Verification {
 model Domain {
   id       String  @id @default(uuid())
   title    String
-  slug     String  @unique
+  slug     String  @unique(map: "uq_domain_slug")
   desc     String
   color    String?
   iconName String?
@@ -179,7 +181,7 @@ model Domain {
 model Category {
   id       String  @id @default(uuid())
   title    String
-  slug     String  @unique
+  slug     String  @unique(map: "uq_category_slug")
   desc     String
   color    String?
   iconName String?
@@ -211,10 +213,10 @@ model LearningPath {
   price         Int
   currency      String @default("EUR") // Ajout recommandé
   duration      Int
-  slug          String
+  slug          String @unique(map: "uq_learningPath_slug")
   status        String
   level         String
-  stripePriceId String @unique
+  stripePriceId String @unique(map: "uq_learningPath_stripePriceId")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -233,8 +235,11 @@ model LearningPath {
   promoCodes PromoCode[] @relation("LearningPathPromoCodes")
   promotions Promotion[] @relation("LearningPathPromotion")
 
+  Enrollment Enrollment[]
+
   // Soft delete
   deletedAt DateTime?
+  Payment   Payment[]
 }
 
 model LearningPathItem {
@@ -244,7 +249,7 @@ model LearningPathItem {
   position Int
 
   learningPathId String
-  learningPath   LearningPath @relation(fields: [learningPathId], references: [id])
+  learningPath   LearningPath @relation(fields: [learningPathId], references: [id], onDelete: Cascade)
 
   courseId String?
   course   Course? @relation("CourseItems", fields: [courseId], references: [id], map: "fk_course_item")
@@ -259,7 +264,7 @@ model LearningPathItem {
 model Course {
   id               String @id @default(uuid())
   title            String
-  slug             String @unique
+  slug             String @unique(map: "uq_course_slug")
   smallDescription String
   description      String
   fileKey          String
@@ -269,7 +274,7 @@ model Course {
   status           String
   level            String
 
-  stripePriceId String @unique
+  stripePriceId String @unique(map: "uq_course_stripePriceId")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -347,7 +352,7 @@ model Workshop {
   id                     String  @id @default(uuid())
   title                  String
   description            String
-  slug                   String  @unique
+  slug                   String  @unique(map: "uq_workshop_slug")
   statement              String
   fileKey                String
   statementsStartFileKey String? // utilisé si l'utilisateur upload un fichier
@@ -358,7 +363,7 @@ model Workshop {
   duration               Int
   status                 String
   level                  String
-  stripePriceId          String?
+  stripePriceId          String? @unique(map: "uq_workshop_stripePriceId")
 
   solution         String?
   solutionFileKey  String?
@@ -383,18 +388,20 @@ model Workshop {
   promoCodes PromoCode[] @relation("WorkshopPromoCodes")
   promotions Promotion[] @relation("WorkshopPromotion")
 
+  Enrollment Enrollment[]
+
   // Soft delete
   deletedAt DateTime?
 }
 
 model Resource {
-  id          String       @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
   description String?
-  type        ResourceType
   fileKey     String?
-  url         String?
-  createdAt   DateTime     @default(now())
+  url         String
+  type        String // ResourceType: pdf,doc, zip etc...
+  createdAt   DateTime @default(now())
 
   courseResources       CourseResource[]
   lessonResources       LessonResource[]
@@ -402,6 +409,9 @@ model Resource {
   learningPathResources LearningPathResource[]
 
   learningPathItems LearningPathItem[] @relation("ResourceItems")
+
+  user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 }
 
 // -----------------------------------
@@ -468,7 +478,7 @@ model LessonProgress {
   Lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   lessonId String
 
-  @@unique([userId, lessonId])
+  @@unique([userId, lessonId], map: "uq_lessonProgress_user_lesson")
   @@index([userId, lessonId])
   @@index([userId, completed])
 }
@@ -499,7 +509,7 @@ model UserProgress {
 model Tag {
   id    String  @id @default(uuid())
   title String
-  slug  String  @unique
+  slug  String  @unique(map: "uq_tag_slug")
   color String?
 
   createdAt DateTime @default(now())
@@ -566,7 +576,7 @@ model Promotion {
 
 model PromoCode {
   id          String       @id @default(uuid())
-  code        String       @unique
+  code        String       @unique(map: "uq_promocode_code")
   description String?
   discount    Int
   type        DiscountType @default(PERCENTAGE)
@@ -594,28 +604,40 @@ model Enrollment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId String
+  course   Course? @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String?
+
+  learningPath   LearningPath? @relation(fields: [learningPathId], references: [id], onDelete: Cascade)
+  learningPathId String?
+
+  workshop   Workshop? @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+  workshopId String?
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   payment   Payment? @relation("EnrollmentToPayment", fields: [paymentId], references: [id])
-  paymentId String?  @unique
+  paymentId String?  @unique(map: "uq_enrollment_payment")
 
   // Soft delete
   deletedAt DateTime?
 
-  @@unique([userId, courseId])
+  @@unique([userId, learningPathId], map: "uq_enrollment_user_learningPath")
+  @@unique([userId, courseId], map: "uq_enrollment_user_course")
+  @@unique([userId, workshopId], map: "uq_enrollment_user_workshop")
 }
 
 model Payment {
   id       String @id @default(uuid())
-  stripeId String @unique // ID de la session ou du paiement Stripe
+  stripeId String @unique(map: "uq_payment_stripeId")
   user     User   @relation(fields: [userId], references: [id])
   userId   String
-  course   Course @relation(fields: [courseId], references: [id])
-  courseId String
+
+  course   Course? @relation(fields: [courseId], references: [id])
+  courseId String?
+
+  learningPath   LearningPath? @relation(fields: [learningPathId], references: [id])
+  learningPathId String?
 
   amount     Int
   currency   String
@@ -657,7 +679,7 @@ model InvoiceItem {
   invoiceId String
 
   title       String
-  type        InvoiceItemType
+  type        String // InvoiceItemType  COURSE ,WORKSHOP, LEARNING_PATH etc...
   referenceId String // ID du cours, workshop, abonnement, etc.
 
   quantity  Int @default(1)
@@ -755,7 +777,7 @@ model LearningPathPrerequisite {
 
 model Feature {
   id        String   @id @default(cuid())
-  title     String   @unique
+  title     String   @unique(map: "uq_feature_title")
   desc      String
   color     String?
   iconName  String?
@@ -805,7 +827,7 @@ model CompanySocialLink {
   company    Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
   socialLink SocialLink @relation(fields: [socialLinkId], references: [id], onDelete: Cascade)
 
-  @@unique([companyId, socialLinkId]) // une entreprise ne peut pas avoir deux fois le même réseau
+  @@unique([companyId, socialLinkId], map: "uq_company_socialLink")
 }
 
 // NEXT STEPS

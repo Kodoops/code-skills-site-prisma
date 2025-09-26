@@ -1,7 +1,6 @@
 import React from 'react';
 import Image from "next/image";
 import {getCourse} from "@/app/data/courses/get-course";
-import {env} from "@/lib/env";
 import {IconBook, IconCategory, IconChartBar, IconChevronDown, IconClock, IconPlayerPlay} from "@tabler/icons-react";
 import {Badge} from '@/components/ui/badge';
 import {Separator} from "@/components/ui/separator";
@@ -32,7 +31,7 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
         <div className={"grid grid-cols-1 gap-8 lg:grid-cols-3 mt-5"}>
             <div className="order-1 lg:col-span-2">
                 <div className="relative aspect-video w-full overflow-hidden rounded-xl shadow-lg">
-                    <Image src={`https://${env.NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES}.t3.storage.dev/${course.fileKey}`}
+                    <Image src={course.fileKey}
                            alt={course.title} fill className={"object-cover"}
                            priority
                     />

@@ -1,13 +1,12 @@
 import React from 'react';
-import {getAllCourses} from "@/app/data/courses/get-all-courses";
-import {getAllEnrolledCoursesByUser} from "@/app/data/user/get-enrolled-courses";
 import EmptyState from "@/components/general/EmptyState";
 import {SearchIcon} from "lucide-react";
 import Pagination from "@/components/general/Pagination";
 import LearningPathCard from "@/app/(root)/learning-paths/_components/LearningPathCard";
+import {adminGetLearningPaths} from "@/app/data/admin/admin-get-learning-paths";
+import {getAllEnrolledLearningPathsByUser} from "@/app/data/user/get-enrolled-learning-paths";
 
 interface PathFilters {
-    categorySlug?: string;
     level?: string;
     isFree?: string;
     page: number;
@@ -15,19 +14,20 @@ interface PathFilters {
 }
 
 const RenderLearningPath = async ({filters}: { filters: PathFilters }) => {
-    const {data, perPage, currentPage, totalPages} = await getAllCourses(filters);
 
-    const enrolledByUser = await getAllEnrolledCoursesByUser();
+    const {data, totalPages, perPage, currentPage} = await adminGetLearningPaths(filters);
+    const enrolledByUser = await getAllEnrolledLearningPathsByUser();
+    console.log(enrolledByUser);
     // On extrait la liste des IDs des cours déjà suivis
-    const enrolledCourseIds = enrolledByUser.map(enrollment => enrollment.course.id);
+    const enrolledCourseIds = enrolledByUser.map(enrollment => enrollment?.learningPath?.id);
 
     // Liste pour debug (optionnel)
     const alreadyEnrolled: string[] = [];
 
-    data?.map(course => {
-        const isEnrolled = enrolledCourseIds.includes(course.id);
+    data?.map(path => {
+        const isEnrolled = enrolledCourseIds.includes(path.id);
         if (isEnrolled) {
-            alreadyEnrolled.push(course.id);
+            alreadyEnrolled.push(path.id);
         }
     });
 
@@ -47,13 +47,15 @@ const RenderLearningPath = async ({filters}: { filters: PathFilters }) => {
     return (
         <>
             <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
-                {data?.map((course) => (
-                    <LearningPathCard key={course.id} data={course} isEnrolled={alreadyEnrolled.includes(course.id)}/>
-                ))}
+                {data?.map((learningPath, index ) => {
+                    return (
+                        <LearningPathCard key={index} data={learningPath}  isEnrolled={alreadyEnrolled.includes(learningPath.id)} />
+                    )
+                })}
 
             </div>
 
-            <Pagination page={currentPage} totalPages={totalPages}/>
+            {totalPages > 1 && <Pagination page={currentPage} totalPages={totalPages}/>}
         </>
     );
 };

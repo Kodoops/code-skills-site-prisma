@@ -24,6 +24,7 @@ import {Skeleton} from "@/components/ui/skeleton";
 import {SimpleCourse} from "@/lib/models";
 import ProductPrice from "@/components/custom-ui/ProductPrice";
 import {calculatedPrice} from "@/lib/price";
+import {Badge} from "@/components/ui/badge";
 
 interface AdminCourseCardProps {
     data: SimpleCourse;
@@ -66,6 +67,11 @@ const AdminCourseCard = ({data}:AdminCourseCardProps) => {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
+            <Badge className={"absolute top-2 left-2"}
+                   variant = {data.status=== 'Published' ?"default" : data.status=== 'Draft' ? "secondary" :  "destructive" }
+            >
+                {data.status}
+            </Badge>
             <Image src={thumbnailUrl} alt="thumbnail image" width={600} height={400}
             className="aspect-video rounded-lg w-full h-full object-cover"/>
 

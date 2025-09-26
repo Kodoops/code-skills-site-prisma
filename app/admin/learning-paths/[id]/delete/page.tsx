@@ -9,16 +9,17 @@ import {toast} from "sonner";
 import {deleteCourse} from "@/app/admin/courses/[courseId]/delete/actions";
 import {useParams, useRouter} from "next/navigation";
 import {Loader2, Trash2} from "lucide-react";
+import {deleteLearningPath} from "@/app/admin/learning-paths/[id]/delete/actions";
 
-const AdminDeleteCourse = () => {
+const AdminDeleteLearningPath = () => {
 
     const [pending, startTransition] = useTransition();
-    const {courseId} = useParams<{ courseId: string }>();
+    const {id} = useParams<{ id: string }>();
     const router = useRouter();
 
     function onSubmit() {
         startTransition(async () => {
-            const {data: result, error} = await tryCatch(deleteCourse(courseId));
+            const {data: result, error} = await tryCatch(deleteLearningPath(id));
 
             if (error) {
                 toast.error(error.message,{
@@ -35,7 +36,7 @@ const AdminDeleteCourse = () => {
                         color: "#065F46",
                     },
                 });
-                router.push("/admin/courses");
+                router.push("/admin/learning-paths");
             } else {
                 toast.error(result?.message, {
                     style: {
@@ -51,18 +52,18 @@ const AdminDeleteCourse = () => {
         <div className={"max-w-xl mx-auto w-full"}>
             <Card className={"mt-32"}>
                 <CardHeader>
-                    <CardTitle>Are you sure you want to delete this course ?</CardTitle>
+                    <CardTitle>Are you sure you want to delete this learning path ?</CardTitle>
                     <CardDescription >
-                        This action is irreversible. this will delete all the course data.
+                        This action is irreversible. this will delete all the learning path data.
                     </CardDescription>
                 </CardHeader>
                 <CardContent className={"flex items-center justify-between gap-4"}>
-                    <Link href={"/admin/courses"} className={buttonVariants({variant: "outline"})}>
+                    <Link href={"/admin/learning-paths"} className={buttonVariants({variant: "outline"})}>
                         Cancel
                     </Link>
                     <Button variant={"destructive"} onClick={onSubmit} disabled={pending}>
                         {pending ? <> <Loader2 className={"size-4 animate-spin"}/> Deleting ... </> :
-                            <> <Trash2 className={"size-4"}/>Delete Course</>}
+                            <> <Trash2 className={"size-4"}/>Delete Learning Path</>}
                     </Button>
                 </CardContent>
             </Card>
@@ -70,4 +71,4 @@ const AdminDeleteCourse = () => {
     );
 };
 
-export default AdminDeleteCourse;
+export default AdminDeleteLearningPath;

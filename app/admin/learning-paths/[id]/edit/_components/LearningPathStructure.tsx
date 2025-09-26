@@ -20,14 +20,13 @@ import {
 import {CSS} from '@dnd-kit/utilities';
 import {cn} from "@/lib/utils";
 import {toast} from "sonner";
-import {LearningPathType, levelBgColors, WorkshopType} from "@/lib/types";
+import {LearningPathType, levelBgColors, ResourceType, WorkshopType} from "@/lib/types";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from '@/components/ui/collapsible';
 import {Button} from '@/components/ui/button';
 import {ChevronDownIcon, ChevronRightIcon, GripVertical, SchoolIcon, TimerIcon} from 'lucide-react';
-import {DeleteChapter} from '@/app/admin/courses/[courseId]/edit/_components/DeleteChapter';
 import {NewLearningPathItem} from "@/app/admin/learning-paths/[id]/edit/_components/NewLearningPathItem";
 import {SimpleCourse} from "@/lib/models";
-import {useConstructUrl} from "@/hooks/use-construct-url";
+import {constructUrl} from "@/hooks/use-construct-url";
 import {calculatedPrice} from "@/lib/price";
 import {Badge} from "@/components/ui/badge";
 import Image from "next/image";
@@ -202,7 +201,7 @@ const LearningPathStructure = ({data}: Props) => {
             <DndContext collisionDetection={rectIntersection} onDragEnd={handleDragEnd} sensors={sensors}>
                 <Card>
                     <CardHeader className={"flex flex-row items-center justify-between border-b border-border"}>
-                        <CardTitle>Items</CardTitle>
+                        <CardTitle>Content : </CardTitle>
                         {data && <NewLearningPathItem
                             learningPathId={data.id}
                             contents = {data.contents}
@@ -211,9 +210,7 @@ const LearningPathStructure = ({data}: Props) => {
                     <CardContent className={"space-y-4"}>
                         <SortableContext items={items} strategy={verticalListSortingStrategy}>
                             {items.map((item) => (
-                                <SortableItem key={item.id} id={item.id}
-                                              //data={{type: "chapter"}}
-                                >
+                                <SortableItem key={item.id} id={item.id}>
                                     {(listeners) => (
                                         <Card>
                                             <Collapsible open={item.isOpen} onOpenChange={() => toggleChapter(item.id)}>
@@ -235,7 +232,7 @@ const LearningPathStructure = ({data}: Props) => {
                                                             {item.type} :
                                                             {item.type === 'Course'  && item.course?.title}
                                                             {item.type === 'Workshop'  && item.workshop?.title}
-                                                            {item.type === 'Resource'  && item.workshop?.title}
+                                                            {item.type === 'Resource'  && item.resource?.title}
                                                         </p>
                                                     </div>
                                                     {data && <DeleteLearningPathItem itemId={item.id} learningPathId={data?.id}/>}
@@ -244,6 +241,7 @@ const LearningPathStructure = ({data}: Props) => {
                                                 <CollapsibleContent className={"p-3"}>
                                                     {item.type === 'Course' && <CardItem data={item.course!}/>}
                                                     {item.type === 'Workshop' && <CardItem data={item.workshop!}/>}
+                                                    {item.type === 'Resource' && <CardItem data={item.resource!}/>}
                                                 </CollapsibleContent>
                                             </Collapsible>
                                         </Card>
@@ -260,54 +258,81 @@ const LearningPathStructure = ({data}: Props) => {
 
 export default LearningPathStructure;
 
-const CardItem = ({data}: { data: SimpleCourse | WorkshopType}) => {
-    const thumbnailURl = useConstructUrl(data.fileKey);
+const CardItem = ({data}: { data: SimpleCourse | WorkshopType | ResourceType}) => {
+    const thumbnailURl = data.fileKey
+        ? constructUrl(data.fileKey)
+        : "https://via.placeholder.com/600x400?text=No+Image";
 
-    const finalPrice = calculatedPrice(data.price!, data?.promotions?.[0])
+    function isResource(
+        obj: SimpleCourse | WorkshopType | ResourceType
+    ): obj is ResourceType {
+        return obj && !("price" in obj) && !("duration" in obj) && !("level" in obj);
+    }
 
-    function isSimpleCourse(obj: SimpleCourse | WorkshopType ): obj is SimpleCourse {
+    const finalPrice = !isResource(data)
+        ? calculatedPrice(data.price!, data?.promotions?.[0])
+        : null;
+
+    function isSimpleCourse(obj: any): obj is SimpleCourse {
         return obj && "smallDescription" in obj && "title" in obj;
     }
 
     return (
-        <div className={"group  py-0 gap-0 flex flex-col md:flex-row  "}>
+        <div className="group py-0 gap-0 flex flex-col md:flex-row">
             <div className="relative flex-2 ">
-                <Badge
-                    className={cn(
-                        "absolute top-2 right-2 text-foreground z-10",
-                        levelBgColors[data.level] ?? "bg-accent" // fallback si non trouvé
-                    )}
-                >
-                    {data.level}
-                </Badge>
-                <Image src={thumbnailURl} alt={data.title} width={600} height={400}
-                       className={"w-full rounded-xl aspect-video object-cover"}/>
+                {!isResource(data) && (
+                    <Badge
+                        className={cn(
+                            "absolute top-2 right-2 text-foreground z-10",
+                            levelBgColors[data.level] ?? "bg-accent"
+                        )}
+                    >
+                        {data.level}
+                    </Badge>
+                )}
+                <Image
+                    src={thumbnailURl!}
+                    alt={data.title}
+                    width={600}
+                    height={400}
+                    className="w-full rounded-xl aspect-video object-cover"
+                />
             </div>
-            <div className={"p-4 flex-3 flex flex-col"}>
-                <div className="flex-1  ">
-                    <Link href={`/courses/${data.slug}`}
-                          className={"text-lg font-medium line-clamp-2 hover:underline group-hover:text-primary transition-colors"}>
-                        {data.title}
-                    </Link>
-                    <p className={"line-clamp-2 text-sm text-muted-foreground leading-tight mt-2"}>
+
+            <div className="p-4 flex-3 flex flex-col">
+                <div className="flex-1">
+                    {!isResource(data) ? (
+                        <Link
+                            href={`/courses/${data.slug}`}
+                            className="text-lg font-medium line-clamp-2 hover:underline group-hover:text-primary transition-colors"
+                        >
+                            {data.title}
+                        </Link>
+                    ) : (
+                        <span className="text-lg font-medium line-clamp-2">{data.title}</span>
+                    )}
+
+                    <p className="line-clamp-2 text-sm text-muted-foreground leading-tight mt-2">
                         {isSimpleCourse(data) ? data.smallDescription : data.description}
                     </p>
                 </div>
-                <div className="flex items-center justify-between mt-4">
-                    <div className="flex items-center gap-x-5 ">
-                        <div className="flex items-center gap-x-2">
-                            <TimerIcon className={"size-6 p-1 rounded-md text-primary bg-primary/10"}/>
-                            <p className={"text-sm text-muted-foreground"}>{data.duration}h</p>
+
+                {!isResource(data) && (
+                    <div className="flex items-center justify-between mt-4">
+                        <div className="flex items-center gap-x-5 ">
+                            <div className="flex items-center gap-x-2">
+                                <TimerIcon className="size-6 p-1 rounded-md text-primary bg-primary/10" />
+                                <p className="text-sm text-muted-foreground">{data.duration}h</p>
+                            </div>
+                            <div className="flex items-center gap-x-2">
+                                <SchoolIcon className="size-6 p-1 rounded-md text-primary bg-primary/10" />
+                                <p className="text-sm text-muted-foreground">ICI CATEGORY / DOMAIN??</p>
+                            </div>
                         </div>
-                        <div className="flex items-center gap-x-2">
-                            <SchoolIcon className={"size-6 p-1 rounded-md text-primary bg-primary/10"}/>
-                            <p className={"text-sm text-muted-foreground"}> ICI CATEGORY /DOMAIN??</p>
-                        </div>
+
+                        <ProductPrice finalPrice={finalPrice!} price={data.price!} />
                     </div>
-
-                    <ProductPrice finalPrice={finalPrice} price={data.price!}/>
-                </div>
-
+                )}
             </div>
         </div>
     );

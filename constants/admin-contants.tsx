@@ -8,6 +8,7 @@ export const UPLOADER_FILE_PLACEHOLDER = '/images/upload-placeholder.png'
 
 export const COURSES_PER_PAGE = 4;
 export const WORKSHOPS_PER_PAGE = 4;
+export const RESOURCES_PER_PAGE = 8;
 export const LEARNING_PATHS_PER_PAGE = 2;
 export const DOMAINS_PER_PAGE = 16;
 export const CATEGORIES_PER_PAGE = 16;

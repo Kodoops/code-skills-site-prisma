@@ -91,6 +91,14 @@ export const workshopSolutionSchema = z.object({
 //     path: ["solutionFileKey"], // ou ["solutionFileUrl"], selon où tu veux afficher l'erreur
 // });
 
+export const resourceSchema =z.object({
+    title: z.string().min(3, {message:'Title must be at least 3 characters long'}).max(100, {message:'Title must be most 100 characters long ... '}),
+    description: z.string().min(3, {message:'Description must be at least 3 characters long'}),
+    type: z.string().min(1, {message:'Type is required'}),
+    fileKey: z.string().optional(),
+    url: z.string().min(1, {message:'File is required'}),
+})
+
 export const categorySchema = z.object({
     title: z.string().min(3, {message:'Name must be at least 3 characters long'}),
     slug: z.string().min(3, {message:'slung must be at least 3 characters long'}),
@@ -184,6 +192,12 @@ export const companySocialLinkSchema = z.object({
     socialLinkId: z.string().min(1, {message:'Social Network required'}),
 })
 
+export const objectiveRequisiteSchema = z.object({
+    content: z.string().min(3, "Veuillez saisir au moins 3 caractères."),
+});
+
+
+
 export type LearningPathSchema = z.infer<typeof learningPathSchema>
 export type LearningPathItemSchema = z.infer<typeof learningPathItemSchema>
 export type CourseSchema = z.infer<typeof courseSchema>
@@ -192,6 +206,7 @@ export type LessonSchema = z.infer<typeof lessonSchema>
 export type WorkshopSchema = z.infer<typeof workshopSchema>
 export type WorkshopStatementSchema = z.infer<typeof workshopStatementSchema>
 export type WorkshopSolutionSchema = z.infer<typeof workshopSolutionSchema>
+export type ResourceSchema = z.infer<typeof resourceSchema>
 export type CategorySchema = z.infer<typeof categorySchema>
 export type DomainSchema = z.infer<typeof domainSchema>
 export type TagSchema = z.infer<typeof tagSchema>
@@ -199,3 +214,4 @@ export type FeatureSchema = z.infer<typeof featureSchema>
 export type CompanySchema = z.infer<typeof companySchema>
 export type SocialLinkSchema = z.infer<typeof socialLinkSchema>
 export type CompanySocialLinkSchema = z.infer<typeof companySocialLinkSchema>
+export type ObjectiveRequisiteSchema = z.infer<typeof objectiveRequisiteSchema>

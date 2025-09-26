@@ -54,6 +54,7 @@ enum InvoiceItemType {
   COURSE
   WORKSHOP
   SUBSCRIPTION
+  LEARNING_PATH
 }
 
 enum enrollmentStatus {
@@ -102,6 +103,7 @@ model User {
 
   // Soft delete
   deletedAt DateTime?
+  Resource  Resource[]
 
   @@unique([email])
   @@map("user")
@@ -211,7 +213,7 @@ model LearningPath {
   price         Int
   currency      String @default("EUR") // Ajout recommandé
   duration      Int
-  slug          String
+  slug          String @unique
   status        String
   level         String
   stripePriceId String @unique
@@ -233,8 +235,11 @@ model LearningPath {
   promoCodes PromoCode[] @relation("LearningPathPromoCodes")
   promotions Promotion[] @relation("LearningPathPromotion")
 
+  Enrollment Enrollment[]
+
   // Soft delete
   deletedAt DateTime?
+  Payment   Payment[]
 }
 
 model LearningPathItem {
@@ -244,7 +249,7 @@ model LearningPathItem {
   position Int
 
   learningPathId String
-  learningPath   LearningPath @relation(fields: [learningPathId], references: [id])
+  learningPath   LearningPath @relation(fields: [learningPathId], references: [id], onDelete: Cascade)
 
   courseId String?
   course   Course? @relation("CourseItems", fields: [courseId], references: [id], map: "fk_course_item")
@@ -383,18 +388,20 @@ model Workshop {
   promoCodes PromoCode[] @relation("WorkshopPromoCodes")
   promotions Promotion[] @relation("WorkshopPromotion")
 
+  Enrollment Enrollment[]
+
   // Soft delete
   deletedAt DateTime?
 }
 
 model Resource {
-  id          String       @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
   description String?
-  type        ResourceType
   fileKey     String?
-  url         String?
-  createdAt   DateTime     @default(now())
+  url         String
+  type        String // ResourceType: pdf,doc, zip etc...
+  createdAt   DateTime @default(now())
 
   courseResources       CourseResource[]
   lessonResources       LessonResource[]
@@ -402,6 +409,9 @@ model Resource {
   learningPathResources LearningPathResource[]
 
   learningPathItems LearningPathItem[] @relation("ResourceItems")
+
+  user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 }
 
 // -----------------------------------
@@ -594,19 +604,27 @@ model Enrollment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId String
+  course   Course? @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String?
+
+  learningPath   LearningPath? @relation(fields: [learningPathId], references: [id], onDelete: Cascade)
+  learningPathId String?
+
+  workshop   Workshop? @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+  workshopId String?
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   payment   Payment? @relation("EnrollmentToPayment", fields: [paymentId], references: [id])
-  paymentId String?  @unique
+  paymentId String?  @unique(map: "uq_enrollment_payment")
 
   // Soft delete
   deletedAt DateTime?
 
-  @@unique([userId, courseId])
+  @@unique([userId, learningPathId], map: "uq_enrollment_user_learningPath")
+  @@unique([userId, courseId], map: "uq_enrollment_user_course")
+  @@unique([userId, workshopId], map: "uq_enrollment_user_workshop")
 }
 
 model Payment {
@@ -614,8 +632,12 @@ model Payment {
   stripeId String @unique // ID de la session ou du paiement Stripe
   user     User   @relation(fields: [userId], references: [id])
   userId   String
-  course   Course @relation(fields: [courseId], references: [id])
-  courseId String
+
+  course   Course? @relation(fields: [courseId], references: [id])
+  courseId String?
+
+  learningPath   LearningPath? @relation(fields: [learningPathId], references: [id])
+  learningPathId String?
 
   amount     Int
   currency   String
@@ -657,7 +679,7 @@ model InvoiceItem {
   invoiceId String
 
   title       String
-  type        InvoiceItemType
+  type        String // InvoiceItemType  COURSE ,WORKSHOP, LEARNING_PATH etc...
   referenceId String // ID du cours, workshop, abonnement, etc.
 
   quantity  Int @default(1)
@@ -805,7 +827,7 @@ model CompanySocialLink {
   company    Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
   socialLink SocialLink @relation(fields: [socialLinkId], references: [id], onDelete: Cascade)
 
-  @@unique([companyId, socialLinkId]) // une entreprise ne peut pas avoir deux fois le même réseau
+  @@unique([companyId, socialLinkId], map: "uq_company_socialLink") // une entreprise ne peut pas avoir deux fois le même réseau
 }
 
 // NEXT STEPS

@@ -30,10 +30,15 @@ export async function POST(req: Request) {
 
     if (event.type === 'checkout.session.completed') {
         const courseId = session.metadata?.courseId;
+        const learningPathId = session.metadata?.learningPathId;
         const enrollmentId = session.metadata?.enrollmentId;
+        const referenceId = session.metadata?.referenceId;
+        const type = session.metadata?.type as string;
+
         const customerId = session.customer as string;
-        if (!courseId || !enrollmentId) {
-            return new Response("Missing Metadata : courseId or EnrollmentId", {
+
+        if ((!courseId  && !learningPathId) || !enrollmentId) {
+            return new Response("Missing Metadata : learningPathId, courseId, etc ... or EnrollmentId", {
                 status: 400
             });
         }
@@ -57,6 +62,7 @@ export async function POST(req: Request) {
             data: {
                 userId: user.id,
                 courseId: courseId,
+                learningPathId:learningPathId,
                 status: 'Active',
                 updatedAt: new Date(),
                 amount: session.amount_total ?? 0,
@@ -80,6 +86,8 @@ export async function POST(req: Request) {
         const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
             limit: 100,
         });
+
+
         await prisma.invoice.create({
             data: {
                 number: invoiceNumber,
@@ -89,8 +97,8 @@ export async function POST(req: Request) {
                 items: {
                     create: lineItems.data.map((item) => ({
                         title: item.description ?? 'Article sans titre',
-                        type: "COURSE", // ou "WORKSHOP", "SUBSCRIPTION", selon le metadata
-                        referenceId: courseId,
+                        type: type, // ou "WORKSHOP", "SUBSCRIPTION", selon le metadata
+                        referenceId: referenceId!,
                         quantity: item.quantity ?? 1,
                         unitPrice: item.amount_total ?? 0,
                         total: item.amount_total ?? 0,

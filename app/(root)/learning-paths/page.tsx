@@ -1,10 +1,9 @@
-import { getAllCategories } from "@/app/data/categories/get-all-categories";
 import { Suspense } from "react";
-import { PublicCourseCardSkeleton } from "@/app/(root)/_components/PublicCourseCard";
-import FilterBar from "@/app/(root)/courses/_components/FilterBar";
 import RenderLearningPath from "@/app/(root)/learning-paths/_components/RenderLearningPath";
+import {LearningPathSkeletonCard} from "@/app/(root)/learning-paths/_components/LearningPathCard";
+import LearningPathFilterBar from "./_components/LearningPathFilterBar";
 
-const LEARNING_PATH_PER_PAGE = 9;
+const LEARNING_PATH_PER_PAGE = 2;
 
 const LearningPathPage = async (props: {
     searchParams?: Promise<{
@@ -22,27 +21,24 @@ const LearningPathPage = async (props: {
     const page = parseInt(params?.page ?? "1", 10);
 
     const filters = {
-        categorySlug,
         level,
         isFree,
         page,
         perPage: LEARNING_PATH_PER_PAGE,
     };
 
-    const categories = await getAllCategories();
 
     return (
         <div className="mt-5 space-y-4">
             <div className="flex flex-col space-y-3 mb-10">
-                <h1 className="text-3xl md:text-4xl font-bold tracking-tighter">Explore Courses</h1>
+                <h1 className="text-3xl md:text-4xl font-bold tracking-tighter">Explore Learning Paths</h1>
                 <p className="text-muted-foreground">
-                    Discover our wide range of courses designed to help you achieve your learning goal.
+                    Discover our wide range of learning path designed to help you achieve your learning goal.
                 </p>
             </div>
 
-            <FilterBar
+            <LearningPathFilterBar
                 current={{ categorySlug, level, isFree }}
-                categories={categories}
             />
 
             <Suspense fallback={<LoadingSkeletonLayout />}>
@@ -56,9 +52,9 @@ export default LearningPathPage;
 
 function LoadingSkeletonLayout() {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
             {Array.from({ length: 9 }).map((_, index) => (
-                <PublicCourseCardSkeleton key={index} />
+                <LearningPathSkeletonCard key={index} />
             ))}
         </div>
     );

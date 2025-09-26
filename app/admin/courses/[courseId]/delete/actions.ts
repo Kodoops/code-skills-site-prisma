@@ -39,10 +39,11 @@ export async function deleteCourse(courseId: string) :Promise<ApiResponseType>{
             }
         }
 
-        await prisma.course.delete({
+        await prisma.course.update({
             where: {
                 id: courseId
             },
+            data: { deletedAt: new Date() },
         })
 
         revalidatePath(`/admin/courses`)

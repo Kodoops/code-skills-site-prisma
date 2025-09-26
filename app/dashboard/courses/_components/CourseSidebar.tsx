@@ -5,12 +5,11 @@ import {ChevronDown, Play} from "lucide-react";
 import {Progress} from "@/components/ui/progress";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible";
 import { Button } from '@/components/ui/button';
-import {LessonItem, LessonLinkItem} from "@/app/dashboard/courses/_components/LessonItem";
 import {usePathname} from "next/navigation";
 import {useCourseProgress} from "@/hooks/use-course-progress";
 import { hasAccess } from '@/lib/access';
 import {CourseType} from '@/lib/types';
-
+import {LessonItem, LessonLinkItem} from "@/app/dashboard/courses/_components/LessonItem";
 
 export function CourseSidebar({course, enrolled}: {course : CourseType, enrolled: boolean}) {
 
@@ -19,8 +18,8 @@ export function CourseSidebar({course, enrolled}: {course : CourseType, enrolled
     const {totalLessons, completedLessons, progressPercentage} = useCourseProgress({courseData: course});
 
     return (
-        <div className={"flex flex-col py-4  md:py-6"}>
-            <div className="pb-4 pr-4 border-b border-border">
+        <div className={"flex flex-col py-4  md:py-6 border-l-2 h-full"}>
+            <div className="pb-4 px-4 border-b border-border">
                 <div className="flex items-center gap-3 mb-3">
                     <div className="size-10 rounde-lg bg-primary/10 flex items-center justify-center shrink-0">
                         <Play className={"size-5 text-primary"}/>
@@ -43,10 +42,10 @@ export function CourseSidebar({course, enrolled}: {course : CourseType, enrolled
                 </div>
             </div>
 
-            <div className="py-4 pr-4 space-y-3">
+            <div className="py-4 pr-4 space-y-3 ">
                 {course.chapters.map((chapter, index) => (
                   <Collapsible key={chapter.id} defaultOpen={index===0}>
-                      <CollapsibleTrigger asChild>
+                      <CollapsibleTrigger asChild className={"border-l-0 rounded-none rounded-r"}>
                           <Button className={"w-full p-3 h-auto flex items-center gap-2"} variant={"outline"}>
                             <div className="shrink-0">
                                 <ChevronDown className={"size-4 text-primary"}/>
@@ -61,7 +60,7 @@ export function CourseSidebar({course, enrolled}: {course : CourseType, enrolled
                               </div>
                           </Button>
                       </CollapsibleTrigger>
-                      <CollapsibleContent className={"pt-3 pl-6 border-l-2 space-y-3"}>
+                      <CollapsibleContent className={"pt-3 pl-6  space-y-3 "}>
                           {chapter.lessons.map((lesson) => {
 
                               if(hasAccess(lesson.public, course, enrolled))

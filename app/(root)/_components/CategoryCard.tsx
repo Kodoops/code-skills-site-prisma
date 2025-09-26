@@ -1,11 +1,10 @@
 import React from "react";
 import {cn} from "@/lib/utils";
-import {IconLib, resolveIcon} from "@/components/custom-ui/resolve-icon";
+import { resolveIcon} from "@/components/custom-ui/resolve-icon";
 import {colorClasses} from "@/lib/types";
 import { Earth} from "lucide-react";
-import {Card,  CardHeader} from "@/components/ui/card";
+import {Card, CardContent, CardHeader} from "@/components/ui/card";
 import Link from "next/link";
-import Pill from "@/components/custom-ui/Pill";
 import {Skeleton} from "@/components/ui/skeleton";
 
 export interface CategoryCardProps {
@@ -55,8 +54,7 @@ export default function CategoryCard({
 
             {/* Contenu */}
             <Link className="relative" href={`/courses?categorySlug=${slug}`}>
-                <CardHeader className={"flex justify-between items-center gap-2 group"}>
-                    <div className="">
+                <CardHeader className={"flex  justify-between items-center gap-2 group"}>
                         <div className="mb-3 text-2xl">
                                     <IconComp
                                         width={40}
@@ -66,12 +64,13 @@ export default function CategoryCard({
                         </div>
 
                         <h4 className={cn("text-lg font-semibold", palette.text)}>{title}</h4>
-                    </div>
+
+                </CardHeader>
+                <CardContent>
                     <div className=" text-center space-y-2">
                         <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{desc}</p>
                     </div>
-
-                </CardHeader>
+                </CardContent>
             </Link>
         </Card>
     );

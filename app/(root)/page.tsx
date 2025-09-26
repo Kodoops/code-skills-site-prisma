@@ -155,7 +155,7 @@ async function RenderCourses() {
 
     const enrolledByUser  = await getAllEnrolledCoursesByUser();
 
-    const enrolledCourseIds = enrolledByUser.map(enrollment => enrollment.course.id);
+    const enrolledCourseIds = enrolledByUser.map(enrollment => enrollment?.course?.id);
 
     const alreadyEnrolled: string[] = [];
 

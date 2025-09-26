@@ -17,7 +17,7 @@ const aj = arcjet
         })
     );
 
-export async function deleteCourse(courseId: string) :Promise<ApiResponseType>{
+export async function deleteLearningPath(id: string) :Promise<ApiResponseType>{
 
     const session = await requireAdmin();
 
@@ -39,23 +39,23 @@ export async function deleteCourse(courseId: string) :Promise<ApiResponseType>{
             }
         }
 
-        await prisma.course.delete({
+        await prisma.learningPath.delete({
             where: {
-                id: courseId
+                id: id
             },
         })
 
-        revalidatePath(`/admin/courses`)
+        revalidatePath(`/admin/learning-paths`)
 
         return{
             status: "success",
-            message: "Course deleted successfully"
+            message: "Learning Path deleted successfully"
         }
     }catch(e) {
         console.log(e)
         return{
             status: "error",
-            message: "Failed to delete course"
+            message: "Failed to delete learning path"
         }
     }
 

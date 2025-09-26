@@ -1,19 +1,15 @@
-import React, {Suspense} from 'react';
 import {notFound} from "next/navigation";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-import {AdminCategoryCardSkeleton} from "@/app/admin/categories/_components/AdminCategoryCard";
-import {TagType} from "@/lib/types";
-import {ArrowLeft, Ban} from "lucide-react";
-import {adminGetAllTags} from "@/app/data/admin/admin-get-all-tags";
+import {ArrowLeft} from "lucide-react";
 import { getLevels } from '@/app/data/get-levels';
 import {getStatus} from "@/app/data/get-status";
 import {adminGetLearningPath} from "@/app/data/admin/admin-get-learning-path";
 import EditLearningPathForm from './_components/EditLearningPathForm';
-import UpdateTagsList from "@/app/admin/learning-paths/[id]/edit/_components/TagsLis";
 import LearningPathStructure from "@/app/admin/learning-paths/[id]/edit/_components/LearningPathStructure";
 import Link from "next/link";
 import {buttonVariants} from "@/components/ui/button";
+import LearningPathSettings from './_components/LearningPathSettings';
 
 type Params = Promise<{ id: string }>;
 
@@ -24,6 +20,21 @@ const LearningPathEditPage = async ({params}: { params: Params }) => {
 
     const data = await adminGetLearningPath(id);
     if (!data) notFound();
+
+    const {prerequisites: preqs, objectives: objs} = data;
+
+    const prerequisites = preqs.map(preq => {
+        return {
+            content: preq.prerequisite.content,
+            id: preq.prerequisite.id,
+        }
+    });
+    const objectives =  objs.map(obj => {
+        return {
+            content: obj.objective.content,
+            id: obj.objective.id,
+        }
+    });
 
     const levels : string[] = await getLevels();
     const status: string[] = await getStatus();
@@ -76,22 +87,7 @@ const LearningPathEditPage = async ({params}: { params: Params }) => {
                     </Card>
                 </TabsContent>
                 <TabsContent value={"path-settings"}>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle> Leaning Path settings and options</CardTitle>
-                            <CardDescription>
-                                Here you can update your Leaning Path options and settings.
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className=" space-y-3">
-                                <h2>Attached tags :</h2>
-                                <Suspense fallback={<AdminTagCardSkeletonLayout />}>
-                                    <RenderTags learningPathId={data.id} tags={data.tags.map(tag => ({...tag.tag}))} />
-                                </Suspense>
-                            </div>
-                        </CardContent>
-                    </Card>
+                   <LearningPathSettings tags={data.tags} id={id} requisites={prerequisites} objectives={ objectives}/>
                 </TabsContent>
             </Tabs>
         </div>
@@ -100,48 +96,3 @@ const LearningPathEditPage = async ({params}: { params: Params }) => {
 
 export default LearningPathEditPage;
 
-
-async function RenderTags({tags, learningPathId}:{tags: TagType [], learningPathId:string}) {
-
-    const allTags = await adminGetAllTags();
-
-    return (
-        <>
-            <div>
-                {!tags || tags.length === 0 ? (
-                    <div
-                        className="flex flex-col items-center justify-center h-full p-8 text-center border rounded-md border-dashed">
-                        <div className="flex items-center justify-center w-20 h-20 rounded-full bg-primary/10">
-                            <Ban className="w-10 h-10 text-primary"/>
-                        </div>
-                        <p className="mt-2 mb-8 text-sm text-muted-foreground">No tags attached to this course.</p>
-                    </div>
-                ) : (
-                    <div className="flex flex-wrap gap-2 mb-4">
-                        {tags.map((tag, index) => (
-                            <Card
-                                key={tag.id + index}
-                                className={`border border-border px-4 py-2 rounded-md bg-primary text-muted`}
-                            >
-                                {tag.title}
-                            </Card>
-                        ))}
-                    </div>
-                )
-                }
-                <UpdateTagsList listTags={allTags} learningPathId={learningPathId} existingTags={tags}/>
-            </div>
-
-        </>
-    )
-}
-
-function AdminTagCardSkeletonLayout() {
-    return (
-        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4 gap-4">
-            {Array.from({length: 4}).map((_, index) => (
-                <AdminCategoryCardSkeleton key={index}/>
-            ))}
-        </div>
-    )
-}

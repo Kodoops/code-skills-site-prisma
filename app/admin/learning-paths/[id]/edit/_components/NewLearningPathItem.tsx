@@ -54,6 +54,7 @@ export function NewLearningPathItem({learningPathId, contents}:
     function handleOpenChange(open: boolean) {
         if (!open) {
             form.reset();
+            setType(undefined);
         }
         setIsOpen(open)
     }
@@ -80,6 +81,7 @@ export function NewLearningPathItem({learningPathId, contents}:
                     },
                 });
                 form.reset();
+                setType(undefined);
                 setIsOpen(false);
             } else {
                 toast.error(result?.message,{
@@ -242,7 +244,46 @@ export function NewLearningPathItem({learningPathId, contents}:
                                 </div>
                             </ScrollArea>
                         </div>}
-                        { ( type=== 'Course' && courses.length>0 || type=== 'Workshop' && workshops.length>0 )
+                        {type && type=== 'Resource' && <div className="">
+                            <ScrollArea className="h-72 w-full rounded-md border">
+                                <div className=" ">
+                                    <h4 className="mb-4 text-sm leading-none font-semibold bg-muted-foreground/10 h-10
+                                    flex items-center justify-center text-lg">
+                                        Select a resource
+                                    </h4>
+                                    <div className="">
+                                        {resources.length > 0  ? resources?.map((item) => (
+                                                <React.Fragment key={item.id}>
+                                                    <div
+                                                        className={`text-sm px-4 cursor-pointer hover:text-primary flex items-center justify-start gap-2                                                
+                                                    ${
+                                                            form.watch("resourceId") === item.id ? "text-primary font-semibold" : "text-muted-foreground"
+                                                        }`}
+                                                        onClick={() => {
+                                                            form.setValue("resourceId", item.id, {
+                                                                shouldValidate: true,
+                                                                shouldDirty: true,
+                                                            });
+                                                        }}
+                                                    >
+                                                        {form.watch("resourceId") === item.id ? <CheckIcon className={"size-4"} /> :<SpaceIcon className={"size-4"} /> }
+                                                        {item.title}
+                                                    </div>
+                                                    <Separator className="my-2"/>
+                                                </React.Fragment>
+                                            ))
+                                            : <div className="text-sm px-4 cursor-pointer hover:text-primary flex items-center justify-start gap-2">
+                                                <SpaceIcon className={"size-4"} />
+                                                No resource available
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </ScrollArea>
+                        </div>}
+                        { ( type=== 'Course' && courses.length>0 || type=== 'Workshop' && workshops.length>0
+                                || type=== 'Resource' && resources.length>0 )
                             && form.formState.isValid && <DialogFooter>
                             <Button type={"submit"} disabled={pending}>
                                 {pending ? <>

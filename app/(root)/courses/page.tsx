@@ -1,5 +1,5 @@
 import { getAllCategories } from "@/app/data/categories/get-all-categories";
-import FilterBar from './_components/FilterBar';
+import CoursesFilterBar from './_components/CoursesFilterBar';
 import RenderCourses from "@/app/(root)/courses/_components/RenderCourses";
 import { Suspense } from "react";
 import { PublicCourseCardSkeleton } from "@/app/(root)/_components/PublicCourseCard";
@@ -40,7 +40,7 @@ const CoursesPage = async (props: {
                 </p>
             </div>
 
-            <FilterBar
+            <CoursesFilterBar
                 current={{ categorySlug, level, isFree }}
                 categories={categories}
             />

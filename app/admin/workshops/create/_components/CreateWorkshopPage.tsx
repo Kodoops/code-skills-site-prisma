@@ -5,7 +5,7 @@ import Link from 'next/link';
 import React, {useTransition} from 'react';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button, buttonVariants} from "@/components/ui/button";
-import {courseSchema, CourseSchema, workshopSchema, WorkshopSchema} from "@/lib/zodSchemas";
+import {workshopSchema, WorkshopSchema} from "@/lib/zodSchemas";
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { Resolver } from "react-hook-form";
 import {useForm} from "react-hook-form"
@@ -22,13 +22,11 @@ import {
 import slugify from "slugify";
 import {Textarea} from '@/components/ui/textarea';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import RichTextEditor from "@/components/rich-text-editor/Editor";
 import Uploader from "@/components/file-uploader/Uploader";
 import {tryCatch} from "@/hooks/try-catch";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
 import {useConfetti} from "@/hooks/use-confetti";
-import {createCourse} from "@/app/admin/courses/create/action";
 import {createWorkshop} from "@/app/admin/workshops/create/action";
 
 interface CreateCoursePageProps {

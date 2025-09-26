@@ -2,7 +2,7 @@ import "server-only";
 
 import {prisma} from "@/lib/db";
 import {notFound} from "next/navigation";
-import {CourseTagType, CourseType, LearningPathTagType, WorkshopTagType} from "@/lib/types";
+import { CourseType} from "@/lib/types";
 
 export async function getCourse(slug: string) : Promise<CourseType> {
 
@@ -52,7 +52,6 @@ export async function getCourse(slug: string) : Promise<CourseType> {
         }
     });
 
-    console.log(course)
 
     if(!course) return notFound();
 

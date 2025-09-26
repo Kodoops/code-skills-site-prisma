@@ -1,7 +1,7 @@
 import React from 'react';
 import {SidebarInset, SidebarProvider} from "@/components/ui/sidebar";
 import {SiteHeader} from "@/components/sidebar/site-header";
-import {DashboardAppSidebar} from "@/app/dashboard/courses/_components/DashboardAppSideBar";
+import {DashboardAppSidebar} from "@/app/dashboard/_components/DashboardAppSideBar";
 
 const DashboardLayout = ({
                              children,

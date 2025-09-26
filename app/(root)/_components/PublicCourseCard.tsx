@@ -1,7 +1,6 @@
 import React from 'react';
 import {Card, CardContent} from "@/components/ui/card";
 import {SchoolIcon, TimerIcon} from "lucide-react";
-import {useConstructUrl} from "@/hooks/use-construct-url";
 import Image from "next/image";
 import Link from "next/link";
 import {buttonVariants} from "@/components/ui/button";
@@ -19,7 +18,6 @@ interface Props {
 }
 
 const PublicCourseCard = ({data, isEnrolled}:Props) => {
-    const thumbnailURl = useConstructUrl(data.fileKey);
 
     const finalPrice = calculatedPrice(data.price!, data?.promotions?.[0])
 
@@ -34,7 +32,7 @@ const PublicCourseCard = ({data, isEnrolled}:Props) => {
                 >
                     {data.level}
                 </Badge>
-                <Image src={thumbnailURl} alt={data.title} width={600} height={400} className={"w-full rounded-t-xl aspect-video h-full object-cover"}/>
+                <Image src={data.fileKey} alt={data.title} width={600} height={400} className={"w-full rounded-t-xl aspect-video h-full object-cover"}/>
             </div>
             <CardContent className={"p-4 flex-1"}>
                 <Link href={`/courses/${data.slug}`}

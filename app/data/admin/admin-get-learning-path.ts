@@ -44,6 +44,26 @@ export async function adminGetLearningPath(id: string) : Promise<LearningPathTyp
                     }
                 }
             },
+            prerequisites: {
+                select: {
+                    prerequisite:{
+                        select: {
+                            id: true,
+                            content: true,
+                        }
+                    }
+                }
+            },
+            objectives: {
+                select: {
+                    objective:{
+                        select: {
+                            id: true,
+                            content: true,
+                        }
+                    }
+                }
+            },
             contents: {
                 select: {
                     id: true,
@@ -54,6 +74,10 @@ export async function adminGetLearningPath(id: string) : Promise<LearningPathTyp
                     resourceId: true,
                     learningPathId: true,
                     course: {
+                        where: {
+                            deletedAt: null,
+                            status: 'Published'
+                        },
                         select: {
                             id: true,
                             title: true,
@@ -63,9 +87,14 @@ export async function adminGetLearningPath(id: string) : Promise<LearningPathTyp
                             duration: true,
                             level: true,
                             status: true,
+                            slug: true,
                         }
                     },
                     workshop: {
+                        where: {
+                            deletedAt: null,
+                            status: 'Published'
+                        },
                         select: {
                             id: true,
                             title: true,
@@ -75,6 +104,7 @@ export async function adminGetLearningPath(id: string) : Promise<LearningPathTyp
                             duration: true,
                             level: true,
                             status: true,
+                            slug: true,
                         }
                     },
                     resource: {

@@ -29,7 +29,7 @@ const LearningPathsPage = async (props: {
                     Create Learning Path
                 </Link>
             </div>
-            <Suspense fallback={<AdminCourseCardSkeletonLayout/>}>
+            <Suspense fallback={<AdminLearningPathCardSkeletonLayout/>}>
                 <RenderLearningPaths current={page} nbrPage={LEARNING_PATHS_PER_PAGE}/>
             </Suspense>
         </>
@@ -40,9 +40,7 @@ export default LearningPathsPage;
 
 async function RenderLearningPaths({current, nbrPage}:{current?: number | undefined, nbrPage: number}) {
 
-     const {data, totalPages, perPage, currentPage} = await adminGetLearningPaths(current , nbrPage);
-
-
+    const {data, totalPages, perPage, currentPage} = await adminGetLearningPaths({page:current, perPage:nbrPage});
 
     return (
         <>
@@ -54,7 +52,7 @@ async function RenderLearningPaths({current, nbrPage}:{current?: number | undefi
                 />
                 :
                 <>
-                    <div className="grid grid-cols-1  xl:grid-cols-1 gap-7 ">
+                    <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
                         {data?.map((path) => (
                             <AdminLearningPathCard key={path.id} data={path}/>
                         ))}
@@ -66,9 +64,9 @@ async function RenderLearningPaths({current, nbrPage}:{current?: number | undefi
     )
 }
 
-function AdminCourseCardSkeletonLayout() {
+function AdminLearningPathCardSkeletonLayout() {
     return (
-        <div className="grid grid-cols-1  xl:grid-cols-2 gap-7  ">
+        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 ">
             {Array.from({length: 2}).map((_, index) => (
                 <AdminLearningPathSkeletonCard key={index}/>
             ))}

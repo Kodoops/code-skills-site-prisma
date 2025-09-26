@@ -166,6 +166,8 @@ export async function enrollInCourseAction(courseId: string): Promise<ApiRespons
                     userId: user.id,
                     courseId: course.id,
                     enrollmentId: enrollment.id,
+                    referenceId: course.id,
+                    type: "COURSE"
                 },
             });
 

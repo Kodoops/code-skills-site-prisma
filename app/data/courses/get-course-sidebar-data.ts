@@ -72,7 +72,7 @@ export const getCourseSidebarData = async (slug: string): Promise<{
             userId_courseId:{
                 userId: session.id,
                 courseId : courseData.id
-            }
+            },
         }
     });
 

@@ -26,6 +26,7 @@ export async function getAllCourses({
 
     const where: any = {
         status: "Published",
+        deletedAt: null,
     };
 
     if (categorySlug) {

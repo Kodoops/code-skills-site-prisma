@@ -7,7 +7,7 @@ export async function adminGetDashboardStats() {
 
     await requireAdmin();
 
-    const [totalSignUps, totalCustomers, totalCourses, totalLessons] = await Promise.all([
+    const [totalSignUps, totalCustomers, totalCourses, totalLessons, totalsLearningPaths] = await Promise.all([
         prisma.user.count(),
         prisma.user.count({
             where: {
@@ -17,9 +17,10 @@ export async function adminGetDashboardStats() {
             }}),
         prisma.course.count(),
         prisma.lesson.count(),
+        prisma.learningPath.count(),
     ]);
 
     return {
-        totalSignUps, totalCustomers, totalCourses, totalLessons
+        totalSignUps, totalCustomers, totalCourses, totalLessons, totalsLearningPaths,
     }
 }

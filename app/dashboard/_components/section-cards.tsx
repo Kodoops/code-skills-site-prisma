@@ -1,5 +1,8 @@
 import {
     IconBook,
+    IconPlaylist,
+    IconShoppingCart,
+    IconUsers
 } from "@tabler/icons-react"
 
 import {
@@ -9,76 +12,96 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import {userGetDashboardStats} from "@/app/data/user/user-get-dashboard-stats";
-import {Package2Icon, RouteIcon, ToolCaseIcon} from "lucide-react";
+import {adminGetDashboardStats} from "@/app/data/admin/admin-get-dashboard-stats";
+import {RouteIcon} from "lucide-react";
 
 export async function SectionCards() {
 
     const {
-        totalEnrollments,totalPathsEnrollments,totalCoursesEnrollments, totalWorkshopsEnrollments
-    } = await userGetDashboardStats();
+        totalSignUps,
+        totalCustomers,
+        totalCourses,
+        totalLessons,
+        totalsLearningPaths
+    } = await adminGetDashboardStats();
 
     return (
-        <div  className={"my-4"}>
+        <>
             <div
                 className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4  *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs  @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
                 <Card className="@container/card">
                     <CardHeader className="flex flex-row items-center justify-between gp-2 space-y-0">
                         <div className="">
-                            <CardDescription>Total Enrollments</CardDescription>
+                            <CardDescription>Total Signups</CardDescription>
                             <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-                                {totalEnrollments}
+                                {totalSignUps}
                             </CardTitle>
                         </div>
-                        <Package2Icon className="size-6 text-muted-foreground"/>
+                        <IconUsers className="size-6 text-muted-foreground"/>
                     </CardHeader>
                     <CardFooter className="flex-col items-start gap-1.5 text-sm">
-                        <p className={"text-muted-foreground"}>Your total enrollments on the platform</p>
+                        <p className={"text-muted-foreground"}>Registered users on the platform</p>
                     </CardFooter>
                 </Card>
                 <Card className="@container/card">
                     <CardHeader className="flex flex-row items-center justify-between gp-2 space-y-0">
                         <div className="">
-                            <CardDescription>Total Learning Paths enrollments</CardDescription>
+                            <CardDescription>Total Customers</CardDescription>
                             <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-                                {totalPathsEnrollments}
+                                {totalCustomers}
                             </CardTitle>
                         </div>
-                        <RouteIcon className="size-6 text-muted-foreground"/>
+                        <IconShoppingCart className="size-6 text-muted-foreground"/>
                     </CardHeader>
                     <CardFooter className="flex-col items-start gap-1.5 text-sm">
-                        <p className={"text-muted-foreground"}>Your total learning paths enrollments on the platform</p>
+                        <p className={"text-muted-foreground"}>Users who enrolled in courses</p>
                     </CardFooter>
                 </Card>
                 <Card className="@container/card">
                     <CardHeader className="flex flex-row items-center justify-between gp-2 space-y-0">
                         <div className="">
-                            <CardDescription>Total Courses Enrollments </CardDescription>
+                            <CardDescription>Total Courses</CardDescription>
                             <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-                                {totalCoursesEnrollments}
+                                {totalCourses}
                             </CardTitle>
                         </div>
                         <IconBook className="size-6 text-muted-foreground"/>
                     </CardHeader>
                     <CardFooter className="flex-col items-start gap-1.5 text-sm">
-                        <p className={"text-muted-foreground"}>Your total courses enrollments on the platform</p>
+                        <p className={"text-muted-foreground"}>Available courses on the platform</p>
                     </CardFooter>
                 </Card>
                 <Card className="@container/card">
                     <CardHeader className="flex flex-row items-center justify-between gp-2 space-y-0">
                         <div className="">
-                            <CardDescription>Total Workshops enrollments</CardDescription>
+                            <CardDescription>Total Lessons</CardDescription>
                             <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-                                {totalWorkshopsEnrollments}
+                                {totalLessons}
                             </CardTitle>
                         </div>
-                        <ToolCaseIcon className="size-6 text-muted-foreground"/>
+                        <IconPlaylist className="size-6 text-muted-foreground"/>
                     </CardHeader>
                     <CardFooter className="flex-col items-start gap-1.5 text-sm">
-                        <p className={"text-muted-foreground"}>Your total workshops enrollments on the platform</p>
+                        <p className={"text-muted-foreground"}>Total learning content available</p>
                     </CardFooter>
                 </Card>
             </div>
-        </div>
+            <div className="">
+                <Card className="@container/card">
+                    <CardHeader className="flex flex-row items-center justify-between gp-2 space-y-0">
+                        <div className="">
+                            <CardDescription>Total Learning Paths</CardDescription>
+                            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+                                {totalsLearningPaths}
+                            </CardTitle>
+                        </div>
+                        <RouteIcon className="size-6 text-muted-foreground"/>
+                    </CardHeader>
+                    <CardFooter className="flex-col items-start gap-1.5 text-sm">
+                        <p className={"text-muted-foreground"}>Available Learning paths on the platform</p>
+                    </CardFooter>
+                </Card>
+            </div>
+        </>
     )
 }

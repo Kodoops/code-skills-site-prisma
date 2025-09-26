@@ -64,4 +64,3 @@ export async function getCourse(slug: string) : Promise<CourseType> {
 }
 
 
-export type CourseSingularType = Awaited<ReturnType<typeof getCourse>>;

@@ -1,58 +1,86 @@
 import React from 'react';
-import {getCourseSidebarData} from "@/app/data/courses/get-course-sidebar-data";
-import { redirect} from "next/navigation";
 
-interface Props {
-    params: Promise<{ slug: string }>;
-}
+import { CircleQuestionMarkIcon, InfoIcon, Proportions} from "lucide-react";
+import { checkIfWorkshopBought} from "@/app/data/user/user-is-enrolled";
+import {getWorkshop} from "@/app/data/workshops/get-workshop";
+import NotFound from "@/app/not-found";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import {
+    Tabs,
+    TabsContent,
+    TabsList,
+    TabsTrigger,
+} from "@/components/ui/tabs"
+import WorkshopInformation from "@/app/dashboard/workshops/[slug]/_components/WorkshopInformation";
+import WorkshopStatement from "@/app/dashboard/workshops/[slug]/_components/WorkshopStatement";
+import WorkshopSolution from "@/app/dashboard/workshops/[slug]/_components/Workshopsolution";
 
+type Params = Promise<{ slug: string }>
 
-const WorkshopSlugPage = async ({params}: Props) => {
-
+const SingleWorkshopPage = async ({params}: { params: Params }) => {
     const {slug} = await params;
 
-    const {course, enrollment} = await getCourseSidebarData(slug);
+    const workshop = await getWorkshop(slug);
 
-
-    //TODO : gérer le cas avec la sauvegarde de l'historique d'avancement, pour renvoyer user a sa dernière lecture
-
-    // Si cours gratuit OU inscrit, on redirige vers la première leçon
-    if(course.price === 0 || (enrollment && enrollment.status ==='Active')){
-        const firstChapter = course.chapters[0];
-
-        if(firstChapter) {
-
-            const firstLesson = firstChapter.lessons[0];
-
-            if (firstLesson) {
-                redirect(`/dashboard/courses/${slug}/${firstLesson.id}`)
-            }
-        }
-    }else{
-        // Chercher la première leçon publique
-        let firstPublicLesson = null;
-        for (const chapter of course.chapters) {
-            for (const lesson of chapter.lessons) {
-                if (lesson.public) {
-                    firstPublicLesson = lesson;
-                    break;
-                }
-            }
-            if (firstPublicLesson) break;
-        }
-
-        if (firstPublicLesson) {
-            redirect(`/dashboard/courses/${slug}/${firstPublicLesson.id}`);
-        }
-
-    }
+    const isEnrolled = await checkIfWorkshopBought(workshop.id);
+    if(!isEnrolled)
+        return NotFound();
 
     return (
-        <div className={"flex flex-col items-center justify-center h-full text-center "}>
-            <h2 className={"text-2xl font-bold mb-2"}> No lessons available </h2>
-            <p className={"text-muted-foreground"}> This course does not have a free lesson or any lessons yet !</p>
-        </div>
-    );
+        <Tabs defaultValue="tab-1">
+            <ScrollArea>
+                <TabsList
+                    className="before:bg-border relative mb-3 h-auto w-full gap-0.5 bg-transparent p-0 before:absolute before:inset-x-0 before:bottom-0 before:h-px">
+                    <TabsTrigger
+                        value="tab-1"
+                        className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
+                    >
+                        <InfoIcon
+                            className="-ms-0.5 me-1.5 opacity-60"
+                            size={16}
+                            aria-hidden="true"
+                        />
+                        Basic Information&apos;s
+                    </TabsTrigger>
+                    <TabsTrigger
+                        value="tab-2"
+                        className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
+                    >
+                        <CircleQuestionMarkIcon
+                            className="-ms-0.5 me-1.5 opacity-60"
+                            size={16}
+                            aria-hidden="true"
+                        />
+                        Statement
+                    </TabsTrigger>
+                    <TabsTrigger
+                        value="tab-3"
+                        className="bg-muted overflow-hidden rounded-b-none border-x border-t py-2 data-[state=active]:z-10 data-[state=active]:shadow-none"
+                    >
+                        <Proportions
+                            className="-ms-0.5 me-1.5 opacity-60"
+                            size={16}
+                            aria-hidden="true"
+                        />
+                        Solution
+                    </TabsTrigger>
+                </TabsList>
+                <ScrollBar orientation="horizontal"/>
+            </ScrollArea>
+            <TabsContent value="tab-1">
+                <WorkshopInformation  workshop={workshop} />
+            </TabsContent>
+            <TabsContent value="tab-2">
+               <WorkshopStatement workshop={workshop} />
+            </TabsContent>
+            <TabsContent value="tab-3">
+                <WorkshopSolution workshop={workshop} />
+            </TabsContent>
+        </Tabs>
+
+    )
+        ;
 };
 
-export default WorkshopSlugPage;
+export default SingleWorkshopPage;
+

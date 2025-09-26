@@ -392,6 +392,7 @@ model Workshop {
 
   // Soft delete
   deletedAt DateTime?
+  Payment   Payment[]
 }
 
 model Resource {
@@ -638,6 +639,9 @@ model Payment {
 
   learningPath   LearningPath? @relation(fields: [learningPathId], references: [id])
   learningPathId String?
+
+  workshop   Workshop? @relation(fields: [workshopId], references: [id])
+  workshopId String?
 
   amount     Int
   currency   String

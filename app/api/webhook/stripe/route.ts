@@ -32,13 +32,15 @@ export async function POST(req: Request) {
         const courseId = session.metadata?.courseId;
         const learningPathId = session.metadata?.learningPathId;
         const enrollmentId = session.metadata?.enrollmentId;
+        const workshopId = session.metadata?.workshopId;
         const referenceId = session.metadata?.referenceId;
         const type = session.metadata?.type as string;
 
+
         const customerId = session.customer as string;
 
-        if ((!courseId  && !learningPathId) || !enrollmentId) {
-            return new Response("Missing Metadata : learningPathId, courseId, etc ... or EnrollmentId", {
+        if ((!courseId  && !learningPathId && !workshopId) || !enrollmentId) {
+            return new Response("Missing Metadata : ID of product  ... or Enrollment ID", {
                 status: 400
             });
         }
@@ -63,6 +65,7 @@ export async function POST(req: Request) {
                 userId: user.id,
                 courseId: courseId,
                 learningPathId:learningPathId,
+                workshopId:workshopId,
                 status: 'Active',
                 updatedAt: new Date(),
                 amount: session.amount_total ?? 0,

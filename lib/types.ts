@@ -498,7 +498,9 @@ export type PaymentType = {
     id: string;
     stripeId: string;
     user: UserType;
-    course: CourseType;
+    course?: CourseType;
+    learningPath?: LearningPathType;
+    workshop?: WorkshopType;
     amount: number;
     currency: string;
     status: string; // 'succeeded', 'pending', 'failed', etc.

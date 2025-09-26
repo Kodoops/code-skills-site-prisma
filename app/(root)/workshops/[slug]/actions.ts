@@ -19,7 +19,7 @@ const aj = arcjet.withRule(
     })
 );
 
-export async function enrollInLearningPathAction(learningPathId: string): Promise<ApiResponseType | never> {
+export async function enrollInWorkshopAction(workshopId: string): Promise<ApiResponseType | never> {
     const user = await requireUser();
     let checkoutUrl: string;
 
@@ -34,8 +34,8 @@ export async function enrollInLearningPathAction(learningPathId: string): Promis
             };
         }
 
-        const learningPath = await prisma.learningPath.findUnique({
-            where: {id: learningPathId},
+        const workshop = await prisma.workshop.findUnique({
+            where: {id: workshopId},
             select: {
                 id: true,
                 title: true,
@@ -61,19 +61,19 @@ export async function enrollInLearningPathAction(learningPathId: string): Promis
                         startsAt: true,
                         endsAt: true,
                         active: true,
-                        learningPathId: true
+                        workshopId: true
                     },
                 },
             }
 
         });
 
-        if (!learningPath) {
-            return {status: "error", message: "Learning Path introuvable."};
+        if (!workshop) {
+            return {status: "error", message: "Workshop introuvable."};
         }
 
         //Calcul price with promotion
-        const priceToPay = calculatedPrice(learningPath.price, learningPath.promotions[0]);
+        const priceToPay = calculatedPrice(workshop.price, workshop.promotions[0]);
 
 
         // 🔍 Stripe Customer
@@ -103,9 +103,9 @@ export async function enrollInLearningPathAction(learningPathId: string): Promis
         const result = await prisma.$transaction(async (tx) => {
             const existingEnrollment = await tx.enrollment.findUnique({
                 where: {
-                    userId_learningPathId: {
+                    userId_workshopId: {
                         userId: user.id,
-                        learningPathId: learningPath.id,
+                        workshopId: workshopId,
                     },
                 },
                 select: {
@@ -118,7 +118,7 @@ export async function enrollInLearningPathAction(learningPathId: string): Promis
             if (existingEnrollment?.status === "Active") {
                 return {
                     status: "success",
-                    message: "Vous êtes déjà inscrit à ce Parcours.",
+                    message: "Vous êtes déjà inscrit à cet atelier.",
                 };
             }
 
@@ -135,7 +135,7 @@ export async function enrollInLearningPathAction(learningPathId: string): Promis
                 enrollment = await tx.enrollment.create({
                     data: {
                         userId: user.id,
-                        learningPathId: learningPath.id,
+                        workshopId: workshop.id,
                         amount: priceToPay,
                         status: "Pending",
                     },
@@ -152,7 +152,7 @@ export async function enrollInLearningPathAction(learningPathId: string): Promis
                         price_data: {
                             currency: 'eur',
                             product_data: {
-                                name: learningPath.title,
+                                name: workshop.title,
                             },
                             unit_amount: priceToPay, // Prix remisé, en centimes
                         },
@@ -164,10 +164,10 @@ export async function enrollInLearningPathAction(learningPathId: string): Promis
                 cancel_url: `${env.BETTER_AUTH_URL}/payment/cancel`,
                 metadata: {
                     userId: user.id,
-                    learningPathId: learningPath.id,
+                    workshopId: workshop.id,
                     enrollmentId: enrollment.id,
-                    referenceId: enrollment.id,
-                    type: "LEARNING_PATH"
+                    referenceId: workshop.id,
+                    type: "WORKSHOP"
                 },
             });
 
@@ -177,7 +177,7 @@ export async function enrollInLearningPathAction(learningPathId: string): Promis
                 data: {
                     stripeId: checkoutSession.id,
                     userId: user.id,
-                    learningPathId: learningPath.id,
+                    workshopId: workshop.id,
                     amount: priceToPay,
                     currency: checkoutSession.currency ?? "usd",
                     status: "pending",

@@ -8,11 +8,12 @@ export default function BusinessLandingPage() {
     return (
         <div className="flex flex-col">
             {/* Hero Section */}
-            <section className="bg-gradient-to-r from-primary to-indigo-600 text-white py-24 px-6 text-center">
+            <section
+                className="bg-[linear-gradient(to_right,var(--blue-light),var(--blue))] text-white py-24 px-6 text-center">
                 <h1 className="text-4xl md:text-6xl font-bold mb-6">
                     Faites monter en compétences vos équipes
                 </h1>
-                <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+                <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto ">
                     Des parcours personnalisés, des workshops pratiques et un suivi clair
                     pour développer vos talents plus vite et plus efficacement.
                 </p>
@@ -34,7 +35,7 @@ export default function BusinessLandingPage() {
                 <div className="grid md:grid-cols-2 gap-8">
                     <Card>
                         <CardHeader>
-                            <Users className="w-10 h-10 text-primary mb-2" />
+                            <Users className="w-10 h-10 text-primary mb-2"/>
                             <CardTitle>Parcours personnalisés</CardTitle>
                         </CardHeader>
                         <CardContent>
@@ -44,7 +45,7 @@ export default function BusinessLandingPage() {
                     </Card>
                     <Card>
                         <CardHeader>
-                            <GraduationCap className="w-10 h-10 text-primary mb-2" />
+                            <GraduationCap className="w-10 h-10 text-primary mb-2"/>
                             <CardTitle>Workshops interactifs</CardTitle>
                         </CardHeader>
                         <CardContent>
@@ -54,7 +55,7 @@ export default function BusinessLandingPage() {
                     </Card>
                     <Card>
                         <CardHeader>
-                            <BarChart3 className="w-10 h-10 text-primary mb-2" />
+                            <BarChart3 className="w-10 h-10 text-primary mb-2"/>
                             <CardTitle>Suivi et reporting</CardTitle>
                         </CardHeader>
                         <CardContent>
@@ -64,7 +65,7 @@ export default function BusinessLandingPage() {
                     </Card>
                     <Card>
                         <CardHeader>
-                            <CheckCircle className="w-10 h-10 text-primary mb-2" />
+                            <CheckCircle className="w-10 h-10 text-primary mb-2"/>
                             <CardTitle>Certifications valorisantes</CardTitle>
                         </CardHeader>
                         <CardContent>

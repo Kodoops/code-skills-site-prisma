@@ -8,7 +8,7 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {
     featureSchema,
     FeatureSchema
-} from "@/lib/zodSchemas";
+} from "@/lib/db/zodSchemas";
 import {type Resolver, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {tryCatch} from "@/hooks/try-catch";
@@ -16,7 +16,7 @@ import {toast} from "sonner";
 import {notFound, useRouter} from "next/navigation";
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import {FeaturedType, iconLibs, listColors} from "@/lib/types";
+import {FeaturedType, iconLibs, listColors} from "@/lib/db/types";
 import { updateFeature } from '../actions';
 
 interface EditFeatureFormProps {

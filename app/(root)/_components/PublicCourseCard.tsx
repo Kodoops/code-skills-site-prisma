@@ -6,11 +6,11 @@ import Link from "next/link";
 import {buttonVariants} from "@/components/ui/button";
 import {Skeleton} from "@/components/ui/skeleton";
 import { Badge } from '@/components/ui/badge';
-import {  levelBgColors} from "@/lib/types";
+import {  levelBgColors} from "@/lib/db/types";
 import {cn} from "@/lib/utils";
 import {calculatedPrice} from "@/lib/price";
 import ProductPrice from '@/components/custom-ui/ProductPrice';
-import {SimpleCourse} from "@/lib/models";
+import {SimpleCourse} from "@/lib/db/models";
 
 interface Props {
     data: SimpleCourse

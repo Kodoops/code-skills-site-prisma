@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/select";
 import {Button} from "@/components/ui/button";
 import React, {useState} from "react";
-import {levels} from "@/lib/types";
+import {levels} from "@/lib/db/types";
 import {X} from "lucide-react";
-import {SimpleCategory} from "@/lib/models";
+import {SimpleCategory} from "@/lib/db/models";
 
 interface Props {
     current: {

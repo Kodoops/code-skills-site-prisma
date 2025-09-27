@@ -1,7 +1,7 @@
-import { prisma } from "@/lib/db";
+import { prisma } from "@/lib/db/db";
 import {notFound} from "next/navigation";
 import { getLevels } from "../get-levels";
-import { WorkshopType} from "@/lib/types";
+import { WorkshopType} from "@/lib/db/types";
 
 export async function getAllWorkshops({
                                         level,

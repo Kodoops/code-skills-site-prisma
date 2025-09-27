@@ -1,6 +1,6 @@
-import { InvoiceType } from "@/lib/types";
+import { InvoiceType } from "@/lib/db/types";
 import {requireUser} from "@/app/data/user/require-user";
-import {prisma} from "@/lib/db";
+import {prisma} from "@/lib/db/db";
 import {DateTime} from "@/lib/date-time";
 
 type PaginatedInvoices = {

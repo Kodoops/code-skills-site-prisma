@@ -4,7 +4,7 @@ import SectionTitle from "@/components/sections/SectionTitle";
 import Section from "@/components/sections/Section";
 import React, {Suspense} from "react";
 import FeaturedCarouselClient from "@/components/sections/FeaturedCarousel.client";
-import { TestimonialType} from "@/lib/types";
+import { TestimonialType} from "@/lib/db/types";
 import SectionHeader from "@/components/sections/SectionHeader";
 import CategoriesCarouselClient from "@/components/sections/CategoriesCarousel.client";
 import CoursesCarouselClient from "@/components/sections/CoursesCarousel.client";
@@ -20,6 +20,10 @@ import {getAllFeatures} from "@/app/data/features/get-all-features";
 import {FeatureCardSkeleton} from "@/app/(root)/_components/FeatureCard";
 import {PublicCourseCardSkeleton} from "@/app/(root)/_components/PublicCourseCard";
 import {getAllEnrolledCoursesByUser} from "@/app/data/user/get-enrolled-courses";
+import {getFeaturedLearningPaths} from "@/app/data/learning-path/get-featured-learning-paths";
+import {getAllEnrolledLearningPathsByUser} from "@/app/data/user/get-enrolled-learning-paths";
+import LearningPathsCarouselClient from "@/components/sections/LearningPathsCarousel.client";
+import {LearningPathSkeletonSimpleCard} from "@/app/(root)/_components/LearningPathSimpleCard";
 
 const TESTIMONIALS: TestimonialType[] = [
     {
@@ -77,6 +81,19 @@ export default async function Home() {
                 </Suspense>
             </Section>
 
+
+            {/* Paths */}
+            <Section className="py-12">
+                <SectionHeader
+                    title={"Pourquoi pas un parcours ?"}
+                    btnListHref={"/learning-paths"}
+                    btnLink={"/learning-paths"}
+                />
+                <Suspense fallback={<FeaturedLearningPathsLoadingSkeletonLayout/>}>
+                    <RenderLearningPaths/>
+                </Suspense>
+            </Section>
+
             {/* FEATURES */}
             <Section className="py-12">
                 <SectionTitle
@@ -113,7 +130,7 @@ export default async function Home() {
                                buttons={<>
 
                                    <Button asChild variant={"secondary"}
-                                           className="rounded-xl bg-black/20 p-6 text-sm font-semibold backdrop-blur transition hover:bg-black/30">
+                                           className=" p-6 text-sm font-semibold backdrop-blur transition">
                                        <Link href={"/signup"}>S’abonner</Link>
                                    </Button>
                                    <Button
@@ -187,6 +204,42 @@ function FeaturedCoursesLoadingSkeletonLayout() {
     )
 }
 
+async function RenderLearningPaths() {
+
+    const data = await getFeaturedLearningPaths();
+
+    const enrolledByUser  = await getAllEnrolledLearningPathsByUser();
+
+    const enrolledCourseIds = enrolledByUser.map(enrollment => enrollment?.learningPath?.id);
+
+    const alreadyEnrolled: string[] = [];
+
+    const cleaned = data.map(path => {
+        const isEnrolled = enrolledCourseIds.includes(path.id);
+        if (isEnrolled) {
+            alreadyEnrolled.push(path.id);
+        }
+
+        return ({
+            ...path,
+        })
+    });
+
+    return (
+        <LearningPathsCarouselClient items={cleaned} perPage={2} alreadyEnrolled = {alreadyEnrolled}/>
+    );
+}
+
+function FeaturedLearningPathsLoadingSkeletonLayout() {
+
+    return (
+        <div className={"grid grid-cols-1 md:grid-cols-2  gap-6"}>
+            {Array.from({length: 6}).map((_, index) => (
+                <LearningPathSkeletonSimpleCard key={index}/>
+            ))}
+        </div>
+    )
+}
 
 async function RenderCategories() {
     const data = await getAllCategories()

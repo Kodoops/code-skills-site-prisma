@@ -13,6 +13,9 @@ import ProductPrice from "@/components/custom-ui/ProductPrice";
 import {getLearningPath} from "@/app/data/learning-path/get-learning-path";
 import { LearningPathStepper } from "./_component/LearningPathStepper";
 import {EnrollmentButton} from "@/app/(root)/learning-paths/[slug]/_component/EnrollmentButton";
+import ObjectivesAndRequisites from "@/components/custom-ui/ObjectivesAndRequisites";
+import React from "react";
+import AuthorBanner from "@/components/custom-ui/AuthorBanner";
 
 type Params = Promise<{ slug: string }>
 
@@ -28,6 +31,20 @@ const SingleLearningPathPage = async ({params}: { params: Params }) => {
     const nbrOfCourses = learningPath.contents.reduce((acc, item) => item.type === "Course" ? acc + 1 : acc + 0, 0);
     const nbrOfWorkshops = learningPath.contents.reduce((acc, item) => item.type === "Workshop" ? acc + 1 : acc + 0, 0);
     const nbrOfResources = learningPath.contents.reduce((acc, item) => item.type === "Resource" ? acc + 1 : acc + 0, 0);
+
+    const prerequisites = learningPath.prerequisites.length > 0 ? learningPath.prerequisites.map(preq => {
+        return {
+            content: preq.prerequisite.content,
+            id: preq.prerequisite.id,
+        }
+    }) : [];
+
+    const objectives = learningPath.objectives.length > 0 ? learningPath.objectives.map(obj => {
+        return {
+            content: obj.objective.content,
+            id: obj.objective.id,
+        }
+    }) : [];
 
     return (
         <div className={"grid grid-cols-1 gap-8 lg:grid-cols-3 mt-5"}>
@@ -57,6 +74,14 @@ const SingleLearningPathPage = async ({params}: { params: Params }) => {
                         </Badge>
                     </div>
 
+                    <AuthorBanner
+                        name={learningPath.user.name }
+                        title={learningPath.user.email}
+                        description={learningPath.user.id}
+                        avatar={learningPath.user.image}
+                        rating={4.2}
+                    />
+
                     <Separator className={"my-8"}/>
 
                     <div className="space-y-6">
@@ -73,15 +98,19 @@ const SingleLearningPathPage = async ({params}: { params: Params }) => {
                         <RenderDescription json={JSON.parse(learningPath.description)}/>
                     </div>
                 </div>
+
+                <div className="py-8">
+                    <ObjectivesAndRequisites requisites={prerequisites} objectives={objectives}/>
+                </div>
                 <div className="mt-12 space-y-6">
-                    <LearningPathStepper steps={learningPath.contents}  />
+                    <LearningPathStepper steps={learningPath.contents}/>
                 </div>
             </div>
 
             {/* Enrollement Card*/}
             <div className="order-2 lg:col-span-1">
                 <div className="sticky top-20">
-                    <Card className={"py-0"}>
+                <Card className={"py-0"}>
                         <CardContent className={"p-6"}>
                             <div className="flex items-center justify-between mb-6">
                                 <span className={"text-lg font-medium"}>Price:</span>

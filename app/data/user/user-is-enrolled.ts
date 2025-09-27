@@ -1,8 +1,8 @@
 import "server-only";
 
-import { auth } from '@/lib/auth';
+import { auth } from '@/lib/providers/auth';
 import {headers} from "next/headers";
-import {prisma} from "@/lib/db";
+import {prisma} from "@/lib/db/db";
 
 export async function checkIfCourseBought(courseId:string) : Promise<boolean> {
 

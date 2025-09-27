@@ -5,7 +5,7 @@ import {PublicCourseCardSkeleton} from "@/app/(root)/_components/PublicCourseCar
 import {RESOURCES_PER_PAGE, WORKSHOPS_PER_PAGE} from "@/constants/admin-contants";
 import WorkshopProgressCard from "@/app/dashboard/workshops/_components/WorkshopProgressCard";
 import {getEnrolledWorkshops} from "@/app/data/user/get-enrolled-workshops";
-import {WorkshopType} from "@/lib/types";
+import {WorkshopType} from "@/lib/db/types";
 
 
 export default async function EnrolledResourcesUserPage(props: {

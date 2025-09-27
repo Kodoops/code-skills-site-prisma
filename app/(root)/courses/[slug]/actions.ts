@@ -1,13 +1,13 @@
 "use server";
 
-import {ApiResponseType} from "@/lib/types";
+import {ApiResponseType} from "@/lib/db/types";
 import {requireUser} from "@/app/data/user/require-user";
-import {prisma} from "@/lib/db";
-import {stripe} from "@/lib/stripe";
+import {prisma} from "@/lib/db/db";
+import {stripe} from "@/lib/providers/stripe";
 import Stripe from "stripe";
 import {redirect} from "next/navigation";
 import {env} from "@/lib/env";
-import arcjet, {fixedWindow} from "@/lib/arcjet";
+import arcjet, {fixedWindow} from "@/lib/providers/arcjet";
 import {request} from "@arcjet/next";
 import {calculatedPrice} from "@/lib/price";
 

@@ -1,8 +1,8 @@
 import "server-only"
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
-import {prisma} from "@/lib/db";
-import {SocialLinkType} from "@/lib/types";
+import {prisma} from "@/lib/db/db";
+import {SocialLinkType} from "@/lib/db/types";
 
 
 export async function adminGetSocialNetworks() : Promise<SocialLinkType []>{

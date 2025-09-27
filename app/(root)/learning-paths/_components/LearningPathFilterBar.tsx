@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import {Button} from "@/components/ui/button";
 import React, {useState} from "react";
-import {levels} from "@/lib/types";
+import {levels} from "@/lib/db/types";
 import {X} from "lucide-react";
 
 interface Props {

@@ -1,8 +1,8 @@
 import "server-only";
 
-import {prisma} from "@/lib/db";
+import {prisma} from "@/lib/db/db";
 import {notFound} from "next/navigation";
-import { CourseType} from "@/lib/types";
+import { CourseType} from "@/lib/db/types";
 
 export async function getCourse(slug: string) : Promise<CourseType> {
 
@@ -25,6 +25,7 @@ export async function getCourse(slug: string) : Promise<CourseType> {
             updatedAt:true,
             category:true,
             promotions: true,
+            user: true,
             tags: {
                 select: {
                     tag: {
@@ -47,6 +48,26 @@ export async function getCourse(slug: string) : Promise<CourseType> {
                     lessons: true,
                     createdAt: true,
                     updatedAt: true,
+                }
+            },
+            prerequisites: {
+                select: {
+                    prerequisite:{
+                        select: {
+                            id: true,
+                            content: true,
+                        }
+                    }
+                }
+            },
+            objectives: {
+                select: {
+                    objective:{
+                        select: {
+                            id: true,
+                            content: true,
+                        }
+                    }
                 }
             },
         }

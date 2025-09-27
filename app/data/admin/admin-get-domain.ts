@@ -1,9 +1,9 @@
 import "server-only"
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
-import {prisma} from "@/lib/db";
+import {prisma} from "@/lib/db/db";
 import {notFound} from "next/navigation";
-import {SimpleDomain} from "@/lib/models";
+import {SimpleDomain} from "@/lib/db/models";
 
 
 export async function adminGetDomain(id: string) : Promise<SimpleDomain | null>{

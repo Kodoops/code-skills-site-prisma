@@ -4,7 +4,7 @@ import React, {Suspense, useState, useTransition} from 'react';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {InputOTP, InputOTPGroup, InputOTPSlot} from "@/components/ui/input-otp";
 import {Button} from "@/components/ui/button";
-import {authClient} from "@/lib/auth-client";
+import {authClient} from "@/lib/providers/auth-client";
 import {redirect, useRouter, useSearchParams} from "next/navigation";
 import {toast} from "sonner";
 import {Loader2} from "lucide-react";

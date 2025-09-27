@@ -21,7 +21,7 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import {Skeleton} from "@/components/ui/skeleton";
-import {SimpleCourse} from "@/lib/models";
+import {SimpleCourse} from "@/lib/db/models";
 import ProductPrice from "@/components/custom-ui/ProductPrice";
 import {calculatedPrice} from "@/lib/price";
 import {Badge} from "@/components/ui/badge";

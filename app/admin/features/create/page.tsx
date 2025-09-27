@@ -23,8 +23,8 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {tryCatch} from "@/hooks/try-catch";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
-import {iconLibs, listColors} from "@/lib/types";
-import {featureSchema, FeatureSchema } from '@/lib/zodSchemas';
+import {iconLibs, listColors} from "@/lib/db/types";
+import {featureSchema, FeatureSchema } from '@/lib/db/zodSchemas';
 import {createFeature} from "@/app/admin/features/create/action";
 
 const CreateFeaturePage = () => {

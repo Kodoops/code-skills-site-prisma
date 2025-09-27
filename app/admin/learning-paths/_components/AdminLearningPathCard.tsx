@@ -35,8 +35,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import {cn} from "@/lib/utils";
-import {SimpleCourse} from "@/lib/models";
-import {ResourceType, WorkshopType} from "@/lib/types";
+import {SimpleCourse} from "@/lib/db/models";
+import {ResourceType, WorkshopType} from "@/lib/db/types";
 import {useConstructUrl} from "@/hooks/use-construct-url";
 import {Badge} from "@/components/ui/badge";
 

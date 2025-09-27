@@ -7,7 +7,7 @@ import EditCourseForm from "@/app/admin/courses/[courseId]/edit/_components/Edit
 import CourseStructure from "@/app/admin/courses/[courseId]/edit/_components/CourseStructure";
 import {getAllCategories} from "@/app/data/categories/get-all-categories";
 import {AdminCategoryCardSkeleton} from "@/app/admin/categories/_components/AdminCategoryCard";
-import {TagType} from "@/lib/types";
+import {TagType} from "@/lib/db/types";
 import {Ban} from "lucide-react";
 import {adminGetAllTags} from "@/app/data/admin/admin-get-all-tags";
 import { getLevels } from '@/app/data/get-levels';

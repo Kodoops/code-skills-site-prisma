@@ -7,7 +7,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {Button, buttonVariants} from "@/components/ui/button";
 import {
     domainSchema, DomainSchema,
-} from "@/lib/zodSchemas";
+} from "@/lib/db/zodSchemas";
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { Resolver } from "react-hook-form";
 import {useForm} from "react-hook-form"
@@ -27,7 +27,7 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {tryCatch} from "@/hooks/try-catch";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
-import {iconLibs, listColors} from "@/lib/types";
+import {iconLibs, listColors} from "@/lib/db/types";
 import {createDomain} from "@/app/admin/domains/create/action";
 
 const CreateDomainPage = () => {

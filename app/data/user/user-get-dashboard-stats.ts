@@ -1,7 +1,7 @@
 import "server-only";
 
 import { requireUser } from "@/app/data/user/require-user";
-import { prisma } from "@/lib/db";
+import { prisma } from "@/lib/db/db";
 
 export async function userGetDashboardStats() {
     const user = await requireUser();

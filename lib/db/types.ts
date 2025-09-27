@@ -1,7 +1,8 @@
 
-export type ApiResponseType = {
+export type ApiResponseType<T> = {
     status: 'error' | 'success';
     message: string;
+    data?: T;
 }
 
 export type UploaderFileType = "image" | "video" | "file";

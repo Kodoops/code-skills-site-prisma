@@ -17,7 +17,7 @@ import {
     NBR_MAX_FILE_RESOURCES_TO_UPLOAD,
     VIDEO_MAX_FILE_SIZE,
 } from "@/constants/admin-contants";
-import { UploaderFileType } from "@/lib/types";
+import { UploaderFileType } from "@/lib/db/types";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import {constructUrl} from "@/hooks/use-construct-url";

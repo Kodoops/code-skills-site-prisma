@@ -1,6 +1,6 @@
 import React, {Suspense} from 'react';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-import {LearningPathTagType, TagType} from "@/lib/types";
+import {LearningPathTagType, TagType} from "@/lib/db/types";
 import {adminGetAllTags} from "@/app/data/admin/admin-get-all-tags";
 import {Ban, CheckIcon} from "lucide-react";
 import UpdateTagsList from "@/app/admin/learning-paths/[id]/edit/_components/TagsLis";

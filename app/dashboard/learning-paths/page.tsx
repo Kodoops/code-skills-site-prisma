@@ -6,8 +6,8 @@ import {
     AdminLearningPathSkeletonCard
 } from "@/app/admin/learning-paths/_components/AdminLearningPathCard";
 import {getEnrolledLearningPaths} from "@/app/data/user/get-enrolled-learning-paths";
-import LearningPathCard from "@/app/(root)/learning-paths/_components/LearningPathCard";
-import {LearningPathType} from "@/lib/types";
+import LearningPathCard from "@/app/(root)/_components/LearningPathCard";
+import {LearningPathType} from "@/lib/db/types";
 
 
 const LearningPathsPage = async (props: {

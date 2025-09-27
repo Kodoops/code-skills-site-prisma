@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useState, useTransition} from "react";
-import {WorkshopType} from "@/lib/types";
+import {WorkshopType} from "@/lib/db/types";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import RichTextEditor from "@/components/rich-text-editor/Editor";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
@@ -13,7 +13,7 @@ import {useForm} from "react-hook-form";
 import {
     workshopSolutionSchema,
     WorkshopSolutionSchema,
-} from "@/lib/zodSchemas";
+} from "@/lib/db/zodSchemas";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {tryCatch} from "@/hooks/try-catch";
 import {toast} from "sonner";

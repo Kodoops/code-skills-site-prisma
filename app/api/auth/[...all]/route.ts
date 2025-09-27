@@ -12,8 +12,8 @@ import  {
 
 import { toNextJsHandler } from "better-auth/next-js";
 import { NextRequest } from "next/server";
-import {auth} from "@/lib/auth";
-import aj from "@/lib/arcjet";
+import {auth} from "@/lib/providers/auth";
+import aj from "@/lib/providers/arcjet";
 
 const emailOptions = {
     mode: "LIVE", // will block requests. Use "DRY_RUN" to log only
@@ -91,8 +91,6 @@ export const { GET } = authHandlers;
 // Wrap the POST handler with Arcjet protections
 export const POST = async (req: NextRequest) => {
     const decision = await protect(req);
-
-    console.log("Arcjet Decision:", decision);
 
     if (decision.isDenied()) {
         if (decision.reason.isRateLimit()) {

@@ -6,7 +6,7 @@ import {COURSES_PER_PAGE} from "@/constants/user-contants";
 import {Suspense} from "react";
 import {PublicCourseCardSkeleton} from "@/app/(root)/_components/PublicCourseCard";
 import WorkshopProgressCard from "@/app/dashboard/workshops/_components/WorkshopProgressCard";
-import {CourseType, WorkshopType} from "@/lib/types";
+import {CourseType, WorkshopType} from "@/lib/db/types";
 import {CourseTag} from "@/lib/generated/prisma";
 
 

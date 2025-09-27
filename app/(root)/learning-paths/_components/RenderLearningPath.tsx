@@ -2,7 +2,7 @@ import React from 'react';
 import EmptyState from "@/components/general/EmptyState";
 import {SearchIcon} from "lucide-react";
 import Pagination from "@/components/general/Pagination";
-import LearningPathCard from "@/app/(root)/learning-paths/_components/LearningPathCard";
+import LearningPathCard from "@/app/(root)/_components/LearningPathCard";
 import {adminGetLearningPaths} from "@/app/data/admin/admin-get-learning-paths";
 import {getAllEnrolledLearningPathsByUser} from "@/app/data/user/get-enrolled-learning-paths";
 
@@ -17,7 +17,7 @@ const RenderLearningPath = async ({filters}: { filters: PathFilters }) => {
 
     const {data, totalPages, perPage, currentPage} = await adminGetLearningPaths(filters);
     const enrolledByUser = await getAllEnrolledLearningPathsByUser();
-    console.log(enrolledByUser);
+
     // On extrait la liste des IDs des cours déjà suivis
     const enrolledCourseIds = enrolledByUser.map(enrollment => enrollment?.learningPath?.id);
 

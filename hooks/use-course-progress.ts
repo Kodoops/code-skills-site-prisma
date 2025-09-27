@@ -1,7 +1,7 @@
 "use client";
 
 import {useMemo} from "react";
-import {CourseType} from "@/lib/types";
+import {CourseType} from "@/lib/db/types";
 
 interface CourseProgress {
     courseData: CourseType

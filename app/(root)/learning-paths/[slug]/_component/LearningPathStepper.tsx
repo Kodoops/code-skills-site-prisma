@@ -8,7 +8,7 @@ import {
     StepperTrigger
 } from "@/components/ui/stepper";
 import {useState} from "react";
-import {LearningPathItemType} from "@/lib/types";
+import {LearningPathItemType} from "@/lib/db/types";
 import {MiniCard} from "@/app/(root)/learning-paths/_components/MiniCard";
 import {ArrowRightIcon} from "lucide-react";
 import StartSVG from "@/components/custom-ui/StartSVG";

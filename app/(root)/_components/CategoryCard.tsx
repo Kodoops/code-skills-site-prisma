@@ -1,7 +1,7 @@
 import React from "react";
 import {cn} from "@/lib/utils";
 import { resolveIcon} from "@/components/custom-ui/resolve-icon";
-import {colorClasses} from "@/lib/types";
+import {colorClasses} from "@/lib/db/types";
 import { Earth} from "lucide-react";
 import {Card, CardContent, CardHeader} from "@/components/ui/card";
 import Link from "next/link";

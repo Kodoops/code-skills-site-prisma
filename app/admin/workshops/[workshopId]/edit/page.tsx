@@ -3,7 +3,7 @@ import {notFound} from "next/navigation";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {AdminCategoryCardSkeleton} from "@/app/admin/categories/_components/AdminCategoryCard";
-import {TagType} from "@/lib/types";
+import {TagType} from "@/lib/db/types";
 import {ArrowLeft, Ban} from "lucide-react";
 import {adminGetAllTags} from "@/app/data/admin/admin-get-all-tags";
 import { getLevels } from '@/app/data/get-levels';

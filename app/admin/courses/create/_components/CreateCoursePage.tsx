@@ -5,7 +5,7 @@ import Link from 'next/link';
 import React, {useTransition} from 'react';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button, buttonVariants} from "@/components/ui/button";
-import {  courseSchema, CourseSchema} from "@/lib/zodSchemas";
+import {  courseSchema, CourseSchema} from "@/lib/db/zodSchemas";
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { Resolver } from "react-hook-form";
 import {useForm} from "react-hook-form"

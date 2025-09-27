@@ -1,5 +1,5 @@
-import {prisma} from "@/lib/db";
-import {CompanyType} from "@/lib/types";
+import {prisma} from "@/lib/db/db";
+import {CompanyType} from "@/lib/db/types";
 
 export async function getCompanyInfos() : Promise<CompanyType | null>{
 

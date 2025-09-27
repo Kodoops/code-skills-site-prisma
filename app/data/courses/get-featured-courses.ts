@@ -1,12 +1,13 @@
 import "server-only";
-import { prisma } from "@/lib/db";
-import {SimpleCourse} from "@/lib/models";
+import { prisma } from "@/lib/db/db";
+import {SimpleCourse} from "@/lib/db/models";
 
 export async function getFeaturedCourses(nbrOfCourses: number = 6) : Promise<SimpleCourse[]>{
 
     const data = await prisma.course.findMany({
         where: {
             status: "Published",
+            deletedAt:null,
         },
         select: {
             id: true,

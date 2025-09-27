@@ -26,7 +26,7 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar"
-import {authClient} from "@/lib/auth-client";
+import {authClient} from "@/lib/providers/auth-client";
 import Link from "next/link";
 import {HomeIcon, Tv2Icon} from "lucide-react";
 import {useSignOut} from "@/hooks/use-signout";

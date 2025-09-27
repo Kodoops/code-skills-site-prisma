@@ -1,4 +1,4 @@
-import {CourseType} from "@/lib/types";
+import {CourseType} from "@/lib/db/types";
 
 export function hasAccess(publicLesson: boolean, course: CourseType , enrolled: boolean) {
 

@@ -12,7 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import {useCourseProgress} from "@/hooks/use-course-progress";
 import {Progress} from "@/components/ui/progress";
 import {SchoolIcon, TimerIcon} from "lucide-react";
-import {CourseType} from "@/lib/types";
+import {CourseType} from "@/lib/db/types";
 
 interface Props {
     data: CourseType

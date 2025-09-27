@@ -1,8 +1,8 @@
 import "server-only";
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
-import {prisma} from "@/lib/db";
-import {LearningPathType} from "@/lib/types";
+import {prisma} from "@/lib/db/db";
+import {LearningPathType} from "@/lib/db/types";
 import {getLevels} from "@/app/data/get-levels";
 import {notFound} from "next/navigation";
 

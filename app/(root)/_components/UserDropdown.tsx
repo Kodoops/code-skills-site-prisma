@@ -65,24 +65,36 @@ export default function UserDropdown({name, email, image, role}: UserDropdownPro
                 <DropdownMenuSeparator/>
                 <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
-                        <Link href="/">
+                        <Link href="/dashboard/profile">
                             <HomeIcon size={16} className="opacity-60" aria-hidden="true"/>
-                            <span>Home</span>
+                            <span>Mon Profil</span>
                         </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                        <Link href="/courses">
-                            <BookOpen size={16} className="opacity-60" aria-hidden="true"/>
-                            <span>Courses</span>
-                        </Link>
-                    </DropdownMenuItem>
+
                     <DropdownMenuItem asChild>
                         <Link href="/dashboard">
                             <LayoutDashboardIcon size={16} className="opacity-60" aria-hidden="true"/>
                             <span>Dashboard</span>
                         </Link>
                     </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                        <Link href="/dashboard/settings">
+                            <BookOpen size={16} className="opacity-60" aria-hidden="true"/>
+                            <span>Settings</span>
+                        </Link>
+                    </DropdownMenuItem>
                 </DropdownMenuGroup>
+                {role === "author" &&
+                    <><DropdownMenuSeparator/>
+
+                        <DropdownMenuItem asChild>
+                            <Link href="/author">
+                                <BrickWall size={16} className="opacity-60" aria-hidden="true"/>
+                                <span>Espace Auteur</span>
+                            </Link>
+                        </DropdownMenuItem>
+                    </>
+                }
                 {role === "admin" &&
                     <><DropdownMenuSeparator/>
 

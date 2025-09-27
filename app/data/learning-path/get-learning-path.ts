@@ -1,8 +1,8 @@
 import "server-only";
 
-import {prisma} from "@/lib/db";
+import {prisma} from "@/lib/db/db";
 import {notFound} from "next/navigation";
-import { LearningPathType} from "@/lib/types";
+import { LearningPathType} from "@/lib/db/types";
 
 export async function getLearningPath(slug: string) : Promise<LearningPathType> {
 
@@ -24,6 +24,7 @@ export async function getLearningPath(slug: string) : Promise<LearningPathType> 
             createdAt:true,
             updatedAt:true,
             promotions: true,
+            user:true,
             tags: {
                 select: {
                     tag: {
@@ -50,6 +51,26 @@ export async function getLearningPath(slug: string) : Promise<LearningPathType> 
                     course: true,
                     workshop: true,
                     resource: true,
+                }
+            },
+            prerequisites: {
+                select: {
+                    prerequisite:{
+                        select: {
+                            id: true,
+                            content: true,
+                        }
+                    }
+                }
+            },
+            objectives: {
+                select: {
+                    objective:{
+                        select: {
+                            id: true,
+                            content: true,
+                        }
+                    }
                 }
             },
         }

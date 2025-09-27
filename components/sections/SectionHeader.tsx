@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { levels } from "@/lib/types";
+import { levels } from "@/lib/db/types";
 
 interface Props {
     title: string;
@@ -27,7 +27,7 @@ const SectionHeader = ({ title, btnList, btnListHref, btnLink }: Props) => {
                                 key={index}
                                 asChild
                                 variant="ghost"
-                                className="rounded-xl border border-white/15 px-3 py-2 text-sm text-white/90 hover:bg-white/10"
+                                className="rounded-xl border  border-border px-3 py-2 text-sm "
                             >
                                 <Link href={`${btnListHref}?level=${level.value}`}>{item}</Link>
                             </Button>
@@ -42,7 +42,7 @@ const SectionHeader = ({ title, btnList, btnListHref, btnLink }: Props) => {
                         <Button
                             asChild
                             variant="ghost"
-                            className="rounded-full border border-white/15 px-3 py-1 text-white/80"
+                            className=" border border-border px-3 py-1 "
                         >
                             <Link href={btnListHref}>Voir plus ...</Link>
                         </Button>

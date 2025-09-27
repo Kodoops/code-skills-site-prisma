@@ -3,7 +3,7 @@ import {cn} from "@/lib/utils";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {CircleOff, MoreVerticalIcon, PencilIcon, Trash2Icon} from "lucide-react";
 import { resolveIcon} from "@/components/custom-ui/resolve-icon";
-import {colorClasses} from "@/lib/types";
+import {colorClasses} from "@/lib/db/types";
 import {Skeleton} from "@/components/ui/skeleton";
 import {
     DropdownMenu,

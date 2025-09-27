@@ -4,7 +4,7 @@ import React, {useState, useTransition} from 'react';
 import {PlusIcon} from "lucide-react";
 import {Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger} from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
-import {TagType} from "@/lib/types";
+import {TagType} from "@/lib/db/types";
 import {updateCourseTags} from '../actions';
 import {toast} from "sonner";
 

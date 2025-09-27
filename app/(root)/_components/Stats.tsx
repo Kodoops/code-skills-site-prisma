@@ -1,4 +1,5 @@
 import React from 'react';
+import {Card} from "@/components/ui/card";
 
 const Stats = () => {
     return (
@@ -9,10 +10,10 @@ const Stats = () => {
                 {k: "100%", v: "Pratique"},
                 {k: "FR/AR", v: "Langues"},
             ].map((s) => (
-                <div key={s.v} className="rounded-xl border border-white/10 p-4">
-                    <div className="text-xl font-extrabold">{s.k}</div>
-                    <div className="text-xs text-white/70">{s.v}</div>
-                </div>
+                <Card key={s.v} className="">
+                    <div className="text-2xl font-extrabold">{s.k}</div>
+                    <div className="text-xs text-muted-foreground">{s.v}</div>
+                </Card>
             ))}
         </div>
     );

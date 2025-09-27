@@ -1,5 +1,5 @@
 // app/data/feature/get-all-features.ts
-import { prisma } from "@/lib/db";
+import { prisma } from "@/lib/db/db";
 
 export async function getAllFeatures(current: number = 1, nbrPage: number ) {
 

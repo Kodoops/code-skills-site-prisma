@@ -1,9 +1,9 @@
 import "server-only"
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
-import {prisma} from "@/lib/db";
+import {prisma} from "@/lib/db/db";
 import {notFound} from "next/navigation";
-import {SimpleCategory} from "@/lib/models";
+import {SimpleCategory} from "@/lib/db/models";
 
 
 export async function adminGetCategory(id: string) : Promise<SimpleCategory | null>{

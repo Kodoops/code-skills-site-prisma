@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ui/themeToggle";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/providers/auth-client";
 import { buttonVariants } from "@/components/ui/button";
 import UserDropdown from "@/app/(root)/_components/UserDropdown";
 import { Menu, X } from "lucide-react";

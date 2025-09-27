@@ -1,8 +1,8 @@
 "use server";
 
 import {requireUser} from "@/app/data/user/require-user";
-import {prisma} from "@/lib/db";
-import {ApiResponseType} from "@/lib/types";
+import {prisma} from "@/lib/db/db";
+import {ApiResponseType} from "@/lib/db/types";
 import {revalidatePath} from "next/cache";
 
 export async function markLessonComplete(lessonId: string, slug: string): Promise<ApiResponseType> {

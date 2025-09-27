@@ -1,8 +1,8 @@
 import "server-only";
 
-import {prisma} from "@/lib/db";
+import {prisma} from "@/lib/db/db";
 import {notFound} from "next/navigation";
-import { WorkshopType} from "@/lib/types";
+import { WorkshopType} from "@/lib/db/types";
 
 export async function getWorkshop(slug: string) : Promise<WorkshopType> {
 
@@ -23,6 +23,7 @@ export async function getWorkshop(slug: string) : Promise<WorkshopType> {
             createdAt:true,
             updatedAt:true,
             promotions: true,
+            user:true,
             tags: {
                 select: {
                     tag: {

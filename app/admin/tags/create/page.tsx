@@ -6,7 +6,7 @@ import React, {useTransition} from 'react';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button, buttonVariants} from "@/components/ui/button";
 import { tagSchema, TagSchema,
-} from "@/lib/zodSchemas";
+} from "@/lib/db/zodSchemas";
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { Resolver } from "react-hook-form";
 import {useForm} from "react-hook-form"
@@ -25,7 +25,7 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {tryCatch} from "@/hooks/try-catch";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
-import { listColors} from "@/lib/types";
+import { listColors} from "@/lib/db/types";
 import {createTag} from "@/app/admin/tags/create/action";
 
 const CreateTagPage = () => {

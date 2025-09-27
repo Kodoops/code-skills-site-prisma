@@ -6,7 +6,7 @@ import {ArrowLeft, Loader2} from "lucide-react";
 import {Button, buttonVariants} from "@/components/ui/button";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {useForm} from "react-hook-form";
-import { lessonSchema, LessonSchema} from "@/lib/zodSchemas";
+import { lessonSchema, LessonSchema} from "@/lib/db/zodSchemas";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/components/ui/form';
 import {Input} from "@/components/ui/input";
@@ -15,7 +15,7 @@ import Uploader from "@/components/file-uploader/Uploader";
 import {updateLesson} from "@/app/admin/courses/[courseId]/[chapterId]/[lessonId]/actions";
 import {tryCatch} from "@/hooks/try-catch";
 import { toast } from 'sonner';
-import {LessonType} from "@/lib/types";
+import {LessonType} from "@/lib/db/types";
 
 interface Props {
     data: LessonType;

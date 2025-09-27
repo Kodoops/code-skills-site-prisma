@@ -28,7 +28,7 @@ import {NewChapterModal} from "@/app/admin/courses/[courseId]/edit/_components/N
 import {NewLessonModal} from "@/app/admin/courses/[courseId]/edit/_components/NewLessonModal";
 import {DeleteLesson} from "@/app/admin/courses/[courseId]/edit/_components/DeleteLesson";
 import {DeleteChapter} from './DeleteChapter';
-import {CourseType} from "@/lib/types";
+import {CourseType} from "@/lib/db/types";
 
 interface Props {
     data: CourseType

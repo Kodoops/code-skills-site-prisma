@@ -20,12 +20,12 @@ import {
 import {CSS} from '@dnd-kit/utilities';
 import {cn} from "@/lib/utils";
 import {toast} from "sonner";
-import {LearningPathType, levelBgColors, ResourceType, WorkshopType} from "@/lib/types";
+import {LearningPathType, levelBgColors, ResourceType, WorkshopType} from "@/lib/db/types";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from '@/components/ui/collapsible';
 import {Button} from '@/components/ui/button';
 import {ChevronDownIcon, ChevronRightIcon, GripVertical, SchoolIcon, TimerIcon} from 'lucide-react';
 import {NewLearningPathItem} from "@/app/admin/learning-paths/[id]/edit/_components/NewLearningPathItem";
-import {SimpleCourse} from "@/lib/models";
+import {SimpleCourse} from "@/lib/db/models";
 import {constructUrl} from "@/hooks/use-construct-url";
 import {calculatedPrice} from "@/lib/price";
 import {Badge} from "@/components/ui/badge";

@@ -1,5 +1,6 @@
 import React from 'react';
 import {theme} from "@/lib/theme";
+import {Card} from "@/components/ui/card";
 
 interface Props {
     title: string;
@@ -11,7 +12,7 @@ interface Props {
 
 const BannerPartner = ({ title, subTitle, buttons, children}:Props) => {
     return (
-        <div className="relative overflow-hidden rounded-3xl border border-white/10 p-6 ring-1 ring-white/10">
+        <Card className="relative overflow-hidden rounded-3xl border border-white/10 p-6 ring-1 ring-white/10">
             <div className="absolute inset-0 opacity-70" style={{background: theme.gradients.orange}}/>
             <div className={`relative grid grid-cols-1 items-center gap-6 ${children ? 'md:grid-cols-2' : ' '}`}>
                 <div className={`flex flex-col ${children?"items-start":"items-center"} justify-center`}>
@@ -23,7 +24,7 @@ const BannerPartner = ({ title, subTitle, buttons, children}:Props) => {
                 </div>
                 {children}
             </div>
-        </div>
+        </Card>
     );
 };
 

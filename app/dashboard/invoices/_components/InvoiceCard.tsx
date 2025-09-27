@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import {InvoiceType} from "@/lib/types";
+import {InvoiceType} from "@/lib/db/types";
 import {Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card';
 import {Button, buttonVariants} from "@/components/ui/button";
 import {EyeIcon, FileText, Minus} from "lucide-react";

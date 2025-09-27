@@ -12,7 +12,7 @@ const Footer = async () => {
     const socials = await getCompanySocialLinks();
 
     return (
-        <footer className="border-t border-white/10 py-10">
+        <footer className="border-t border-border py-10">
             <Section>
                 <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
                     <div className="text-center justify-center">
@@ -32,14 +32,14 @@ const Footer = async () => {
                     </div>
                     <div className="flex flex-col md:flex-row flex-1 items-center justify-between gap-6">
                         <div className="flex-1 w-full">
-                            <h2 className={"text-lg mb-4 font-semibold"}>Liens utils</h2>
+                            <h2 className={"text-lg mb-4 font-semibold text-muted-foreground"}>Liens utils</h2>
                             <nav
-                                className=" w-full grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 text-sm text-white/80 ">
-                                <NavContent btnStyles={"text-sm text-white/60 hover:text-primary "}/>
+                                className=" w-full grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 text-sm  ">
+                                <NavContent btnStyles={"text-sm text-muted-foreground/80 hover:text-primary "}/>
                             </nav>
                         </div>
                         <div className="flex-1">
-                            <h2 className={"text-lg  text-right mb-4 font-semibold"}>Restez connecté avec
+                            <h2 className={"text-lg  text-right mb-4 font-semibold text-muted-foreground"}>Restez connecté avec
                                 nous !</h2>
                             <CompanySocialLinks links={socials }/>
                         </div>
@@ -47,12 +47,12 @@ const Footer = async () => {
                 </div>
             </Section>
             <Section className="py-6  ">
-                <nav className="flex  flex-wrap items-center justify-center gap-4 text-xs text-white/60">
-                    <p className="mt-1 text-xs text-white/60">© {new Date().getFullYear()} Code&Skills — Tous droits
+                <nav className="flex  flex-wrap items-center justify-center gap-4 text-xs  text-muted-foreground/70">
+                    <p className="mt-1 text-xs ">© {new Date().getFullYear()} Code&Skills — Tous droits
                         réservés.</p>
-                    <Link href="/" className="hover:text-white">CGU / CGC</Link>
-                    <Link href="/" className="hover:text-white">Mentions - légales</Link>
-                    <Link href="/" className="hover:text-white">Confidentialité</Link>
+                    <Link href="/" className="hover:text-primary">CGU / CGC</Link>
+                    <Link href="/" className="hover:text-primary">Mentions - légales</Link>
+                    <Link href="/" className="hover:text-primary">Confidentialité</Link>
                 </nav>
             </Section>
         </footer>

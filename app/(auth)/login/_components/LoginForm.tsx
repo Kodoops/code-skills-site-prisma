@@ -6,7 +6,7 @@ import {Button} from "@/components/ui/button";
 import {Github, Loader, Loader2, Send} from "lucide-react";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
-import {authClient} from "@/lib/auth-client";
+import {authClient} from "@/lib/providers/auth-client";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
 

@@ -15,6 +15,8 @@ import {buttonVariants} from "@/components/ui/button";
 import {hasAccess} from "@/lib/access";
 import {calculatedPrice} from "@/lib/price";
 import ProductPrice from "@/components/custom-ui/ProductPrice";
+import ObjectivesAndRequisites from "@/components/custom-ui/ObjectivesAndRequisites";
+import AuthorBanner from "@/components/custom-ui/AuthorBanner";
 
 type Params = Promise<{ slug: string }>
 
@@ -22,10 +24,22 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
     const {slug} = await params;
 
     const course = await getCourse(slug);
-
     const isEnrolled = await checkIfCourseBought(course.id);
-
     const finalPrice = calculatedPrice(course.price!, course.promotions[0])
+
+    const prerequisites = course.prerequisites.length > 0 ? course.prerequisites.map(preq => {
+        return {
+            content: preq.prerequisite.content,
+            id: preq.prerequisite.id,
+        }
+    }) : [];
+
+    const objectives = course.objectives.length > 0 ? course.objectives.map(obj => {
+        return {
+            content: obj.objective.content,
+            id: obj.objective.id,
+        }
+    }) : [];
 
     return (
         <div className={"grid grid-cols-1 gap-8 lg:grid-cols-3 mt-5"}>
@@ -59,6 +73,14 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                         </Badge>
                     </div>
 
+                    <AuthorBanner
+                        name={course.user.name }
+                        title={course.user.email}
+                        description={course.user.id}
+                        avatar={course.user.image}
+                        rating={4.2}
+                    />
+
                     <Separator className={"my-8"}/>
 
                     <div className="space-y-6">
@@ -74,6 +96,11 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                         </div>}
                         <RenderDescription json={JSON.parse(course.description)}/>
                     </div>
+
+                    <div className="py-8">
+                        <ObjectivesAndRequisites requisites={prerequisites} objectives={objectives}/>
+                    </div>
+
                 </div>
                 <div className="mt-12 space-y-6">
                     <div className="flex items-center justify-between">
@@ -116,7 +143,7 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                                             <div className="p-6 pt-4 space-y-3">
                                                 {chapter.lessons.map((lesson, index) => {
 
-                                                    return (hasAccess(lesson.public, course,isEnrolled ) ?
+                                                    return (hasAccess(lesson.public, course, isEnrolled) ?
                                                             <RenderLessonLinkItemList lesson={lesson} index={index}
                                                                                       chapter={chapter} key={index}
                                                                                       slug={course.slug}/>
@@ -144,7 +171,7 @@ const SingleCoursePage = async ({params}: { params: Params }) => {
                                 <span className={"text-lg font-medium"}>Price:</span>
                                 <span className={"text-2xl font-bold text-primary"}>
 
-                                    <ProductPrice finalPrice={finalPrice} price={course.price} size={"2xl"} />
+                                    <ProductPrice finalPrice={finalPrice} price={course.price} size={"2xl"}/>
                                 </span>
                             </div>
 

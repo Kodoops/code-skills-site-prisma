@@ -1,9 +1,9 @@
 import "server-only";
 
 import {requireUser} from "../user/require-user";
-import {prisma} from "@/lib/db";
+import {prisma} from "@/lib/db/db";
 import {notFound} from "next/navigation";
-import {CourseType, EnrollmentType} from "@/lib/types";
+import {CourseType, EnrollmentType} from "@/lib/db/types";
 
 export const getLearningPathCourseSidebarData = async (slug: string, learningPathId:string): Promise<{
     course: CourseType, enrollment : EnrollmentType | null}> => {

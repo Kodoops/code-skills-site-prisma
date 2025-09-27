@@ -1,7 +1,7 @@
 import React from 'react';
 import {RenderDescription} from "@/components/rich-text-editor/RenderDescription";
 import {VideoContent} from "@/app/dashboard/workshops/[slug]/_components/VideoContent";
-import {WorkshopType} from "@/lib/types";
+import {WorkshopType} from "@/lib/db/types";
 import Link from 'next/link';
 import {CircleOff, FileIcon, LinkIcon} from "lucide-react";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import {SocialLinkType} from "@/lib/types";
+import {SocialLinkType} from "@/lib/db/types";
 import {resolveIcon} from "@/components/custom-ui/resolve-icon";
 import {CircleOff, Trash2Icon} from "lucide-react";
 import {Card, CardContent, CardHeader} from "@/components/ui/card";

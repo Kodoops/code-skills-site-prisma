@@ -1,8 +1,8 @@
 import "server-only";
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
-import {prisma} from "@/lib/db";
-import {WorkshopType} from "@/lib/types";
+import {prisma} from "@/lib/db/db";
+import {WorkshopType} from "@/lib/db/types";
 
 export async function adminGetWorkshops( page: number=1, perPage: number=1 ): Promise<{
     data: WorkshopType[] | null,

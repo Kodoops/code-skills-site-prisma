@@ -1,7 +1,7 @@
 import "server-only";
 
-import {prisma} from "@/lib/db";
-import { DomainType} from "@/lib/types";
+import {prisma} from "@/lib/db/db";
+import { DomainType} from "@/lib/db/types";
 
 export async function getAllDomains() : Promise<DomainType[]>  {
 

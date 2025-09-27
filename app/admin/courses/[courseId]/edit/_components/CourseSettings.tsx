@@ -1,6 +1,6 @@
 import React, {Suspense} from 'react';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-import {CourseTagType, TagType} from "@/lib/types";
+import {CourseTagType, TagType} from "@/lib/db/types";
 import {adminGetAllTags} from "@/app/data/admin/admin-get-all-tags";
 import {Ban, CheckIcon} from "lucide-react";
 import {AdminCategoryCardSkeleton} from "@/app/admin/categories/_components/AdminCategoryCard";

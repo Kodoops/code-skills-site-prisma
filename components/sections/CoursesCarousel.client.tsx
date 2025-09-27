@@ -2,7 +2,7 @@
 import React from "react";
 import CarouselGrid from "../../app/(root)/_components/CarouselGrid";
 import PublicCourseCard from "@/app/(root)/_components/PublicCourseCard";
-import {SimpleCourse} from "@/lib/models";
+import {SimpleCourse} from "@/lib/db/models";
 
 
 

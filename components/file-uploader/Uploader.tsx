@@ -12,7 +12,7 @@ import {
 import {toast} from "sonner";
 import {v4 as uuidv4} from 'uuid'
 import {FILE_MAX_FILE_SIZE, IMAGE_MAX_FILE_SIZE, VIDEO_MAX_FILE_SIZE} from "@/constants/admin-contants";
-import {UploaderFileType} from '@/lib/types';
+import {UploaderFileType} from '@/lib/db/types';
 import {constructUrl, useConstructUrl} from "@/hooks/use-construct-url";
 import {Card, CardContent} from "@/components/ui/card";
 import {cn} from "@/lib/utils";

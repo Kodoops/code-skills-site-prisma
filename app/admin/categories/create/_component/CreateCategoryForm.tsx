@@ -8,7 +8,7 @@ import {Button, buttonVariants} from "@/components/ui/button";
 import {
     categorySchema,
     CategorySchema,
-} from "@/lib/zodSchemas";
+} from "@/lib/db/zodSchemas";
 import {zodResolver} from '@hookform/resolvers/zod';
 import type {Resolver} from "react-hook-form";
 import {useForm} from "react-hook-form"
@@ -29,7 +29,7 @@ import {tryCatch} from "@/hooks/try-catch";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
 import {createCategory} from "@/app/admin/categories/create/action";
-import {DomainType, iconLibs, listColors} from "@/lib/types";
+import {DomainType, iconLibs, listColors} from "@/lib/db/types";
 
 const CreateCategoryForm = ({domains}:{domains:DomainType[]}) => {
     const [pending, startTransition] = useTransition();

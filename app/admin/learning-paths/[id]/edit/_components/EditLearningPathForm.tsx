@@ -5,7 +5,7 @@ import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, Form
 import {Input} from "@/components/ui/input";
 import {Loader2, PlusIcon, SparkleIcon} from "lucide-react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import { learningPathSchema, LearningPathSchema} from "@/lib/zodSchemas";
+import { learningPathSchema, LearningPathSchema} from "@/lib/db/zodSchemas";
 import {type Resolver, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {tryCatch} from "@/hooks/try-catch";
@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 import RichTextEditor from "@/components/rich-text-editor/Editor";
 import { Textarea } from '@/components/ui/textarea';
 import slugify from 'slugify';
-import { LearningPathType } from '@/lib/types';
+import { LearningPathType } from '@/lib/db/types';
 import { updateLearningPath } from '../actions';
 
 interface EditLearningPathFormProps {

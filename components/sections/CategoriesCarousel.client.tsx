@@ -2,7 +2,7 @@
 import React from "react";
 import CarouselGrid from "../../app/(root)/_components/CarouselGrid";
 import CategoryCard from "@/app/(root)/_components/CategoryCard";
-import {SimpleCategory} from "@/lib/models";
+import {SimpleCategory} from "@/lib/db/models";
 
 
 export default function CategoriesCarouselClient({

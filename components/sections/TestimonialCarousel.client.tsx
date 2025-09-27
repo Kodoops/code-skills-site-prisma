@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { TestimonialType} from "@/lib/types";
+import { TestimonialType} from "@/lib/db/types";
 import CarouselGrid from "../../app/(root)/_components/CarouselGrid";
 import TestimonialCard from "../../app/(root)/_components/TestimonialCard";
 

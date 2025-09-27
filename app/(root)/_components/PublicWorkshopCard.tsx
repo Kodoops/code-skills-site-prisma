@@ -23,7 +23,7 @@ import {
 import {Skeleton} from "@/components/ui/skeleton";
 import ProductPrice from "@/components/custom-ui/ProductPrice";
 import {calculatedPrice} from "@/lib/price";
-import {WorkshopType} from "@/lib/types";
+import {WorkshopType} from "@/lib/db/types";
 import {Badge} from "@/components/ui/badge";
 
 interface WorkshopCardProps {

@@ -17,7 +17,7 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import {Skeleton} from "@/components/ui/skeleton";
-import {ResourceType} from "@/lib/types";
+import {ResourceType} from "@/lib/db/types";
 
 interface AdminResourceCardProps {
     data: ResourceType;

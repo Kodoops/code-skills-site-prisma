@@ -2,10 +2,10 @@
 "use server";
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
-import { prisma } from "@/lib/db";
-import {ApiResponseType} from "@/lib/types";
+import { prisma } from "@/lib/db/db";
+import {ApiResponseType} from "@/lib/db/types";
 import {revalidatePath} from "next/cache";
-import arcjet from "@/lib/arcjet";
+import arcjet from "@/lib/providers/arcjet";
 import {fixedWindow, request} from "@arcjet/next";
 
 const aj = arcjet

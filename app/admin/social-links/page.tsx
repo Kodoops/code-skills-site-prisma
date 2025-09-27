@@ -5,7 +5,7 @@ import Link from "next/link";
 import {AdminCategoryCardSkeleton} from "@/app/admin/categories/_components/AdminCategoryCard";
 import {PlusIcon} from "lucide-react";
 import {getCompanySocialLinks} from "@/app/data/get-company-social-links";
-import {SocialLinkType} from "@/lib/types";
+import {SocialLinkType} from "@/lib/db/types";
 import SocialLinkForm from "@/app/admin/social-links/_component/SocialLinkForm";
 import {getSocialLinksNotLinkedYet} from "@/app/data/get-social-links-not-linked";
 import {SocialNetworkCard} from "@/app/admin/social-links/_component/SocialNetworkCard";

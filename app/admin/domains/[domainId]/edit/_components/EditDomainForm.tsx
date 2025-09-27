@@ -7,7 +7,7 @@ import {Loader2, PlusIcon, SparkleIcon} from "lucide-react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {
      DomainSchema, domainSchema,
-} from "@/lib/zodSchemas";
+} from "@/lib/db/zodSchemas";
 import {type Resolver, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {tryCatch} from "@/hooks/try-catch";
@@ -16,9 +16,9 @@ import {notFound, useRouter} from "next/navigation";
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import slugify from 'slugify';
-import { iconLibs, listColors} from "@/lib/types";
+import { iconLibs, listColors} from "@/lib/db/types";
 import {updateDomain} from "@/app/admin/domains/[domainId]/edit/actions";
-import {SimpleDomain} from "@/lib/models";
+import {SimpleDomain} from "@/lib/db/models";
 
 interface EditDomainFormProps {
     data   :SimpleDomain

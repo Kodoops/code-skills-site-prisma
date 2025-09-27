@@ -12,7 +12,8 @@ import {calculatedPrice} from "@/lib/price";
 import ProductPrice from "@/components/custom-ui/ProductPrice";
 import {getWorkshop} from "@/app/data/workshops/get-workshop";
 import {EnrollmentButton} from "@/app/(root)/workshops/[slug]/_components/EnrollmentButton";
-import ObjectivesAndRequisites from "@/app/dashboard/workshops/[slug]/_components/ObjectivesAndRequisites";
+import ObjectivesAndRequisites from "@/components/custom-ui/ObjectivesAndRequisites";
+import AuthorBanner from "@/components/custom-ui/AuthorBanner";
 
 type Params = Promise<{ slug: string }>
 
@@ -68,6 +69,14 @@ const SingleWorkshopPage = async ({params}: { params: Params }) => {
                         </Badge>
                     </div>
 
+                    <AuthorBanner
+                        name={workshop.user.name }
+                        title={workshop.user.email}
+                        description={workshop.user.id}
+                        avatar={workshop.user.image}
+                        rating={4.2}
+                    />
+
                     <Separator className={"my-8"}/>
 
                     <div className="space-y-6">
@@ -81,6 +90,7 @@ const SingleWorkshopPage = async ({params}: { params: Params }) => {
                             ))}
                         </div>}
                     </div>
+
                     <div className="py-8">
                         <ObjectivesAndRequisites requisites={prerequisites} objectives={objectives}/>
                     </div>

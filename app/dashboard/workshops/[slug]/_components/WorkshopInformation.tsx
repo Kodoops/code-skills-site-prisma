@@ -1,12 +1,12 @@
 import React from 'react';
-import {WorkshopType} from "@/lib/types";
+import {WorkshopType} from "@/lib/db/types";
 import Image from "next/image";
 import {IconBook, IconChartBar, IconClock} from "@tabler/icons-react";
 import {Badge} from '@/components/ui/badge';
 import {Separator} from "@/components/ui/separator";
 import {Card, CardContent} from "@/components/ui/card";
 import {CheckIcon} from 'lucide-react';
-import ObjectivesAndRequisites from "@/app/dashboard/workshops/[slug]/_components/ObjectivesAndRequisites";
+import ObjectivesAndRequisites from "@/components/custom-ui/ObjectivesAndRequisites";
 
 const WorkshopInformation = ({workshop}: { workshop: WorkshopType }) => {
 

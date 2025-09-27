@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import {usePathname} from "next/navigation";
 import {useCourseProgress} from "@/hooks/use-course-progress";
 import { hasAccess } from '@/lib/access';
-import {CourseType} from '@/lib/types';
+import {CourseType} from '@/lib/db/types';
 import {
     LearningPathLessonItem,
     LearningPathLessonLinkItem

@@ -1,11 +1,11 @@
 "use server";
 
-import {prisma} from "@/lib/db";
-import {ApiResponseType} from "@/lib/types";
+import {prisma} from "@/lib/db/db";
+import {ApiResponseType} from "@/lib/db/types";
 import {requireAdmin} from "@/app/data/admin/require-admin";
-import arcjet from "@/lib/arcjet";
+import arcjet from "@/lib/providers/arcjet";
 import { fixedWindow, request} from "@arcjet/next";
-import {tagSchema, TagSchema} from "@/lib/zodSchemas";
+import {tagSchema, TagSchema} from "@/lib/db/zodSchemas";
 
 const aj = arcjet
 

@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import React from 'react';
 import Stats from "@/app/(root)/_components/Stats";
-import {auth} from "@/lib/auth";
+import {auth} from "@/lib/providers/auth";
 import {headers} from "next/headers";
 
 const AppHero = async () => {
@@ -22,7 +22,7 @@ const AppHero = async () => {
                 <div className="mb-4 flex flex-wrap items-center justify-center gap-6">
                     <Pill bgColor={"bg-accent"}> Réinventer l’éducation en ligne</Pill>
                     <Pill bgColor={"bg-primary"}>Nouvelle plateforme</Pill>
-                    <Pill bgColor={"bg-border"}>Parcours personnalisés</Pill>
+                    <Pill bgColor={"bg-muted-foreground"}>Parcours personnalisés</Pill>
                 </div>
                 <h1 className={"text-4xl md:text-6xl font-bold tracking-tight max-w-[980px]"}>
                     Apprends à <GradientText from={theme.colors.orangeFrom}
@@ -47,7 +47,7 @@ const AppHero = async () => {
                     </Link>
                     {session?.user ?
                         <Link href={"/newsletter"}
-                              className={cn(buttonVariants({variant: "outline"}), "rounded-2xl border border-white/15  p-6 text-sm font-semibold text-white/90 transition",
+                              className={cn(buttonVariants({variant: "outline"}), "rounded-2xl  p-6 text-sm font-semibold transition",
                               )}
                         > Recevoir les nouveautés</Link>
                         :

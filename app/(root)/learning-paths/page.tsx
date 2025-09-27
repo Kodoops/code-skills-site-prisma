@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import RenderLearningPath from "@/app/(root)/learning-paths/_components/RenderLearningPath";
-import {LearningPathSkeletonCard} from "@/app/(root)/learning-paths/_components/LearningPathCard";
+import {LearningPathSkeletonCard} from "@/app/(root)/_components/LearningPathCard";
 import LearningPathFilterBar from "./_components/LearningPathFilterBar";
 
 const LEARNING_PATH_PER_PAGE = 2;

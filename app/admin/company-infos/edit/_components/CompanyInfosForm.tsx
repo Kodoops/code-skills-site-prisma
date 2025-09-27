@@ -3,7 +3,7 @@
 import {Loader2, PlusIcon} from 'lucide-react';
 import React, {useTransition} from 'react';
 import {Button} from "@/components/ui/button";
-import {companySchema, CompanySchema} from "@/lib/zodSchemas";
+import {companySchema, CompanySchema} from "@/lib/db/zodSchemas";
 import {zodResolver} from '@hookform/resolvers/zod';
 import type {Resolver} from "react-hook-form";
 import {useForm} from "react-hook-form"
@@ -21,7 +21,7 @@ import {tryCatch} from "@/hooks/try-catch";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
 import {updateCompanyInfos} from "@/app/admin/company-infos/actions";
-import {CompanyType} from "@/lib/types";
+import {CompanyType} from "@/lib/db/types";
 
 
 const CompanyInfoForm = ({data}: { data: CompanyType  }) => {

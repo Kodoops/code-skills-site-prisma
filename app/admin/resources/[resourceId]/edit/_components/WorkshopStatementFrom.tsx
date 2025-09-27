@@ -11,9 +11,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import RichTextEditor from "@/components/rich-text-editor/Editor";
 import { tryCatch } from "@/hooks/try-catch";
 import { toast } from 'sonner';
-import { WorkshopType } from '@/lib/types';
+import { WorkshopType } from '@/lib/db/types';
 import { updateWorkshopStatement } from "@/app/admin/workshops/[workshopId]/edit/actions";
-import { workshopStatementSchema, WorkshopStatementSchema } from "@/lib/zodSchemas";
+import { workshopStatementSchema, WorkshopStatementSchema } from "@/lib/db/zodSchemas";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import Uploader from '@/components/file-uploader/Uploader';

@@ -1,9 +1,9 @@
 import "server-only";
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
-import {prisma} from "@/lib/db";
+import {prisma} from "@/lib/db/db";
 import {notFound} from "next/navigation";
-import { LessonType} from "@/lib/types";
+import { LessonType} from "@/lib/db/types";
 
 export async function AdminGetLesson(id: string): Promise<LessonType> {
 

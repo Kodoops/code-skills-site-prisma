@@ -1,8 +1,8 @@
 import "server-only";
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
-import {prisma} from "@/lib/db";
-import {ResourceType} from "@/lib/types";
+import {prisma} from "@/lib/db/db";
+import {ResourceType} from "@/lib/db/types";
 
 export async function adminGetResources( page: number=1, perPage: number=1 ): Promise<{
     data: ResourceType[] | null,

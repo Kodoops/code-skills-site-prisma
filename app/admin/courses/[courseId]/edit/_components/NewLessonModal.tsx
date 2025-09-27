@@ -11,7 +11,7 @@ import {
 import {Button} from "@/components/ui/button";
 import {Loader2, PlusIcon} from "lucide-react";
 import {useForm} from "react-hook-form";
-import {lessonSchema, LessonSchema} from "@/lib/zodSchemas";
+import {lessonSchema, LessonSchema} from "@/lib/db/zodSchemas";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";

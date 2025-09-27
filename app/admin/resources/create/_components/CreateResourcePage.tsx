@@ -26,7 +26,7 @@ import {tryCatch} from "@/hooks/try-catch";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
 import {useConfetti} from "@/hooks/use-confetti";
-import {resourceSchema, ResourceSchema} from "@/lib/zodSchemas";
+import {resourceSchema, ResourceSchema} from "@/lib/db/zodSchemas";
 import {createResource} from "@/app/admin/resources/create/action";
 
 

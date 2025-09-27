@@ -1,12 +1,12 @@
 "use server";
 
-import {courseSchema, learningPathSchema, LearningPathSchema} from "@/lib/zodSchemas";
-import {prisma} from "@/lib/db";
-import {ApiResponseType} from "@/lib/types";
+import {courseSchema, learningPathSchema, LearningPathSchema} from "@/lib/db/zodSchemas";
+import {prisma} from "@/lib/db/db";
+import {ApiResponseType} from "@/lib/db/types";
 import {requireAdmin} from "@/app/data/admin/require-admin";
-import arcjet from "@/lib/arcjet";
+import arcjet from "@/lib/providers/arcjet";
 import { fixedWindow, request} from "@arcjet/next";
-import {stripe} from "@/lib/stripe";
+import {stripe} from "@/lib/providers/stripe";
 import {env} from "@/lib/env";
 
 const aj = arcjet

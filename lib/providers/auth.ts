@@ -1,10 +1,10 @@
 
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import {prisma} from "@/lib/db";
-import {env} from "./env";
+import {prisma} from "@/lib/db/db";
+import {env} from "../env";
 import {emailOTP} from "better-auth/plugins/email-otp";
-import {resend} from "@/lib/resend";
+import {resend} from "@/lib/providers/resend";
 import { admin } from "better-auth/plugins"
 
 

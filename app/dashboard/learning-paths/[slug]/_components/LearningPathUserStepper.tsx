@@ -12,12 +12,12 @@ import {
     StepperTrigger
 } from "@/components/ui/stepper";
 import {useState} from "react";
-import {LearningPathItemType} from "@/lib/types";
+import {LearningPathItemType} from "@/lib/db/types";
 import {MiniCard} from "@/app/(root)/learning-paths/_components/MiniCard";
 import {ArrowRightIcon, ChevronRightIcon} from "lucide-react";
 import StartSVG from "@/components/custom-ui/StartSVG";
 import CertificateSVG from "@/components/custom-ui/Certificate";
-import PopOverReqObj from "@/app/(root)/learning-paths/[slug]/_component/PopOverReqObj";
+import PopOverReqObj from "@/app/dashboard/learning-paths/[slug]/_components/PopOverReqObj";
 
 
 export function LearningPathUserStepper({learningPathId, steps, current, prerequisites, objectives, learningPathSlug}:

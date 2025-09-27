@@ -1,4 +1,4 @@
-import {CategoryType, DomainType, PromotionType} from "@/lib/types";
+import {CategoryType, DomainType, PromotionType} from "@/lib/db/types";
 
 
 export interface SimpleCourse {

@@ -1,7 +1,7 @@
 import {NextResponse} from "next/server";
 import {DeleteObjectCommand} from "@aws-sdk/client-s3";
-import {S3} from "@/lib/S3Client";
-import arcjet from "@/lib/arcjet";
+import {S3} from "@/lib/providers/S3Client";
+import arcjet from "@/lib/providers/arcjet";
 import { fixedWindow} from "@arcjet/next";
 import {requireAdmin} from "@/app/data/admin/require-admin";
 

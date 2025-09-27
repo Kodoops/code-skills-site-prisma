@@ -1,7 +1,7 @@
-import { prisma } from "@/lib/db";
+import { prisma } from "@/lib/db/db";
 import {notFound} from "next/navigation";
 import { getLevels } from "../get-levels";
-import {CourseType} from "@/lib/types";
+import {CourseType} from "@/lib/db/types";
 
 export async function getAllCourses({
                                         categorySlug,

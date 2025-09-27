@@ -1,8 +1,8 @@
 import "server-only";
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
-import {prisma} from "@/lib/db";
-import {DomainType} from "@/lib/types";
+import {prisma} from "@/lib/db/db";
+import {DomainType} from "@/lib/db/types";
 
 export async function adminGetDomains(): Promise<DomainType[]> {
 

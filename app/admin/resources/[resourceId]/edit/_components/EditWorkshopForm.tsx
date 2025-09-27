@@ -5,7 +5,7 @@ import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, Form
 import {Input} from "@/components/ui/input";
 import {Loader2, PlusIcon, SparkleIcon} from "lucide-react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {workshopSchema, WorkshopSchema} from "@/lib/zodSchemas";
+import {workshopSchema, WorkshopSchema} from "@/lib/db/zodSchemas";
 import {type Resolver, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {tryCatch} from "@/hooks/try-catch";
@@ -14,7 +14,7 @@ import {notFound, useRouter} from "next/navigation";
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import slugify from 'slugify';
-import { WorkshopType} from '@/lib/types';
+import { WorkshopType} from '@/lib/db/types';
 import {updateWorkshop} from "@/app/admin/workshops/[workshopId]/edit/actions";
 import Uploader from "@/components/file-uploader/Uploader";
 

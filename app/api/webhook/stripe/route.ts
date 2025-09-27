@@ -1,8 +1,8 @@
 import {headers} from "next/headers";
 import Stripe from "stripe";
-import {stripe} from "@/lib/stripe";
+import {stripe} from "@/lib/providers/stripe";
 import {env} from "@/lib/env";
-import {prisma} from "@/lib/db";
+import {prisma} from "@/lib/db/db";
 
 export async function POST(req: Request) {
 

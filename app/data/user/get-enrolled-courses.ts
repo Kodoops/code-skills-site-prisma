@@ -1,6 +1,6 @@
 import "server-only";
 import {isAuthenticated, requireUser} from "./require-user";
-import {prisma} from "@/lib/db";
+import {prisma} from "@/lib/db/db";
 
 
 export async function getEnrolledCourses(page: number = 1, perPage: number ) {

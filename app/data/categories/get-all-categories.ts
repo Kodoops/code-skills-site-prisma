@@ -1,7 +1,7 @@
 import "server-only";
 
-import {prisma} from "@/lib/db";
-import {SimpleCategory} from "@/lib/models";
+import {prisma} from "@/lib/db/db";
+import {SimpleCategory} from "@/lib/db/models";
 
 export async function getAllCategories() : Promise<SimpleCategory[]>  {
 

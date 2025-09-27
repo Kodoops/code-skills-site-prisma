@@ -3,7 +3,7 @@ import {CloudUploadIcon, ImageIcon, Loader2, XIcon} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {Button} from "@/components/ui/button";
 import Image from "next/image";
-import {UploaderFileType} from '@/lib/types';
+import {UploaderFileType} from '@/lib/db/types';
 import FileSVG from '../custom-ui/FileSVG';
 import {constructUrl, useConstructUrl} from "@/hooks/use-construct-url";
 

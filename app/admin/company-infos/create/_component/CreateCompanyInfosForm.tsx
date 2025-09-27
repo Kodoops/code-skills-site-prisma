@@ -3,7 +3,7 @@
 import {Loader2, PlusIcon} from 'lucide-react';
 import React, {useTransition} from 'react';
 import {Button} from "@/components/ui/button";
-import {companySchema, CompanySchema} from "@/lib/zodSchemas";
+import {companySchema, CompanySchema} from "@/lib/db/zodSchemas";
 import {zodResolver} from '@hookform/resolvers/zod';
 import type {Resolver} from "react-hook-form";
 import {useForm} from "react-hook-form"

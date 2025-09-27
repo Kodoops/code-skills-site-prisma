@@ -1,15 +1,15 @@
 "use server";
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
-import {ApiResponseType} from "@/lib/types";
+import {ApiResponseType} from "@/lib/db/types";
 import {
     objectiveRequisiteSchema,
     ObjectiveRequisiteSchema,
     workshopSchema,
     WorkshopSchema, workshopSolutionSchema, WorkshopSolutionSchema, workshopStatementSchema, WorkshopStatementSchema
-} from "@/lib/zodSchemas";
-import {prisma} from "@/lib/db";
-import arcjet from "@/lib/arcjet";
+} from "@/lib/db/zodSchemas";
+import {prisma} from "@/lib/db/db";
+import arcjet from "@/lib/providers/arcjet";
 import {fixedWindow, request} from "@arcjet/next";
 import {revalidatePath} from "next/cache";
 

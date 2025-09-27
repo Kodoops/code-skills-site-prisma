@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-import {FeaturedType} from "@/lib/types";
+import {FeaturedType} from "@/lib/db/types";
 import CarouselGrid from "@/app/(root)/_components/CarouselGrid";
 import FeatureCard from "@/app/(root)/_components/FeatureCard";
 

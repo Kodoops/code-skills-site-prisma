@@ -3,7 +3,7 @@
 export const runtime = "nodejs";
 
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { prisma } from "@/lib/db/db";
 import { renderToBuffer } from "@react-pdf/renderer";
 import { InvoicePdfDocument } from "@/app/dashboard/invoices/_components/invoice-document"
 

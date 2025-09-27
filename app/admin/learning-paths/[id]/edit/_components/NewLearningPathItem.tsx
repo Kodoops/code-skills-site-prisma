@@ -11,7 +11,7 @@ import {
 import {Button} from "@/components/ui/button";
 import {CheckIcon, Loader2, PlusIcon, SpaceIcon} from "lucide-react";
 import {useForm} from "react-hook-form";
-import {learningPathItemSchema, LearningPathItemSchema} from "@/lib/zodSchemas";
+import {learningPathItemSchema, LearningPathItemSchema} from "@/lib/db/zodSchemas";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
@@ -20,7 +20,7 @@ import {Separator} from "@/components/ui/separator";
 import { tryCatch } from '@/hooks/try-catch';
 import { toast } from 'sonner';
 import {adminGetCatalogue, createLearningPathItem } from '../actions';
-import {LearningPathItemType} from "@/lib/types";
+import {LearningPathItemType} from "@/lib/db/types";
 
 export function NewLearningPathItem({learningPathId, contents}:
                                     {

@@ -1,8 +1,8 @@
 import "server-only";
 
 import {requireAdmin} from "@/app/data/admin/require-admin";
-import {prisma} from "@/lib/db";
-import {SimpleCourse} from "@/lib/models";
+import {prisma} from "@/lib/db/db";
+import {SimpleCourse} from "@/lib/db/models";
 
 export async function adminGetRecentCourses() : Promise<SimpleCourse []> {
 

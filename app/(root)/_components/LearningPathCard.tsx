@@ -11,14 +11,14 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import {Button, buttonVariants} from "@/components/ui/button";
+import { buttonVariants} from "@/components/ui/button";
 import CarouselGrid from "@/app/(root)/_components/CarouselGrid";
 import {FileArchive, FileTextIcon, ImageIcon, LinkIcon, SchoolIcon, TimerIcon, Youtube} from "lucide-react";
 import ProductPrice from "@/components/custom-ui/ProductPrice";
 import {useConstructUrl} from "@/hooks/use-construct-url";
 import {calculatedPrice} from "@/lib/price";
-import {LearningPathType, levelBgColors, ResourceType, WorkshopType} from "@/lib/types";
-import {SimpleCourse} from "@/lib/models";
+import {LearningPathType, levelBgColors, ResourceType, WorkshopType} from "@/lib/db/types";
+import {SimpleCourse} from "@/lib/db/models";
 import {Skeleton} from "@/components/ui/skeleton";
 import {Badge} from "@/components/ui/badge";
 import {cn} from "@/lib/utils";

@@ -8,7 +8,7 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {
     categorySchema,
     CategorySchema,
-} from "@/lib/zodSchemas";
+} from "@/lib/db/zodSchemas";
 import {type Resolver, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {tryCatch} from "@/hooks/try-catch";
@@ -18,8 +18,8 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import slugify from 'slugify';
 import {updateCategory} from "@/app/admin/categories/[categoryId]/edit/actions";
-import {DomainType, iconLibs, listColors} from "@/lib/types";
-import {SimpleCategory} from "@/lib/models";
+import {DomainType, iconLibs, listColors} from "@/lib/db/types";
+import {SimpleCategory} from "@/lib/db/models";
 
 interface EditCategoryFormProps {
     data   :SimpleCategory,

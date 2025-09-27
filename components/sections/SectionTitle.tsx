@@ -14,7 +14,7 @@ const SectionTitle = ({title, children,titleStyle, subTitle}:Props) => {
             <h2 className={cn("text-2xl font-bold flex flex-col items-center", titleStyle)}>
                 <span>{title}</span> {children}
             </h2>
-            <p className="mt-2 text-sm text-white/80">{subTitle}</p>
+            <p className="mt-2 text-sm text-muted-foreground/70">{subTitle}</p>
         </div>
     );
 };

@@ -1,6 +1,6 @@
 
 import arcjet, { detectBot, shield, fixedWindow, protectSignup, sensitiveInfo, slidingWindow } from '@arcjet/next'
-import { env } from './env';
+import { env } from '../env';
 
 export {
     detectBot, shield, fixedWindow, protectSignup, sensitiveInfo, slidingWindow

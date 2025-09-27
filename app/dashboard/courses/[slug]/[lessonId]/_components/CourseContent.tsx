@@ -9,7 +9,7 @@ import {tryCatch} from "@/hooks/try-catch";
 import {toast} from "sonner";
 import {markLessonComplete, markLessonUnCompleted} from "@/app/dashboard/courses/[slug]/[lessonId]/actions";
 import {useConfetti} from "@/hooks/use-confetti";
-import {LessonType} from "@/lib/types";
+import {LessonType} from "@/lib/db/types";
 
 interface CourseContentProps {
     data : LessonType & { courseId: string; course: { slug: string } }

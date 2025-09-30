@@ -37,6 +37,7 @@ import {DeleteLearningPathItem} from "@/app/admin/learning-paths/[id]/edit/_comp
 
 interface Props {
     data: LearningPathType,
+    itemTypes: string[]
 }
 
 interface SortableItemProps {
@@ -45,7 +46,7 @@ interface SortableItemProps {
     className?: string;
 }
 
-const LearningPathStructure = ({data}: Props) => {
+const LearningPathStructure = ({data, itemTypes}: Props) => {
 
         const initialItems = data?.contents?.map((content) => (
             {
@@ -205,6 +206,7 @@ const LearningPathStructure = ({data}: Props) => {
                         {data && <NewLearningPathItem
                             learningPathId={data.id}
                             contents = {data.contents}
+                            itemTypes = {itemTypes}
                         />}
                     </CardHeader>
                     <CardContent className={"space-y-4"}>
@@ -261,7 +263,7 @@ export default LearningPathStructure;
 const CardItem = ({data}: { data: SimpleCourse | WorkshopType | ResourceType}) => {
     const thumbnailURl = data.fileKey
         ? constructUrl(data.fileKey)
-        : "https://via.placeholder.com/600x400?text=No+Image";
+        : "";
 
     function isResource(
         obj: SimpleCourse | WorkshopType | ResourceType

@@ -10,7 +10,6 @@ interface CourseSlugPageProps {
 const LessonContentPage = async ({params}:CourseSlugPageProps) => {
 
     const {lessonId} = await params;
-
     return (
         <Suspense fallback={<LessonSkeleton />}>
             <LessonContentLoader  lessonId={lessonId}  />

@@ -44,7 +44,7 @@ export function CourseSidebar({course, enrolled}: {course : CourseType, enrolled
 
             <div className="py-4 pr-4 space-y-3 ">
                 {course.chapters.map((chapter, index) => (
-                  <Collapsible key={chapter.id} defaultOpen={index===0}>
+                  <Collapsible key={chapter.id} defaultOpen={index===0} id={`collapsible-${chapter.id}`}>
                       <CollapsibleTrigger asChild className={"border-l-0 rounded-none rounded-r"}>
                           <Button className={"w-full p-3 h-auto flex items-center gap-2"} variant={"outline"}>
                             <div className="shrink-0">

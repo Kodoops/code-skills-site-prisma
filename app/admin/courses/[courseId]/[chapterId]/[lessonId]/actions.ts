@@ -26,6 +26,7 @@ export async function updateLesson(values: LessonSchema, lessonId:string): Promi
                 description: result.data.description,
                 thumbnailKey: result.data.thumbnailKey,
                 videoKey: result.data.videoKey,
+                public: result.data.public,
             }
         });
 

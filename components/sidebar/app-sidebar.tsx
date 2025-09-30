@@ -34,7 +34,7 @@ import {
   GroupIcon,
   RouteIcon,
   TrafficConeIcon,
-  ToolCaseIcon
+  ToolCaseIcon, BookOpenCheck
 } from "lucide-react";
 import {NavCS} from "@/components/sidebar/nav-cs";
 
@@ -65,6 +65,11 @@ const data = {
       title: "Resources",
       url: "/admin/resources",
       icon: ToolCaseIcon,
+    },
+    {
+      title: "Quiz",
+      url: "/admin/quiz",
+      icon: BookOpenCheck,
     },
   ],
   navOrga:[

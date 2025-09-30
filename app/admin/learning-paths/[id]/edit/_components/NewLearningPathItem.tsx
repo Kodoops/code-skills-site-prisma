@@ -20,20 +20,22 @@ import {Separator} from "@/components/ui/separator";
 import { tryCatch } from '@/hooks/try-catch';
 import { toast } from 'sonner';
 import {adminGetCatalogue, createLearningPathItem } from '../actions';
-import {LearningPathItemType} from "@/lib/db/types";
+import {LearningPathItemEnum, LearningPathItemType} from "@/lib/db/types";
 
-export function NewLearningPathItem({learningPathId, contents}:
+
+export function NewLearningPathItem({learningPathId, contents, itemTypes }:
                                     {
                                         learningPathId: string,
                                         contents: LearningPathItemType[],
+                                        itemTypes: string[]
                                     }
 ) {
 
+
+
     const [isOpen, setIsOpen] = useState(false)
     const [pending, startTransition] = useTransition();
-    const [type, setType] = useState<"Course" | "Workshop" | "Resource">()
-
-    const types = ["Course", "Workshop", "Resource"];
+    const [type, setType] = useState<LearningPathItemEnum>()
 
     const [courses, setCourses] = useState<{ id:string, title:string }[]>([] );
     const [workshops, setWorkshops] = useState<{ id:string, title:string }[]>([] );
@@ -148,7 +150,7 @@ export function NewLearningPathItem({learningPathId, contents}:
                                         value={field.value}
                                         onValueChange={(value) => {
                                             field.onChange(value);
-                                            setType(value as "Course" | "Workshop" | "Resource");
+                                            setType(value as LearningPathItemEnum);
                                         }}
                                     >
                                         <FormControl>
@@ -157,7 +159,7 @@ export function NewLearningPathItem({learningPathId, contents}:
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            {types.map((type, index) => (
+                                            {itemTypes.map((type, index) => (
                                                 <SelectItem key={index} value={type}>
                                                     {type}
                                                 </SelectItem>

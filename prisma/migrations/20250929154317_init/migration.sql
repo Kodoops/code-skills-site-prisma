@@ -11,7 +11,7 @@ CREATE TYPE "public"."Status" AS ENUM ('Draft', 'Published', 'Archived');
 CREATE TYPE "public"."ResourceType" AS ENUM ('PDF', 'Link', 'Tool', 'Video');
 
 -- CreateEnum
-CREATE TYPE "public"."ItemType" AS ENUM ('Course', 'Workshop', 'Resource', 'LearningPath');
+CREATE TYPE "public"."ItemType" AS ENUM ('Course', 'Workshop', 'Resource', 'Evaluation');
 
 -- CreateEnum
 CREATE TYPE "public"."DiscountType" AS ENUM ('PERCENTAGE', 'FIXED');
@@ -24,6 +24,12 @@ CREATE TYPE "public"."enrollmentStatus" AS ENUM ('Pending', 'Active', 'Cancelled
 
 -- CreateEnum
 CREATE TYPE "public"."PaymentStatus" AS ENUM ('Succeeded', 'Pending', 'Failed');
+
+-- CreateEnum
+CREATE TYPE "public"."QuizType" AS ENUM ('CHAPTER', 'COURSE');
+
+-- CreateEnum
+CREATE TYPE "public"."QuestionType" AS ENUM ('SINGLE_CHOICE', 'MULTIPLE_CHOICE', 'TRUE_FALSE');
 
 -- CreateTable
 CREATE TABLE "public"."user" (
@@ -148,7 +154,7 @@ CREATE TABLE "public"."LearningPath" (
 -- CreateTable
 CREATE TABLE "public"."LearningPathItem" (
     "id" TEXT NOT NULL,
-    "type" "public"."ItemType" NOT NULL,
+    "type" TEXT NOT NULL,
     "position" INTEGER NOT NULL,
     "learningPathId" TEXT NOT NULL,
     "courseId" TEXT,
@@ -289,6 +295,9 @@ CREATE TABLE "public"."WorkshopResource" (
 CREATE TABLE "public"."LessonProgress" (
     "id" TEXT NOT NULL,
     "completed" BOOLEAN NOT NULL DEFAULT false,
+    "startTime" TIMESTAMP(3),
+    "endTime" TIMESTAMP(3),
+    "watchedSeconds" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" TEXT NOT NULL,
@@ -301,10 +310,14 @@ CREATE TABLE "public"."LessonProgress" (
 CREATE TABLE "public"."UserProgress" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "type" "public"."ItemType" NOT NULL,
+    "type" TEXT NOT NULL,
     "itemId" TEXT NOT NULL,
     "completed" BOOLEAN NOT NULL DEFAULT false,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "progressPercentage" DOUBLE PRECISION DEFAULT 0,
+    "startedAt" TIMESTAMP(3),
+    "completedAt" TIMESTAMP(3),
+    "timeSpent" INTEGER DEFAULT 0,
 
     CONSTRAINT "UserProgress_pkey" PRIMARY KEY ("id")
 );
@@ -351,11 +364,11 @@ CREATE TABLE "public"."Promotion" (
     "title" TEXT NOT NULL,
     "description" TEXT,
     "discount" INTEGER NOT NULL,
-    "type" "public"."DiscountType" NOT NULL DEFAULT 'PERCENTAGE',
+    "type" TEXT NOT NULL DEFAULT 'PERCENTAGE',
     "startsAt" TIMESTAMP(3) NOT NULL,
     "endsAt" TIMESTAMP(3) NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT true,
-    "itemType" "public"."ItemType" NOT NULL,
+    "itemType" TEXT NOT NULL,
     "courseId" TEXT,
     "workshopId" TEXT,
     "learningPathId" TEXT,
@@ -369,7 +382,7 @@ CREATE TABLE "public"."PromoCode" (
     "code" TEXT NOT NULL,
     "description" TEXT,
     "discount" INTEGER NOT NULL,
-    "type" "public"."DiscountType" NOT NULL DEFAULT 'PERCENTAGE',
+    "type" TEXT NOT NULL DEFAULT 'PERCENTAGE',
     "usageLimit" INTEGER,
     "usedCount" INTEGER NOT NULL DEFAULT 0,
     "startsAt" TIMESTAMP(3) NOT NULL,
@@ -403,6 +416,7 @@ CREATE TABLE "public"."Payment" (
     "userId" TEXT NOT NULL,
     "courseId" TEXT,
     "learningPathId" TEXT,
+    "workshopId" TEXT,
     "amount" INTEGER NOT NULL,
     "currency" TEXT NOT NULL,
     "status" TEXT NOT NULL,
@@ -567,6 +581,55 @@ CREATE TABLE "public"."CompanySocialLink" (
 );
 
 -- CreateTable
+CREATE TABLE "public"."Quiz" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "description" TEXT,
+    "type" TEXT,
+    "chapterId" TEXT,
+    "courseId" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "userId" TEXT,
+
+    CONSTRAINT "Quiz_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "public"."QuizQuestion" (
+    "id" TEXT NOT NULL,
+    "question" TEXT NOT NULL,
+    "type" TEXT,
+    "quizId" TEXT NOT NULL,
+
+    CONSTRAINT "QuizQuestion_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "public"."QuizOption" (
+    "id" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "isCorrect" BOOLEAN NOT NULL DEFAULT false,
+    "questionId" TEXT NOT NULL,
+
+    CONSTRAINT "QuizOption_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "public"."QuizResult" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "quizId" TEXT NOT NULL,
+    "score" DOUBLE PRECISION NOT NULL,
+    "passed" BOOLEAN NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "QuizResult_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "public"."_LearningPathPromoCodes" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL,
@@ -591,37 +654,40 @@ CREATE TABLE "public"."_WorkshopPromoCodes" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "user_stripeCustomerId_key" ON "public"."user"("stripeCustomerId");
+CREATE UNIQUE INDEX "uq_user_stripeCustomerId" ON "public"."user"("stripeCustomerId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "user_email_key" ON "public"."user"("email");
+CREATE UNIQUE INDEX "uq_user_email" ON "public"."user"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "session_token_key" ON "public"."session"("token");
+CREATE UNIQUE INDEX "uq_session_token" ON "public"."session"("token");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Domain_slug_key" ON "public"."Domain"("slug");
+CREATE UNIQUE INDEX "uq_domain_slug" ON "public"."Domain"("slug");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Category_slug_key" ON "public"."Category"("slug");
+CREATE UNIQUE INDEX "uq_category_slug" ON "public"."Category"("slug");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "LearningPath_slug_key" ON "public"."LearningPath"("slug");
+CREATE UNIQUE INDEX "uq_learningPath_slug" ON "public"."LearningPath"("slug");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "LearningPath_stripePriceId_key" ON "public"."LearningPath"("stripePriceId");
+CREATE UNIQUE INDEX "uq_learningPath_stripePriceId" ON "public"."LearningPath"("stripePriceId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Course_slug_key" ON "public"."Course"("slug");
+CREATE UNIQUE INDEX "uq_course_slug" ON "public"."Course"("slug");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Course_stripePriceId_key" ON "public"."Course"("stripePriceId");
+CREATE UNIQUE INDEX "uq_course_stripePriceId" ON "public"."Course"("stripePriceId");
 
 -- CreateIndex
 CREATE INDEX "Lesson_chapterId_position_idx" ON "public"."Lesson"("chapterId", "position");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Workshop_slug_key" ON "public"."Workshop"("slug");
+CREATE UNIQUE INDEX "uq_workshop_slug" ON "public"."Workshop"("slug");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "uq_workshop_stripePriceId" ON "public"."Workshop"("stripePriceId");
 
 -- CreateIndex
 CREATE INDEX "LessonProgress_userId_lessonId_idx" ON "public"."LessonProgress"("userId", "lessonId");
@@ -630,16 +696,16 @@ CREATE INDEX "LessonProgress_userId_lessonId_idx" ON "public"."LessonProgress"("
 CREATE INDEX "LessonProgress_userId_completed_idx" ON "public"."LessonProgress"("userId", "completed");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "LessonProgress_userId_lessonId_key" ON "public"."LessonProgress"("userId", "lessonId");
+CREATE UNIQUE INDEX "uq_lessonProgress_user_lesson" ON "public"."LessonProgress"("userId", "lessonId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Tag_slug_key" ON "public"."Tag"("slug");
+CREATE UNIQUE INDEX "uq_tag_slug" ON "public"."Tag"("slug");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "PromoCode_code_key" ON "public"."PromoCode"("code");
+CREATE UNIQUE INDEX "uq_promocode_code" ON "public"."PromoCode"("code");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Enrollment_paymentId_key" ON "public"."Enrollment"("paymentId");
+CREATE UNIQUE INDEX "uq_enrollment_payment" ON "public"."Enrollment"("paymentId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "uq_enrollment_user_learningPath" ON "public"."Enrollment"("userId", "learningPathId");
@@ -651,13 +717,13 @@ CREATE UNIQUE INDEX "uq_enrollment_user_course" ON "public"."Enrollment"("userId
 CREATE UNIQUE INDEX "uq_enrollment_user_workshop" ON "public"."Enrollment"("userId", "workshopId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Payment_stripeId_key" ON "public"."Payment"("stripeId");
+CREATE UNIQUE INDEX "uq_payment_stripeId" ON "public"."Payment"("stripeId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Feature_title_key" ON "public"."Feature"("title");
+CREATE UNIQUE INDEX "uq_feature_title" ON "public"."Feature"("title");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "CompanySocialLink_companyId_socialLinkId_key" ON "public"."CompanySocialLink"("companyId", "socialLinkId");
+CREATE UNIQUE INDEX "uq_company_socialLink" ON "public"."CompanySocialLink"("companyId", "socialLinkId");
 
 -- CreateIndex
 CREATE INDEX "_LearningPathPromoCodes_B_index" ON "public"."_LearningPathPromoCodes"("B");
@@ -801,6 +867,9 @@ ALTER TABLE "public"."Payment" ADD CONSTRAINT "Payment_courseId_fkey" FOREIGN KE
 ALTER TABLE "public"."Payment" ADD CONSTRAINT "Payment_learningPathId_fkey" FOREIGN KEY ("learningPathId") REFERENCES "public"."LearningPath"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "public"."Payment" ADD CONSTRAINT "Payment_workshopId_fkey" FOREIGN KEY ("workshopId") REFERENCES "public"."Workshop"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "public"."Invoice" ADD CONSTRAINT "Invoice_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -847,6 +916,15 @@ ALTER TABLE "public"."CompanySocialLink" ADD CONSTRAINT "CompanySocialLink_compa
 
 -- AddForeignKey
 ALTER TABLE "public"."CompanySocialLink" ADD CONSTRAINT "CompanySocialLink_socialLinkId_fkey" FOREIGN KEY ("socialLinkId") REFERENCES "public"."SocialLink"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."Quiz" ADD CONSTRAINT "Quiz_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."QuizQuestion" ADD CONSTRAINT "QuizQuestion_quizId_fkey" FOREIGN KEY ("quizId") REFERENCES "public"."Quiz"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."QuizOption" ADD CONSTRAINT "QuizOption_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "public"."QuizQuestion"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "public"."_LearningPathPromoCodes" ADD CONSTRAINT "_LearningPathPromoCodes_A_fkey" FOREIGN KEY ("A") REFERENCES "public"."LearningPath"("id") ON DELETE CASCADE ON UPDATE CASCADE;

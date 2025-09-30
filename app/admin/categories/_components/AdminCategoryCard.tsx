@@ -92,8 +92,8 @@ export default function AdminCategoryCard({
             </div>
 
             <Link className="relative" href={`/admin/categories/${id}/edit`}>
-                <CardHeader className={"flex justify-between items-center gap-2 group"}>
-                    <div className="">
+                <CardHeader className={"flex flex-col justify-start items-start gap-2 group"}>
+                    <div className="flex items-center gap-2 justify-start">
                         <div className="mb-3 text-2xl">
                             <IconComp
                                 width={40}
@@ -201,8 +201,8 @@ export  function AdminDomainCard({
             </div>
 
             <Link className="relative" href={`/admin/domains/${id}/edit`}>
-                <CardHeader className={"flex justify-between items-center gap-2 group"}>
-                    <div className="">
+                <CardHeader className={"flex flex-col justify-start items-start gap-2 group"}>
+                    <div className="flex items-center gap-2 justify-start">
                         <div className="mb-3 text-2xl">
                             <IconComp
                                 width={40}

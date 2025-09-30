@@ -10,6 +10,7 @@ import LearningPathStructure from "@/app/admin/learning-paths/[id]/edit/_compone
 import Link from "next/link";
 import {buttonVariants} from "@/components/ui/button";
 import LearningPathSettings from './_components/LearningPathSettings';
+import {getLearningPathItemTypes} from "@/app/data/getLearningPathItemTypes";
 
 type Params = Promise<{ id: string }>;
 
@@ -20,6 +21,8 @@ const LearningPathEditPage = async ({params}: { params: Params }) => {
 
     const data = await adminGetLearningPath(id);
     if (!data) notFound();
+
+    const listOfLearningPathItemTypes = await getLearningPathItemTypes();
 
     const {prerequisites: preqs, objectives: objs} = data;
 
@@ -82,7 +85,7 @@ const LearningPathEditPage = async ({params}: { params: Params }) => {
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <LearningPathStructure data={data} />
+                            <LearningPathStructure data={data}  itemTypes={listOfLearningPathItemTypes} />
                         </CardContent>
                     </Card>
                 </TabsContent>

@@ -129,7 +129,7 @@ export function LearningPathStepper({steps}: { steps: LearningPathItemType[] }) 
                             )}
 
                         </StepperItem>
-                            { item.type === 'Course' &&  <EvaluationStep index={index} key={index} /> }
+                            { item.type === 'Course' &&    <EvaluationStep index={index} key={index} /> }
                         </>
                     )
                 })

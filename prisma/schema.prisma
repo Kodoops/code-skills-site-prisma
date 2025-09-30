@@ -42,7 +42,7 @@ enum ItemType {
   Course
   Workshop
   Resource
-  LearningPath
+  Evaluation
 }
 
 enum DiscountType {
@@ -67,6 +67,17 @@ enum PaymentStatus {
   Succeeded
   Pending
   Failed
+}
+
+enum QuizType {
+  CHAPTER
+  COURSE
+}
+
+enum QuestionType {
+  SINGLE_CHOICE
+  MULTIPLE_CHOICE
+  TRUE_FALSE
 }
 
 // -----------------------------------
@@ -94,16 +105,17 @@ model User {
   lessonProgress LessonProgress[]
 
   enrollment Enrollment[]
-  Payment    Payment[]
-  Invoice    Invoice[]
+  payments   Payment[]
+  invoices   Invoice[]
 
-  courses      Course[]
-  LearningPath LearningPath[]
-  Workshop     Workshop[]
+  courses       Course[]
+  learningPaths LearningPath[]
+  workshops     Workshop[]
+  resources     Resource[]
+  quiz          Quiz[]
 
   // Soft delete
   deletedAt DateTime?
-  Resource  Resource[]
 
   @@unique([email], map: "uq_user_email")
   @@map("user")
@@ -235,17 +247,17 @@ model LearningPath {
   promoCodes PromoCode[] @relation("LearningPathPromoCodes")
   promotions Promotion[] @relation("LearningPathPromotion")
 
-  Enrollment Enrollment[]
+  enrollments Enrollment[]
 
   // Soft delete
   deletedAt DateTime?
-  Payment   Payment[]
+  payments  Payment[]
 }
 
 model LearningPathItem {
   id String @id @default(uuid())
 
-  type     ItemType
+  type     String // ItemType
   position Int
 
   learningPathId String
@@ -282,13 +294,13 @@ model Course {
   user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  chapters   Chapter[]
-  enrollment Enrollment[]
+  chapters    Chapter[]
+  enrollments Enrollment[]
 
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String
 
-  Payment Payment[]
+  payments Payment[]
 
   promotions Promotion[] @relation("CoursePromotion")
   promoCodes PromoCode[] @relation("CoursePromoCodes")
@@ -388,11 +400,11 @@ model Workshop {
   promoCodes PromoCode[] @relation("WorkshopPromoCodes")
   promotions Promotion[] @relation("WorkshopPromotion")
 
-  Enrollment Enrollment[]
+  enrollments Enrollment[]
 
   // Soft delete
   deletedAt DateTime?
-  Payment   Payment[]
+  payments  Payment[]
 }
 
 model Resource {
@@ -467,9 +479,9 @@ model LessonProgress {
   completed Boolean @default(false)
 
   // TODO :: Tracking des sessions d'apprentissage
-  // startTime DateTime
-  // endTime   DateTime?
-  // watchedSeconds  Int?     // en minutes
+  startTime      DateTime?
+  endTime        DateTime?
+  watchedSeconds Int? // en minutes
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -487,7 +499,7 @@ model LessonProgress {
 model UserProgress {
   id        String   @id @default(uuid())
   userId    String
-  type      ItemType
+  type      String //  ItemType
   itemId    String
   completed Boolean  @default(false)
   updatedAt DateTime @updatedAt
@@ -497,10 +509,10 @@ model UserProgress {
   path     LearningPath? @relation("LearningPathProgress", fields: [itemId], references: [id], map: "fk_progress_path")
 
   // TODO :: Ajouter des métadonnées de progression
-  // progressPercentage Float?    @default(0)
-  // startedAt          DateTime?
-  // completedAt        DateTime?
-  // timeSpent          Int?      @default(0) // en minutes
+  progressPercentage Float?    @default(0)
+  startedAt          DateTime?
+  completedAt        DateTime?
+  timeSpent          Int?      @default(0) // en minutes
 }
 
 // -----------------------------------
@@ -553,16 +565,16 @@ model LearningPathTag {
 // -----------------------------------
 
 model Promotion {
-  id          String       @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
   description String?
   discount    Int
-  type        DiscountType @default(PERCENTAGE)
+  type        String   @default("PERCENTAGE") //  DiscountType @default(PERCENTAGE)
   startsAt    DateTime
   endsAt      DateTime
-  active      Boolean      @default(true)
+  active      Boolean  @default(true)
 
-  itemType ItemType
+  itemType String // ItemType
 
   // Clés spécifiques pour chaque relation
   courseId       String?
@@ -576,16 +588,17 @@ model Promotion {
 }
 
 model PromoCode {
-  id          String       @id @default(uuid())
-  code        String       @unique(map: "uq_promocode_code")
+  id          String  @id @default(uuid())
+  code        String  @unique(map: "uq_promocode_code")
   description String?
   discount    Int
-  type        DiscountType @default(PERCENTAGE)
-  usageLimit  Int?
-  usedCount   Int          @default(0)
-  startsAt    DateTime
-  endsAt      DateTime
-  active      Boolean      @default(true)
+  type        String  @default("PERCENTAGE") //  DiscountType @default(PERCENTAGE)
+
+  usageLimit Int?
+  usedCount  Int      @default(0)
+  startsAt   DateTime
+  endsAt     DateTime
+  active     Boolean  @default(true)
 
   applicableCourses       Course[]       @relation("CoursePromoCodes")
   applicableWorkshops     Workshop[]     @relation("WorkshopPromoCodes")
@@ -863,31 +876,53 @@ model CompanySocialLink {
 //   duration    Int @default(0)
 // }
 
-// model Quiz {
-//   id       String @id @default(uuid())
-//   title    String
-//   duration Int?   // en minutes
-//
-//   lessonId String?
-//   lesson   Lesson? @relation(fields: [lessonId], references: [id])
-//
-//   questions QuizQuestion[]
-//   attempts  QuizAttempt[]
-// }
+model Quiz {
+  id          String         @id @default(uuid())
+  title       String
+  slug        String
+  description String?
+  type        String? // QuizType // ENUM: CHAPTER_QUIZ, COURSE_QUIZ
+  chapterId   String? // quiz lié à un chapitre
+  courseId    String? // quiz lié à un cours
+  questions   QuizQuestion[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
 
-// model QuizQuestion {
-//   id       String @id @default(uuid())
-//   question String
-//   type     String // MULTIPLE_CHOICE, TRUE_FALSE, OPEN
-//
-//   quizId String
-//   quiz   Quiz   @relation(fields: [quizId], references: [id])
-//
-//   options QuizOption[]
-// }
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String?
+}
+
+model QuizQuestion {
+  id       String  @id @default(uuid())
+  question String
+  type     String? // MULTIPLE_CHOICE, TRUE_FALSE, OPEN
+
+  quizId String
+  quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  options QuizOption[]
+}
+
+model QuizOption {
+  id         String       @id @default(uuid())
+  content    String
+  isCorrect  Boolean      @default(false)
+  questionId String
+  question   QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}
+
+model QuizResult {
+  id        String   @id @default(uuid())
+  userId    String
+  quizId    String
+  score     Float
+  passed    Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
 // model QuizAttempt {
-//   id        String   @id @default(uuid())
+//   id        String    @id @default(uuid())
 //   score     Float
 //   maxScore  Float
 //   startedAt DateTime

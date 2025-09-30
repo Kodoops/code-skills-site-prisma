@@ -120,10 +120,6 @@ export async function reorderLearningPathItems(
 
 export async function createLearningPathItem(values: LearningPathItemSchema): Promise<ApiResponseType> {
 
-    console.log(
-        "createLearningPathItem",
-        values)
-
     await requireAdmin();
 
     try {
@@ -150,7 +146,7 @@ export async function createLearningPathItem(values: LearningPathItemSchema): Pr
 
             await tx.learningPathItem.create({
                 data: {
-                    type: result.data.type as 'Course' | 'Workshop' | 'Resource',
+                    type: result.data.type as 'Course' | 'Workshop' | 'Resource' | 'Evaluation',
                     learningPathId: result.data.learningPathId,
                     position: (maxPos?.position ?? 0) + 1,
                     courseId: result.data.type === "Course" ? result.data.courseId : undefined,

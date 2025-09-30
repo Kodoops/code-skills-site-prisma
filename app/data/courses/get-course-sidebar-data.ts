@@ -54,7 +54,7 @@ export const getCourseSidebarData = async (slug: string): Promise<{
                             updatedAt:true,
                         },
                         orderBy:{
-                            createdAt :'asc'
+                            position :'asc'
                         }
                     }
                 },

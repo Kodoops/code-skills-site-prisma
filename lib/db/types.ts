@@ -1,11 +1,12 @@
-
-export type ApiResponseType<T> = {
+export type ApiResponseType = {
     status: 'error' | 'success';
     message: string;
-    data?: T;
+   // data?: T;
 }
 
 export type UploaderFileType = "image" | "video" | "file";
+
+export type  LearningPathItemEnum = "Course" | "Workshop" | "Resource" | "Evaluation"
 
 
 /* -------------------------------
@@ -36,7 +37,7 @@ export enum ItemTypeEnum {
     Course,
     Workshop,
     Resource,
-    LearningPath,
+    Evaluation,
 }
 
 export enum DiscountTypeEnum {
@@ -60,6 +61,17 @@ export enum PaymentStatusEnum {
     Succeeded,
     Pending,
     Failed,
+}
+
+export enum QuizTypeEnum {
+    CHAPTER,
+    COURSE,
+}
+
+export enum QuizQuestionTypeEnum {
+    SINGLE_CHOICE,
+    MULTIPLE_CHOICE,
+    TRUE_FALSE,
 }
 
 /*-------------------------------
@@ -276,24 +288,24 @@ export type WorkshopType = {
     title: string;
     description: string;
     slug: string;
-    fileKey : string;
+    fileKey: string;
     price: number;
     currency: number;
     duration: number;
     level: string; // ENUM_LEVELS
     status: string; // ENUM_STATUS
 
-    statement : string;
-    statementsStartFileKey? : string; // url :eip files starter kit
-    statementsStartFileUrl? : string; // url :eip files starter kit
-    statementVideoKey? : string;// presentation workshop video url
+    statement: string;
+    statementsStartFileKey?: string; // url :eip files starter kit
+    statementsStartFileUrl?: string; // url :eip files starter kit
+    statementVideoKey?: string;// presentation workshop video url
 
     solution?: string; // description of solution
     solutionFileKey?: string; // final url files solution
-    solutionFileUrl? : string; // url :eip files solution
+    solutionFileUrl?: string; // url :eip files solution
     solutionVideoKey?: string; // url video solution
 
-    stripePriceId? : string;
+    stripePriceId?: string;
 
     user: UserType;
     tags: WorkshopTagType[];
@@ -479,21 +491,66 @@ export type   PromoCodeType = {
     applicableLearningPaths: LearningPathType[];
 }
 
+// QUIZ
+
+export type  QuizType = {
+    id: string;
+    title: string;
+    slug: string;
+    description?: string;
+    type?: string;
+    chapterId?: string;
+    courseId?: string;
+    questions: QuizQuestionType[];
+    createdAt: string;
+    updatedAt: string;
+    user: UserType;
+    userId: string;
+}
+
+export type  QuizQuestionType = {
+    id: string;
+    question: string;
+    type: string; // MULTIPLE_CHOICE, TRUE_FALSE, OPEN
+    quizId: string;
+    quiz: QuizType;
+    options: QuizOptionType[];
+}
+
+export type  QuizOptionType = {
+    id: string;
+    content: string;
+    isCorrect: boolean;
+    questionId: string;
+    question: QuizQuestionType;
+}
+
+export type  QuizResultType = {
+    id: string;
+    userId: string;
+    quizId: string;
+    score: number;
+    passed: boolean;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string;
+}
+
 //PAYMENTS
 export type  EnrollmentType = {
-    id: string;
-    amount: number;
-    status: string; // EnrollmentStatusEnum
+        id: string;
+        amount: number;
+        status: string; // EnrollmentStatusEnum
 
-    course?: CourseType;
-    learningPath?: LearningPathType;
-    workshop?: WorkshopType;
-    user: UserType;
-    payment?: PaymentType;
+        course?: CourseType;
+        learningPath?: LearningPathType;
+        workshop?: WorkshopType;
+        user: UserType;
+        payment?: PaymentType;
 
-    updatedAt: string;
-    createdAt: string;
-}
+        updatedAt: string;
+        createdAt: string;
+    }
 
 export type PaymentType = {
     id: string;
@@ -627,7 +684,7 @@ export type FeaturedType = {
     id: string;
     title: string;
     desc: string;
-    color?: string  ;
+    color?: string;
     iconName?: string;
     iconLib?: string;
 

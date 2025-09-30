@@ -16,6 +16,7 @@ import {updateLesson} from "@/app/admin/courses/[courseId]/[chapterId]/[lessonId
 import {tryCatch} from "@/hooks/try-catch";
 import { toast } from 'sonner';
 import {LessonType} from "@/lib/db/types";
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface Props {
     data: LessonType;
@@ -36,7 +37,7 @@ export function LessonForm({data, chapterId, courseId}: Props) {
             description: data.description ?? undefined,
             videoKey: data.videoKey ?? undefined,
             thumbnailKey: data.thumbnailKey ?? undefined,
-
+            public:data.public ?? false,
         },
     })
 
@@ -139,6 +140,22 @@ export function LessonForm({data, chapterId, courseId}: Props) {
                                             <Uploader onChange={field.onChange} value={field.value} fileTypeAccepted={'video'} />
                                         </FormControl>
                                         <FormMessage/>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="public"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-row items-center space-x-3">
+                                        <FormControl>
+                                            <Checkbox
+                                                checked={field.value}
+                                                onCheckedChange={field.onChange}
+                                            />
+                                        </FormControl>
+                                        <FormLabel className="!mt-0">Public ?</FormLabel>
+                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />

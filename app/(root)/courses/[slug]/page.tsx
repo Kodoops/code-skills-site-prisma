@@ -322,7 +322,7 @@ function RenderLessonLinkItemList({lesson, index, chapter, slug}: {
     const isPublicClass = lesson.public ? "hover:bg-green-300/10 cursor-pointer" : "hover:bg-muted/50";
     const sharedClasses = `${baseClasses} ${borderClass} ${isPublicClass}`;
 
-    return <Link href={`/dashboard/${slug}/${lesson.id}`}
+    return <Link href={`/dashboard/courses/${slug}/${lesson.id}`}
                  key={index} className={sharedClasses}>
         <div
             className={` flex size-8 items-center justify-center rounded-full bg-background  border-2 ${lesson.public ? "border-green-800" : "border-primary/20"}`}>

@@ -388,6 +388,12 @@ export async function deleteChapter(chapterId: string, courseId: string): Promis
         await prisma.$transaction(async (tx) => {
             // 1) Supprimer les leçons du chapitre
             await tx.lesson.deleteMany({where: {chapterId}});
+            // detach  quiz
+             await tx.quiz.updateMany(
+                {
+                    where: {chapterId: chapterId},
+                    data:{chapterId: null}
+                });
 
             // 2) Supprimer le chapitre
             await tx.chapter.delete({where: {id: chapterId}});

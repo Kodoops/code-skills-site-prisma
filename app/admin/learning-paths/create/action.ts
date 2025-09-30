@@ -80,7 +80,8 @@ export async function createLearningPath(values: LearningPathSchema): Promise<Ap
             status: "success",
             message: "Learning Path created successfully"
         }
-    } catch {
+    } catch (e){
+       // console.log(e)
         return {
             status: "error",
             message: "Failed to create learning path"

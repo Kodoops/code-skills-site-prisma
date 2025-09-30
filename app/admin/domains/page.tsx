@@ -2,7 +2,7 @@ import React, {Suspense} from "react";
 import {buttonVariants} from "@/components/ui/button";
 import EmptyState from "@/components/general/EmptyState";
 import Link from "next/link";
-import AdminCategoryCard, {
+import  {
     AdminCategoryCardSkeleton,
     AdminDomainCard
 } from "@/app/admin/categories/_components/AdminCategoryCard";

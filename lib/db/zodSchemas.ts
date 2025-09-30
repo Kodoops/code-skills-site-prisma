@@ -2,7 +2,7 @@ import {z} from "zod";
 
 export const learningPathSchema =z.object({
     title: z.string().min(3, {message:'Title must be at least 3 characters long'}).max(100, {message:'Title must be most 100 characters long ... '}),
-    smallDescription: z.string().min(3, {message:'Small description  must be at least 3 characters long'}).max(200, {message:'Small Description  must be most 200 characters long ... '}),
+    smallDescription: z.string().min(3, {message:'Small description  must be at least 3 characters long'}).max(255, {message:'Small Description  must be most 200 characters long ... '}),
     description: z.string().min(3, {message:'Description must be at least 3 characters long'}),
     fileKey: z.string().min(1, {message:'File is required'}),
     price: z.coerce.number().nonnegative().min(0, {message:'Price must be minimum 0'}),
@@ -45,6 +45,7 @@ export const lessonSchema = z.object({
     description: z.string().min(3, {message:'Description must be at least 3 characters long'}).optional(),
     thumbnailKey: z.string().optional(),
     videoKey: z.string().optional(),
+    public:z.boolean().optional(),
 })
 
 export const workshopSchema =z.object({
@@ -65,15 +66,6 @@ export const workshopStatementSchema = z.object({
     statementsStartFileUrl: z.string().url().optional(),
     statementVideoKey: z.string().optional(),
 });
-//     .refine((data) => {
-//     const hasKey = !!data.statementsStartFileKey;
-//     const hasUrl = !!data.statementsStartFileUrl;
-//
-//     return !(hasKey && hasUrl); // seulement les deux remplis est interdit
-// }, {
-//     message: "You can't provide both a file upload and a URL at the same time.",
-//     path: ["statementsStartFileKey"], // ou ["statementsStartFileUrl"], selon où tu veux afficher l'erreur
-// });
 
 export const workshopSolutionSchema = z.object({
     solution: z.string().min(3, { message: 'Solution must be at least 3 characters long' }),
@@ -81,15 +73,6 @@ export const workshopSolutionSchema = z.object({
     solutionFileUrl: z.string().url().optional(),
     solutionVideoKey: z.string().optional(),
 });
-//     .refine((data) => {
-//     const hasKey = !!data.solutionFileKey;
-//     const hasUrl = !!data.solutionFileUrl;
-//
-//     return !(hasKey && hasUrl); // seulement les deux remplis est interdit
-// }, {
-//     message: "You can't provide both a file upload and a URL at the same time.",
-//     path: ["solutionFileKey"], // ou ["solutionFileUrl"], selon où tu veux afficher l'erreur
-// });
 
 export const resourceSchema =z.object({
     title: z.string().min(3, {message:'Title must be at least 3 characters long'}).max(100, {message:'Title must be most 100 characters long ... '}),
@@ -97,6 +80,31 @@ export const resourceSchema =z.object({
     type: z.string().min(1, {message:'Type is required'}),
     fileKey: z.string().optional(),
     url: z.string().min(1, {message:'File is required'}),
+})
+
+export const quizSchema =z.object({
+    title: z.string().min(3, {message:'Title must be at least 3 characters long'}).max(100, {message:'Title must be most 100 characters long ... '}),
+    description: z.string().min(3, {message:'Description must be at least 3 characters long'}),
+    slug: z.string().min(3, {message:'Slug must be at least 3 characters long'}),
+})
+
+export const quizQuestionSchema = z.object({
+    question: z.string().min(3, {message:'Question must be at least 3 characters long'}),
+    quizId: z.string().uuid({message:'Quiz Id is required'}),
+    // type: z.string().min(1,{message:'Type must be one of the following: Course , Chapter, etc ...'}),
+})
+
+export const quizOptionSchema = z.object({
+    content: z.string().min(3, {message:'Question must be at least 3 characters long'}),
+    questionId: z.string().uuid({message:'Quiz Id is required'}),
+    isCorrect: z.boolean().optional(),
+    quizId: z.string().uuid({message:'Quiz Id is required'}),
+})
+
+export const attachQuizFormToCourse = z.object({
+    courseId: z.string().optional(),
+    chapterId: z.string().optional(),
+    quizId: z.string().uuid({message:'Quiz Id is required'}),
 })
 
 export const categorySchema = z.object({
@@ -215,3 +223,7 @@ export type CompanySchema = z.infer<typeof companySchema>
 export type SocialLinkSchema = z.infer<typeof socialLinkSchema>
 export type CompanySocialLinkSchema = z.infer<typeof companySocialLinkSchema>
 export type ObjectiveRequisiteSchema = z.infer<typeof objectiveRequisiteSchema>
+export type QuizSchema = z.infer<typeof quizSchema>
+export type QuizQuestionSchema = z.infer<typeof quizQuestionSchema>
+export type QuizOptionSchema = z.infer<typeof quizOptionSchema>
+export type AttachQuizFormToCourse = z.infer<typeof attachQuizFormToCourse>

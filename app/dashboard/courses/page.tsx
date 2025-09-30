@@ -5,9 +5,7 @@ import Pagination from "@/components/general/Pagination";
 import {COURSES_PER_PAGE} from "@/constants/user-contants";
 import {Suspense} from "react";
 import {PublicCourseCardSkeleton} from "@/app/(root)/_components/PublicCourseCard";
-import WorkshopProgressCard from "@/app/dashboard/workshops/_components/WorkshopProgressCard";
-import {CourseType, WorkshopType} from "@/lib/db/types";
-import {CourseTag} from "@/lib/generated/prisma";
+import {CourseType} from "@/lib/db/types";
 
 
 export default async function EnrolledCoursesUserPage(props: {
@@ -31,7 +29,6 @@ export default async function EnrolledCoursesUserPage(props: {
             <Suspense fallback={<UserCourseCardSkeletonLayout/>}>
                 <RenderCourses current={page} nbrPage={COURSES_PER_PAGE}/>
             </Suspense>
-
         </>
     )
 }

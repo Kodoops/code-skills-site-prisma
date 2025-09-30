@@ -19,8 +19,8 @@ import {
 import {CSS} from '@dnd-kit/utilities';
 import {cn} from "@/lib/utils";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible";
-import {ChevronDownIcon, ChevronRightIcon, FileText, GripVertical} from "lucide-react";
-import {Button} from "@/components/ui/button";
+import {BookOpenCheck, ChevronDownIcon, ChevronRightIcon, FileText, GripVertical, PlusIcon} from "lucide-react";
+import {Button, buttonVariants} from "@/components/ui/button";
 import Link from "next/link";
 import {toast} from "sonner";
 import {reorderChapters, reorderLessons} from "@/app/admin/courses/[courseId]/edit/actions";
@@ -28,11 +28,16 @@ import {NewChapterModal} from "@/app/admin/courses/[courseId]/edit/_components/N
 import {NewLessonModal} from "@/app/admin/courses/[courseId]/edit/_components/NewLessonModal";
 import {DeleteLesson} from "@/app/admin/courses/[courseId]/edit/_components/DeleteLesson";
 import {DeleteChapter} from './DeleteChapter';
-import {CourseType} from "@/lib/db/types";
+import {CourseType, QuizType} from "@/lib/db/types";
+import ReviewQuiz from "@/app/admin/courses/[courseId]/edit/quiz/_components/ReviewQuiz";
+import {DetachQuiz} from "@/app/admin/courses/[courseId]/edit/quiz/_components/DetachQuiz";
+import {variance} from "d3-array";
 
 interface Props {
-    data: CourseType
+    data: CourseType,
+    quizzes: QuizType[] | null;
 }
+
 
 interface SortableItemProps {
     id: string;
@@ -44,7 +49,7 @@ interface SortableItemProps {
     }
 }
 
-const CourseStructure = ({data}: Props) => {
+const CourseStructure = ({data, quizzes}: Props) => {
 
         const initialItems = data?.chapters.map((chapter) => (
             {
@@ -61,6 +66,12 @@ const CourseStructure = ({data}: Props) => {
         )) || [];
 
         const [items, setItems] = useState(initialItems);
+
+        const findChapterQuiz = (id: string) => {
+            if (!quizzes || quizzes.length === 0) return null;
+            return quizzes.filter(quiz => quiz.chapterId === id)[0];
+        }
+
 
         useEffect(() => {
             setItems((prevItems) => {
@@ -329,7 +340,23 @@ const CourseStructure = ({data}: Props) => {
                                                         </CollapsibleTrigger>
                                                         <p className={"cursor-pointer hover:text-primary pl-2"}>{item.title}</p>
                                                     </div>
-                                                    {data && <DeleteChapter chapterId={item.id} courseId={data?.id}/>}
+                                                    <div className="flex items-center gap-2">
+
+                                                        {findChapterQuiz(item.id) ?
+                                                            <div className="flex items-center justify-between gap-4">
+                                                                <ReviewQuiz quiz={findChapterQuiz(item.id)!}/>
+                                                                <DetachQuiz quizId={findChapterQuiz(item.id)!.id}
+                                                                            courseId={data?.id}/>
+                                                            </div>
+                                                            :<>
+                                                                <Link href={`/admin/courses/${data.id}/${item.id}/quiz/add`}
+                                                                      className={cn(buttonVariants({variant: "outline"}))}>
+                                                                    <BookOpenCheck className={"size-4"}/> Add Quiz
+                                                                </Link>
+                                                            </>}
+
+                                                        {data && <DeleteChapter chapterId={item.id} courseId={data?.id}/>}
+                                                    </div>
                                                 </div>
 
                                                 <CollapsibleContent>
@@ -363,9 +390,14 @@ const CourseStructure = ({data}: Props) => {
                                                                 </SortableItem>
                                                             ))}
                                                         </SortableContext>
-                                                        <div className="p-2">
-                                                            {data &&
-                                                                <NewLessonModal chapterId={item.id} courseId={data?.id}/>}
+                                                        <div
+                                                            className="flex items-center justify-between gap-4 p-4 pb-0 border-t border-border">
+                                                            <div className="w-full ">
+                                                                {data &&
+                                                                    <NewLessonModal chapterId={item.id}
+                                                                                    courseId={data?.id}/>}
+                                                            </div>
+
                                                         </div>
                                                     </div>
                                                 </CollapsibleContent>

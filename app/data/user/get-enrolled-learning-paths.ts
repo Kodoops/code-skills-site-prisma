@@ -155,6 +155,16 @@ export async function getAllEnrolledLearningPathsByUser() {
                                 courseId:true
                             },
                         },
+                        tags:true,
+                        progress:true,
+                        contents:true,
+                        objectives:true,
+                        prerequisites:true,
+                        enrollments:true,
+                        createdAt:true,
+                        updatedAt:true,
+                        deletedAt:true,
+                        user:true,
                     }
                 }
             }

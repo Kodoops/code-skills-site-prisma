@@ -218,6 +218,26 @@ export type SocialLink = $Result.DefaultSelection<Prisma.$SocialLinkPayload>
  * 
  */
 export type CompanySocialLink = $Result.DefaultSelection<Prisma.$CompanySocialLinkPayload>
+/**
+ * Model Quiz
+ * 
+ */
+export type Quiz = $Result.DefaultSelection<Prisma.$QuizPayload>
+/**
+ * Model QuizQuestion
+ * 
+ */
+export type QuizQuestion = $Result.DefaultSelection<Prisma.$QuizQuestionPayload>
+/**
+ * Model QuizOption
+ * 
+ */
+export type QuizOption = $Result.DefaultSelection<Prisma.$QuizOptionPayload>
+/**
+ * Model QuizResult
+ * 
+ */
+export type QuizResult = $Result.DefaultSelection<Prisma.$QuizResultPayload>
 
 /**
  * Enums
@@ -266,7 +286,7 @@ export const ItemType: {
   Course: 'Course',
   Workshop: 'Workshop',
   Resource: 'Resource',
-  LearningPath: 'LearningPath'
+  Evaluation: 'Evaluation'
 };
 
 export type ItemType = (typeof ItemType)[keyof typeof ItemType]
@@ -307,6 +327,23 @@ export const PaymentStatus: {
 
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 
+
+export const QuizType: {
+  CHAPTER: 'CHAPTER',
+  COURSE: 'COURSE'
+};
+
+export type QuizType = (typeof QuizType)[keyof typeof QuizType]
+
+
+export const QuestionType: {
+  SINGLE_CHOICE: 'SINGLE_CHOICE',
+  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE',
+  TRUE_FALSE: 'TRUE_FALSE'
+};
+
+export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -344,6 +381,14 @@ export const enrollmentStatus: typeof $Enums.enrollmentStatus
 export type PaymentStatus = $Enums.PaymentStatus
 
 export const PaymentStatus: typeof $Enums.PaymentStatus
+
+export type QuizType = $Enums.QuizType
+
+export const QuizType: typeof $Enums.QuizType
+
+export type QuestionType = $Enums.QuestionType
+
+export const QuestionType: typeof $Enums.QuestionType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -872,6 +917,46 @@ export class PrismaClient<
     * ```
     */
   get companySocialLink(): Prisma.CompanySocialLinkDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.quiz`: Exposes CRUD operations for the **Quiz** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Quizzes
+    * const quizzes = await prisma.quiz.findMany()
+    * ```
+    */
+  get quiz(): Prisma.QuizDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.quizQuestion`: Exposes CRUD operations for the **QuizQuestion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more QuizQuestions
+    * const quizQuestions = await prisma.quizQuestion.findMany()
+    * ```
+    */
+  get quizQuestion(): Prisma.QuizQuestionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.quizOption`: Exposes CRUD operations for the **QuizOption** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more QuizOptions
+    * const quizOptions = await prisma.quizOption.findMany()
+    * ```
+    */
+  get quizOption(): Prisma.QuizOptionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.quizResult`: Exposes CRUD operations for the **QuizResult** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more QuizResults
+    * const quizResults = await prisma.quizResult.findMany()
+    * ```
+    */
+  get quizResult(): Prisma.QuizResultDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1352,7 +1437,11 @@ export namespace Prisma {
     Feature: 'Feature',
     Company: 'Company',
     SocialLink: 'SocialLink',
-    CompanySocialLink: 'CompanySocialLink'
+    CompanySocialLink: 'CompanySocialLink',
+    Quiz: 'Quiz',
+    QuizQuestion: 'QuizQuestion',
+    QuizOption: 'QuizOption',
+    QuizResult: 'QuizResult'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1371,7 +1460,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "session" | "account" | "verification" | "domain" | "category" | "learningPath" | "learningPathItem" | "course" | "chapter" | "lesson" | "workshop" | "resource" | "learningPathResource" | "courseResource" | "lessonResource" | "workshopResource" | "lessonProgress" | "userProgress" | "tag" | "courseTag" | "workshopTag" | "learningPathTag" | "promotion" | "promoCode" | "enrollment" | "payment" | "invoice" | "invoiceItem" | "objective" | "prerequisite" | "courseObjective" | "coursePrerequisite" | "workshopObjective" | "workshopPrerequisite" | "learningPathObjective" | "learningPathPrerequisite" | "feature" | "company" | "socialLink" | "companySocialLink"
+      modelProps: "user" | "session" | "account" | "verification" | "domain" | "category" | "learningPath" | "learningPathItem" | "course" | "chapter" | "lesson" | "workshop" | "resource" | "learningPathResource" | "courseResource" | "lessonResource" | "workshopResource" | "lessonProgress" | "userProgress" | "tag" | "courseTag" | "workshopTag" | "learningPathTag" | "promotion" | "promoCode" | "enrollment" | "payment" | "invoice" | "invoiceItem" | "objective" | "prerequisite" | "courseObjective" | "coursePrerequisite" | "workshopObjective" | "workshopPrerequisite" | "learningPathObjective" | "learningPathPrerequisite" | "feature" | "company" | "socialLink" | "companySocialLink" | "quiz" | "quizQuestion" | "quizOption" | "quizResult"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4409,6 +4498,302 @@ export namespace Prisma {
           }
         }
       }
+      Quiz: {
+        payload: Prisma.$QuizPayload<ExtArgs>
+        fields: Prisma.QuizFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QuizFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QuizFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizPayload>
+          }
+          findFirst: {
+            args: Prisma.QuizFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QuizFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizPayload>
+          }
+          findMany: {
+            args: Prisma.QuizFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizPayload>[]
+          }
+          create: {
+            args: Prisma.QuizCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizPayload>
+          }
+          createMany: {
+            args: Prisma.QuizCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QuizCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizPayload>[]
+          }
+          delete: {
+            args: Prisma.QuizDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizPayload>
+          }
+          update: {
+            args: Prisma.QuizUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizPayload>
+          }
+          deleteMany: {
+            args: Prisma.QuizDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QuizUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QuizUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizPayload>[]
+          }
+          upsert: {
+            args: Prisma.QuizUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizPayload>
+          }
+          aggregate: {
+            args: Prisma.QuizAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQuiz>
+          }
+          groupBy: {
+            args: Prisma.QuizGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QuizGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QuizCountArgs<ExtArgs>
+            result: $Utils.Optional<QuizCountAggregateOutputType> | number
+          }
+        }
+      }
+      QuizQuestion: {
+        payload: Prisma.$QuizQuestionPayload<ExtArgs>
+        fields: Prisma.QuizQuestionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QuizQuestionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizQuestionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QuizQuestionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizQuestionPayload>
+          }
+          findFirst: {
+            args: Prisma.QuizQuestionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizQuestionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QuizQuestionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizQuestionPayload>
+          }
+          findMany: {
+            args: Prisma.QuizQuestionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizQuestionPayload>[]
+          }
+          create: {
+            args: Prisma.QuizQuestionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizQuestionPayload>
+          }
+          createMany: {
+            args: Prisma.QuizQuestionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QuizQuestionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizQuestionPayload>[]
+          }
+          delete: {
+            args: Prisma.QuizQuestionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizQuestionPayload>
+          }
+          update: {
+            args: Prisma.QuizQuestionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizQuestionPayload>
+          }
+          deleteMany: {
+            args: Prisma.QuizQuestionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QuizQuestionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QuizQuestionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizQuestionPayload>[]
+          }
+          upsert: {
+            args: Prisma.QuizQuestionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizQuestionPayload>
+          }
+          aggregate: {
+            args: Prisma.QuizQuestionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQuizQuestion>
+          }
+          groupBy: {
+            args: Prisma.QuizQuestionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QuizQuestionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QuizQuestionCountArgs<ExtArgs>
+            result: $Utils.Optional<QuizQuestionCountAggregateOutputType> | number
+          }
+        }
+      }
+      QuizOption: {
+        payload: Prisma.$QuizOptionPayload<ExtArgs>
+        fields: Prisma.QuizOptionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QuizOptionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizOptionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QuizOptionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizOptionPayload>
+          }
+          findFirst: {
+            args: Prisma.QuizOptionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizOptionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QuizOptionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizOptionPayload>
+          }
+          findMany: {
+            args: Prisma.QuizOptionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizOptionPayload>[]
+          }
+          create: {
+            args: Prisma.QuizOptionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizOptionPayload>
+          }
+          createMany: {
+            args: Prisma.QuizOptionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QuizOptionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizOptionPayload>[]
+          }
+          delete: {
+            args: Prisma.QuizOptionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizOptionPayload>
+          }
+          update: {
+            args: Prisma.QuizOptionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizOptionPayload>
+          }
+          deleteMany: {
+            args: Prisma.QuizOptionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QuizOptionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QuizOptionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizOptionPayload>[]
+          }
+          upsert: {
+            args: Prisma.QuizOptionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizOptionPayload>
+          }
+          aggregate: {
+            args: Prisma.QuizOptionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQuizOption>
+          }
+          groupBy: {
+            args: Prisma.QuizOptionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QuizOptionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QuizOptionCountArgs<ExtArgs>
+            result: $Utils.Optional<QuizOptionCountAggregateOutputType> | number
+          }
+        }
+      }
+      QuizResult: {
+        payload: Prisma.$QuizResultPayload<ExtArgs>
+        fields: Prisma.QuizResultFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QuizResultFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizResultPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QuizResultFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizResultPayload>
+          }
+          findFirst: {
+            args: Prisma.QuizResultFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizResultPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QuizResultFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizResultPayload>
+          }
+          findMany: {
+            args: Prisma.QuizResultFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizResultPayload>[]
+          }
+          create: {
+            args: Prisma.QuizResultCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizResultPayload>
+          }
+          createMany: {
+            args: Prisma.QuizResultCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QuizResultCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizResultPayload>[]
+          }
+          delete: {
+            args: Prisma.QuizResultDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizResultPayload>
+          }
+          update: {
+            args: Prisma.QuizResultUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizResultPayload>
+          }
+          deleteMany: {
+            args: Prisma.QuizResultDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QuizResultUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QuizResultUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizResultPayload>[]
+          }
+          upsert: {
+            args: Prisma.QuizResultUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuizResultPayload>
+          }
+          aggregate: {
+            args: Prisma.QuizResultAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQuizResult>
+          }
+          groupBy: {
+            args: Prisma.QuizResultGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QuizResultGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QuizResultCountArgs<ExtArgs>
+            result: $Utils.Optional<QuizResultCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4546,6 +4931,10 @@ export namespace Prisma {
     company?: CompanyOmit
     socialLink?: SocialLinkOmit
     companySocialLink?: CompanySocialLinkOmit
+    quiz?: QuizOmit
+    quizQuestion?: QuizQuestionOmit
+    quizOption?: QuizOptionOmit
+    quizResult?: QuizResultOmit
   }
 
   /* Types for Logging */
@@ -4630,12 +5019,13 @@ export namespace Prisma {
     accounts: number
     lessonProgress: number
     enrollment: number
-    Payment: number
-    Invoice: number
+    payments: number
+    invoices: number
     courses: number
-    LearningPath: number
-    Workshop: number
-    Resource: number
+    learningPaths: number
+    workshops: number
+    resources: number
+    quiz: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4643,12 +5033,13 @@ export namespace Prisma {
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     lessonProgress?: boolean | UserCountOutputTypeCountLessonProgressArgs
     enrollment?: boolean | UserCountOutputTypeCountEnrollmentArgs
-    Payment?: boolean | UserCountOutputTypeCountPaymentArgs
-    Invoice?: boolean | UserCountOutputTypeCountInvoiceArgs
+    payments?: boolean | UserCountOutputTypeCountPaymentsArgs
+    invoices?: boolean | UserCountOutputTypeCountInvoicesArgs
     courses?: boolean | UserCountOutputTypeCountCoursesArgs
-    LearningPath?: boolean | UserCountOutputTypeCountLearningPathArgs
-    Workshop?: boolean | UserCountOutputTypeCountWorkshopArgs
-    Resource?: boolean | UserCountOutputTypeCountResourceArgs
+    learningPaths?: boolean | UserCountOutputTypeCountLearningPathsArgs
+    workshops?: boolean | UserCountOutputTypeCountWorkshopsArgs
+    resources?: boolean | UserCountOutputTypeCountResourcesArgs
+    quiz?: boolean | UserCountOutputTypeCountQuizArgs
   }
 
   // Custom InputTypes
@@ -4693,14 +5084,14 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountPaymentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PaymentWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountInvoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InvoiceWhereInput
   }
 
@@ -4714,22 +5105,29 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountLearningPathArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountLearningPathsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LearningPathWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountWorkshopArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountWorkshopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WorkshopWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountResourceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountResourcesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ResourceWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountQuizArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuizWhereInput
   }
 
 
@@ -4808,8 +5206,8 @@ export namespace Prisma {
     prerequisites: number
     promoCodes: number
     promotions: number
-    Enrollment: number
-    Payment: number
+    enrollments: number
+    payments: number
   }
 
   export type LearningPathCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4821,8 +5219,8 @@ export namespace Prisma {
     prerequisites?: boolean | LearningPathCountOutputTypeCountPrerequisitesArgs
     promoCodes?: boolean | LearningPathCountOutputTypeCountPromoCodesArgs
     promotions?: boolean | LearningPathCountOutputTypeCountPromotionsArgs
-    Enrollment?: boolean | LearningPathCountOutputTypeCountEnrollmentArgs
-    Payment?: boolean | LearningPathCountOutputTypeCountPaymentArgs
+    enrollments?: boolean | LearningPathCountOutputTypeCountEnrollmentsArgs
+    payments?: boolean | LearningPathCountOutputTypeCountPaymentsArgs
   }
 
   // Custom InputTypes
@@ -4895,14 +5293,14 @@ export namespace Prisma {
   /**
    * LearningPathCountOutputType without action
    */
-  export type LearningPathCountOutputTypeCountEnrollmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LearningPathCountOutputTypeCountEnrollmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EnrollmentWhereInput
   }
 
   /**
    * LearningPathCountOutputType without action
    */
-  export type LearningPathCountOutputTypeCountPaymentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LearningPathCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PaymentWhereInput
   }
 
@@ -4913,8 +5311,8 @@ export namespace Prisma {
 
   export type CourseCountOutputType = {
     chapters: number
-    enrollment: number
-    Payment: number
+    enrollments: number
+    payments: number
     promotions: number
     promoCodes: number
     tags: number
@@ -4927,8 +5325,8 @@ export namespace Prisma {
 
   export type CourseCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     chapters?: boolean | CourseCountOutputTypeCountChaptersArgs
-    enrollment?: boolean | CourseCountOutputTypeCountEnrollmentArgs
-    Payment?: boolean | CourseCountOutputTypeCountPaymentArgs
+    enrollments?: boolean | CourseCountOutputTypeCountEnrollmentsArgs
+    payments?: boolean | CourseCountOutputTypeCountPaymentsArgs
     promotions?: boolean | CourseCountOutputTypeCountPromotionsArgs
     promoCodes?: boolean | CourseCountOutputTypeCountPromoCodesArgs
     tags?: boolean | CourseCountOutputTypeCountTagsArgs
@@ -4960,14 +5358,14 @@ export namespace Prisma {
   /**
    * CourseCountOutputType without action
    */
-  export type CourseCountOutputTypeCountEnrollmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CourseCountOutputTypeCountEnrollmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EnrollmentWhereInput
   }
 
   /**
    * CourseCountOutputType without action
    */
-  export type CourseCountOutputTypeCountPaymentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CourseCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PaymentWhereInput
   }
 
@@ -5112,8 +5510,8 @@ export namespace Prisma {
     prerequisites: number
     promoCodes: number
     promotions: number
-    Enrollment: number
-    Payment: number
+    enrollments: number
+    payments: number
   }
 
   export type WorkshopCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5125,8 +5523,8 @@ export namespace Prisma {
     prerequisites?: boolean | WorkshopCountOutputTypeCountPrerequisitesArgs
     promoCodes?: boolean | WorkshopCountOutputTypeCountPromoCodesArgs
     promotions?: boolean | WorkshopCountOutputTypeCountPromotionsArgs
-    Enrollment?: boolean | WorkshopCountOutputTypeCountEnrollmentArgs
-    Payment?: boolean | WorkshopCountOutputTypeCountPaymentArgs
+    enrollments?: boolean | WorkshopCountOutputTypeCountEnrollmentsArgs
+    payments?: boolean | WorkshopCountOutputTypeCountPaymentsArgs
   }
 
   // Custom InputTypes
@@ -5199,14 +5597,14 @@ export namespace Prisma {
   /**
    * WorkshopCountOutputType without action
    */
-  export type WorkshopCountOutputTypeCountEnrollmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type WorkshopCountOutputTypeCountEnrollmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EnrollmentWhereInput
   }
 
   /**
    * WorkshopCountOutputType without action
    */
-  export type WorkshopCountOutputTypeCountPaymentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type WorkshopCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PaymentWhereInput
   }
 
@@ -5568,6 +5966,68 @@ export namespace Prisma {
 
 
   /**
+   * Count Type QuizCountOutputType
+   */
+
+  export type QuizCountOutputType = {
+    questions: number
+  }
+
+  export type QuizCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    questions?: boolean | QuizCountOutputTypeCountQuestionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * QuizCountOutputType without action
+   */
+  export type QuizCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizCountOutputType
+     */
+    select?: QuizCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * QuizCountOutputType without action
+   */
+  export type QuizCountOutputTypeCountQuestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuizQuestionWhereInput
+  }
+
+
+  /**
+   * Count Type QuizQuestionCountOutputType
+   */
+
+  export type QuizQuestionCountOutputType = {
+    options: number
+  }
+
+  export type QuizQuestionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    options?: boolean | QuizQuestionCountOutputTypeCountOptionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * QuizQuestionCountOutputType without action
+   */
+  export type QuizQuestionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizQuestionCountOutputType
+     */
+    select?: QuizQuestionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * QuizQuestionCountOutputType without action
+   */
+  export type QuizQuestionCountOutputTypeCountOptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuizOptionWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -5803,12 +6263,13 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     lessonProgress?: boolean | User$lessonProgressArgs<ExtArgs>
     enrollment?: boolean | User$enrollmentArgs<ExtArgs>
-    Payment?: boolean | User$PaymentArgs<ExtArgs>
-    Invoice?: boolean | User$InvoiceArgs<ExtArgs>
+    payments?: boolean | User$paymentsArgs<ExtArgs>
+    invoices?: boolean | User$invoicesArgs<ExtArgs>
     courses?: boolean | User$coursesArgs<ExtArgs>
-    LearningPath?: boolean | User$LearningPathArgs<ExtArgs>
-    Workshop?: boolean | User$WorkshopArgs<ExtArgs>
-    Resource?: boolean | User$ResourceArgs<ExtArgs>
+    learningPaths?: boolean | User$learningPathsArgs<ExtArgs>
+    workshops?: boolean | User$workshopsArgs<ExtArgs>
+    resources?: boolean | User$resourcesArgs<ExtArgs>
+    quiz?: boolean | User$quizArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -5866,12 +6327,13 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     lessonProgress?: boolean | User$lessonProgressArgs<ExtArgs>
     enrollment?: boolean | User$enrollmentArgs<ExtArgs>
-    Payment?: boolean | User$PaymentArgs<ExtArgs>
-    Invoice?: boolean | User$InvoiceArgs<ExtArgs>
+    payments?: boolean | User$paymentsArgs<ExtArgs>
+    invoices?: boolean | User$invoicesArgs<ExtArgs>
     courses?: boolean | User$coursesArgs<ExtArgs>
-    LearningPath?: boolean | User$LearningPathArgs<ExtArgs>
-    Workshop?: boolean | User$WorkshopArgs<ExtArgs>
-    Resource?: boolean | User$ResourceArgs<ExtArgs>
+    learningPaths?: boolean | User$learningPathsArgs<ExtArgs>
+    workshops?: boolean | User$workshopsArgs<ExtArgs>
+    resources?: boolean | User$resourcesArgs<ExtArgs>
+    quiz?: boolean | User$quizArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5884,12 +6346,13 @@ export namespace Prisma {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       lessonProgress: Prisma.$LessonProgressPayload<ExtArgs>[]
       enrollment: Prisma.$EnrollmentPayload<ExtArgs>[]
-      Payment: Prisma.$PaymentPayload<ExtArgs>[]
-      Invoice: Prisma.$InvoicePayload<ExtArgs>[]
+      payments: Prisma.$PaymentPayload<ExtArgs>[]
+      invoices: Prisma.$InvoicePayload<ExtArgs>[]
       courses: Prisma.$CoursePayload<ExtArgs>[]
-      LearningPath: Prisma.$LearningPathPayload<ExtArgs>[]
-      Workshop: Prisma.$WorkshopPayload<ExtArgs>[]
-      Resource: Prisma.$ResourcePayload<ExtArgs>[]
+      learningPaths: Prisma.$LearningPathPayload<ExtArgs>[]
+      workshops: Prisma.$WorkshopPayload<ExtArgs>[]
+      resources: Prisma.$ResourcePayload<ExtArgs>[]
+      quiz: Prisma.$QuizPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6303,12 +6766,13 @@ export namespace Prisma {
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     lessonProgress<T extends User$lessonProgressArgs<ExtArgs> = {}>(args?: Subset<T, User$lessonProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LessonProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     enrollment<T extends User$enrollmentArgs<ExtArgs> = {}>(args?: Subset<T, User$enrollmentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    Payment<T extends User$PaymentArgs<ExtArgs> = {}>(args?: Subset<T, User$PaymentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    Invoice<T extends User$InvoiceArgs<ExtArgs> = {}>(args?: Subset<T, User$InvoiceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    payments<T extends User$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, User$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    invoices<T extends User$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, User$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     courses<T extends User$coursesArgs<ExtArgs> = {}>(args?: Subset<T, User$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    LearningPath<T extends User$LearningPathArgs<ExtArgs> = {}>(args?: Subset<T, User$LearningPathArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LearningPathPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    Workshop<T extends User$WorkshopArgs<ExtArgs> = {}>(args?: Subset<T, User$WorkshopArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkshopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    Resource<T extends User$ResourceArgs<ExtArgs> = {}>(args?: Subset<T, User$ResourceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    learningPaths<T extends User$learningPathsArgs<ExtArgs> = {}>(args?: Subset<T, User$learningPathsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LearningPathPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    workshops<T extends User$workshopsArgs<ExtArgs> = {}>(args?: Subset<T, User$workshopsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkshopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    resources<T extends User$resourcesArgs<ExtArgs> = {}>(args?: Subset<T, User$resourcesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    quiz<T extends User$quizArgs<ExtArgs> = {}>(args?: Subset<T, User$quizArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6835,9 +7299,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.Payment
+   * User.payments
    */
-  export type User$PaymentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Payment
      */
@@ -6859,9 +7323,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.Invoice
+   * User.invoices
    */
-  export type User$InvoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$invoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Invoice
      */
@@ -6907,9 +7371,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.LearningPath
+   * User.learningPaths
    */
-  export type User$LearningPathArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$learningPathsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the LearningPath
      */
@@ -6931,9 +7395,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.Workshop
+   * User.workshops
    */
-  export type User$WorkshopArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$workshopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Workshop
      */
@@ -6955,9 +7419,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.Resource
+   * User.resources
    */
-  export type User$ResourceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$resourcesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Resource
      */
@@ -6976,6 +7440,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ResourceScalarFieldEnum | ResourceScalarFieldEnum[]
+  }
+
+  /**
+   * User.quiz
+   */
+  export type User$quizArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quiz
+     */
+    select?: QuizSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quiz
+     */
+    omit?: QuizOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizInclude<ExtArgs> | null
+    where?: QuizWhereInput
+    orderBy?: QuizOrderByWithRelationInput | QuizOrderByWithRelationInput[]
+    cursor?: QuizWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuizScalarFieldEnum | QuizScalarFieldEnum[]
   }
 
   /**
@@ -12877,8 +13365,8 @@ export namespace Prisma {
     prerequisites?: boolean | LearningPath$prerequisitesArgs<ExtArgs>
     promoCodes?: boolean | LearningPath$promoCodesArgs<ExtArgs>
     promotions?: boolean | LearningPath$promotionsArgs<ExtArgs>
-    Enrollment?: boolean | LearningPath$EnrollmentArgs<ExtArgs>
-    Payment?: boolean | LearningPath$PaymentArgs<ExtArgs>
+    enrollments?: boolean | LearningPath$enrollmentsArgs<ExtArgs>
+    payments?: boolean | LearningPath$paymentsArgs<ExtArgs>
     _count?: boolean | LearningPathCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["learningPath"]>
 
@@ -12952,8 +13440,8 @@ export namespace Prisma {
     prerequisites?: boolean | LearningPath$prerequisitesArgs<ExtArgs>
     promoCodes?: boolean | LearningPath$promoCodesArgs<ExtArgs>
     promotions?: boolean | LearningPath$promotionsArgs<ExtArgs>
-    Enrollment?: boolean | LearningPath$EnrollmentArgs<ExtArgs>
-    Payment?: boolean | LearningPath$PaymentArgs<ExtArgs>
+    enrollments?: boolean | LearningPath$enrollmentsArgs<ExtArgs>
+    payments?: boolean | LearningPath$paymentsArgs<ExtArgs>
     _count?: boolean | LearningPathCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LearningPathIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12975,8 +13463,8 @@ export namespace Prisma {
       prerequisites: Prisma.$LearningPathPrerequisitePayload<ExtArgs>[]
       promoCodes: Prisma.$PromoCodePayload<ExtArgs>[]
       promotions: Prisma.$PromotionPayload<ExtArgs>[]
-      Enrollment: Prisma.$EnrollmentPayload<ExtArgs>[]
-      Payment: Prisma.$PaymentPayload<ExtArgs>[]
+      enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
+      payments: Prisma.$PaymentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13398,8 +13886,8 @@ export namespace Prisma {
     prerequisites<T extends LearningPath$prerequisitesArgs<ExtArgs> = {}>(args?: Subset<T, LearningPath$prerequisitesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LearningPathPrerequisitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     promoCodes<T extends LearningPath$promoCodesArgs<ExtArgs> = {}>(args?: Subset<T, LearningPath$promoCodesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromoCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     promotions<T extends LearningPath$promotionsArgs<ExtArgs> = {}>(args?: Subset<T, LearningPath$promotionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromotionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    Enrollment<T extends LearningPath$EnrollmentArgs<ExtArgs> = {}>(args?: Subset<T, LearningPath$EnrollmentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    Payment<T extends LearningPath$PaymentArgs<ExtArgs> = {}>(args?: Subset<T, LearningPath$PaymentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    enrollments<T extends LearningPath$enrollmentsArgs<ExtArgs> = {}>(args?: Subset<T, LearningPath$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    payments<T extends LearningPath$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, LearningPath$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14052,9 +14540,9 @@ export namespace Prisma {
   }
 
   /**
-   * LearningPath.Enrollment
+   * LearningPath.enrollments
    */
-  export type LearningPath$EnrollmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LearningPath$enrollmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Enrollment
      */
@@ -14076,9 +14564,9 @@ export namespace Prisma {
   }
 
   /**
-   * LearningPath.Payment
+   * LearningPath.payments
    */
-  export type LearningPath$PaymentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LearningPath$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Payment
      */
@@ -14140,7 +14628,7 @@ export namespace Prisma {
 
   export type LearningPathItemMinAggregateOutputType = {
     id: string | null
-    type: $Enums.ItemType | null
+    type: string | null
     position: number | null
     learningPathId: string | null
     courseId: string | null
@@ -14150,7 +14638,7 @@ export namespace Prisma {
 
   export type LearningPathItemMaxAggregateOutputType = {
     id: string | null
-    type: $Enums.ItemType | null
+    type: string | null
     position: number | null
     learningPathId: string | null
     courseId: string | null
@@ -14297,7 +14785,7 @@ export namespace Prisma {
 
   export type LearningPathItemGroupByOutputType = {
     id: string
-    type: $Enums.ItemType
+    type: string
     position: number
     learningPathId: string
     courseId: string | null
@@ -14406,7 +14894,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      type: $Enums.ItemType
+      type: string
       position: number
       learningPathId: string
       courseId: string | null
@@ -14840,7 +15328,7 @@ export namespace Prisma {
    */
   interface LearningPathItemFieldRefs {
     readonly id: FieldRef<"LearningPathItem", 'String'>
-    readonly type: FieldRef<"LearningPathItem", 'ItemType'>
+    readonly type: FieldRef<"LearningPathItem", 'String'>
     readonly position: FieldRef<"LearningPathItem", 'Int'>
     readonly learningPathId: FieldRef<"LearningPathItem", 'String'>
     readonly courseId: FieldRef<"LearningPathItem", 'String'>
@@ -15617,9 +16105,9 @@ export namespace Prisma {
     deletedAt?: boolean
     user?: boolean | Course$userArgs<ExtArgs>
     chapters?: boolean | Course$chaptersArgs<ExtArgs>
-    enrollment?: boolean | Course$enrollmentArgs<ExtArgs>
+    enrollments?: boolean | Course$enrollmentsArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
-    Payment?: boolean | Course$PaymentArgs<ExtArgs>
+    payments?: boolean | Course$paymentsArgs<ExtArgs>
     promotions?: boolean | Course$promotionsArgs<ExtArgs>
     promoCodes?: boolean | Course$promoCodesArgs<ExtArgs>
     tags?: boolean | Course$tagsArgs<ExtArgs>
@@ -15699,9 +16187,9 @@ export namespace Prisma {
   export type CourseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Course$userArgs<ExtArgs>
     chapters?: boolean | Course$chaptersArgs<ExtArgs>
-    enrollment?: boolean | Course$enrollmentArgs<ExtArgs>
+    enrollments?: boolean | Course$enrollmentsArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
-    Payment?: boolean | Course$PaymentArgs<ExtArgs>
+    payments?: boolean | Course$paymentsArgs<ExtArgs>
     promotions?: boolean | Course$promotionsArgs<ExtArgs>
     promoCodes?: boolean | Course$promoCodesArgs<ExtArgs>
     tags?: boolean | Course$tagsArgs<ExtArgs>
@@ -15726,9 +16214,9 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs> | null
       chapters: Prisma.$ChapterPayload<ExtArgs>[]
-      enrollment: Prisma.$EnrollmentPayload<ExtArgs>[]
+      enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
       category: Prisma.$CategoryPayload<ExtArgs>
-      Payment: Prisma.$PaymentPayload<ExtArgs>[]
+      payments: Prisma.$PaymentPayload<ExtArgs>[]
       promotions: Prisma.$PromotionPayload<ExtArgs>[]
       promoCodes: Prisma.$PromoCodePayload<ExtArgs>[]
       tags: Prisma.$CourseTagPayload<ExtArgs>[]
@@ -16152,9 +16640,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends Course$userArgs<ExtArgs> = {}>(args?: Subset<T, Course$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     chapters<T extends Course$chaptersArgs<ExtArgs> = {}>(args?: Subset<T, Course$chaptersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChapterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    enrollment<T extends Course$enrollmentArgs<ExtArgs> = {}>(args?: Subset<T, Course$enrollmentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    enrollments<T extends Course$enrollmentsArgs<ExtArgs> = {}>(args?: Subset<T, Course$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    Payment<T extends Course$PaymentArgs<ExtArgs> = {}>(args?: Subset<T, Course$PaymentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    payments<T extends Course$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Course$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     promotions<T extends Course$promotionsArgs<ExtArgs> = {}>(args?: Subset<T, Course$promotionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromotionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     promoCodes<T extends Course$promoCodesArgs<ExtArgs> = {}>(args?: Subset<T, Course$promoCodesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromoCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tags<T extends Course$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Course$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourseTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -16648,9 +17136,9 @@ export namespace Prisma {
   }
 
   /**
-   * Course.enrollment
+   * Course.enrollments
    */
-  export type Course$enrollmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Course$enrollmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Enrollment
      */
@@ -16672,9 +17160,9 @@ export namespace Prisma {
   }
 
   /**
-   * Course.Payment
+   * Course.payments
    */
-  export type Course$PaymentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Course$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Payment
      */
@@ -19628,8 +20116,8 @@ export namespace Prisma {
     prerequisites?: boolean | Workshop$prerequisitesArgs<ExtArgs>
     promoCodes?: boolean | Workshop$promoCodesArgs<ExtArgs>
     promotions?: boolean | Workshop$promotionsArgs<ExtArgs>
-    Enrollment?: boolean | Workshop$EnrollmentArgs<ExtArgs>
-    Payment?: boolean | Workshop$PaymentArgs<ExtArgs>
+    enrollments?: boolean | Workshop$enrollmentsArgs<ExtArgs>
+    payments?: boolean | Workshop$paymentsArgs<ExtArgs>
     _count?: boolean | WorkshopCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workshop"]>
 
@@ -19724,8 +20212,8 @@ export namespace Prisma {
     prerequisites?: boolean | Workshop$prerequisitesArgs<ExtArgs>
     promoCodes?: boolean | Workshop$promoCodesArgs<ExtArgs>
     promotions?: boolean | Workshop$promotionsArgs<ExtArgs>
-    Enrollment?: boolean | Workshop$EnrollmentArgs<ExtArgs>
-    Payment?: boolean | Workshop$PaymentArgs<ExtArgs>
+    enrollments?: boolean | Workshop$enrollmentsArgs<ExtArgs>
+    payments?: boolean | Workshop$paymentsArgs<ExtArgs>
     _count?: boolean | WorkshopCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WorkshopIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19747,8 +20235,8 @@ export namespace Prisma {
       prerequisites: Prisma.$WorkshopPrerequisitePayload<ExtArgs>[]
       promoCodes: Prisma.$PromoCodePayload<ExtArgs>[]
       promotions: Prisma.$PromotionPayload<ExtArgs>[]
-      Enrollment: Prisma.$EnrollmentPayload<ExtArgs>[]
-      Payment: Prisma.$PaymentPayload<ExtArgs>[]
+      enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
+      payments: Prisma.$PaymentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -20177,8 +20665,8 @@ export namespace Prisma {
     prerequisites<T extends Workshop$prerequisitesArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$prerequisitesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkshopPrerequisitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     promoCodes<T extends Workshop$promoCodesArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$promoCodesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromoCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     promotions<T extends Workshop$promotionsArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$promotionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromotionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    Enrollment<T extends Workshop$EnrollmentArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$EnrollmentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    Payment<T extends Workshop$PaymentArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$PaymentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    enrollments<T extends Workshop$enrollmentsArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    payments<T extends Workshop$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Workshop$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -20838,9 +21326,9 @@ export namespace Prisma {
   }
 
   /**
-   * Workshop.Enrollment
+   * Workshop.enrollments
    */
-  export type Workshop$EnrollmentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Workshop$enrollmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Enrollment
      */
@@ -20862,9 +21350,9 @@ export namespace Prisma {
   }
 
   /**
-   * Workshop.Payment
+   * Workshop.payments
    */
-  export type Workshop$PaymentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Workshop$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Payment
      */
@@ -26276,13 +26764,26 @@ export namespace Prisma {
 
   export type AggregateLessonProgress = {
     _count: LessonProgressCountAggregateOutputType | null
+    _avg: LessonProgressAvgAggregateOutputType | null
+    _sum: LessonProgressSumAggregateOutputType | null
     _min: LessonProgressMinAggregateOutputType | null
     _max: LessonProgressMaxAggregateOutputType | null
+  }
+
+  export type LessonProgressAvgAggregateOutputType = {
+    watchedSeconds: number | null
+  }
+
+  export type LessonProgressSumAggregateOutputType = {
+    watchedSeconds: number | null
   }
 
   export type LessonProgressMinAggregateOutputType = {
     id: string | null
     completed: boolean | null
+    startTime: Date | null
+    endTime: Date | null
+    watchedSeconds: number | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -26292,6 +26793,9 @@ export namespace Prisma {
   export type LessonProgressMaxAggregateOutputType = {
     id: string | null
     completed: boolean | null
+    startTime: Date | null
+    endTime: Date | null
+    watchedSeconds: number | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -26301,6 +26805,9 @@ export namespace Prisma {
   export type LessonProgressCountAggregateOutputType = {
     id: number
     completed: number
+    startTime: number
+    endTime: number
+    watchedSeconds: number
     createdAt: number
     updatedAt: number
     userId: number
@@ -26309,9 +26816,20 @@ export namespace Prisma {
   }
 
 
+  export type LessonProgressAvgAggregateInputType = {
+    watchedSeconds?: true
+  }
+
+  export type LessonProgressSumAggregateInputType = {
+    watchedSeconds?: true
+  }
+
   export type LessonProgressMinAggregateInputType = {
     id?: true
     completed?: true
+    startTime?: true
+    endTime?: true
+    watchedSeconds?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -26321,6 +26839,9 @@ export namespace Prisma {
   export type LessonProgressMaxAggregateInputType = {
     id?: true
     completed?: true
+    startTime?: true
+    endTime?: true
+    watchedSeconds?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -26330,6 +26851,9 @@ export namespace Prisma {
   export type LessonProgressCountAggregateInputType = {
     id?: true
     completed?: true
+    startTime?: true
+    endTime?: true
+    watchedSeconds?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -26375,6 +26899,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: LessonProgressAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LessonProgressSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: LessonProgressMinAggregateInputType
@@ -26405,6 +26941,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: LessonProgressCountAggregateInputType | true
+    _avg?: LessonProgressAvgAggregateInputType
+    _sum?: LessonProgressSumAggregateInputType
     _min?: LessonProgressMinAggregateInputType
     _max?: LessonProgressMaxAggregateInputType
   }
@@ -26412,11 +26950,16 @@ export namespace Prisma {
   export type LessonProgressGroupByOutputType = {
     id: string
     completed: boolean
+    startTime: Date | null
+    endTime: Date | null
+    watchedSeconds: number | null
     createdAt: Date
     updatedAt: Date
     userId: string
     lessonId: string
     _count: LessonProgressCountAggregateOutputType | null
+    _avg: LessonProgressAvgAggregateOutputType | null
+    _sum: LessonProgressSumAggregateOutputType | null
     _min: LessonProgressMinAggregateOutputType | null
     _max: LessonProgressMaxAggregateOutputType | null
   }
@@ -26438,6 +26981,9 @@ export namespace Prisma {
   export type LessonProgressSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     completed?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    watchedSeconds?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
@@ -26449,6 +26995,9 @@ export namespace Prisma {
   export type LessonProgressSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     completed?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    watchedSeconds?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
@@ -26460,6 +27009,9 @@ export namespace Prisma {
   export type LessonProgressSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     completed?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    watchedSeconds?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
@@ -26471,13 +27023,16 @@ export namespace Prisma {
   export type LessonProgressSelectScalar = {
     id?: boolean
     completed?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    watchedSeconds?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     lessonId?: boolean
   }
 
-  export type LessonProgressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "completed" | "createdAt" | "updatedAt" | "userId" | "lessonId", ExtArgs["result"]["lessonProgress"]>
+  export type LessonProgressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "completed" | "startTime" | "endTime" | "watchedSeconds" | "createdAt" | "updatedAt" | "userId" | "lessonId", ExtArgs["result"]["lessonProgress"]>
   export type LessonProgressInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     Lesson?: boolean | LessonDefaultArgs<ExtArgs>
@@ -26500,6 +27055,9 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       completed: boolean
+      startTime: Date | null
+      endTime: Date | null
+      watchedSeconds: number | null
       createdAt: Date
       updatedAt: Date
       userId: string
@@ -26931,6 +27489,9 @@ export namespace Prisma {
   interface LessonProgressFieldRefs {
     readonly id: FieldRef<"LessonProgress", 'String'>
     readonly completed: FieldRef<"LessonProgress", 'Boolean'>
+    readonly startTime: FieldRef<"LessonProgress", 'DateTime'>
+    readonly endTime: FieldRef<"LessonProgress", 'DateTime'>
+    readonly watchedSeconds: FieldRef<"LessonProgress", 'Int'>
     readonly createdAt: FieldRef<"LessonProgress", 'DateTime'>
     readonly updatedAt: FieldRef<"LessonProgress", 'DateTime'>
     readonly userId: FieldRef<"LessonProgress", 'String'>
@@ -27355,26 +27916,46 @@ export namespace Prisma {
 
   export type AggregateUserProgress = {
     _count: UserProgressCountAggregateOutputType | null
+    _avg: UserProgressAvgAggregateOutputType | null
+    _sum: UserProgressSumAggregateOutputType | null
     _min: UserProgressMinAggregateOutputType | null
     _max: UserProgressMaxAggregateOutputType | null
+  }
+
+  export type UserProgressAvgAggregateOutputType = {
+    progressPercentage: number | null
+    timeSpent: number | null
+  }
+
+  export type UserProgressSumAggregateOutputType = {
+    progressPercentage: number | null
+    timeSpent: number | null
   }
 
   export type UserProgressMinAggregateOutputType = {
     id: string | null
     userId: string | null
-    type: $Enums.ItemType | null
+    type: string | null
     itemId: string | null
     completed: boolean | null
     updatedAt: Date | null
+    progressPercentage: number | null
+    startedAt: Date | null
+    completedAt: Date | null
+    timeSpent: number | null
   }
 
   export type UserProgressMaxAggregateOutputType = {
     id: string | null
     userId: string | null
-    type: $Enums.ItemType | null
+    type: string | null
     itemId: string | null
     completed: boolean | null
     updatedAt: Date | null
+    progressPercentage: number | null
+    startedAt: Date | null
+    completedAt: Date | null
+    timeSpent: number | null
   }
 
   export type UserProgressCountAggregateOutputType = {
@@ -27384,9 +27965,23 @@ export namespace Prisma {
     itemId: number
     completed: number
     updatedAt: number
+    progressPercentage: number
+    startedAt: number
+    completedAt: number
+    timeSpent: number
     _all: number
   }
 
+
+  export type UserProgressAvgAggregateInputType = {
+    progressPercentage?: true
+    timeSpent?: true
+  }
+
+  export type UserProgressSumAggregateInputType = {
+    progressPercentage?: true
+    timeSpent?: true
+  }
 
   export type UserProgressMinAggregateInputType = {
     id?: true
@@ -27395,6 +27990,10 @@ export namespace Prisma {
     itemId?: true
     completed?: true
     updatedAt?: true
+    progressPercentage?: true
+    startedAt?: true
+    completedAt?: true
+    timeSpent?: true
   }
 
   export type UserProgressMaxAggregateInputType = {
@@ -27404,6 +28003,10 @@ export namespace Prisma {
     itemId?: true
     completed?: true
     updatedAt?: true
+    progressPercentage?: true
+    startedAt?: true
+    completedAt?: true
+    timeSpent?: true
   }
 
   export type UserProgressCountAggregateInputType = {
@@ -27413,6 +28016,10 @@ export namespace Prisma {
     itemId?: true
     completed?: true
     updatedAt?: true
+    progressPercentage?: true
+    startedAt?: true
+    completedAt?: true
+    timeSpent?: true
     _all?: true
   }
 
@@ -27454,6 +28061,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserProgressAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserProgressSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserProgressMinAggregateInputType
@@ -27484,6 +28103,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserProgressCountAggregateInputType | true
+    _avg?: UserProgressAvgAggregateInputType
+    _sum?: UserProgressSumAggregateInputType
     _min?: UserProgressMinAggregateInputType
     _max?: UserProgressMaxAggregateInputType
   }
@@ -27491,11 +28112,17 @@ export namespace Prisma {
   export type UserProgressGroupByOutputType = {
     id: string
     userId: string
-    type: $Enums.ItemType
+    type: string
     itemId: string
     completed: boolean
     updatedAt: Date
+    progressPercentage: number | null
+    startedAt: Date | null
+    completedAt: Date | null
+    timeSpent: number | null
     _count: UserProgressCountAggregateOutputType | null
+    _avg: UserProgressAvgAggregateOutputType | null
+    _sum: UserProgressSumAggregateOutputType | null
     _min: UserProgressMinAggregateOutputType | null
     _max: UserProgressMaxAggregateOutputType | null
   }
@@ -27521,6 +28148,10 @@ export namespace Prisma {
     itemId?: boolean
     completed?: boolean
     updatedAt?: boolean
+    progressPercentage?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    timeSpent?: boolean
     course?: boolean | UserProgress$courseArgs<ExtArgs>
     workshop?: boolean | UserProgress$workshopArgs<ExtArgs>
     path?: boolean | UserProgress$pathArgs<ExtArgs>
@@ -27533,6 +28164,10 @@ export namespace Prisma {
     itemId?: boolean
     completed?: boolean
     updatedAt?: boolean
+    progressPercentage?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    timeSpent?: boolean
     course?: boolean | UserProgress$courseArgs<ExtArgs>
     workshop?: boolean | UserProgress$workshopArgs<ExtArgs>
     path?: boolean | UserProgress$pathArgs<ExtArgs>
@@ -27545,6 +28180,10 @@ export namespace Prisma {
     itemId?: boolean
     completed?: boolean
     updatedAt?: boolean
+    progressPercentage?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    timeSpent?: boolean
     course?: boolean | UserProgress$courseArgs<ExtArgs>
     workshop?: boolean | UserProgress$workshopArgs<ExtArgs>
     path?: boolean | UserProgress$pathArgs<ExtArgs>
@@ -27557,9 +28196,13 @@ export namespace Prisma {
     itemId?: boolean
     completed?: boolean
     updatedAt?: boolean
+    progressPercentage?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    timeSpent?: boolean
   }
 
-  export type UserProgressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "itemId" | "completed" | "updatedAt", ExtArgs["result"]["userProgress"]>
+  export type UserProgressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "itemId" | "completed" | "updatedAt" | "progressPercentage" | "startedAt" | "completedAt" | "timeSpent", ExtArgs["result"]["userProgress"]>
   export type UserProgressInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     course?: boolean | UserProgress$courseArgs<ExtArgs>
     workshop?: boolean | UserProgress$workshopArgs<ExtArgs>
@@ -27586,10 +28229,14 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
-      type: $Enums.ItemType
+      type: string
       itemId: string
       completed: boolean
       updatedAt: Date
+      progressPercentage: number | null
+      startedAt: Date | null
+      completedAt: Date | null
+      timeSpent: number | null
     }, ExtArgs["result"]["userProgress"]>
     composites: {}
   }
@@ -28018,10 +28665,14 @@ export namespace Prisma {
   interface UserProgressFieldRefs {
     readonly id: FieldRef<"UserProgress", 'String'>
     readonly userId: FieldRef<"UserProgress", 'String'>
-    readonly type: FieldRef<"UserProgress", 'ItemType'>
+    readonly type: FieldRef<"UserProgress", 'String'>
     readonly itemId: FieldRef<"UserProgress", 'String'>
     readonly completed: FieldRef<"UserProgress", 'Boolean'>
     readonly updatedAt: FieldRef<"UserProgress", 'DateTime'>
+    readonly progressPercentage: FieldRef<"UserProgress", 'Float'>
+    readonly startedAt: FieldRef<"UserProgress", 'DateTime'>
+    readonly completedAt: FieldRef<"UserProgress", 'DateTime'>
+    readonly timeSpent: FieldRef<"UserProgress", 'Int'>
   }
     
 
@@ -32738,11 +33389,11 @@ export namespace Prisma {
     title: string | null
     description: string | null
     discount: number | null
-    type: $Enums.DiscountType | null
+    type: string | null
     startsAt: Date | null
     endsAt: Date | null
     active: boolean | null
-    itemType: $Enums.ItemType | null
+    itemType: string | null
     courseId: string | null
     workshopId: string | null
     learningPathId: string | null
@@ -32753,11 +33404,11 @@ export namespace Prisma {
     title: string | null
     description: string | null
     discount: number | null
-    type: $Enums.DiscountType | null
+    type: string | null
     startsAt: Date | null
     endsAt: Date | null
     active: boolean | null
-    itemType: $Enums.ItemType | null
+    itemType: string | null
     courseId: string | null
     workshopId: string | null
     learningPathId: string | null
@@ -32925,11 +33576,11 @@ export namespace Prisma {
     title: string
     description: string | null
     discount: number
-    type: $Enums.DiscountType
+    type: string
     startsAt: Date
     endsAt: Date
     active: boolean
-    itemType: $Enums.ItemType
+    itemType: string
     courseId: string | null
     workshopId: string | null
     learningPathId: string | null
@@ -33052,11 +33703,11 @@ export namespace Prisma {
       title: string
       description: string | null
       discount: number
-      type: $Enums.DiscountType
+      type: string
       startsAt: Date
       endsAt: Date
       active: boolean
-      itemType: $Enums.ItemType
+      itemType: string
       courseId: string | null
       workshopId: string | null
       learningPathId: string | null
@@ -33490,11 +34141,11 @@ export namespace Prisma {
     readonly title: FieldRef<"Promotion", 'String'>
     readonly description: FieldRef<"Promotion", 'String'>
     readonly discount: FieldRef<"Promotion", 'Int'>
-    readonly type: FieldRef<"Promotion", 'DiscountType'>
+    readonly type: FieldRef<"Promotion", 'String'>
     readonly startsAt: FieldRef<"Promotion", 'DateTime'>
     readonly endsAt: FieldRef<"Promotion", 'DateTime'>
     readonly active: FieldRef<"Promotion", 'Boolean'>
-    readonly itemType: FieldRef<"Promotion", 'ItemType'>
+    readonly itemType: FieldRef<"Promotion", 'String'>
     readonly courseId: FieldRef<"Promotion", 'String'>
     readonly workshopId: FieldRef<"Promotion", 'String'>
     readonly learningPathId: FieldRef<"Promotion", 'String'>
@@ -33998,7 +34649,7 @@ export namespace Prisma {
     code: string | null
     description: string | null
     discount: number | null
-    type: $Enums.DiscountType | null
+    type: string | null
     usageLimit: number | null
     usedCount: number | null
     startsAt: Date | null
@@ -34011,7 +34662,7 @@ export namespace Prisma {
     code: string | null
     description: string | null
     discount: number | null
-    type: $Enums.DiscountType | null
+    type: string | null
     usageLimit: number | null
     usedCount: number | null
     startsAt: Date | null
@@ -34177,7 +34828,7 @@ export namespace Prisma {
     code: string
     description: string | null
     discount: number
-    type: $Enums.DiscountType
+    type: string
     usageLimit: number | null
     usedCount: number
     startsAt: Date
@@ -34282,7 +34933,7 @@ export namespace Prisma {
       code: string
       description: string | null
       discount: number
-      type: $Enums.DiscountType
+      type: string
       usageLimit: number | null
       usedCount: number
       startsAt: Date
@@ -34718,7 +35369,7 @@ export namespace Prisma {
     readonly code: FieldRef<"PromoCode", 'String'>
     readonly description: FieldRef<"PromoCode", 'String'>
     readonly discount: FieldRef<"PromoCode", 'Int'>
-    readonly type: FieldRef<"PromoCode", 'DiscountType'>
+    readonly type: FieldRef<"PromoCode", 'String'>
     readonly usageLimit: FieldRef<"PromoCode", 'Int'>
     readonly usedCount: FieldRef<"PromoCode", 'Int'>
     readonly startsAt: FieldRef<"PromoCode", 'DateTime'>
@@ -52826,6 +53477,4353 @@ export namespace Prisma {
 
 
   /**
+   * Model Quiz
+   */
+
+  export type AggregateQuiz = {
+    _count: QuizCountAggregateOutputType | null
+    _min: QuizMinAggregateOutputType | null
+    _max: QuizMaxAggregateOutputType | null
+  }
+
+  export type QuizMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    slug: string | null
+    description: string | null
+    type: string | null
+    chapterId: string | null
+    courseId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+  }
+
+  export type QuizMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    slug: string | null
+    description: string | null
+    type: string | null
+    chapterId: string | null
+    courseId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+  }
+
+  export type QuizCountAggregateOutputType = {
+    id: number
+    title: number
+    slug: number
+    description: number
+    type: number
+    chapterId: number
+    courseId: number
+    createdAt: number
+    updatedAt: number
+    userId: number
+    _all: number
+  }
+
+
+  export type QuizMinAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    description?: true
+    type?: true
+    chapterId?: true
+    courseId?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+  }
+
+  export type QuizMaxAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    description?: true
+    type?: true
+    chapterId?: true
+    courseId?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+  }
+
+  export type QuizCountAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    description?: true
+    type?: true
+    chapterId?: true
+    courseId?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type QuizAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Quiz to aggregate.
+     */
+    where?: QuizWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Quizzes to fetch.
+     */
+    orderBy?: QuizOrderByWithRelationInput | QuizOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QuizWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Quizzes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Quizzes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Quizzes
+    **/
+    _count?: true | QuizCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QuizMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QuizMaxAggregateInputType
+  }
+
+  export type GetQuizAggregateType<T extends QuizAggregateArgs> = {
+        [P in keyof T & keyof AggregateQuiz]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQuiz[P]>
+      : GetScalarType<T[P], AggregateQuiz[P]>
+  }
+
+
+
+
+  export type QuizGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuizWhereInput
+    orderBy?: QuizOrderByWithAggregationInput | QuizOrderByWithAggregationInput[]
+    by: QuizScalarFieldEnum[] | QuizScalarFieldEnum
+    having?: QuizScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QuizCountAggregateInputType | true
+    _min?: QuizMinAggregateInputType
+    _max?: QuizMaxAggregateInputType
+  }
+
+  export type QuizGroupByOutputType = {
+    id: string
+    title: string
+    slug: string
+    description: string | null
+    type: string | null
+    chapterId: string | null
+    courseId: string | null
+    createdAt: Date
+    updatedAt: Date
+    userId: string | null
+    _count: QuizCountAggregateOutputType | null
+    _min: QuizMinAggregateOutputType | null
+    _max: QuizMaxAggregateOutputType | null
+  }
+
+  type GetQuizGroupByPayload<T extends QuizGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QuizGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QuizGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QuizGroupByOutputType[P]>
+            : GetScalarType<T[P], QuizGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QuizSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    description?: boolean
+    type?: boolean
+    chapterId?: boolean
+    courseId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    questions?: boolean | Quiz$questionsArgs<ExtArgs>
+    user?: boolean | Quiz$userArgs<ExtArgs>
+    _count?: boolean | QuizCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["quiz"]>
+
+  export type QuizSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    description?: boolean
+    type?: boolean
+    chapterId?: boolean
+    courseId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | Quiz$userArgs<ExtArgs>
+  }, ExtArgs["result"]["quiz"]>
+
+  export type QuizSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    description?: boolean
+    type?: boolean
+    chapterId?: boolean
+    courseId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | Quiz$userArgs<ExtArgs>
+  }, ExtArgs["result"]["quiz"]>
+
+  export type QuizSelectScalar = {
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    description?: boolean
+    type?: boolean
+    chapterId?: boolean
+    courseId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+  }
+
+  export type QuizOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "description" | "type" | "chapterId" | "courseId" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["quiz"]>
+  export type QuizInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    questions?: boolean | Quiz$questionsArgs<ExtArgs>
+    user?: boolean | Quiz$userArgs<ExtArgs>
+    _count?: boolean | QuizCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type QuizIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | Quiz$userArgs<ExtArgs>
+  }
+  export type QuizIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | Quiz$userArgs<ExtArgs>
+  }
+
+  export type $QuizPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Quiz"
+    objects: {
+      questions: Prisma.$QuizQuestionPayload<ExtArgs>[]
+      user: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      slug: string
+      description: string | null
+      type: string | null
+      chapterId: string | null
+      courseId: string | null
+      createdAt: Date
+      updatedAt: Date
+      userId: string | null
+    }, ExtArgs["result"]["quiz"]>
+    composites: {}
+  }
+
+  type QuizGetPayload<S extends boolean | null | undefined | QuizDefaultArgs> = $Result.GetResult<Prisma.$QuizPayload, S>
+
+  type QuizCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QuizFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QuizCountAggregateInputType | true
+    }
+
+  export interface QuizDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Quiz'], meta: { name: 'Quiz' } }
+    /**
+     * Find zero or one Quiz that matches the filter.
+     * @param {QuizFindUniqueArgs} args - Arguments to find a Quiz
+     * @example
+     * // Get one Quiz
+     * const quiz = await prisma.quiz.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QuizFindUniqueArgs>(args: SelectSubset<T, QuizFindUniqueArgs<ExtArgs>>): Prisma__QuizClient<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Quiz that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QuizFindUniqueOrThrowArgs} args - Arguments to find a Quiz
+     * @example
+     * // Get one Quiz
+     * const quiz = await prisma.quiz.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QuizFindUniqueOrThrowArgs>(args: SelectSubset<T, QuizFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QuizClient<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Quiz that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizFindFirstArgs} args - Arguments to find a Quiz
+     * @example
+     * // Get one Quiz
+     * const quiz = await prisma.quiz.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QuizFindFirstArgs>(args?: SelectSubset<T, QuizFindFirstArgs<ExtArgs>>): Prisma__QuizClient<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Quiz that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizFindFirstOrThrowArgs} args - Arguments to find a Quiz
+     * @example
+     * // Get one Quiz
+     * const quiz = await prisma.quiz.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QuizFindFirstOrThrowArgs>(args?: SelectSubset<T, QuizFindFirstOrThrowArgs<ExtArgs>>): Prisma__QuizClient<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Quizzes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Quizzes
+     * const quizzes = await prisma.quiz.findMany()
+     * 
+     * // Get first 10 Quizzes
+     * const quizzes = await prisma.quiz.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const quizWithIdOnly = await prisma.quiz.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QuizFindManyArgs>(args?: SelectSubset<T, QuizFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Quiz.
+     * @param {QuizCreateArgs} args - Arguments to create a Quiz.
+     * @example
+     * // Create one Quiz
+     * const Quiz = await prisma.quiz.create({
+     *   data: {
+     *     // ... data to create a Quiz
+     *   }
+     * })
+     * 
+     */
+    create<T extends QuizCreateArgs>(args: SelectSubset<T, QuizCreateArgs<ExtArgs>>): Prisma__QuizClient<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Quizzes.
+     * @param {QuizCreateManyArgs} args - Arguments to create many Quizzes.
+     * @example
+     * // Create many Quizzes
+     * const quiz = await prisma.quiz.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QuizCreateManyArgs>(args?: SelectSubset<T, QuizCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Quizzes and returns the data saved in the database.
+     * @param {QuizCreateManyAndReturnArgs} args - Arguments to create many Quizzes.
+     * @example
+     * // Create many Quizzes
+     * const quiz = await prisma.quiz.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Quizzes and only return the `id`
+     * const quizWithIdOnly = await prisma.quiz.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QuizCreateManyAndReturnArgs>(args?: SelectSubset<T, QuizCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Quiz.
+     * @param {QuizDeleteArgs} args - Arguments to delete one Quiz.
+     * @example
+     * // Delete one Quiz
+     * const Quiz = await prisma.quiz.delete({
+     *   where: {
+     *     // ... filter to delete one Quiz
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QuizDeleteArgs>(args: SelectSubset<T, QuizDeleteArgs<ExtArgs>>): Prisma__QuizClient<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Quiz.
+     * @param {QuizUpdateArgs} args - Arguments to update one Quiz.
+     * @example
+     * // Update one Quiz
+     * const quiz = await prisma.quiz.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QuizUpdateArgs>(args: SelectSubset<T, QuizUpdateArgs<ExtArgs>>): Prisma__QuizClient<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Quizzes.
+     * @param {QuizDeleteManyArgs} args - Arguments to filter Quizzes to delete.
+     * @example
+     * // Delete a few Quizzes
+     * const { count } = await prisma.quiz.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QuizDeleteManyArgs>(args?: SelectSubset<T, QuizDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Quizzes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Quizzes
+     * const quiz = await prisma.quiz.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QuizUpdateManyArgs>(args: SelectSubset<T, QuizUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Quizzes and returns the data updated in the database.
+     * @param {QuizUpdateManyAndReturnArgs} args - Arguments to update many Quizzes.
+     * @example
+     * // Update many Quizzes
+     * const quiz = await prisma.quiz.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Quizzes and only return the `id`
+     * const quizWithIdOnly = await prisma.quiz.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QuizUpdateManyAndReturnArgs>(args: SelectSubset<T, QuizUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Quiz.
+     * @param {QuizUpsertArgs} args - Arguments to update or create a Quiz.
+     * @example
+     * // Update or create a Quiz
+     * const quiz = await prisma.quiz.upsert({
+     *   create: {
+     *     // ... data to create a Quiz
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Quiz we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QuizUpsertArgs>(args: SelectSubset<T, QuizUpsertArgs<ExtArgs>>): Prisma__QuizClient<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Quizzes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizCountArgs} args - Arguments to filter Quizzes to count.
+     * @example
+     * // Count the number of Quizzes
+     * const count = await prisma.quiz.count({
+     *   where: {
+     *     // ... the filter for the Quizzes we want to count
+     *   }
+     * })
+    **/
+    count<T extends QuizCountArgs>(
+      args?: Subset<T, QuizCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QuizCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Quiz.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QuizAggregateArgs>(args: Subset<T, QuizAggregateArgs>): Prisma.PrismaPromise<GetQuizAggregateType<T>>
+
+    /**
+     * Group by Quiz.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QuizGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QuizGroupByArgs['orderBy'] }
+        : { orderBy?: QuizGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QuizGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQuizGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Quiz model
+   */
+  readonly fields: QuizFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Quiz.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QuizClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    questions<T extends Quiz$questionsArgs<ExtArgs> = {}>(args?: Subset<T, Quiz$questionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    user<T extends Quiz$userArgs<ExtArgs> = {}>(args?: Subset<T, Quiz$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Quiz model
+   */
+  interface QuizFieldRefs {
+    readonly id: FieldRef<"Quiz", 'String'>
+    readonly title: FieldRef<"Quiz", 'String'>
+    readonly slug: FieldRef<"Quiz", 'String'>
+    readonly description: FieldRef<"Quiz", 'String'>
+    readonly type: FieldRef<"Quiz", 'String'>
+    readonly chapterId: FieldRef<"Quiz", 'String'>
+    readonly courseId: FieldRef<"Quiz", 'String'>
+    readonly createdAt: FieldRef<"Quiz", 'DateTime'>
+    readonly updatedAt: FieldRef<"Quiz", 'DateTime'>
+    readonly userId: FieldRef<"Quiz", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Quiz findUnique
+   */
+  export type QuizFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quiz
+     */
+    select?: QuizSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quiz
+     */
+    omit?: QuizOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizInclude<ExtArgs> | null
+    /**
+     * Filter, which Quiz to fetch.
+     */
+    where: QuizWhereUniqueInput
+  }
+
+  /**
+   * Quiz findUniqueOrThrow
+   */
+  export type QuizFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quiz
+     */
+    select?: QuizSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quiz
+     */
+    omit?: QuizOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizInclude<ExtArgs> | null
+    /**
+     * Filter, which Quiz to fetch.
+     */
+    where: QuizWhereUniqueInput
+  }
+
+  /**
+   * Quiz findFirst
+   */
+  export type QuizFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quiz
+     */
+    select?: QuizSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quiz
+     */
+    omit?: QuizOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizInclude<ExtArgs> | null
+    /**
+     * Filter, which Quiz to fetch.
+     */
+    where?: QuizWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Quizzes to fetch.
+     */
+    orderBy?: QuizOrderByWithRelationInput | QuizOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Quizzes.
+     */
+    cursor?: QuizWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Quizzes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Quizzes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Quizzes.
+     */
+    distinct?: QuizScalarFieldEnum | QuizScalarFieldEnum[]
+  }
+
+  /**
+   * Quiz findFirstOrThrow
+   */
+  export type QuizFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quiz
+     */
+    select?: QuizSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quiz
+     */
+    omit?: QuizOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizInclude<ExtArgs> | null
+    /**
+     * Filter, which Quiz to fetch.
+     */
+    where?: QuizWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Quizzes to fetch.
+     */
+    orderBy?: QuizOrderByWithRelationInput | QuizOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Quizzes.
+     */
+    cursor?: QuizWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Quizzes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Quizzes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Quizzes.
+     */
+    distinct?: QuizScalarFieldEnum | QuizScalarFieldEnum[]
+  }
+
+  /**
+   * Quiz findMany
+   */
+  export type QuizFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quiz
+     */
+    select?: QuizSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quiz
+     */
+    omit?: QuizOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizInclude<ExtArgs> | null
+    /**
+     * Filter, which Quizzes to fetch.
+     */
+    where?: QuizWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Quizzes to fetch.
+     */
+    orderBy?: QuizOrderByWithRelationInput | QuizOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Quizzes.
+     */
+    cursor?: QuizWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Quizzes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Quizzes.
+     */
+    skip?: number
+    distinct?: QuizScalarFieldEnum | QuizScalarFieldEnum[]
+  }
+
+  /**
+   * Quiz create
+   */
+  export type QuizCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quiz
+     */
+    select?: QuizSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quiz
+     */
+    omit?: QuizOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Quiz.
+     */
+    data: XOR<QuizCreateInput, QuizUncheckedCreateInput>
+  }
+
+  /**
+   * Quiz createMany
+   */
+  export type QuizCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Quizzes.
+     */
+    data: QuizCreateManyInput | QuizCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Quiz createManyAndReturn
+   */
+  export type QuizCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quiz
+     */
+    select?: QuizSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quiz
+     */
+    omit?: QuizOmit<ExtArgs> | null
+    /**
+     * The data used to create many Quizzes.
+     */
+    data: QuizCreateManyInput | QuizCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Quiz update
+   */
+  export type QuizUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quiz
+     */
+    select?: QuizSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quiz
+     */
+    omit?: QuizOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Quiz.
+     */
+    data: XOR<QuizUpdateInput, QuizUncheckedUpdateInput>
+    /**
+     * Choose, which Quiz to update.
+     */
+    where: QuizWhereUniqueInput
+  }
+
+  /**
+   * Quiz updateMany
+   */
+  export type QuizUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Quizzes.
+     */
+    data: XOR<QuizUpdateManyMutationInput, QuizUncheckedUpdateManyInput>
+    /**
+     * Filter which Quizzes to update
+     */
+    where?: QuizWhereInput
+    /**
+     * Limit how many Quizzes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Quiz updateManyAndReturn
+   */
+  export type QuizUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quiz
+     */
+    select?: QuizSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quiz
+     */
+    omit?: QuizOmit<ExtArgs> | null
+    /**
+     * The data used to update Quizzes.
+     */
+    data: XOR<QuizUpdateManyMutationInput, QuizUncheckedUpdateManyInput>
+    /**
+     * Filter which Quizzes to update
+     */
+    where?: QuizWhereInput
+    /**
+     * Limit how many Quizzes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Quiz upsert
+   */
+  export type QuizUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quiz
+     */
+    select?: QuizSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quiz
+     */
+    omit?: QuizOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Quiz to update in case it exists.
+     */
+    where: QuizWhereUniqueInput
+    /**
+     * In case the Quiz found by the `where` argument doesn't exist, create a new Quiz with this data.
+     */
+    create: XOR<QuizCreateInput, QuizUncheckedCreateInput>
+    /**
+     * In case the Quiz was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QuizUpdateInput, QuizUncheckedUpdateInput>
+  }
+
+  /**
+   * Quiz delete
+   */
+  export type QuizDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quiz
+     */
+    select?: QuizSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quiz
+     */
+    omit?: QuizOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizInclude<ExtArgs> | null
+    /**
+     * Filter which Quiz to delete.
+     */
+    where: QuizWhereUniqueInput
+  }
+
+  /**
+   * Quiz deleteMany
+   */
+  export type QuizDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Quizzes to delete
+     */
+    where?: QuizWhereInput
+    /**
+     * Limit how many Quizzes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Quiz.questions
+   */
+  export type Quiz$questionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizQuestion
+     */
+    select?: QuizQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizQuestion
+     */
+    omit?: QuizQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizQuestionInclude<ExtArgs> | null
+    where?: QuizQuestionWhereInput
+    orderBy?: QuizQuestionOrderByWithRelationInput | QuizQuestionOrderByWithRelationInput[]
+    cursor?: QuizQuestionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuizQuestionScalarFieldEnum | QuizQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * Quiz.user
+   */
+  export type Quiz$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Quiz without action
+   */
+  export type QuizDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quiz
+     */
+    select?: QuizSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quiz
+     */
+    omit?: QuizOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model QuizQuestion
+   */
+
+  export type AggregateQuizQuestion = {
+    _count: QuizQuestionCountAggregateOutputType | null
+    _min: QuizQuestionMinAggregateOutputType | null
+    _max: QuizQuestionMaxAggregateOutputType | null
+  }
+
+  export type QuizQuestionMinAggregateOutputType = {
+    id: string | null
+    question: string | null
+    type: string | null
+    quizId: string | null
+  }
+
+  export type QuizQuestionMaxAggregateOutputType = {
+    id: string | null
+    question: string | null
+    type: string | null
+    quizId: string | null
+  }
+
+  export type QuizQuestionCountAggregateOutputType = {
+    id: number
+    question: number
+    type: number
+    quizId: number
+    _all: number
+  }
+
+
+  export type QuizQuestionMinAggregateInputType = {
+    id?: true
+    question?: true
+    type?: true
+    quizId?: true
+  }
+
+  export type QuizQuestionMaxAggregateInputType = {
+    id?: true
+    question?: true
+    type?: true
+    quizId?: true
+  }
+
+  export type QuizQuestionCountAggregateInputType = {
+    id?: true
+    question?: true
+    type?: true
+    quizId?: true
+    _all?: true
+  }
+
+  export type QuizQuestionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuizQuestion to aggregate.
+     */
+    where?: QuizQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizQuestions to fetch.
+     */
+    orderBy?: QuizQuestionOrderByWithRelationInput | QuizQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QuizQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizQuestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned QuizQuestions
+    **/
+    _count?: true | QuizQuestionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QuizQuestionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QuizQuestionMaxAggregateInputType
+  }
+
+  export type GetQuizQuestionAggregateType<T extends QuizQuestionAggregateArgs> = {
+        [P in keyof T & keyof AggregateQuizQuestion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQuizQuestion[P]>
+      : GetScalarType<T[P], AggregateQuizQuestion[P]>
+  }
+
+
+
+
+  export type QuizQuestionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuizQuestionWhereInput
+    orderBy?: QuizQuestionOrderByWithAggregationInput | QuizQuestionOrderByWithAggregationInput[]
+    by: QuizQuestionScalarFieldEnum[] | QuizQuestionScalarFieldEnum
+    having?: QuizQuestionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QuizQuestionCountAggregateInputType | true
+    _min?: QuizQuestionMinAggregateInputType
+    _max?: QuizQuestionMaxAggregateInputType
+  }
+
+  export type QuizQuestionGroupByOutputType = {
+    id: string
+    question: string
+    type: string | null
+    quizId: string
+    _count: QuizQuestionCountAggregateOutputType | null
+    _min: QuizQuestionMinAggregateOutputType | null
+    _max: QuizQuestionMaxAggregateOutputType | null
+  }
+
+  type GetQuizQuestionGroupByPayload<T extends QuizQuestionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QuizQuestionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QuizQuestionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QuizQuestionGroupByOutputType[P]>
+            : GetScalarType<T[P], QuizQuestionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QuizQuestionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    question?: boolean
+    type?: boolean
+    quizId?: boolean
+    quiz?: boolean | QuizDefaultArgs<ExtArgs>
+    options?: boolean | QuizQuestion$optionsArgs<ExtArgs>
+    _count?: boolean | QuizQuestionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["quizQuestion"]>
+
+  export type QuizQuestionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    question?: boolean
+    type?: boolean
+    quizId?: boolean
+    quiz?: boolean | QuizDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["quizQuestion"]>
+
+  export type QuizQuestionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    question?: boolean
+    type?: boolean
+    quizId?: boolean
+    quiz?: boolean | QuizDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["quizQuestion"]>
+
+  export type QuizQuestionSelectScalar = {
+    id?: boolean
+    question?: boolean
+    type?: boolean
+    quizId?: boolean
+  }
+
+  export type QuizQuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "question" | "type" | "quizId", ExtArgs["result"]["quizQuestion"]>
+  export type QuizQuestionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    quiz?: boolean | QuizDefaultArgs<ExtArgs>
+    options?: boolean | QuizQuestion$optionsArgs<ExtArgs>
+    _count?: boolean | QuizQuestionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type QuizQuestionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    quiz?: boolean | QuizDefaultArgs<ExtArgs>
+  }
+  export type QuizQuestionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    quiz?: boolean | QuizDefaultArgs<ExtArgs>
+  }
+
+  export type $QuizQuestionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "QuizQuestion"
+    objects: {
+      quiz: Prisma.$QuizPayload<ExtArgs>
+      options: Prisma.$QuizOptionPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      question: string
+      type: string | null
+      quizId: string
+    }, ExtArgs["result"]["quizQuestion"]>
+    composites: {}
+  }
+
+  type QuizQuestionGetPayload<S extends boolean | null | undefined | QuizQuestionDefaultArgs> = $Result.GetResult<Prisma.$QuizQuestionPayload, S>
+
+  type QuizQuestionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QuizQuestionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QuizQuestionCountAggregateInputType | true
+    }
+
+  export interface QuizQuestionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['QuizQuestion'], meta: { name: 'QuizQuestion' } }
+    /**
+     * Find zero or one QuizQuestion that matches the filter.
+     * @param {QuizQuestionFindUniqueArgs} args - Arguments to find a QuizQuestion
+     * @example
+     * // Get one QuizQuestion
+     * const quizQuestion = await prisma.quizQuestion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QuizQuestionFindUniqueArgs>(args: SelectSubset<T, QuizQuestionFindUniqueArgs<ExtArgs>>): Prisma__QuizQuestionClient<$Result.GetResult<Prisma.$QuizQuestionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one QuizQuestion that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QuizQuestionFindUniqueOrThrowArgs} args - Arguments to find a QuizQuestion
+     * @example
+     * // Get one QuizQuestion
+     * const quizQuestion = await prisma.quizQuestion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QuizQuestionFindUniqueOrThrowArgs>(args: SelectSubset<T, QuizQuestionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QuizQuestionClient<$Result.GetResult<Prisma.$QuizQuestionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuizQuestion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizQuestionFindFirstArgs} args - Arguments to find a QuizQuestion
+     * @example
+     * // Get one QuizQuestion
+     * const quizQuestion = await prisma.quizQuestion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QuizQuestionFindFirstArgs>(args?: SelectSubset<T, QuizQuestionFindFirstArgs<ExtArgs>>): Prisma__QuizQuestionClient<$Result.GetResult<Prisma.$QuizQuestionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuizQuestion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizQuestionFindFirstOrThrowArgs} args - Arguments to find a QuizQuestion
+     * @example
+     * // Get one QuizQuestion
+     * const quizQuestion = await prisma.quizQuestion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QuizQuestionFindFirstOrThrowArgs>(args?: SelectSubset<T, QuizQuestionFindFirstOrThrowArgs<ExtArgs>>): Prisma__QuizQuestionClient<$Result.GetResult<Prisma.$QuizQuestionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more QuizQuestions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizQuestionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all QuizQuestions
+     * const quizQuestions = await prisma.quizQuestion.findMany()
+     * 
+     * // Get first 10 QuizQuestions
+     * const quizQuestions = await prisma.quizQuestion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const quizQuestionWithIdOnly = await prisma.quizQuestion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QuizQuestionFindManyArgs>(args?: SelectSubset<T, QuizQuestionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a QuizQuestion.
+     * @param {QuizQuestionCreateArgs} args - Arguments to create a QuizQuestion.
+     * @example
+     * // Create one QuizQuestion
+     * const QuizQuestion = await prisma.quizQuestion.create({
+     *   data: {
+     *     // ... data to create a QuizQuestion
+     *   }
+     * })
+     * 
+     */
+    create<T extends QuizQuestionCreateArgs>(args: SelectSubset<T, QuizQuestionCreateArgs<ExtArgs>>): Prisma__QuizQuestionClient<$Result.GetResult<Prisma.$QuizQuestionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many QuizQuestions.
+     * @param {QuizQuestionCreateManyArgs} args - Arguments to create many QuizQuestions.
+     * @example
+     * // Create many QuizQuestions
+     * const quizQuestion = await prisma.quizQuestion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QuizQuestionCreateManyArgs>(args?: SelectSubset<T, QuizQuestionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many QuizQuestions and returns the data saved in the database.
+     * @param {QuizQuestionCreateManyAndReturnArgs} args - Arguments to create many QuizQuestions.
+     * @example
+     * // Create many QuizQuestions
+     * const quizQuestion = await prisma.quizQuestion.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many QuizQuestions and only return the `id`
+     * const quizQuestionWithIdOnly = await prisma.quizQuestion.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QuizQuestionCreateManyAndReturnArgs>(args?: SelectSubset<T, QuizQuestionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizQuestionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a QuizQuestion.
+     * @param {QuizQuestionDeleteArgs} args - Arguments to delete one QuizQuestion.
+     * @example
+     * // Delete one QuizQuestion
+     * const QuizQuestion = await prisma.quizQuestion.delete({
+     *   where: {
+     *     // ... filter to delete one QuizQuestion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QuizQuestionDeleteArgs>(args: SelectSubset<T, QuizQuestionDeleteArgs<ExtArgs>>): Prisma__QuizQuestionClient<$Result.GetResult<Prisma.$QuizQuestionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one QuizQuestion.
+     * @param {QuizQuestionUpdateArgs} args - Arguments to update one QuizQuestion.
+     * @example
+     * // Update one QuizQuestion
+     * const quizQuestion = await prisma.quizQuestion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QuizQuestionUpdateArgs>(args: SelectSubset<T, QuizQuestionUpdateArgs<ExtArgs>>): Prisma__QuizQuestionClient<$Result.GetResult<Prisma.$QuizQuestionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more QuizQuestions.
+     * @param {QuizQuestionDeleteManyArgs} args - Arguments to filter QuizQuestions to delete.
+     * @example
+     * // Delete a few QuizQuestions
+     * const { count } = await prisma.quizQuestion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QuizQuestionDeleteManyArgs>(args?: SelectSubset<T, QuizQuestionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuizQuestions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizQuestionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many QuizQuestions
+     * const quizQuestion = await prisma.quizQuestion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QuizQuestionUpdateManyArgs>(args: SelectSubset<T, QuizQuestionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuizQuestions and returns the data updated in the database.
+     * @param {QuizQuestionUpdateManyAndReturnArgs} args - Arguments to update many QuizQuestions.
+     * @example
+     * // Update many QuizQuestions
+     * const quizQuestion = await prisma.quizQuestion.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more QuizQuestions and only return the `id`
+     * const quizQuestionWithIdOnly = await prisma.quizQuestion.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QuizQuestionUpdateManyAndReturnArgs>(args: SelectSubset<T, QuizQuestionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizQuestionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one QuizQuestion.
+     * @param {QuizQuestionUpsertArgs} args - Arguments to update or create a QuizQuestion.
+     * @example
+     * // Update or create a QuizQuestion
+     * const quizQuestion = await prisma.quizQuestion.upsert({
+     *   create: {
+     *     // ... data to create a QuizQuestion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the QuizQuestion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QuizQuestionUpsertArgs>(args: SelectSubset<T, QuizQuestionUpsertArgs<ExtArgs>>): Prisma__QuizQuestionClient<$Result.GetResult<Prisma.$QuizQuestionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of QuizQuestions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizQuestionCountArgs} args - Arguments to filter QuizQuestions to count.
+     * @example
+     * // Count the number of QuizQuestions
+     * const count = await prisma.quizQuestion.count({
+     *   where: {
+     *     // ... the filter for the QuizQuestions we want to count
+     *   }
+     * })
+    **/
+    count<T extends QuizQuestionCountArgs>(
+      args?: Subset<T, QuizQuestionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QuizQuestionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a QuizQuestion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizQuestionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QuizQuestionAggregateArgs>(args: Subset<T, QuizQuestionAggregateArgs>): Prisma.PrismaPromise<GetQuizQuestionAggregateType<T>>
+
+    /**
+     * Group by QuizQuestion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizQuestionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QuizQuestionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QuizQuestionGroupByArgs['orderBy'] }
+        : { orderBy?: QuizQuestionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QuizQuestionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQuizQuestionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the QuizQuestion model
+   */
+  readonly fields: QuizQuestionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for QuizQuestion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QuizQuestionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    quiz<T extends QuizDefaultArgs<ExtArgs> = {}>(args?: Subset<T, QuizDefaultArgs<ExtArgs>>): Prisma__QuizClient<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    options<T extends QuizQuestion$optionsArgs<ExtArgs> = {}>(args?: Subset<T, QuizQuestion$optionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the QuizQuestion model
+   */
+  interface QuizQuestionFieldRefs {
+    readonly id: FieldRef<"QuizQuestion", 'String'>
+    readonly question: FieldRef<"QuizQuestion", 'String'>
+    readonly type: FieldRef<"QuizQuestion", 'String'>
+    readonly quizId: FieldRef<"QuizQuestion", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * QuizQuestion findUnique
+   */
+  export type QuizQuestionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizQuestion
+     */
+    select?: QuizQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizQuestion
+     */
+    omit?: QuizQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which QuizQuestion to fetch.
+     */
+    where: QuizQuestionWhereUniqueInput
+  }
+
+  /**
+   * QuizQuestion findUniqueOrThrow
+   */
+  export type QuizQuestionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizQuestion
+     */
+    select?: QuizQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizQuestion
+     */
+    omit?: QuizQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which QuizQuestion to fetch.
+     */
+    where: QuizQuestionWhereUniqueInput
+  }
+
+  /**
+   * QuizQuestion findFirst
+   */
+  export type QuizQuestionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizQuestion
+     */
+    select?: QuizQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizQuestion
+     */
+    omit?: QuizQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which QuizQuestion to fetch.
+     */
+    where?: QuizQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizQuestions to fetch.
+     */
+    orderBy?: QuizQuestionOrderByWithRelationInput | QuizQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuizQuestions.
+     */
+    cursor?: QuizQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizQuestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuizQuestions.
+     */
+    distinct?: QuizQuestionScalarFieldEnum | QuizQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * QuizQuestion findFirstOrThrow
+   */
+  export type QuizQuestionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizQuestion
+     */
+    select?: QuizQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizQuestion
+     */
+    omit?: QuizQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which QuizQuestion to fetch.
+     */
+    where?: QuizQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizQuestions to fetch.
+     */
+    orderBy?: QuizQuestionOrderByWithRelationInput | QuizQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuizQuestions.
+     */
+    cursor?: QuizQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizQuestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuizQuestions.
+     */
+    distinct?: QuizQuestionScalarFieldEnum | QuizQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * QuizQuestion findMany
+   */
+  export type QuizQuestionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizQuestion
+     */
+    select?: QuizQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizQuestion
+     */
+    omit?: QuizQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which QuizQuestions to fetch.
+     */
+    where?: QuizQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizQuestions to fetch.
+     */
+    orderBy?: QuizQuestionOrderByWithRelationInput | QuizQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing QuizQuestions.
+     */
+    cursor?: QuizQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizQuestions.
+     */
+    skip?: number
+    distinct?: QuizQuestionScalarFieldEnum | QuizQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * QuizQuestion create
+   */
+  export type QuizQuestionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizQuestion
+     */
+    select?: QuizQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizQuestion
+     */
+    omit?: QuizQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizQuestionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a QuizQuestion.
+     */
+    data: XOR<QuizQuestionCreateInput, QuizQuestionUncheckedCreateInput>
+  }
+
+  /**
+   * QuizQuestion createMany
+   */
+  export type QuizQuestionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many QuizQuestions.
+     */
+    data: QuizQuestionCreateManyInput | QuizQuestionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * QuizQuestion createManyAndReturn
+   */
+  export type QuizQuestionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizQuestion
+     */
+    select?: QuizQuestionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizQuestion
+     */
+    omit?: QuizQuestionOmit<ExtArgs> | null
+    /**
+     * The data used to create many QuizQuestions.
+     */
+    data: QuizQuestionCreateManyInput | QuizQuestionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizQuestionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QuizQuestion update
+   */
+  export type QuizQuestionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizQuestion
+     */
+    select?: QuizQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizQuestion
+     */
+    omit?: QuizQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizQuestionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a QuizQuestion.
+     */
+    data: XOR<QuizQuestionUpdateInput, QuizQuestionUncheckedUpdateInput>
+    /**
+     * Choose, which QuizQuestion to update.
+     */
+    where: QuizQuestionWhereUniqueInput
+  }
+
+  /**
+   * QuizQuestion updateMany
+   */
+  export type QuizQuestionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update QuizQuestions.
+     */
+    data: XOR<QuizQuestionUpdateManyMutationInput, QuizQuestionUncheckedUpdateManyInput>
+    /**
+     * Filter which QuizQuestions to update
+     */
+    where?: QuizQuestionWhereInput
+    /**
+     * Limit how many QuizQuestions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuizQuestion updateManyAndReturn
+   */
+  export type QuizQuestionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizQuestion
+     */
+    select?: QuizQuestionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizQuestion
+     */
+    omit?: QuizQuestionOmit<ExtArgs> | null
+    /**
+     * The data used to update QuizQuestions.
+     */
+    data: XOR<QuizQuestionUpdateManyMutationInput, QuizQuestionUncheckedUpdateManyInput>
+    /**
+     * Filter which QuizQuestions to update
+     */
+    where?: QuizQuestionWhereInput
+    /**
+     * Limit how many QuizQuestions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizQuestionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QuizQuestion upsert
+   */
+  export type QuizQuestionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizQuestion
+     */
+    select?: QuizQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizQuestion
+     */
+    omit?: QuizQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizQuestionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the QuizQuestion to update in case it exists.
+     */
+    where: QuizQuestionWhereUniqueInput
+    /**
+     * In case the QuizQuestion found by the `where` argument doesn't exist, create a new QuizQuestion with this data.
+     */
+    create: XOR<QuizQuestionCreateInput, QuizQuestionUncheckedCreateInput>
+    /**
+     * In case the QuizQuestion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QuizQuestionUpdateInput, QuizQuestionUncheckedUpdateInput>
+  }
+
+  /**
+   * QuizQuestion delete
+   */
+  export type QuizQuestionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizQuestion
+     */
+    select?: QuizQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizQuestion
+     */
+    omit?: QuizQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizQuestionInclude<ExtArgs> | null
+    /**
+     * Filter which QuizQuestion to delete.
+     */
+    where: QuizQuestionWhereUniqueInput
+  }
+
+  /**
+   * QuizQuestion deleteMany
+   */
+  export type QuizQuestionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuizQuestions to delete
+     */
+    where?: QuizQuestionWhereInput
+    /**
+     * Limit how many QuizQuestions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuizQuestion.options
+   */
+  export type QuizQuestion$optionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizOption
+     */
+    select?: QuizOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizOption
+     */
+    omit?: QuizOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizOptionInclude<ExtArgs> | null
+    where?: QuizOptionWhereInput
+    orderBy?: QuizOptionOrderByWithRelationInput | QuizOptionOrderByWithRelationInput[]
+    cursor?: QuizOptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuizOptionScalarFieldEnum | QuizOptionScalarFieldEnum[]
+  }
+
+  /**
+   * QuizQuestion without action
+   */
+  export type QuizQuestionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizQuestion
+     */
+    select?: QuizQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizQuestion
+     */
+    omit?: QuizQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizQuestionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model QuizOption
+   */
+
+  export type AggregateQuizOption = {
+    _count: QuizOptionCountAggregateOutputType | null
+    _min: QuizOptionMinAggregateOutputType | null
+    _max: QuizOptionMaxAggregateOutputType | null
+  }
+
+  export type QuizOptionMinAggregateOutputType = {
+    id: string | null
+    content: string | null
+    isCorrect: boolean | null
+    questionId: string | null
+  }
+
+  export type QuizOptionMaxAggregateOutputType = {
+    id: string | null
+    content: string | null
+    isCorrect: boolean | null
+    questionId: string | null
+  }
+
+  export type QuizOptionCountAggregateOutputType = {
+    id: number
+    content: number
+    isCorrect: number
+    questionId: number
+    _all: number
+  }
+
+
+  export type QuizOptionMinAggregateInputType = {
+    id?: true
+    content?: true
+    isCorrect?: true
+    questionId?: true
+  }
+
+  export type QuizOptionMaxAggregateInputType = {
+    id?: true
+    content?: true
+    isCorrect?: true
+    questionId?: true
+  }
+
+  export type QuizOptionCountAggregateInputType = {
+    id?: true
+    content?: true
+    isCorrect?: true
+    questionId?: true
+    _all?: true
+  }
+
+  export type QuizOptionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuizOption to aggregate.
+     */
+    where?: QuizOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizOptions to fetch.
+     */
+    orderBy?: QuizOptionOrderByWithRelationInput | QuizOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QuizOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizOptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned QuizOptions
+    **/
+    _count?: true | QuizOptionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QuizOptionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QuizOptionMaxAggregateInputType
+  }
+
+  export type GetQuizOptionAggregateType<T extends QuizOptionAggregateArgs> = {
+        [P in keyof T & keyof AggregateQuizOption]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQuizOption[P]>
+      : GetScalarType<T[P], AggregateQuizOption[P]>
+  }
+
+
+
+
+  export type QuizOptionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuizOptionWhereInput
+    orderBy?: QuizOptionOrderByWithAggregationInput | QuizOptionOrderByWithAggregationInput[]
+    by: QuizOptionScalarFieldEnum[] | QuizOptionScalarFieldEnum
+    having?: QuizOptionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QuizOptionCountAggregateInputType | true
+    _min?: QuizOptionMinAggregateInputType
+    _max?: QuizOptionMaxAggregateInputType
+  }
+
+  export type QuizOptionGroupByOutputType = {
+    id: string
+    content: string
+    isCorrect: boolean
+    questionId: string
+    _count: QuizOptionCountAggregateOutputType | null
+    _min: QuizOptionMinAggregateOutputType | null
+    _max: QuizOptionMaxAggregateOutputType | null
+  }
+
+  type GetQuizOptionGroupByPayload<T extends QuizOptionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QuizOptionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QuizOptionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QuizOptionGroupByOutputType[P]>
+            : GetScalarType<T[P], QuizOptionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QuizOptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    isCorrect?: boolean
+    questionId?: boolean
+    question?: boolean | QuizQuestionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["quizOption"]>
+
+  export type QuizOptionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    isCorrect?: boolean
+    questionId?: boolean
+    question?: boolean | QuizQuestionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["quizOption"]>
+
+  export type QuizOptionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    content?: boolean
+    isCorrect?: boolean
+    questionId?: boolean
+    question?: boolean | QuizQuestionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["quizOption"]>
+
+  export type QuizOptionSelectScalar = {
+    id?: boolean
+    content?: boolean
+    isCorrect?: boolean
+    questionId?: boolean
+  }
+
+  export type QuizOptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "content" | "isCorrect" | "questionId", ExtArgs["result"]["quizOption"]>
+  export type QuizOptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    question?: boolean | QuizQuestionDefaultArgs<ExtArgs>
+  }
+  export type QuizOptionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    question?: boolean | QuizQuestionDefaultArgs<ExtArgs>
+  }
+  export type QuizOptionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    question?: boolean | QuizQuestionDefaultArgs<ExtArgs>
+  }
+
+  export type $QuizOptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "QuizOption"
+    objects: {
+      question: Prisma.$QuizQuestionPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      content: string
+      isCorrect: boolean
+      questionId: string
+    }, ExtArgs["result"]["quizOption"]>
+    composites: {}
+  }
+
+  type QuizOptionGetPayload<S extends boolean | null | undefined | QuizOptionDefaultArgs> = $Result.GetResult<Prisma.$QuizOptionPayload, S>
+
+  type QuizOptionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QuizOptionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QuizOptionCountAggregateInputType | true
+    }
+
+  export interface QuizOptionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['QuizOption'], meta: { name: 'QuizOption' } }
+    /**
+     * Find zero or one QuizOption that matches the filter.
+     * @param {QuizOptionFindUniqueArgs} args - Arguments to find a QuizOption
+     * @example
+     * // Get one QuizOption
+     * const quizOption = await prisma.quizOption.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QuizOptionFindUniqueArgs>(args: SelectSubset<T, QuizOptionFindUniqueArgs<ExtArgs>>): Prisma__QuizOptionClient<$Result.GetResult<Prisma.$QuizOptionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one QuizOption that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QuizOptionFindUniqueOrThrowArgs} args - Arguments to find a QuizOption
+     * @example
+     * // Get one QuizOption
+     * const quizOption = await prisma.quizOption.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QuizOptionFindUniqueOrThrowArgs>(args: SelectSubset<T, QuizOptionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QuizOptionClient<$Result.GetResult<Prisma.$QuizOptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuizOption that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizOptionFindFirstArgs} args - Arguments to find a QuizOption
+     * @example
+     * // Get one QuizOption
+     * const quizOption = await prisma.quizOption.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QuizOptionFindFirstArgs>(args?: SelectSubset<T, QuizOptionFindFirstArgs<ExtArgs>>): Prisma__QuizOptionClient<$Result.GetResult<Prisma.$QuizOptionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuizOption that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizOptionFindFirstOrThrowArgs} args - Arguments to find a QuizOption
+     * @example
+     * // Get one QuizOption
+     * const quizOption = await prisma.quizOption.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QuizOptionFindFirstOrThrowArgs>(args?: SelectSubset<T, QuizOptionFindFirstOrThrowArgs<ExtArgs>>): Prisma__QuizOptionClient<$Result.GetResult<Prisma.$QuizOptionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more QuizOptions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizOptionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all QuizOptions
+     * const quizOptions = await prisma.quizOption.findMany()
+     * 
+     * // Get first 10 QuizOptions
+     * const quizOptions = await prisma.quizOption.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const quizOptionWithIdOnly = await prisma.quizOption.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QuizOptionFindManyArgs>(args?: SelectSubset<T, QuizOptionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizOptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a QuizOption.
+     * @param {QuizOptionCreateArgs} args - Arguments to create a QuizOption.
+     * @example
+     * // Create one QuizOption
+     * const QuizOption = await prisma.quizOption.create({
+     *   data: {
+     *     // ... data to create a QuizOption
+     *   }
+     * })
+     * 
+     */
+    create<T extends QuizOptionCreateArgs>(args: SelectSubset<T, QuizOptionCreateArgs<ExtArgs>>): Prisma__QuizOptionClient<$Result.GetResult<Prisma.$QuizOptionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many QuizOptions.
+     * @param {QuizOptionCreateManyArgs} args - Arguments to create many QuizOptions.
+     * @example
+     * // Create many QuizOptions
+     * const quizOption = await prisma.quizOption.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QuizOptionCreateManyArgs>(args?: SelectSubset<T, QuizOptionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many QuizOptions and returns the data saved in the database.
+     * @param {QuizOptionCreateManyAndReturnArgs} args - Arguments to create many QuizOptions.
+     * @example
+     * // Create many QuizOptions
+     * const quizOption = await prisma.quizOption.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many QuizOptions and only return the `id`
+     * const quizOptionWithIdOnly = await prisma.quizOption.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QuizOptionCreateManyAndReturnArgs>(args?: SelectSubset<T, QuizOptionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizOptionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a QuizOption.
+     * @param {QuizOptionDeleteArgs} args - Arguments to delete one QuizOption.
+     * @example
+     * // Delete one QuizOption
+     * const QuizOption = await prisma.quizOption.delete({
+     *   where: {
+     *     // ... filter to delete one QuizOption
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QuizOptionDeleteArgs>(args: SelectSubset<T, QuizOptionDeleteArgs<ExtArgs>>): Prisma__QuizOptionClient<$Result.GetResult<Prisma.$QuizOptionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one QuizOption.
+     * @param {QuizOptionUpdateArgs} args - Arguments to update one QuizOption.
+     * @example
+     * // Update one QuizOption
+     * const quizOption = await prisma.quizOption.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QuizOptionUpdateArgs>(args: SelectSubset<T, QuizOptionUpdateArgs<ExtArgs>>): Prisma__QuizOptionClient<$Result.GetResult<Prisma.$QuizOptionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more QuizOptions.
+     * @param {QuizOptionDeleteManyArgs} args - Arguments to filter QuizOptions to delete.
+     * @example
+     * // Delete a few QuizOptions
+     * const { count } = await prisma.quizOption.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QuizOptionDeleteManyArgs>(args?: SelectSubset<T, QuizOptionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuizOptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizOptionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many QuizOptions
+     * const quizOption = await prisma.quizOption.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QuizOptionUpdateManyArgs>(args: SelectSubset<T, QuizOptionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuizOptions and returns the data updated in the database.
+     * @param {QuizOptionUpdateManyAndReturnArgs} args - Arguments to update many QuizOptions.
+     * @example
+     * // Update many QuizOptions
+     * const quizOption = await prisma.quizOption.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more QuizOptions and only return the `id`
+     * const quizOptionWithIdOnly = await prisma.quizOption.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QuizOptionUpdateManyAndReturnArgs>(args: SelectSubset<T, QuizOptionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizOptionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one QuizOption.
+     * @param {QuizOptionUpsertArgs} args - Arguments to update or create a QuizOption.
+     * @example
+     * // Update or create a QuizOption
+     * const quizOption = await prisma.quizOption.upsert({
+     *   create: {
+     *     // ... data to create a QuizOption
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the QuizOption we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QuizOptionUpsertArgs>(args: SelectSubset<T, QuizOptionUpsertArgs<ExtArgs>>): Prisma__QuizOptionClient<$Result.GetResult<Prisma.$QuizOptionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of QuizOptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizOptionCountArgs} args - Arguments to filter QuizOptions to count.
+     * @example
+     * // Count the number of QuizOptions
+     * const count = await prisma.quizOption.count({
+     *   where: {
+     *     // ... the filter for the QuizOptions we want to count
+     *   }
+     * })
+    **/
+    count<T extends QuizOptionCountArgs>(
+      args?: Subset<T, QuizOptionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QuizOptionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a QuizOption.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizOptionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QuizOptionAggregateArgs>(args: Subset<T, QuizOptionAggregateArgs>): Prisma.PrismaPromise<GetQuizOptionAggregateType<T>>
+
+    /**
+     * Group by QuizOption.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizOptionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QuizOptionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QuizOptionGroupByArgs['orderBy'] }
+        : { orderBy?: QuizOptionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QuizOptionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQuizOptionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the QuizOption model
+   */
+  readonly fields: QuizOptionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for QuizOption.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QuizOptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    question<T extends QuizQuestionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, QuizQuestionDefaultArgs<ExtArgs>>): Prisma__QuizQuestionClient<$Result.GetResult<Prisma.$QuizQuestionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the QuizOption model
+   */
+  interface QuizOptionFieldRefs {
+    readonly id: FieldRef<"QuizOption", 'String'>
+    readonly content: FieldRef<"QuizOption", 'String'>
+    readonly isCorrect: FieldRef<"QuizOption", 'Boolean'>
+    readonly questionId: FieldRef<"QuizOption", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * QuizOption findUnique
+   */
+  export type QuizOptionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizOption
+     */
+    select?: QuizOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizOption
+     */
+    omit?: QuizOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which QuizOption to fetch.
+     */
+    where: QuizOptionWhereUniqueInput
+  }
+
+  /**
+   * QuizOption findUniqueOrThrow
+   */
+  export type QuizOptionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizOption
+     */
+    select?: QuizOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizOption
+     */
+    omit?: QuizOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which QuizOption to fetch.
+     */
+    where: QuizOptionWhereUniqueInput
+  }
+
+  /**
+   * QuizOption findFirst
+   */
+  export type QuizOptionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizOption
+     */
+    select?: QuizOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizOption
+     */
+    omit?: QuizOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which QuizOption to fetch.
+     */
+    where?: QuizOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizOptions to fetch.
+     */
+    orderBy?: QuizOptionOrderByWithRelationInput | QuizOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuizOptions.
+     */
+    cursor?: QuizOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizOptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuizOptions.
+     */
+    distinct?: QuizOptionScalarFieldEnum | QuizOptionScalarFieldEnum[]
+  }
+
+  /**
+   * QuizOption findFirstOrThrow
+   */
+  export type QuizOptionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizOption
+     */
+    select?: QuizOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizOption
+     */
+    omit?: QuizOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which QuizOption to fetch.
+     */
+    where?: QuizOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizOptions to fetch.
+     */
+    orderBy?: QuizOptionOrderByWithRelationInput | QuizOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuizOptions.
+     */
+    cursor?: QuizOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizOptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuizOptions.
+     */
+    distinct?: QuizOptionScalarFieldEnum | QuizOptionScalarFieldEnum[]
+  }
+
+  /**
+   * QuizOption findMany
+   */
+  export type QuizOptionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizOption
+     */
+    select?: QuizOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizOption
+     */
+    omit?: QuizOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizOptionInclude<ExtArgs> | null
+    /**
+     * Filter, which QuizOptions to fetch.
+     */
+    where?: QuizOptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizOptions to fetch.
+     */
+    orderBy?: QuizOptionOrderByWithRelationInput | QuizOptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing QuizOptions.
+     */
+    cursor?: QuizOptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizOptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizOptions.
+     */
+    skip?: number
+    distinct?: QuizOptionScalarFieldEnum | QuizOptionScalarFieldEnum[]
+  }
+
+  /**
+   * QuizOption create
+   */
+  export type QuizOptionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizOption
+     */
+    select?: QuizOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizOption
+     */
+    omit?: QuizOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizOptionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a QuizOption.
+     */
+    data: XOR<QuizOptionCreateInput, QuizOptionUncheckedCreateInput>
+  }
+
+  /**
+   * QuizOption createMany
+   */
+  export type QuizOptionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many QuizOptions.
+     */
+    data: QuizOptionCreateManyInput | QuizOptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * QuizOption createManyAndReturn
+   */
+  export type QuizOptionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizOption
+     */
+    select?: QuizOptionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizOption
+     */
+    omit?: QuizOptionOmit<ExtArgs> | null
+    /**
+     * The data used to create many QuizOptions.
+     */
+    data: QuizOptionCreateManyInput | QuizOptionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizOptionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QuizOption update
+   */
+  export type QuizOptionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizOption
+     */
+    select?: QuizOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizOption
+     */
+    omit?: QuizOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizOptionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a QuizOption.
+     */
+    data: XOR<QuizOptionUpdateInput, QuizOptionUncheckedUpdateInput>
+    /**
+     * Choose, which QuizOption to update.
+     */
+    where: QuizOptionWhereUniqueInput
+  }
+
+  /**
+   * QuizOption updateMany
+   */
+  export type QuizOptionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update QuizOptions.
+     */
+    data: XOR<QuizOptionUpdateManyMutationInput, QuizOptionUncheckedUpdateManyInput>
+    /**
+     * Filter which QuizOptions to update
+     */
+    where?: QuizOptionWhereInput
+    /**
+     * Limit how many QuizOptions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuizOption updateManyAndReturn
+   */
+  export type QuizOptionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizOption
+     */
+    select?: QuizOptionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizOption
+     */
+    omit?: QuizOptionOmit<ExtArgs> | null
+    /**
+     * The data used to update QuizOptions.
+     */
+    data: XOR<QuizOptionUpdateManyMutationInput, QuizOptionUncheckedUpdateManyInput>
+    /**
+     * Filter which QuizOptions to update
+     */
+    where?: QuizOptionWhereInput
+    /**
+     * Limit how many QuizOptions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizOptionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QuizOption upsert
+   */
+  export type QuizOptionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizOption
+     */
+    select?: QuizOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizOption
+     */
+    omit?: QuizOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizOptionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the QuizOption to update in case it exists.
+     */
+    where: QuizOptionWhereUniqueInput
+    /**
+     * In case the QuizOption found by the `where` argument doesn't exist, create a new QuizOption with this data.
+     */
+    create: XOR<QuizOptionCreateInput, QuizOptionUncheckedCreateInput>
+    /**
+     * In case the QuizOption was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QuizOptionUpdateInput, QuizOptionUncheckedUpdateInput>
+  }
+
+  /**
+   * QuizOption delete
+   */
+  export type QuizOptionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizOption
+     */
+    select?: QuizOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizOption
+     */
+    omit?: QuizOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizOptionInclude<ExtArgs> | null
+    /**
+     * Filter which QuizOption to delete.
+     */
+    where: QuizOptionWhereUniqueInput
+  }
+
+  /**
+   * QuizOption deleteMany
+   */
+  export type QuizOptionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuizOptions to delete
+     */
+    where?: QuizOptionWhereInput
+    /**
+     * Limit how many QuizOptions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuizOption without action
+   */
+  export type QuizOptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizOption
+     */
+    select?: QuizOptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizOption
+     */
+    omit?: QuizOptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuizOptionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model QuizResult
+   */
+
+  export type AggregateQuizResult = {
+    _count: QuizResultCountAggregateOutputType | null
+    _avg: QuizResultAvgAggregateOutputType | null
+    _sum: QuizResultSumAggregateOutputType | null
+    _min: QuizResultMinAggregateOutputType | null
+    _max: QuizResultMaxAggregateOutputType | null
+  }
+
+  export type QuizResultAvgAggregateOutputType = {
+    score: number | null
+  }
+
+  export type QuizResultSumAggregateOutputType = {
+    score: number | null
+  }
+
+  export type QuizResultMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    quizId: string | null
+    score: number | null
+    passed: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QuizResultMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    quizId: string | null
+    score: number | null
+    passed: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QuizResultCountAggregateOutputType = {
+    id: number
+    userId: number
+    quizId: number
+    score: number
+    passed: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type QuizResultAvgAggregateInputType = {
+    score?: true
+  }
+
+  export type QuizResultSumAggregateInputType = {
+    score?: true
+  }
+
+  export type QuizResultMinAggregateInputType = {
+    id?: true
+    userId?: true
+    quizId?: true
+    score?: true
+    passed?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QuizResultMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    quizId?: true
+    score?: true
+    passed?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QuizResultCountAggregateInputType = {
+    id?: true
+    userId?: true
+    quizId?: true
+    score?: true
+    passed?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type QuizResultAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuizResult to aggregate.
+     */
+    where?: QuizResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizResults to fetch.
+     */
+    orderBy?: QuizResultOrderByWithRelationInput | QuizResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QuizResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned QuizResults
+    **/
+    _count?: true | QuizResultCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: QuizResultAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: QuizResultSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QuizResultMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QuizResultMaxAggregateInputType
+  }
+
+  export type GetQuizResultAggregateType<T extends QuizResultAggregateArgs> = {
+        [P in keyof T & keyof AggregateQuizResult]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQuizResult[P]>
+      : GetScalarType<T[P], AggregateQuizResult[P]>
+  }
+
+
+
+
+  export type QuizResultGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuizResultWhereInput
+    orderBy?: QuizResultOrderByWithAggregationInput | QuizResultOrderByWithAggregationInput[]
+    by: QuizResultScalarFieldEnum[] | QuizResultScalarFieldEnum
+    having?: QuizResultScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QuizResultCountAggregateInputType | true
+    _avg?: QuizResultAvgAggregateInputType
+    _sum?: QuizResultSumAggregateInputType
+    _min?: QuizResultMinAggregateInputType
+    _max?: QuizResultMaxAggregateInputType
+  }
+
+  export type QuizResultGroupByOutputType = {
+    id: string
+    userId: string
+    quizId: string
+    score: number
+    passed: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: QuizResultCountAggregateOutputType | null
+    _avg: QuizResultAvgAggregateOutputType | null
+    _sum: QuizResultSumAggregateOutputType | null
+    _min: QuizResultMinAggregateOutputType | null
+    _max: QuizResultMaxAggregateOutputType | null
+  }
+
+  type GetQuizResultGroupByPayload<T extends QuizResultGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QuizResultGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QuizResultGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QuizResultGroupByOutputType[P]>
+            : GetScalarType<T[P], QuizResultGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QuizResultSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    quizId?: boolean
+    score?: boolean
+    passed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["quizResult"]>
+
+  export type QuizResultSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    quizId?: boolean
+    score?: boolean
+    passed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["quizResult"]>
+
+  export type QuizResultSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    quizId?: boolean
+    score?: boolean
+    passed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["quizResult"]>
+
+  export type QuizResultSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    quizId?: boolean
+    score?: boolean
+    passed?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type QuizResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "quizId" | "score" | "passed" | "createdAt" | "updatedAt", ExtArgs["result"]["quizResult"]>
+
+  export type $QuizResultPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "QuizResult"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      quizId: string
+      score: number
+      passed: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["quizResult"]>
+    composites: {}
+  }
+
+  type QuizResultGetPayload<S extends boolean | null | undefined | QuizResultDefaultArgs> = $Result.GetResult<Prisma.$QuizResultPayload, S>
+
+  type QuizResultCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QuizResultFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QuizResultCountAggregateInputType | true
+    }
+
+  export interface QuizResultDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['QuizResult'], meta: { name: 'QuizResult' } }
+    /**
+     * Find zero or one QuizResult that matches the filter.
+     * @param {QuizResultFindUniqueArgs} args - Arguments to find a QuizResult
+     * @example
+     * // Get one QuizResult
+     * const quizResult = await prisma.quizResult.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QuizResultFindUniqueArgs>(args: SelectSubset<T, QuizResultFindUniqueArgs<ExtArgs>>): Prisma__QuizResultClient<$Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one QuizResult that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QuizResultFindUniqueOrThrowArgs} args - Arguments to find a QuizResult
+     * @example
+     * // Get one QuizResult
+     * const quizResult = await prisma.quizResult.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QuizResultFindUniqueOrThrowArgs>(args: SelectSubset<T, QuizResultFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QuizResultClient<$Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuizResult that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizResultFindFirstArgs} args - Arguments to find a QuizResult
+     * @example
+     * // Get one QuizResult
+     * const quizResult = await prisma.quizResult.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QuizResultFindFirstArgs>(args?: SelectSubset<T, QuizResultFindFirstArgs<ExtArgs>>): Prisma__QuizResultClient<$Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuizResult that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizResultFindFirstOrThrowArgs} args - Arguments to find a QuizResult
+     * @example
+     * // Get one QuizResult
+     * const quizResult = await prisma.quizResult.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QuizResultFindFirstOrThrowArgs>(args?: SelectSubset<T, QuizResultFindFirstOrThrowArgs<ExtArgs>>): Prisma__QuizResultClient<$Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more QuizResults that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizResultFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all QuizResults
+     * const quizResults = await prisma.quizResult.findMany()
+     * 
+     * // Get first 10 QuizResults
+     * const quizResults = await prisma.quizResult.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const quizResultWithIdOnly = await prisma.quizResult.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QuizResultFindManyArgs>(args?: SelectSubset<T, QuizResultFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a QuizResult.
+     * @param {QuizResultCreateArgs} args - Arguments to create a QuizResult.
+     * @example
+     * // Create one QuizResult
+     * const QuizResult = await prisma.quizResult.create({
+     *   data: {
+     *     // ... data to create a QuizResult
+     *   }
+     * })
+     * 
+     */
+    create<T extends QuizResultCreateArgs>(args: SelectSubset<T, QuizResultCreateArgs<ExtArgs>>): Prisma__QuizResultClient<$Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many QuizResults.
+     * @param {QuizResultCreateManyArgs} args - Arguments to create many QuizResults.
+     * @example
+     * // Create many QuizResults
+     * const quizResult = await prisma.quizResult.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QuizResultCreateManyArgs>(args?: SelectSubset<T, QuizResultCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many QuizResults and returns the data saved in the database.
+     * @param {QuizResultCreateManyAndReturnArgs} args - Arguments to create many QuizResults.
+     * @example
+     * // Create many QuizResults
+     * const quizResult = await prisma.quizResult.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many QuizResults and only return the `id`
+     * const quizResultWithIdOnly = await prisma.quizResult.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QuizResultCreateManyAndReturnArgs>(args?: SelectSubset<T, QuizResultCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a QuizResult.
+     * @param {QuizResultDeleteArgs} args - Arguments to delete one QuizResult.
+     * @example
+     * // Delete one QuizResult
+     * const QuizResult = await prisma.quizResult.delete({
+     *   where: {
+     *     // ... filter to delete one QuizResult
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QuizResultDeleteArgs>(args: SelectSubset<T, QuizResultDeleteArgs<ExtArgs>>): Prisma__QuizResultClient<$Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one QuizResult.
+     * @param {QuizResultUpdateArgs} args - Arguments to update one QuizResult.
+     * @example
+     * // Update one QuizResult
+     * const quizResult = await prisma.quizResult.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QuizResultUpdateArgs>(args: SelectSubset<T, QuizResultUpdateArgs<ExtArgs>>): Prisma__QuizResultClient<$Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more QuizResults.
+     * @param {QuizResultDeleteManyArgs} args - Arguments to filter QuizResults to delete.
+     * @example
+     * // Delete a few QuizResults
+     * const { count } = await prisma.quizResult.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QuizResultDeleteManyArgs>(args?: SelectSubset<T, QuizResultDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuizResults.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizResultUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many QuizResults
+     * const quizResult = await prisma.quizResult.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QuizResultUpdateManyArgs>(args: SelectSubset<T, QuizResultUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuizResults and returns the data updated in the database.
+     * @param {QuizResultUpdateManyAndReturnArgs} args - Arguments to update many QuizResults.
+     * @example
+     * // Update many QuizResults
+     * const quizResult = await prisma.quizResult.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more QuizResults and only return the `id`
+     * const quizResultWithIdOnly = await prisma.quizResult.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QuizResultUpdateManyAndReturnArgs>(args: SelectSubset<T, QuizResultUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one QuizResult.
+     * @param {QuizResultUpsertArgs} args - Arguments to update or create a QuizResult.
+     * @example
+     * // Update or create a QuizResult
+     * const quizResult = await prisma.quizResult.upsert({
+     *   create: {
+     *     // ... data to create a QuizResult
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the QuizResult we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QuizResultUpsertArgs>(args: SelectSubset<T, QuizResultUpsertArgs<ExtArgs>>): Prisma__QuizResultClient<$Result.GetResult<Prisma.$QuizResultPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of QuizResults.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizResultCountArgs} args - Arguments to filter QuizResults to count.
+     * @example
+     * // Count the number of QuizResults
+     * const count = await prisma.quizResult.count({
+     *   where: {
+     *     // ... the filter for the QuizResults we want to count
+     *   }
+     * })
+    **/
+    count<T extends QuizResultCountArgs>(
+      args?: Subset<T, QuizResultCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QuizResultCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a QuizResult.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizResultAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QuizResultAggregateArgs>(args: Subset<T, QuizResultAggregateArgs>): Prisma.PrismaPromise<GetQuizResultAggregateType<T>>
+
+    /**
+     * Group by QuizResult.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuizResultGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QuizResultGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QuizResultGroupByArgs['orderBy'] }
+        : { orderBy?: QuizResultGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QuizResultGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQuizResultGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the QuizResult model
+   */
+  readonly fields: QuizResultFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for QuizResult.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QuizResultClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the QuizResult model
+   */
+  interface QuizResultFieldRefs {
+    readonly id: FieldRef<"QuizResult", 'String'>
+    readonly userId: FieldRef<"QuizResult", 'String'>
+    readonly quizId: FieldRef<"QuizResult", 'String'>
+    readonly score: FieldRef<"QuizResult", 'Float'>
+    readonly passed: FieldRef<"QuizResult", 'Boolean'>
+    readonly createdAt: FieldRef<"QuizResult", 'DateTime'>
+    readonly updatedAt: FieldRef<"QuizResult", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * QuizResult findUnique
+   */
+  export type QuizResultFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizResult
+     */
+    select?: QuizResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizResult
+     */
+    omit?: QuizResultOmit<ExtArgs> | null
+    /**
+     * Filter, which QuizResult to fetch.
+     */
+    where: QuizResultWhereUniqueInput
+  }
+
+  /**
+   * QuizResult findUniqueOrThrow
+   */
+  export type QuizResultFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizResult
+     */
+    select?: QuizResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizResult
+     */
+    omit?: QuizResultOmit<ExtArgs> | null
+    /**
+     * Filter, which QuizResult to fetch.
+     */
+    where: QuizResultWhereUniqueInput
+  }
+
+  /**
+   * QuizResult findFirst
+   */
+  export type QuizResultFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizResult
+     */
+    select?: QuizResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizResult
+     */
+    omit?: QuizResultOmit<ExtArgs> | null
+    /**
+     * Filter, which QuizResult to fetch.
+     */
+    where?: QuizResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizResults to fetch.
+     */
+    orderBy?: QuizResultOrderByWithRelationInput | QuizResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuizResults.
+     */
+    cursor?: QuizResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuizResults.
+     */
+    distinct?: QuizResultScalarFieldEnum | QuizResultScalarFieldEnum[]
+  }
+
+  /**
+   * QuizResult findFirstOrThrow
+   */
+  export type QuizResultFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizResult
+     */
+    select?: QuizResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizResult
+     */
+    omit?: QuizResultOmit<ExtArgs> | null
+    /**
+     * Filter, which QuizResult to fetch.
+     */
+    where?: QuizResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizResults to fetch.
+     */
+    orderBy?: QuizResultOrderByWithRelationInput | QuizResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuizResults.
+     */
+    cursor?: QuizResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuizResults.
+     */
+    distinct?: QuizResultScalarFieldEnum | QuizResultScalarFieldEnum[]
+  }
+
+  /**
+   * QuizResult findMany
+   */
+  export type QuizResultFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizResult
+     */
+    select?: QuizResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizResult
+     */
+    omit?: QuizResultOmit<ExtArgs> | null
+    /**
+     * Filter, which QuizResults to fetch.
+     */
+    where?: QuizResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuizResults to fetch.
+     */
+    orderBy?: QuizResultOrderByWithRelationInput | QuizResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing QuizResults.
+     */
+    cursor?: QuizResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuizResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuizResults.
+     */
+    skip?: number
+    distinct?: QuizResultScalarFieldEnum | QuizResultScalarFieldEnum[]
+  }
+
+  /**
+   * QuizResult create
+   */
+  export type QuizResultCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizResult
+     */
+    select?: QuizResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizResult
+     */
+    omit?: QuizResultOmit<ExtArgs> | null
+    /**
+     * The data needed to create a QuizResult.
+     */
+    data: XOR<QuizResultCreateInput, QuizResultUncheckedCreateInput>
+  }
+
+  /**
+   * QuizResult createMany
+   */
+  export type QuizResultCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many QuizResults.
+     */
+    data: QuizResultCreateManyInput | QuizResultCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * QuizResult createManyAndReturn
+   */
+  export type QuizResultCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizResult
+     */
+    select?: QuizResultSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizResult
+     */
+    omit?: QuizResultOmit<ExtArgs> | null
+    /**
+     * The data used to create many QuizResults.
+     */
+    data: QuizResultCreateManyInput | QuizResultCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * QuizResult update
+   */
+  export type QuizResultUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizResult
+     */
+    select?: QuizResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizResult
+     */
+    omit?: QuizResultOmit<ExtArgs> | null
+    /**
+     * The data needed to update a QuizResult.
+     */
+    data: XOR<QuizResultUpdateInput, QuizResultUncheckedUpdateInput>
+    /**
+     * Choose, which QuizResult to update.
+     */
+    where: QuizResultWhereUniqueInput
+  }
+
+  /**
+   * QuizResult updateMany
+   */
+  export type QuizResultUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update QuizResults.
+     */
+    data: XOR<QuizResultUpdateManyMutationInput, QuizResultUncheckedUpdateManyInput>
+    /**
+     * Filter which QuizResults to update
+     */
+    where?: QuizResultWhereInput
+    /**
+     * Limit how many QuizResults to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuizResult updateManyAndReturn
+   */
+  export type QuizResultUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizResult
+     */
+    select?: QuizResultSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizResult
+     */
+    omit?: QuizResultOmit<ExtArgs> | null
+    /**
+     * The data used to update QuizResults.
+     */
+    data: XOR<QuizResultUpdateManyMutationInput, QuizResultUncheckedUpdateManyInput>
+    /**
+     * Filter which QuizResults to update
+     */
+    where?: QuizResultWhereInput
+    /**
+     * Limit how many QuizResults to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuizResult upsert
+   */
+  export type QuizResultUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizResult
+     */
+    select?: QuizResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizResult
+     */
+    omit?: QuizResultOmit<ExtArgs> | null
+    /**
+     * The filter to search for the QuizResult to update in case it exists.
+     */
+    where: QuizResultWhereUniqueInput
+    /**
+     * In case the QuizResult found by the `where` argument doesn't exist, create a new QuizResult with this data.
+     */
+    create: XOR<QuizResultCreateInput, QuizResultUncheckedCreateInput>
+    /**
+     * In case the QuizResult was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QuizResultUpdateInput, QuizResultUncheckedUpdateInput>
+  }
+
+  /**
+   * QuizResult delete
+   */
+  export type QuizResultDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizResult
+     */
+    select?: QuizResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizResult
+     */
+    omit?: QuizResultOmit<ExtArgs> | null
+    /**
+     * Filter which QuizResult to delete.
+     */
+    where: QuizResultWhereUniqueInput
+  }
+
+  /**
+   * QuizResult deleteMany
+   */
+  export type QuizResultDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuizResults to delete
+     */
+    where?: QuizResultWhereInput
+    /**
+     * Limit how many QuizResults to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuizResult without action
+   */
+  export type QuizResultDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuizResult
+     */
+    select?: QuizResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuizResult
+     */
+    omit?: QuizResultOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -53102,6 +58100,9 @@ export namespace Prisma {
   export const LessonProgressScalarFieldEnum: {
     id: 'id',
     completed: 'completed',
+    startTime: 'startTime',
+    endTime: 'endTime',
+    watchedSeconds: 'watchedSeconds',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     userId: 'userId',
@@ -53117,7 +58118,11 @@ export namespace Prisma {
     type: 'type',
     itemId: 'itemId',
     completed: 'completed',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    progressPercentage: 'progressPercentage',
+    startedAt: 'startedAt',
+    completedAt: 'completedAt',
+    timeSpent: 'timeSpent'
   };
 
   export type UserProgressScalarFieldEnum = (typeof UserProgressScalarFieldEnum)[keyof typeof UserProgressScalarFieldEnum]
@@ -53381,6 +58386,55 @@ export namespace Prisma {
   export type CompanySocialLinkScalarFieldEnum = (typeof CompanySocialLinkScalarFieldEnum)[keyof typeof CompanySocialLinkScalarFieldEnum]
 
 
+  export const QuizScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    slug: 'slug',
+    description: 'description',
+    type: 'type',
+    chapterId: 'chapterId',
+    courseId: 'courseId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    userId: 'userId'
+  };
+
+  export type QuizScalarFieldEnum = (typeof QuizScalarFieldEnum)[keyof typeof QuizScalarFieldEnum]
+
+
+  export const QuizQuestionScalarFieldEnum: {
+    id: 'id',
+    question: 'question',
+    type: 'type',
+    quizId: 'quizId'
+  };
+
+  export type QuizQuestionScalarFieldEnum = (typeof QuizQuestionScalarFieldEnum)[keyof typeof QuizQuestionScalarFieldEnum]
+
+
+  export const QuizOptionScalarFieldEnum: {
+    id: 'id',
+    content: 'content',
+    isCorrect: 'isCorrect',
+    questionId: 'questionId'
+  };
+
+  export type QuizOptionScalarFieldEnum = (typeof QuizOptionScalarFieldEnum)[keyof typeof QuizOptionScalarFieldEnum]
+
+
+  export const QuizResultScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    quizId: 'quizId',
+    score: 'score',
+    passed: 'passed',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type QuizResultScalarFieldEnum = (typeof QuizResultScalarFieldEnum)[keyof typeof QuizResultScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -53460,30 +58514,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'ItemType'
+   * Reference to a field of type 'Float'
    */
-  export type EnumItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ItemType'>
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
 
 
   /**
-   * Reference to a field of type 'ItemType[]'
+   * Reference to a field of type 'Float[]'
    */
-  export type ListEnumItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ItemType[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'DiscountType'
-   */
-  export type EnumDiscountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiscountType'>
-    
-
-
-  /**
-   * Reference to a field of type 'DiscountType[]'
-   */
-  export type ListEnumDiscountTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiscountType[]'>
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 
@@ -53498,20 +58538,6 @@ export namespace Prisma {
    * Reference to a field of type 'enrollmentStatus[]'
    */
   export type ListEnumenrollmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'enrollmentStatus[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -53539,12 +58565,13 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     lessonProgress?: LessonProgressListRelationFilter
     enrollment?: EnrollmentListRelationFilter
-    Payment?: PaymentListRelationFilter
-    Invoice?: InvoiceListRelationFilter
+    payments?: PaymentListRelationFilter
+    invoices?: InvoiceListRelationFilter
     courses?: CourseListRelationFilter
-    LearningPath?: LearningPathListRelationFilter
-    Workshop?: WorkshopListRelationFilter
-    Resource?: ResourceListRelationFilter
+    learningPaths?: LearningPathListRelationFilter
+    workshops?: WorkshopListRelationFilter
+    resources?: ResourceListRelationFilter
+    quiz?: QuizListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -53565,12 +58592,13 @@ export namespace Prisma {
     accounts?: AccountOrderByRelationAggregateInput
     lessonProgress?: LessonProgressOrderByRelationAggregateInput
     enrollment?: EnrollmentOrderByRelationAggregateInput
-    Payment?: PaymentOrderByRelationAggregateInput
-    Invoice?: InvoiceOrderByRelationAggregateInput
+    payments?: PaymentOrderByRelationAggregateInput
+    invoices?: InvoiceOrderByRelationAggregateInput
     courses?: CourseOrderByRelationAggregateInput
-    LearningPath?: LearningPathOrderByRelationAggregateInput
-    Workshop?: WorkshopOrderByRelationAggregateInput
-    Resource?: ResourceOrderByRelationAggregateInput
+    learningPaths?: LearningPathOrderByRelationAggregateInput
+    workshops?: WorkshopOrderByRelationAggregateInput
+    resources?: ResourceOrderByRelationAggregateInput
+    quiz?: QuizOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -53594,12 +58622,13 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     lessonProgress?: LessonProgressListRelationFilter
     enrollment?: EnrollmentListRelationFilter
-    Payment?: PaymentListRelationFilter
-    Invoice?: InvoiceListRelationFilter
+    payments?: PaymentListRelationFilter
+    invoices?: InvoiceListRelationFilter
     courses?: CourseListRelationFilter
-    LearningPath?: LearningPathListRelationFilter
-    Workshop?: WorkshopListRelationFilter
-    Resource?: ResourceListRelationFilter
+    learningPaths?: LearningPathListRelationFilter
+    workshops?: WorkshopListRelationFilter
+    resources?: ResourceListRelationFilter
+    quiz?: QuizListRelationFilter
   }, "id" | "stripeCustomerId" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -54064,8 +59093,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteListRelationFilter
     promoCodes?: PromoCodeListRelationFilter
     promotions?: PromotionListRelationFilter
-    Enrollment?: EnrollmentListRelationFilter
-    Payment?: PaymentListRelationFilter
+    enrollments?: EnrollmentListRelationFilter
+    payments?: PaymentListRelationFilter
   }
 
   export type LearningPathOrderByWithRelationInput = {
@@ -54094,8 +59123,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteOrderByRelationAggregateInput
     promoCodes?: PromoCodeOrderByRelationAggregateInput
     promotions?: PromotionOrderByRelationAggregateInput
-    Enrollment?: EnrollmentOrderByRelationAggregateInput
-    Payment?: PaymentOrderByRelationAggregateInput
+    enrollments?: EnrollmentOrderByRelationAggregateInput
+    payments?: PaymentOrderByRelationAggregateInput
   }
 
   export type LearningPathWhereUniqueInput = Prisma.AtLeast<{
@@ -54127,8 +59156,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteListRelationFilter
     promoCodes?: PromoCodeListRelationFilter
     promotions?: PromotionListRelationFilter
-    Enrollment?: EnrollmentListRelationFilter
-    Payment?: PaymentListRelationFilter
+    enrollments?: EnrollmentListRelationFilter
+    payments?: PaymentListRelationFilter
   }, "id" | "slug" | "stripePriceId">
 
   export type LearningPathOrderByWithAggregationInput = {
@@ -54182,7 +59211,7 @@ export namespace Prisma {
     OR?: LearningPathItemWhereInput[]
     NOT?: LearningPathItemWhereInput | LearningPathItemWhereInput[]
     id?: StringFilter<"LearningPathItem"> | string
-    type?: EnumItemTypeFilter<"LearningPathItem"> | $Enums.ItemType
+    type?: StringFilter<"LearningPathItem"> | string
     position?: IntFilter<"LearningPathItem"> | number
     learningPathId?: StringFilter<"LearningPathItem"> | string
     courseId?: StringNullableFilter<"LearningPathItem"> | string | null
@@ -54213,7 +59242,7 @@ export namespace Prisma {
     AND?: LearningPathItemWhereInput | LearningPathItemWhereInput[]
     OR?: LearningPathItemWhereInput[]
     NOT?: LearningPathItemWhereInput | LearningPathItemWhereInput[]
-    type?: EnumItemTypeFilter<"LearningPathItem"> | $Enums.ItemType
+    type?: StringFilter<"LearningPathItem"> | string
     position?: IntFilter<"LearningPathItem"> | number
     learningPathId?: StringFilter<"LearningPathItem"> | string
     courseId?: StringNullableFilter<"LearningPathItem"> | string | null
@@ -54245,7 +59274,7 @@ export namespace Prisma {
     OR?: LearningPathItemScalarWhereWithAggregatesInput[]
     NOT?: LearningPathItemScalarWhereWithAggregatesInput | LearningPathItemScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"LearningPathItem"> | string
-    type?: EnumItemTypeWithAggregatesFilter<"LearningPathItem"> | $Enums.ItemType
+    type?: StringWithAggregatesFilter<"LearningPathItem"> | string
     position?: IntWithAggregatesFilter<"LearningPathItem"> | number
     learningPathId?: StringWithAggregatesFilter<"LearningPathItem"> | string
     courseId?: StringNullableWithAggregatesFilter<"LearningPathItem"> | string | null
@@ -54276,9 +59305,9 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"Course"> | Date | string | null
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     chapters?: ChapterListRelationFilter
-    enrollment?: EnrollmentListRelationFilter
+    enrollments?: EnrollmentListRelationFilter
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
-    Payment?: PaymentListRelationFilter
+    payments?: PaymentListRelationFilter
     promotions?: PromotionListRelationFilter
     promoCodes?: PromoCodeListRelationFilter
     tags?: CourseTagListRelationFilter
@@ -54309,9 +59338,9 @@ export namespace Prisma {
     deletedAt?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     chapters?: ChapterOrderByRelationAggregateInput
-    enrollment?: EnrollmentOrderByRelationAggregateInput
+    enrollments?: EnrollmentOrderByRelationAggregateInput
     category?: CategoryOrderByWithRelationInput
-    Payment?: PaymentOrderByRelationAggregateInput
+    payments?: PaymentOrderByRelationAggregateInput
     promotions?: PromotionOrderByRelationAggregateInput
     promoCodes?: PromoCodeOrderByRelationAggregateInput
     tags?: CourseTagOrderByRelationAggregateInput
@@ -54345,9 +59374,9 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"Course"> | Date | string | null
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     chapters?: ChapterListRelationFilter
-    enrollment?: EnrollmentListRelationFilter
+    enrollments?: EnrollmentListRelationFilter
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
-    Payment?: PaymentListRelationFilter
+    payments?: PaymentListRelationFilter
     promotions?: PromotionListRelationFilter
     promoCodes?: PromoCodeListRelationFilter
     tags?: CourseTagListRelationFilter
@@ -54600,8 +59629,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteListRelationFilter
     promoCodes?: PromoCodeListRelationFilter
     promotions?: PromotionListRelationFilter
-    Enrollment?: EnrollmentListRelationFilter
-    Payment?: PaymentListRelationFilter
+    enrollments?: EnrollmentListRelationFilter
+    payments?: PaymentListRelationFilter
   }
 
   export type WorkshopOrderByWithRelationInput = {
@@ -54637,8 +59666,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteOrderByRelationAggregateInput
     promoCodes?: PromoCodeOrderByRelationAggregateInput
     promotions?: PromotionOrderByRelationAggregateInput
-    Enrollment?: EnrollmentOrderByRelationAggregateInput
-    Payment?: PaymentOrderByRelationAggregateInput
+    enrollments?: EnrollmentOrderByRelationAggregateInput
+    payments?: PaymentOrderByRelationAggregateInput
   }
 
   export type WorkshopWhereUniqueInput = Prisma.AtLeast<{
@@ -54677,8 +59706,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteListRelationFilter
     promoCodes?: PromoCodeListRelationFilter
     promotions?: PromotionListRelationFilter
-    Enrollment?: EnrollmentListRelationFilter
-    Payment?: PaymentListRelationFilter
+    enrollments?: EnrollmentListRelationFilter
+    payments?: PaymentListRelationFilter
   }, "id" | "slug" | "stripePriceId">
 
   export type WorkshopOrderByWithAggregationInput = {
@@ -55008,6 +60037,9 @@ export namespace Prisma {
     NOT?: LessonProgressWhereInput | LessonProgressWhereInput[]
     id?: StringFilter<"LessonProgress"> | string
     completed?: BoolFilter<"LessonProgress"> | boolean
+    startTime?: DateTimeNullableFilter<"LessonProgress"> | Date | string | null
+    endTime?: DateTimeNullableFilter<"LessonProgress"> | Date | string | null
+    watchedSeconds?: IntNullableFilter<"LessonProgress"> | number | null
     createdAt?: DateTimeFilter<"LessonProgress"> | Date | string
     updatedAt?: DateTimeFilter<"LessonProgress"> | Date | string
     userId?: StringFilter<"LessonProgress"> | string
@@ -55019,6 +60051,9 @@ export namespace Prisma {
   export type LessonProgressOrderByWithRelationInput = {
     id?: SortOrder
     completed?: SortOrder
+    startTime?: SortOrderInput | SortOrder
+    endTime?: SortOrderInput | SortOrder
+    watchedSeconds?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -55034,6 +60069,9 @@ export namespace Prisma {
     OR?: LessonProgressWhereInput[]
     NOT?: LessonProgressWhereInput | LessonProgressWhereInput[]
     completed?: BoolFilter<"LessonProgress"> | boolean
+    startTime?: DateTimeNullableFilter<"LessonProgress"> | Date | string | null
+    endTime?: DateTimeNullableFilter<"LessonProgress"> | Date | string | null
+    watchedSeconds?: IntNullableFilter<"LessonProgress"> | number | null
     createdAt?: DateTimeFilter<"LessonProgress"> | Date | string
     updatedAt?: DateTimeFilter<"LessonProgress"> | Date | string
     userId?: StringFilter<"LessonProgress"> | string
@@ -55045,13 +60083,18 @@ export namespace Prisma {
   export type LessonProgressOrderByWithAggregationInput = {
     id?: SortOrder
     completed?: SortOrder
+    startTime?: SortOrderInput | SortOrder
+    endTime?: SortOrderInput | SortOrder
+    watchedSeconds?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
     lessonId?: SortOrder
     _count?: LessonProgressCountOrderByAggregateInput
+    _avg?: LessonProgressAvgOrderByAggregateInput
     _max?: LessonProgressMaxOrderByAggregateInput
     _min?: LessonProgressMinOrderByAggregateInput
+    _sum?: LessonProgressSumOrderByAggregateInput
   }
 
   export type LessonProgressScalarWhereWithAggregatesInput = {
@@ -55060,6 +60103,9 @@ export namespace Prisma {
     NOT?: LessonProgressScalarWhereWithAggregatesInput | LessonProgressScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"LessonProgress"> | string
     completed?: BoolWithAggregatesFilter<"LessonProgress"> | boolean
+    startTime?: DateTimeNullableWithAggregatesFilter<"LessonProgress"> | Date | string | null
+    endTime?: DateTimeNullableWithAggregatesFilter<"LessonProgress"> | Date | string | null
+    watchedSeconds?: IntNullableWithAggregatesFilter<"LessonProgress"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"LessonProgress"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"LessonProgress"> | Date | string
     userId?: StringWithAggregatesFilter<"LessonProgress"> | string
@@ -55072,10 +60118,14 @@ export namespace Prisma {
     NOT?: UserProgressWhereInput | UserProgressWhereInput[]
     id?: StringFilter<"UserProgress"> | string
     userId?: StringFilter<"UserProgress"> | string
-    type?: EnumItemTypeFilter<"UserProgress"> | $Enums.ItemType
+    type?: StringFilter<"UserProgress"> | string
     itemId?: StringFilter<"UserProgress"> | string
     completed?: BoolFilter<"UserProgress"> | boolean
     updatedAt?: DateTimeFilter<"UserProgress"> | Date | string
+    progressPercentage?: FloatNullableFilter<"UserProgress"> | number | null
+    startedAt?: DateTimeNullableFilter<"UserProgress"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"UserProgress"> | Date | string | null
+    timeSpent?: IntNullableFilter<"UserProgress"> | number | null
     course?: XOR<CourseNullableScalarRelationFilter, CourseWhereInput> | null
     workshop?: XOR<WorkshopNullableScalarRelationFilter, WorkshopWhereInput> | null
     path?: XOR<LearningPathNullableScalarRelationFilter, LearningPathWhereInput> | null
@@ -55088,6 +60138,10 @@ export namespace Prisma {
     itemId?: SortOrder
     completed?: SortOrder
     updatedAt?: SortOrder
+    progressPercentage?: SortOrderInput | SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    timeSpent?: SortOrderInput | SortOrder
     course?: CourseOrderByWithRelationInput
     workshop?: WorkshopOrderByWithRelationInput
     path?: LearningPathOrderByWithRelationInput
@@ -55099,10 +60153,14 @@ export namespace Prisma {
     OR?: UserProgressWhereInput[]
     NOT?: UserProgressWhereInput | UserProgressWhereInput[]
     userId?: StringFilter<"UserProgress"> | string
-    type?: EnumItemTypeFilter<"UserProgress"> | $Enums.ItemType
+    type?: StringFilter<"UserProgress"> | string
     itemId?: StringFilter<"UserProgress"> | string
     completed?: BoolFilter<"UserProgress"> | boolean
     updatedAt?: DateTimeFilter<"UserProgress"> | Date | string
+    progressPercentage?: FloatNullableFilter<"UserProgress"> | number | null
+    startedAt?: DateTimeNullableFilter<"UserProgress"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"UserProgress"> | Date | string | null
+    timeSpent?: IntNullableFilter<"UserProgress"> | number | null
     course?: XOR<CourseNullableScalarRelationFilter, CourseWhereInput> | null
     workshop?: XOR<WorkshopNullableScalarRelationFilter, WorkshopWhereInput> | null
     path?: XOR<LearningPathNullableScalarRelationFilter, LearningPathWhereInput> | null
@@ -55115,9 +60173,15 @@ export namespace Prisma {
     itemId?: SortOrder
     completed?: SortOrder
     updatedAt?: SortOrder
+    progressPercentage?: SortOrderInput | SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    timeSpent?: SortOrderInput | SortOrder
     _count?: UserProgressCountOrderByAggregateInput
+    _avg?: UserProgressAvgOrderByAggregateInput
     _max?: UserProgressMaxOrderByAggregateInput
     _min?: UserProgressMinOrderByAggregateInput
+    _sum?: UserProgressSumOrderByAggregateInput
   }
 
   export type UserProgressScalarWhereWithAggregatesInput = {
@@ -55126,10 +60190,14 @@ export namespace Prisma {
     NOT?: UserProgressScalarWhereWithAggregatesInput | UserProgressScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"UserProgress"> | string
     userId?: StringWithAggregatesFilter<"UserProgress"> | string
-    type?: EnumItemTypeWithAggregatesFilter<"UserProgress"> | $Enums.ItemType
+    type?: StringWithAggregatesFilter<"UserProgress"> | string
     itemId?: StringWithAggregatesFilter<"UserProgress"> | string
     completed?: BoolWithAggregatesFilter<"UserProgress"> | boolean
     updatedAt?: DateTimeWithAggregatesFilter<"UserProgress"> | Date | string
+    progressPercentage?: FloatNullableWithAggregatesFilter<"UserProgress"> | number | null
+    startedAt?: DateTimeNullableWithAggregatesFilter<"UserProgress"> | Date | string | null
+    completedAt?: DateTimeNullableWithAggregatesFilter<"UserProgress"> | Date | string | null
+    timeSpent?: IntNullableWithAggregatesFilter<"UserProgress"> | number | null
   }
 
   export type TagWhereInput = {
@@ -55338,11 +60406,11 @@ export namespace Prisma {
     title?: StringFilter<"Promotion"> | string
     description?: StringNullableFilter<"Promotion"> | string | null
     discount?: IntFilter<"Promotion"> | number
-    type?: EnumDiscountTypeFilter<"Promotion"> | $Enums.DiscountType
+    type?: StringFilter<"Promotion"> | string
     startsAt?: DateTimeFilter<"Promotion"> | Date | string
     endsAt?: DateTimeFilter<"Promotion"> | Date | string
     active?: BoolFilter<"Promotion"> | boolean
-    itemType?: EnumItemTypeFilter<"Promotion"> | $Enums.ItemType
+    itemType?: StringFilter<"Promotion"> | string
     courseId?: StringNullableFilter<"Promotion"> | string | null
     workshopId?: StringNullableFilter<"Promotion"> | string | null
     learningPathId?: StringNullableFilter<"Promotion"> | string | null
@@ -55377,11 +60445,11 @@ export namespace Prisma {
     title?: StringFilter<"Promotion"> | string
     description?: StringNullableFilter<"Promotion"> | string | null
     discount?: IntFilter<"Promotion"> | number
-    type?: EnumDiscountTypeFilter<"Promotion"> | $Enums.DiscountType
+    type?: StringFilter<"Promotion"> | string
     startsAt?: DateTimeFilter<"Promotion"> | Date | string
     endsAt?: DateTimeFilter<"Promotion"> | Date | string
     active?: BoolFilter<"Promotion"> | boolean
-    itemType?: EnumItemTypeFilter<"Promotion"> | $Enums.ItemType
+    itemType?: StringFilter<"Promotion"> | string
     courseId?: StringNullableFilter<"Promotion"> | string | null
     workshopId?: StringNullableFilter<"Promotion"> | string | null
     learningPathId?: StringNullableFilter<"Promotion"> | string | null
@@ -55418,11 +60486,11 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Promotion"> | string
     description?: StringNullableWithAggregatesFilter<"Promotion"> | string | null
     discount?: IntWithAggregatesFilter<"Promotion"> | number
-    type?: EnumDiscountTypeWithAggregatesFilter<"Promotion"> | $Enums.DiscountType
+    type?: StringWithAggregatesFilter<"Promotion"> | string
     startsAt?: DateTimeWithAggregatesFilter<"Promotion"> | Date | string
     endsAt?: DateTimeWithAggregatesFilter<"Promotion"> | Date | string
     active?: BoolWithAggregatesFilter<"Promotion"> | boolean
-    itemType?: EnumItemTypeWithAggregatesFilter<"Promotion"> | $Enums.ItemType
+    itemType?: StringWithAggregatesFilter<"Promotion"> | string
     courseId?: StringNullableWithAggregatesFilter<"Promotion"> | string | null
     workshopId?: StringNullableWithAggregatesFilter<"Promotion"> | string | null
     learningPathId?: StringNullableWithAggregatesFilter<"Promotion"> | string | null
@@ -55436,7 +60504,7 @@ export namespace Prisma {
     code?: StringFilter<"PromoCode"> | string
     description?: StringNullableFilter<"PromoCode"> | string | null
     discount?: IntFilter<"PromoCode"> | number
-    type?: EnumDiscountTypeFilter<"PromoCode"> | $Enums.DiscountType
+    type?: StringFilter<"PromoCode"> | string
     usageLimit?: IntNullableFilter<"PromoCode"> | number | null
     usedCount?: IntFilter<"PromoCode"> | number
     startsAt?: DateTimeFilter<"PromoCode"> | Date | string
@@ -55471,7 +60539,7 @@ export namespace Prisma {
     NOT?: PromoCodeWhereInput | PromoCodeWhereInput[]
     description?: StringNullableFilter<"PromoCode"> | string | null
     discount?: IntFilter<"PromoCode"> | number
-    type?: EnumDiscountTypeFilter<"PromoCode"> | $Enums.DiscountType
+    type?: StringFilter<"PromoCode"> | string
     usageLimit?: IntNullableFilter<"PromoCode"> | number | null
     usedCount?: IntFilter<"PromoCode"> | number
     startsAt?: DateTimeFilter<"PromoCode"> | Date | string
@@ -55508,7 +60576,7 @@ export namespace Prisma {
     code?: StringWithAggregatesFilter<"PromoCode"> | string
     description?: StringNullableWithAggregatesFilter<"PromoCode"> | string | null
     discount?: IntWithAggregatesFilter<"PromoCode"> | number
-    type?: EnumDiscountTypeWithAggregatesFilter<"PromoCode"> | $Enums.DiscountType
+    type?: StringWithAggregatesFilter<"PromoCode"> | string
     usageLimit?: IntNullableWithAggregatesFilter<"PromoCode"> | number | null
     usedCount?: IntWithAggregatesFilter<"PromoCode"> | number
     startsAt?: DateTimeWithAggregatesFilter<"PromoCode"> | Date | string
@@ -56531,6 +61599,256 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"CompanySocialLink"> | Date | string
   }
 
+  export type QuizWhereInput = {
+    AND?: QuizWhereInput | QuizWhereInput[]
+    OR?: QuizWhereInput[]
+    NOT?: QuizWhereInput | QuizWhereInput[]
+    id?: StringFilter<"Quiz"> | string
+    title?: StringFilter<"Quiz"> | string
+    slug?: StringFilter<"Quiz"> | string
+    description?: StringNullableFilter<"Quiz"> | string | null
+    type?: StringNullableFilter<"Quiz"> | string | null
+    chapterId?: StringNullableFilter<"Quiz"> | string | null
+    courseId?: StringNullableFilter<"Quiz"> | string | null
+    createdAt?: DateTimeFilter<"Quiz"> | Date | string
+    updatedAt?: DateTimeFilter<"Quiz"> | Date | string
+    userId?: StringNullableFilter<"Quiz"> | string | null
+    questions?: QuizQuestionListRelationFilter
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type QuizOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    description?: SortOrderInput | SortOrder
+    type?: SortOrderInput | SortOrder
+    chapterId?: SortOrderInput | SortOrder
+    courseId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    questions?: QuizQuestionOrderByRelationAggregateInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type QuizWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: QuizWhereInput | QuizWhereInput[]
+    OR?: QuizWhereInput[]
+    NOT?: QuizWhereInput | QuizWhereInput[]
+    title?: StringFilter<"Quiz"> | string
+    slug?: StringFilter<"Quiz"> | string
+    description?: StringNullableFilter<"Quiz"> | string | null
+    type?: StringNullableFilter<"Quiz"> | string | null
+    chapterId?: StringNullableFilter<"Quiz"> | string | null
+    courseId?: StringNullableFilter<"Quiz"> | string | null
+    createdAt?: DateTimeFilter<"Quiz"> | Date | string
+    updatedAt?: DateTimeFilter<"Quiz"> | Date | string
+    userId?: StringNullableFilter<"Quiz"> | string | null
+    questions?: QuizQuestionListRelationFilter
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type QuizOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    description?: SortOrderInput | SortOrder
+    type?: SortOrderInput | SortOrder
+    chapterId?: SortOrderInput | SortOrder
+    courseId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    _count?: QuizCountOrderByAggregateInput
+    _max?: QuizMaxOrderByAggregateInput
+    _min?: QuizMinOrderByAggregateInput
+  }
+
+  export type QuizScalarWhereWithAggregatesInput = {
+    AND?: QuizScalarWhereWithAggregatesInput | QuizScalarWhereWithAggregatesInput[]
+    OR?: QuizScalarWhereWithAggregatesInput[]
+    NOT?: QuizScalarWhereWithAggregatesInput | QuizScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Quiz"> | string
+    title?: StringWithAggregatesFilter<"Quiz"> | string
+    slug?: StringWithAggregatesFilter<"Quiz"> | string
+    description?: StringNullableWithAggregatesFilter<"Quiz"> | string | null
+    type?: StringNullableWithAggregatesFilter<"Quiz"> | string | null
+    chapterId?: StringNullableWithAggregatesFilter<"Quiz"> | string | null
+    courseId?: StringNullableWithAggregatesFilter<"Quiz"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Quiz"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Quiz"> | Date | string
+    userId?: StringNullableWithAggregatesFilter<"Quiz"> | string | null
+  }
+
+  export type QuizQuestionWhereInput = {
+    AND?: QuizQuestionWhereInput | QuizQuestionWhereInput[]
+    OR?: QuizQuestionWhereInput[]
+    NOT?: QuizQuestionWhereInput | QuizQuestionWhereInput[]
+    id?: StringFilter<"QuizQuestion"> | string
+    question?: StringFilter<"QuizQuestion"> | string
+    type?: StringNullableFilter<"QuizQuestion"> | string | null
+    quizId?: StringFilter<"QuizQuestion"> | string
+    quiz?: XOR<QuizScalarRelationFilter, QuizWhereInput>
+    options?: QuizOptionListRelationFilter
+  }
+
+  export type QuizQuestionOrderByWithRelationInput = {
+    id?: SortOrder
+    question?: SortOrder
+    type?: SortOrderInput | SortOrder
+    quizId?: SortOrder
+    quiz?: QuizOrderByWithRelationInput
+    options?: QuizOptionOrderByRelationAggregateInput
+  }
+
+  export type QuizQuestionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: QuizQuestionWhereInput | QuizQuestionWhereInput[]
+    OR?: QuizQuestionWhereInput[]
+    NOT?: QuizQuestionWhereInput | QuizQuestionWhereInput[]
+    question?: StringFilter<"QuizQuestion"> | string
+    type?: StringNullableFilter<"QuizQuestion"> | string | null
+    quizId?: StringFilter<"QuizQuestion"> | string
+    quiz?: XOR<QuizScalarRelationFilter, QuizWhereInput>
+    options?: QuizOptionListRelationFilter
+  }, "id">
+
+  export type QuizQuestionOrderByWithAggregationInput = {
+    id?: SortOrder
+    question?: SortOrder
+    type?: SortOrderInput | SortOrder
+    quizId?: SortOrder
+    _count?: QuizQuestionCountOrderByAggregateInput
+    _max?: QuizQuestionMaxOrderByAggregateInput
+    _min?: QuizQuestionMinOrderByAggregateInput
+  }
+
+  export type QuizQuestionScalarWhereWithAggregatesInput = {
+    AND?: QuizQuestionScalarWhereWithAggregatesInput | QuizQuestionScalarWhereWithAggregatesInput[]
+    OR?: QuizQuestionScalarWhereWithAggregatesInput[]
+    NOT?: QuizQuestionScalarWhereWithAggregatesInput | QuizQuestionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"QuizQuestion"> | string
+    question?: StringWithAggregatesFilter<"QuizQuestion"> | string
+    type?: StringNullableWithAggregatesFilter<"QuizQuestion"> | string | null
+    quizId?: StringWithAggregatesFilter<"QuizQuestion"> | string
+  }
+
+  export type QuizOptionWhereInput = {
+    AND?: QuizOptionWhereInput | QuizOptionWhereInput[]
+    OR?: QuizOptionWhereInput[]
+    NOT?: QuizOptionWhereInput | QuizOptionWhereInput[]
+    id?: StringFilter<"QuizOption"> | string
+    content?: StringFilter<"QuizOption"> | string
+    isCorrect?: BoolFilter<"QuizOption"> | boolean
+    questionId?: StringFilter<"QuizOption"> | string
+    question?: XOR<QuizQuestionScalarRelationFilter, QuizQuestionWhereInput>
+  }
+
+  export type QuizOptionOrderByWithRelationInput = {
+    id?: SortOrder
+    content?: SortOrder
+    isCorrect?: SortOrder
+    questionId?: SortOrder
+    question?: QuizQuestionOrderByWithRelationInput
+  }
+
+  export type QuizOptionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: QuizOptionWhereInput | QuizOptionWhereInput[]
+    OR?: QuizOptionWhereInput[]
+    NOT?: QuizOptionWhereInput | QuizOptionWhereInput[]
+    content?: StringFilter<"QuizOption"> | string
+    isCorrect?: BoolFilter<"QuizOption"> | boolean
+    questionId?: StringFilter<"QuizOption"> | string
+    question?: XOR<QuizQuestionScalarRelationFilter, QuizQuestionWhereInput>
+  }, "id">
+
+  export type QuizOptionOrderByWithAggregationInput = {
+    id?: SortOrder
+    content?: SortOrder
+    isCorrect?: SortOrder
+    questionId?: SortOrder
+    _count?: QuizOptionCountOrderByAggregateInput
+    _max?: QuizOptionMaxOrderByAggregateInput
+    _min?: QuizOptionMinOrderByAggregateInput
+  }
+
+  export type QuizOptionScalarWhereWithAggregatesInput = {
+    AND?: QuizOptionScalarWhereWithAggregatesInput | QuizOptionScalarWhereWithAggregatesInput[]
+    OR?: QuizOptionScalarWhereWithAggregatesInput[]
+    NOT?: QuizOptionScalarWhereWithAggregatesInput | QuizOptionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"QuizOption"> | string
+    content?: StringWithAggregatesFilter<"QuizOption"> | string
+    isCorrect?: BoolWithAggregatesFilter<"QuizOption"> | boolean
+    questionId?: StringWithAggregatesFilter<"QuizOption"> | string
+  }
+
+  export type QuizResultWhereInput = {
+    AND?: QuizResultWhereInput | QuizResultWhereInput[]
+    OR?: QuizResultWhereInput[]
+    NOT?: QuizResultWhereInput | QuizResultWhereInput[]
+    id?: StringFilter<"QuizResult"> | string
+    userId?: StringFilter<"QuizResult"> | string
+    quizId?: StringFilter<"QuizResult"> | string
+    score?: FloatFilter<"QuizResult"> | number
+    passed?: BoolFilter<"QuizResult"> | boolean
+    createdAt?: DateTimeFilter<"QuizResult"> | Date | string
+    updatedAt?: DateTimeFilter<"QuizResult"> | Date | string
+  }
+
+  export type QuizResultOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    quizId?: SortOrder
+    score?: SortOrder
+    passed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuizResultWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: QuizResultWhereInput | QuizResultWhereInput[]
+    OR?: QuizResultWhereInput[]
+    NOT?: QuizResultWhereInput | QuizResultWhereInput[]
+    userId?: StringFilter<"QuizResult"> | string
+    quizId?: StringFilter<"QuizResult"> | string
+    score?: FloatFilter<"QuizResult"> | number
+    passed?: BoolFilter<"QuizResult"> | boolean
+    createdAt?: DateTimeFilter<"QuizResult"> | Date | string
+    updatedAt?: DateTimeFilter<"QuizResult"> | Date | string
+  }, "id">
+
+  export type QuizResultOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    quizId?: SortOrder
+    score?: SortOrder
+    passed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: QuizResultCountOrderByAggregateInput
+    _avg?: QuizResultAvgOrderByAggregateInput
+    _max?: QuizResultMaxOrderByAggregateInput
+    _min?: QuizResultMinOrderByAggregateInput
+    _sum?: QuizResultSumOrderByAggregateInput
+  }
+
+  export type QuizResultScalarWhereWithAggregatesInput = {
+    AND?: QuizResultScalarWhereWithAggregatesInput | QuizResultScalarWhereWithAggregatesInput[]
+    OR?: QuizResultScalarWhereWithAggregatesInput[]
+    NOT?: QuizResultScalarWhereWithAggregatesInput | QuizResultScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"QuizResult"> | string
+    userId?: StringWithAggregatesFilter<"QuizResult"> | string
+    quizId?: StringWithAggregatesFilter<"QuizResult"> | string
+    score?: FloatWithAggregatesFilter<"QuizResult"> | number
+    passed?: BoolWithAggregatesFilter<"QuizResult"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"QuizResult"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"QuizResult"> | Date | string
+  }
+
   export type UserCreateInput = {
     id: string
     name: string
@@ -56549,12 +61867,13 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentCreateNestedManyWithoutUserInput
-    Payment?: PaymentCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    invoices?: InvoiceCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopCreateNestedManyWithoutUserInput
-    Resource?: ResourceCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathCreateNestedManyWithoutUserInput
+    workshops?: WorkshopCreateNestedManyWithoutUserInput
+    resources?: ResourceCreateNestedManyWithoutUserInput
+    quiz?: QuizCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -56575,12 +61894,13 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
-    Resource?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    workshops?: WorkshopUncheckedCreateNestedManyWithoutUserInput
+    resources?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    quiz?: QuizUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -56601,12 +61921,13 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUpdateManyWithoutUserNestedInput
+    resources?: ResourceUpdateManyWithoutUserNestedInput
+    quiz?: QuizUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -56627,12 +61948,13 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
+    resources?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    quiz?: QuizUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -57152,7 +62474,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutLearningPathInput
+    user?: UserCreateNestedOneWithoutLearningPathsInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressCreateNestedManyWithoutPathInput
@@ -57161,8 +62483,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathUncheckedCreateInput = {
@@ -57190,8 +62512,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathUpdateInput = {
@@ -57210,7 +62532,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutLearningPathNestedInput
+    user?: UserUpdateOneWithoutLearningPathsNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUpdateManyWithoutPathNestedInput
@@ -57219,8 +62541,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUpdateManyWithoutLearningPathNestedInput
   }
 
   export type LearningPathUncheckedUpdateInput = {
@@ -57248,8 +62570,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
   }
 
   export type LearningPathCreateManyInput = {
@@ -57310,7 +62632,7 @@ export namespace Prisma {
 
   export type LearningPathItemCreateInput = {
     id?: string
-    type: $Enums.ItemType
+    type: string
     position: number
     learningPath: LearningPathCreateNestedOneWithoutContentsInput
     course?: CourseCreateNestedOneWithoutLearningPathItemsInput
@@ -57320,7 +62642,7 @@ export namespace Prisma {
 
   export type LearningPathItemUncheckedCreateInput = {
     id?: string
-    type: $Enums.ItemType
+    type: string
     position: number
     learningPathId: string
     courseId?: string | null
@@ -57330,7 +62652,7 @@ export namespace Prisma {
 
   export type LearningPathItemUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
     learningPath?: LearningPathUpdateOneRequiredWithoutContentsNestedInput
     course?: CourseUpdateOneWithoutLearningPathItemsNestedInput
@@ -57340,7 +62662,7 @@ export namespace Prisma {
 
   export type LearningPathItemUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
     learningPathId?: StringFieldUpdateOperationsInput | string
     courseId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -57350,7 +62672,7 @@ export namespace Prisma {
 
   export type LearningPathItemCreateManyInput = {
     id?: string
-    type: $Enums.ItemType
+    type: string
     position: number
     learningPathId: string
     courseId?: string | null
@@ -57360,13 +62682,13 @@ export namespace Prisma {
 
   export type LearningPathItemUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
   }
 
   export type LearningPathItemUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
     learningPathId?: StringFieldUpdateOperationsInput | string
     courseId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -57392,9 +62714,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
     category: CategoryCreateNestedOneWithoutCoursesInput
-    Payment?: PaymentCreateNestedManyWithoutCourseInput
+    payments?: PaymentCreateNestedManyWithoutCourseInput
     promotions?: PromotionCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagCreateNestedManyWithoutCourseInput
@@ -57424,8 +62746,8 @@ export namespace Prisma {
     categoryId: string
     deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCourseInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagUncheckedCreateNestedManyWithoutCourseInput
@@ -57454,9 +62776,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
-    Payment?: PaymentUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUpdateManyWithoutCourseNestedInput
@@ -57486,8 +62808,8 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUncheckedUpdateManyWithoutCourseNestedInput
@@ -57750,7 +63072,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutWorkshopInput
+    user?: UserCreateNestedOneWithoutWorkshopsInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
@@ -57759,8 +63081,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopUncheckedCreateInput = {
@@ -57795,8 +63117,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopUpdateInput = {
@@ -57822,7 +63144,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutWorkshopNestedInput
+    user?: UserUpdateOneWithoutWorkshopsNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
@@ -57831,8 +63153,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopUncheckedUpdateInput = {
@@ -57867,8 +63189,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopCreateManyInput = {
@@ -57961,7 +63283,7 @@ export namespace Prisma {
     workshopResources?: WorkshopResourceCreateNestedManyWithoutResourceInput
     learningPathResources?: LearningPathResourceCreateNestedManyWithoutResourceInput
     learningPathItems?: LearningPathItemCreateNestedManyWithoutResourceInput
-    user?: UserCreateNestedOneWithoutResourceInput
+    user?: UserCreateNestedOneWithoutResourcesInput
   }
 
   export type ResourceUncheckedCreateInput = {
@@ -57993,7 +63315,7 @@ export namespace Prisma {
     workshopResources?: WorkshopResourceUpdateManyWithoutResourceNestedInput
     learningPathResources?: LearningPathResourceUpdateManyWithoutResourceNestedInput
     learningPathItems?: LearningPathItemUpdateManyWithoutResourceNestedInput
-    user?: UserUpdateOneWithoutResourceNestedInput
+    user?: UserUpdateOneWithoutResourcesNestedInput
   }
 
   export type ResourceUncheckedUpdateInput = {
@@ -58183,6 +63505,9 @@ export namespace Prisma {
   export type LessonProgressCreateInput = {
     id?: string
     completed?: boolean
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    watchedSeconds?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutLessonProgressInput
@@ -58192,6 +63517,9 @@ export namespace Prisma {
   export type LessonProgressUncheckedCreateInput = {
     id?: string
     completed?: boolean
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    watchedSeconds?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -58201,6 +63529,9 @@ export namespace Prisma {
   export type LessonProgressUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    watchedSeconds?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutLessonProgressNestedInput
@@ -58210,6 +63541,9 @@ export namespace Prisma {
   export type LessonProgressUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    watchedSeconds?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -58219,6 +63553,9 @@ export namespace Prisma {
   export type LessonProgressCreateManyInput = {
     id?: string
     completed?: boolean
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    watchedSeconds?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -58228,6 +63565,9 @@ export namespace Prisma {
   export type LessonProgressUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    watchedSeconds?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -58235,6 +63575,9 @@ export namespace Prisma {
   export type LessonProgressUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    watchedSeconds?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -58244,9 +63587,13 @@ export namespace Prisma {
   export type UserProgressCreateInput = {
     id?: string
     userId: string
-    type: $Enums.ItemType
+    type: string
     completed?: boolean
     updatedAt?: Date | string
+    progressPercentage?: number | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    timeSpent?: number | null
     course?: CourseCreateNestedOneWithoutProgressInput
     workshop?: WorkshopCreateNestedOneWithoutProgressInput
     path?: LearningPathCreateNestedOneWithoutProgressInput
@@ -58255,18 +63602,26 @@ export namespace Prisma {
   export type UserProgressUncheckedCreateInput = {
     id?: string
     userId: string
-    type: $Enums.ItemType
+    type: string
     itemId: string
     completed?: boolean
     updatedAt?: Date | string
+    progressPercentage?: number | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    timeSpent?: number | null
   }
 
   export type UserProgressUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progressPercentage?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     course?: CourseUpdateOneWithoutProgressNestedInput
     workshop?: WorkshopUpdateOneWithoutProgressNestedInput
     path?: LearningPathUpdateOneWithoutProgressNestedInput
@@ -58275,36 +63630,52 @@ export namespace Prisma {
   export type UserProgressUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     itemId?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progressPercentage?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type UserProgressCreateManyInput = {
     id?: string
     userId: string
-    type: $Enums.ItemType
+    type: string
     itemId: string
     completed?: boolean
     updatedAt?: Date | string
+    progressPercentage?: number | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    timeSpent?: number | null
   }
 
   export type UserProgressUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progressPercentage?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type UserProgressUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     itemId?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progressPercentage?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type TagCreateInput = {
@@ -58489,11 +63860,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     startsAt: Date | string
     endsAt: Date | string
     active?: boolean
-    itemType: $Enums.ItemType
+    itemType: string
     course?: CourseCreateNestedOneWithoutPromotionsInput
     workshop?: WorkshopCreateNestedOneWithoutPromotionsInput
     learningPath?: LearningPathCreateNestedOneWithoutPromotionsInput
@@ -58504,11 +63875,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     startsAt: Date | string
     endsAt: Date | string
     active?: boolean
-    itemType: $Enums.ItemType
+    itemType: string
     courseId?: string | null
     workshopId?: string | null
     learningPathId?: string | null
@@ -58519,11 +63890,11 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    itemType?: StringFieldUpdateOperationsInput | string
     course?: CourseUpdateOneWithoutPromotionsNestedInput
     workshop?: WorkshopUpdateOneWithoutPromotionsNestedInput
     learningPath?: LearningPathUpdateOneWithoutPromotionsNestedInput
@@ -58534,11 +63905,11 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    itemType?: StringFieldUpdateOperationsInput | string
     courseId?: NullableStringFieldUpdateOperationsInput | string | null
     workshopId?: NullableStringFieldUpdateOperationsInput | string | null
     learningPathId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -58549,11 +63920,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     startsAt: Date | string
     endsAt: Date | string
     active?: boolean
-    itemType: $Enums.ItemType
+    itemType: string
     courseId?: string | null
     workshopId?: string | null
     learningPathId?: string | null
@@ -58564,11 +63935,11 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    itemType?: StringFieldUpdateOperationsInput | string
   }
 
   export type PromotionUncheckedUpdateManyInput = {
@@ -58576,11 +63947,11 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    itemType?: StringFieldUpdateOperationsInput | string
     courseId?: NullableStringFieldUpdateOperationsInput | string | null
     workshopId?: NullableStringFieldUpdateOperationsInput | string | null
     learningPathId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -58591,7 +63962,7 @@ export namespace Prisma {
     code: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     usageLimit?: number | null
     usedCount?: number
     startsAt: Date | string
@@ -58607,7 +63978,7 @@ export namespace Prisma {
     code: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     usageLimit?: number | null
     usedCount?: number
     startsAt: Date | string
@@ -58623,7 +63994,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     usageLimit?: NullableIntFieldUpdateOperationsInput | number | null
     usedCount?: IntFieldUpdateOperationsInput | number
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -58639,7 +64010,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     usageLimit?: NullableIntFieldUpdateOperationsInput | number | null
     usedCount?: IntFieldUpdateOperationsInput | number
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -58655,7 +64026,7 @@ export namespace Prisma {
     code: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     usageLimit?: number | null
     usedCount?: number
     startsAt: Date | string
@@ -58668,7 +64039,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     usageLimit?: NullableIntFieldUpdateOperationsInput | number | null
     usedCount?: IntFieldUpdateOperationsInput | number
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -58681,7 +64052,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     usageLimit?: NullableIntFieldUpdateOperationsInput | number | null
     usedCount?: IntFieldUpdateOperationsInput | number
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -58696,9 +64067,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    course?: CourseCreateNestedOneWithoutEnrollmentInput
-    learningPath?: LearningPathCreateNestedOneWithoutEnrollmentInput
-    workshop?: WorkshopCreateNestedOneWithoutEnrollmentInput
+    course?: CourseCreateNestedOneWithoutEnrollmentsInput
+    learningPath?: LearningPathCreateNestedOneWithoutEnrollmentsInput
+    workshop?: WorkshopCreateNestedOneWithoutEnrollmentsInput
     user: UserCreateNestedOneWithoutEnrollmentInput
     payment?: PaymentCreateNestedOneWithoutEnrollmentInput
   }
@@ -58724,9 +64095,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    course?: CourseUpdateOneWithoutEnrollmentNestedInput
-    learningPath?: LearningPathUpdateOneWithoutEnrollmentNestedInput
-    workshop?: WorkshopUpdateOneWithoutEnrollmentNestedInput
+    course?: CourseUpdateOneWithoutEnrollmentsNestedInput
+    learningPath?: LearningPathUpdateOneWithoutEnrollmentsNestedInput
+    workshop?: WorkshopUpdateOneWithoutEnrollmentsNestedInput
     user?: UserUpdateOneRequiredWithoutEnrollmentNestedInput
     payment?: PaymentUpdateOneWithoutEnrollmentNestedInput
   }
@@ -58792,10 +64163,10 @@ export namespace Prisma {
     receiptUrl?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
-    user: UserCreateNestedOneWithoutPaymentInput
-    course?: CourseCreateNestedOneWithoutPaymentInput
-    learningPath?: LearningPathCreateNestedOneWithoutPaymentInput
-    workshop?: WorkshopCreateNestedOneWithoutPaymentInput
+    user: UserCreateNestedOneWithoutPaymentsInput
+    course?: CourseCreateNestedOneWithoutPaymentsInput
+    learningPath?: LearningPathCreateNestedOneWithoutPaymentsInput
+    workshop?: WorkshopCreateNestedOneWithoutPaymentsInput
     enrollment?: EnrollmentCreateNestedOneWithoutPaymentInput
   }
 
@@ -58826,10 +64197,10 @@ export namespace Prisma {
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneRequiredWithoutPaymentNestedInput
-    course?: CourseUpdateOneWithoutPaymentNestedInput
-    learningPath?: LearningPathUpdateOneWithoutPaymentNestedInput
-    workshop?: WorkshopUpdateOneWithoutPaymentNestedInput
+    user?: UserUpdateOneRequiredWithoutPaymentsNestedInput
+    course?: CourseUpdateOneWithoutPaymentsNestedInput
+    learningPath?: LearningPathUpdateOneWithoutPaymentsNestedInput
+    workshop?: WorkshopUpdateOneWithoutPaymentsNestedInput
     enrollment?: EnrollmentUpdateOneWithoutPaymentNestedInput
   }
 
@@ -58903,7 +64274,7 @@ export namespace Prisma {
     date?: Date | string
     createdAt?: Date | string
     deletedAt?: Date | string | null
-    user: UserCreateNestedOneWithoutInvoiceInput
+    user: UserCreateNestedOneWithoutInvoicesInput
     items?: InvoiceItemCreateNestedManyWithoutInvoiceInput
   }
 
@@ -58929,7 +64300,7 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneRequiredWithoutInvoiceNestedInput
+    user?: UserUpdateOneRequiredWithoutInvoicesNestedInput
     items?: InvoiceItemUpdateManyWithoutInvoiceNestedInput
   }
 
@@ -59690,6 +65061,270 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type QuizCreateInput = {
+    id?: string
+    title: string
+    slug: string
+    description?: string | null
+    type?: string | null
+    chapterId?: string | null
+    courseId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    questions?: QuizQuestionCreateNestedManyWithoutQuizInput
+    user?: UserCreateNestedOneWithoutQuizInput
+  }
+
+  export type QuizUncheckedCreateInput = {
+    id?: string
+    title: string
+    slug: string
+    description?: string | null
+    type?: string | null
+    chapterId?: string | null
+    courseId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId?: string | null
+    questions?: QuizQuestionUncheckedCreateNestedManyWithoutQuizInput
+  }
+
+  export type QuizUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    chapterId?: NullableStringFieldUpdateOperationsInput | string | null
+    courseId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    questions?: QuizQuestionUpdateManyWithoutQuizNestedInput
+    user?: UserUpdateOneWithoutQuizNestedInput
+  }
+
+  export type QuizUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    chapterId?: NullableStringFieldUpdateOperationsInput | string | null
+    courseId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    questions?: QuizQuestionUncheckedUpdateManyWithoutQuizNestedInput
+  }
+
+  export type QuizCreateManyInput = {
+    id?: string
+    title: string
+    slug: string
+    description?: string | null
+    type?: string | null
+    chapterId?: string | null
+    courseId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId?: string | null
+  }
+
+  export type QuizUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    chapterId?: NullableStringFieldUpdateOperationsInput | string | null
+    courseId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuizUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    chapterId?: NullableStringFieldUpdateOperationsInput | string | null
+    courseId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type QuizQuestionCreateInput = {
+    id?: string
+    question: string
+    type?: string | null
+    quiz: QuizCreateNestedOneWithoutQuestionsInput
+    options?: QuizOptionCreateNestedManyWithoutQuestionInput
+  }
+
+  export type QuizQuestionUncheckedCreateInput = {
+    id?: string
+    question: string
+    type?: string | null
+    quizId: string
+    options?: QuizOptionUncheckedCreateNestedManyWithoutQuestionInput
+  }
+
+  export type QuizQuestionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    quiz?: QuizUpdateOneRequiredWithoutQuestionsNestedInput
+    options?: QuizOptionUpdateManyWithoutQuestionNestedInput
+  }
+
+  export type QuizQuestionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    quizId?: StringFieldUpdateOperationsInput | string
+    options?: QuizOptionUncheckedUpdateManyWithoutQuestionNestedInput
+  }
+
+  export type QuizQuestionCreateManyInput = {
+    id?: string
+    question: string
+    type?: string | null
+    quizId: string
+  }
+
+  export type QuizQuestionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type QuizQuestionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    quizId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type QuizOptionCreateInput = {
+    id?: string
+    content: string
+    isCorrect?: boolean
+    question: QuizQuestionCreateNestedOneWithoutOptionsInput
+  }
+
+  export type QuizOptionUncheckedCreateInput = {
+    id?: string
+    content: string
+    isCorrect?: boolean
+    questionId: string
+  }
+
+  export type QuizOptionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isCorrect?: BoolFieldUpdateOperationsInput | boolean
+    question?: QuizQuestionUpdateOneRequiredWithoutOptionsNestedInput
+  }
+
+  export type QuizOptionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isCorrect?: BoolFieldUpdateOperationsInput | boolean
+    questionId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type QuizOptionCreateManyInput = {
+    id?: string
+    content: string
+    isCorrect?: boolean
+    questionId: string
+  }
+
+  export type QuizOptionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isCorrect?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type QuizOptionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isCorrect?: BoolFieldUpdateOperationsInput | boolean
+    questionId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type QuizResultCreateInput = {
+    id?: string
+    userId: string
+    quizId: string
+    score: number
+    passed: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuizResultUncheckedCreateInput = {
+    id?: string
+    userId: string
+    quizId: string
+    score: number
+    passed: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuizResultUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    quizId?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    passed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuizResultUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    quizId?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    passed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuizResultCreateManyInput = {
+    id?: string
+    userId: string
+    quizId: string
+    score: number
+    passed: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuizResultUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    quizId?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    passed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuizResultUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    quizId?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    passed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -59812,6 +65447,12 @@ export namespace Prisma {
     none?: ResourceWhereInput
   }
 
+  export type QuizListRelationFilter = {
+    every?: QuizWhereInput
+    some?: QuizWhereInput
+    none?: QuizWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -59854,6 +65495,10 @@ export namespace Prisma {
   }
 
   export type ResourceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type QuizOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -60376,13 +66021,6 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type EnumItemTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.ItemType | EnumItemTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumItemTypeFilter<$PrismaModel> | $Enums.ItemType
-  }
-
   export type LearningPathScalarRelationFilter = {
     is?: LearningPathWhereInput
     isNot?: LearningPathWhereInput
@@ -60439,16 +66077,6 @@ export namespace Prisma {
 
   export type LearningPathItemSumOrderByAggregateInput = {
     position?: SortOrder
-  }
-
-  export type EnumItemTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.ItemType | EnumItemTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumItemTypeWithAggregatesFilter<$PrismaModel> | $Enums.ItemType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumItemTypeFilter<$PrismaModel>
-    _max?: NestedEnumItemTypeFilter<$PrismaModel>
   }
 
   export type ChapterListRelationFilter = {
@@ -60949,6 +66577,17 @@ export namespace Prisma {
     resourceId?: SortOrder
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type LessonProgressUserIdLessonIdCompoundUniqueInput = {
     userId: string
     lessonId: string
@@ -60957,15 +66596,25 @@ export namespace Prisma {
   export type LessonProgressCountOrderByAggregateInput = {
     id?: SortOrder
     completed?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    watchedSeconds?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
     lessonId?: SortOrder
   }
 
+  export type LessonProgressAvgOrderByAggregateInput = {
+    watchedSeconds?: SortOrder
+  }
+
   export type LessonProgressMaxOrderByAggregateInput = {
     id?: SortOrder
     completed?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    watchedSeconds?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -60975,10 +66624,44 @@ export namespace Prisma {
   export type LessonProgressMinOrderByAggregateInput = {
     id?: SortOrder
     completed?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    watchedSeconds?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
     lessonId?: SortOrder
+  }
+
+  export type LessonProgressSumOrderByAggregateInput = {
+    watchedSeconds?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type LearningPathNullableScalarRelationFilter = {
@@ -60993,6 +66676,15 @@ export namespace Prisma {
     itemId?: SortOrder
     completed?: SortOrder
     updatedAt?: SortOrder
+    progressPercentage?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    timeSpent?: SortOrder
+  }
+
+  export type UserProgressAvgOrderByAggregateInput = {
+    progressPercentage?: SortOrder
+    timeSpent?: SortOrder
   }
 
   export type UserProgressMaxOrderByAggregateInput = {
@@ -61002,6 +66694,10 @@ export namespace Prisma {
     itemId?: SortOrder
     completed?: SortOrder
     updatedAt?: SortOrder
+    progressPercentage?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    timeSpent?: SortOrder
   }
 
   export type UserProgressMinOrderByAggregateInput = {
@@ -61011,6 +66707,31 @@ export namespace Prisma {
     itemId?: SortOrder
     completed?: SortOrder
     updatedAt?: SortOrder
+    progressPercentage?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    timeSpent?: SortOrder
+  }
+
+  export type UserProgressSumOrderByAggregateInput = {
+    progressPercentage?: SortOrder
+    timeSpent?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type TagCountOrderByAggregateInput = {
@@ -61105,13 +66826,6 @@ export namespace Prisma {
     tagId?: SortOrder
   }
 
-  export type EnumDiscountTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.DiscountType | EnumDiscountTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.DiscountType[] | ListEnumDiscountTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DiscountType[] | ListEnumDiscountTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumDiscountTypeFilter<$PrismaModel> | $Enums.DiscountType
-  }
-
   export type PromotionCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
@@ -61165,27 +66879,6 @@ export namespace Prisma {
     discount?: SortOrder
   }
 
-  export type EnumDiscountTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.DiscountType | EnumDiscountTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.DiscountType[] | ListEnumDiscountTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DiscountType[] | ListEnumDiscountTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumDiscountTypeWithAggregatesFilter<$PrismaModel> | $Enums.DiscountType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumDiscountTypeFilter<$PrismaModel>
-    _max?: NestedEnumDiscountTypeFilter<$PrismaModel>
-  }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type PromoCodeCountOrderByAggregateInput = {
     id?: SortOrder
     code?: SortOrder
@@ -61235,22 +66928,6 @@ export namespace Prisma {
     discount?: SortOrder
     usageLimit?: SortOrder
     usedCount?: SortOrder
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type EnumenrollmentStatusFilter<$PrismaModel = never> = {
@@ -61831,6 +67508,182 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type QuizQuestionListRelationFilter = {
+    every?: QuizQuestionWhereInput
+    some?: QuizQuestionWhereInput
+    none?: QuizQuestionWhereInput
+  }
+
+  export type QuizQuestionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type QuizCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    chapterId?: SortOrder
+    courseId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type QuizMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    chapterId?: SortOrder
+    courseId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type QuizMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    chapterId?: SortOrder
+    courseId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type QuizScalarRelationFilter = {
+    is?: QuizWhereInput
+    isNot?: QuizWhereInput
+  }
+
+  export type QuizOptionListRelationFilter = {
+    every?: QuizOptionWhereInput
+    some?: QuizOptionWhereInput
+    none?: QuizOptionWhereInput
+  }
+
+  export type QuizOptionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type QuizQuestionCountOrderByAggregateInput = {
+    id?: SortOrder
+    question?: SortOrder
+    type?: SortOrder
+    quizId?: SortOrder
+  }
+
+  export type QuizQuestionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    question?: SortOrder
+    type?: SortOrder
+    quizId?: SortOrder
+  }
+
+  export type QuizQuestionMinOrderByAggregateInput = {
+    id?: SortOrder
+    question?: SortOrder
+    type?: SortOrder
+    quizId?: SortOrder
+  }
+
+  export type QuizQuestionScalarRelationFilter = {
+    is?: QuizQuestionWhereInput
+    isNot?: QuizQuestionWhereInput
+  }
+
+  export type QuizOptionCountOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    isCorrect?: SortOrder
+    questionId?: SortOrder
+  }
+
+  export type QuizOptionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    isCorrect?: SortOrder
+    questionId?: SortOrder
+  }
+
+  export type QuizOptionMinOrderByAggregateInput = {
+    id?: SortOrder
+    content?: SortOrder
+    isCorrect?: SortOrder
+    questionId?: SortOrder
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type QuizResultCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    quizId?: SortOrder
+    score?: SortOrder
+    passed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuizResultAvgOrderByAggregateInput = {
+    score?: SortOrder
+  }
+
+  export type QuizResultMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    quizId?: SortOrder
+    score?: SortOrder
+    passed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuizResultMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    quizId?: SortOrder
+    score?: SortOrder
+    passed?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuizResultSumOrderByAggregateInput = {
+    score?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type SessionCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -61901,6 +67754,13 @@ export namespace Prisma {
     connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
   }
 
+  export type QuizCreateNestedManyWithoutUserInput = {
+    create?: XOR<QuizCreateWithoutUserInput, QuizUncheckedCreateWithoutUserInput> | QuizCreateWithoutUserInput[] | QuizUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuizCreateOrConnectWithoutUserInput | QuizCreateOrConnectWithoutUserInput[]
+    createMany?: QuizCreateManyUserInputEnvelope
+    connect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -61969,6 +67829,13 @@ export namespace Prisma {
     connectOrCreate?: ResourceCreateOrConnectWithoutUserInput | ResourceCreateOrConnectWithoutUserInput[]
     createMany?: ResourceCreateManyUserInputEnvelope
     connect?: ResourceWhereUniqueInput | ResourceWhereUniqueInput[]
+  }
+
+  export type QuizUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<QuizCreateWithoutUserInput, QuizUncheckedCreateWithoutUserInput> | QuizCreateWithoutUserInput[] | QuizUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuizCreateOrConnectWithoutUserInput | QuizCreateOrConnectWithoutUserInput[]
+    createMany?: QuizCreateManyUserInputEnvelope
+    connect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -62135,6 +68002,20 @@ export namespace Prisma {
     deleteMany?: ResourceScalarWhereInput | ResourceScalarWhereInput[]
   }
 
+  export type QuizUpdateManyWithoutUserNestedInput = {
+    create?: XOR<QuizCreateWithoutUserInput, QuizUncheckedCreateWithoutUserInput> | QuizCreateWithoutUserInput[] | QuizUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuizCreateOrConnectWithoutUserInput | QuizCreateOrConnectWithoutUserInput[]
+    upsert?: QuizUpsertWithWhereUniqueWithoutUserInput | QuizUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: QuizCreateManyUserInputEnvelope
+    set?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+    disconnect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+    delete?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+    connect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+    update?: QuizUpdateWithWhereUniqueWithoutUserInput | QuizUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: QuizUpdateManyWithWhereWithoutUserInput | QuizUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: QuizScalarWhereInput | QuizScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -62275,6 +68156,20 @@ export namespace Prisma {
     deleteMany?: ResourceScalarWhereInput | ResourceScalarWhereInput[]
   }
 
+  export type QuizUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<QuizCreateWithoutUserInput, QuizUncheckedCreateWithoutUserInput> | QuizCreateWithoutUserInput[] | QuizUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuizCreateOrConnectWithoutUserInput | QuizCreateOrConnectWithoutUserInput[]
+    upsert?: QuizUpsertWithWhereUniqueWithoutUserInput | QuizUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: QuizCreateManyUserInputEnvelope
+    set?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+    disconnect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+    delete?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+    connect?: QuizWhereUniqueInput | QuizWhereUniqueInput[]
+    update?: QuizUpdateWithWhereUniqueWithoutUserInput | QuizUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: QuizUpdateManyWithWhereWithoutUserInput | QuizUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: QuizScalarWhereInput | QuizScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutSessionsInput = {
     create?: XOR<UserCreateWithoutSessionsInput, UserUncheckedCreateWithoutSessionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutSessionsInput
@@ -62401,9 +68296,9 @@ export namespace Prisma {
     deleteMany?: CourseScalarWhereInput | CourseScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutLearningPathInput = {
-    create?: XOR<UserCreateWithoutLearningPathInput, UserUncheckedCreateWithoutLearningPathInput>
-    connectOrCreate?: UserCreateOrConnectWithoutLearningPathInput
+  export type UserCreateNestedOneWithoutLearningPathsInput = {
+    create?: XOR<UserCreateWithoutLearningPathsInput, UserUncheckedCreateWithoutLearningPathsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLearningPathsInput
     connect?: UserWhereUniqueInput
   }
 
@@ -62553,14 +68448,14 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type UserUpdateOneWithoutLearningPathNestedInput = {
-    create?: XOR<UserCreateWithoutLearningPathInput, UserUncheckedCreateWithoutLearningPathInput>
-    connectOrCreate?: UserCreateOrConnectWithoutLearningPathInput
-    upsert?: UserUpsertWithoutLearningPathInput
+  export type UserUpdateOneWithoutLearningPathsNestedInput = {
+    create?: XOR<UserCreateWithoutLearningPathsInput, UserUncheckedCreateWithoutLearningPathsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLearningPathsInput
+    upsert?: UserUpsertWithoutLearningPathsInput
     disconnect?: UserWhereInput | boolean
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLearningPathInput, UserUpdateWithoutLearningPathInput>, UserUncheckedUpdateWithoutLearningPathInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLearningPathsInput, UserUpdateWithoutLearningPathsInput>, UserUncheckedUpdateWithoutLearningPathsInput>
   }
 
   export type LearningPathTagUpdateManyWithoutLearningPathNestedInput = {
@@ -62863,10 +68758,6 @@ export namespace Prisma {
     create?: XOR<ResourceCreateWithoutLearningPathItemsInput, ResourceUncheckedCreateWithoutLearningPathItemsInput>
     connectOrCreate?: ResourceCreateOrConnectWithoutLearningPathItemsInput
     connect?: ResourceWhereUniqueInput
-  }
-
-  export type EnumItemTypeFieldUpdateOperationsInput = {
-    set?: $Enums.ItemType
   }
 
   export type LearningPathUpdateOneRequiredWithoutContentsNestedInput = {
@@ -63549,9 +69440,9 @@ export namespace Prisma {
     deleteMany?: LessonResourceScalarWhereInput | LessonResourceScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutWorkshopInput = {
-    create?: XOR<UserCreateWithoutWorkshopInput, UserUncheckedCreateWithoutWorkshopInput>
-    connectOrCreate?: UserCreateOrConnectWithoutWorkshopInput
+  export type UserCreateNestedOneWithoutWorkshopsInput = {
+    create?: XOR<UserCreateWithoutWorkshopsInput, UserUncheckedCreateWithoutWorkshopsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWorkshopsInput
     connect?: UserWhereUniqueInput
   }
 
@@ -63693,14 +69584,14 @@ export namespace Prisma {
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
   }
 
-  export type UserUpdateOneWithoutWorkshopNestedInput = {
-    create?: XOR<UserCreateWithoutWorkshopInput, UserUncheckedCreateWithoutWorkshopInput>
-    connectOrCreate?: UserCreateOrConnectWithoutWorkshopInput
-    upsert?: UserUpsertWithoutWorkshopInput
+  export type UserUpdateOneWithoutWorkshopsNestedInput = {
+    create?: XOR<UserCreateWithoutWorkshopsInput, UserUncheckedCreateWithoutWorkshopsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWorkshopsInput
+    upsert?: UserUpsertWithoutWorkshopsInput
     disconnect?: UserWhereInput | boolean
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWorkshopInput, UserUpdateWithoutWorkshopInput>, UserUncheckedUpdateWithoutWorkshopInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWorkshopsInput, UserUpdateWithoutWorkshopsInput>, UserUncheckedUpdateWithoutWorkshopsInput>
   }
 
   export type WorkshopTagUpdateManyWithoutWorkshopNestedInput = {
@@ -64016,9 +69907,9 @@ export namespace Prisma {
     connect?: LearningPathItemWhereUniqueInput | LearningPathItemWhereUniqueInput[]
   }
 
-  export type UserCreateNestedOneWithoutResourceInput = {
-    create?: XOR<UserCreateWithoutResourceInput, UserUncheckedCreateWithoutResourceInput>
-    connectOrCreate?: UserCreateOrConnectWithoutResourceInput
+  export type UserCreateNestedOneWithoutResourcesInput = {
+    create?: XOR<UserCreateWithoutResourcesInput, UserUncheckedCreateWithoutResourcesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutResourcesInput
     connect?: UserWhereUniqueInput
   }
 
@@ -64127,14 +70018,14 @@ export namespace Prisma {
     deleteMany?: LearningPathItemScalarWhereInput | LearningPathItemScalarWhereInput[]
   }
 
-  export type UserUpdateOneWithoutResourceNestedInput = {
-    create?: XOR<UserCreateWithoutResourceInput, UserUncheckedCreateWithoutResourceInput>
-    connectOrCreate?: UserCreateOrConnectWithoutResourceInput
-    upsert?: UserUpsertWithoutResourceInput
+  export type UserUpdateOneWithoutResourcesNestedInput = {
+    create?: XOR<UserCreateWithoutResourcesInput, UserUncheckedCreateWithoutResourcesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutResourcesInput
+    upsert?: UserUpsertWithoutResourcesInput
     disconnect?: UserWhereInput | boolean
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutResourceInput, UserUpdateWithoutResourceInput>, UserUncheckedUpdateWithoutResourceInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutResourcesInput, UserUpdateWithoutResourcesInput>, UserUncheckedUpdateWithoutResourcesInput>
   }
 
   export type CourseResourceUncheckedUpdateManyWithoutResourceNestedInput = {
@@ -64331,6 +70222,14 @@ export namespace Prisma {
     connect?: LessonWhereUniqueInput
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type UserUpdateOneRequiredWithoutLessonProgressNestedInput = {
     create?: XOR<UserCreateWithoutLessonProgressInput, UserUncheckedCreateWithoutLessonProgressInput>
     connectOrCreate?: UserCreateOrConnectWithoutLessonProgressInput
@@ -64363,6 +70262,14 @@ export namespace Prisma {
     create?: XOR<LearningPathCreateWithoutProgressInput, LearningPathUncheckedCreateWithoutProgressInput>
     connectOrCreate?: LearningPathCreateOrConnectWithoutProgressInput
     connect?: LearningPathWhereUniqueInput
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type CourseUpdateOneWithoutProgressNestedInput = {
@@ -64623,10 +70530,6 @@ export namespace Prisma {
     connect?: LearningPathWhereUniqueInput
   }
 
-  export type EnumDiscountTypeFieldUpdateOperationsInput = {
-    set?: $Enums.DiscountType
-  }
-
   export type CourseUpdateOneWithoutPromotionsNestedInput = {
     create?: XOR<CourseCreateWithoutPromotionsInput, CourseUncheckedCreateWithoutPromotionsInput>
     connectOrCreate?: CourseCreateOrConnectWithoutPromotionsInput
@@ -64691,14 +70594,6 @@ export namespace Prisma {
     create?: XOR<LearningPathCreateWithoutPromoCodesInput, LearningPathUncheckedCreateWithoutPromoCodesInput> | LearningPathCreateWithoutPromoCodesInput[] | LearningPathUncheckedCreateWithoutPromoCodesInput[]
     connectOrCreate?: LearningPathCreateOrConnectWithoutPromoCodesInput | LearningPathCreateOrConnectWithoutPromoCodesInput[]
     connect?: LearningPathWhereUniqueInput | LearningPathWhereUniqueInput[]
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type CourseUpdateManyWithoutPromoCodesNestedInput = {
@@ -64779,21 +70674,21 @@ export namespace Prisma {
     deleteMany?: LearningPathScalarWhereInput | LearningPathScalarWhereInput[]
   }
 
-  export type CourseCreateNestedOneWithoutEnrollmentInput = {
-    create?: XOR<CourseCreateWithoutEnrollmentInput, CourseUncheckedCreateWithoutEnrollmentInput>
-    connectOrCreate?: CourseCreateOrConnectWithoutEnrollmentInput
+  export type CourseCreateNestedOneWithoutEnrollmentsInput = {
+    create?: XOR<CourseCreateWithoutEnrollmentsInput, CourseUncheckedCreateWithoutEnrollmentsInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutEnrollmentsInput
     connect?: CourseWhereUniqueInput
   }
 
-  export type LearningPathCreateNestedOneWithoutEnrollmentInput = {
-    create?: XOR<LearningPathCreateWithoutEnrollmentInput, LearningPathUncheckedCreateWithoutEnrollmentInput>
-    connectOrCreate?: LearningPathCreateOrConnectWithoutEnrollmentInput
+  export type LearningPathCreateNestedOneWithoutEnrollmentsInput = {
+    create?: XOR<LearningPathCreateWithoutEnrollmentsInput, LearningPathUncheckedCreateWithoutEnrollmentsInput>
+    connectOrCreate?: LearningPathCreateOrConnectWithoutEnrollmentsInput
     connect?: LearningPathWhereUniqueInput
   }
 
-  export type WorkshopCreateNestedOneWithoutEnrollmentInput = {
-    create?: XOR<WorkshopCreateWithoutEnrollmentInput, WorkshopUncheckedCreateWithoutEnrollmentInput>
-    connectOrCreate?: WorkshopCreateOrConnectWithoutEnrollmentInput
+  export type WorkshopCreateNestedOneWithoutEnrollmentsInput = {
+    create?: XOR<WorkshopCreateWithoutEnrollmentsInput, WorkshopUncheckedCreateWithoutEnrollmentsInput>
+    connectOrCreate?: WorkshopCreateOrConnectWithoutEnrollmentsInput
     connect?: WorkshopWhereUniqueInput
   }
 
@@ -64813,34 +70708,34 @@ export namespace Prisma {
     set?: $Enums.enrollmentStatus
   }
 
-  export type CourseUpdateOneWithoutEnrollmentNestedInput = {
-    create?: XOR<CourseCreateWithoutEnrollmentInput, CourseUncheckedCreateWithoutEnrollmentInput>
-    connectOrCreate?: CourseCreateOrConnectWithoutEnrollmentInput
-    upsert?: CourseUpsertWithoutEnrollmentInput
+  export type CourseUpdateOneWithoutEnrollmentsNestedInput = {
+    create?: XOR<CourseCreateWithoutEnrollmentsInput, CourseUncheckedCreateWithoutEnrollmentsInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutEnrollmentsInput
+    upsert?: CourseUpsertWithoutEnrollmentsInput
     disconnect?: CourseWhereInput | boolean
     delete?: CourseWhereInput | boolean
     connect?: CourseWhereUniqueInput
-    update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutEnrollmentInput, CourseUpdateWithoutEnrollmentInput>, CourseUncheckedUpdateWithoutEnrollmentInput>
+    update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutEnrollmentsInput, CourseUpdateWithoutEnrollmentsInput>, CourseUncheckedUpdateWithoutEnrollmentsInput>
   }
 
-  export type LearningPathUpdateOneWithoutEnrollmentNestedInput = {
-    create?: XOR<LearningPathCreateWithoutEnrollmentInput, LearningPathUncheckedCreateWithoutEnrollmentInput>
-    connectOrCreate?: LearningPathCreateOrConnectWithoutEnrollmentInput
-    upsert?: LearningPathUpsertWithoutEnrollmentInput
+  export type LearningPathUpdateOneWithoutEnrollmentsNestedInput = {
+    create?: XOR<LearningPathCreateWithoutEnrollmentsInput, LearningPathUncheckedCreateWithoutEnrollmentsInput>
+    connectOrCreate?: LearningPathCreateOrConnectWithoutEnrollmentsInput
+    upsert?: LearningPathUpsertWithoutEnrollmentsInput
     disconnect?: LearningPathWhereInput | boolean
     delete?: LearningPathWhereInput | boolean
     connect?: LearningPathWhereUniqueInput
-    update?: XOR<XOR<LearningPathUpdateToOneWithWhereWithoutEnrollmentInput, LearningPathUpdateWithoutEnrollmentInput>, LearningPathUncheckedUpdateWithoutEnrollmentInput>
+    update?: XOR<XOR<LearningPathUpdateToOneWithWhereWithoutEnrollmentsInput, LearningPathUpdateWithoutEnrollmentsInput>, LearningPathUncheckedUpdateWithoutEnrollmentsInput>
   }
 
-  export type WorkshopUpdateOneWithoutEnrollmentNestedInput = {
-    create?: XOR<WorkshopCreateWithoutEnrollmentInput, WorkshopUncheckedCreateWithoutEnrollmentInput>
-    connectOrCreate?: WorkshopCreateOrConnectWithoutEnrollmentInput
-    upsert?: WorkshopUpsertWithoutEnrollmentInput
+  export type WorkshopUpdateOneWithoutEnrollmentsNestedInput = {
+    create?: XOR<WorkshopCreateWithoutEnrollmentsInput, WorkshopUncheckedCreateWithoutEnrollmentsInput>
+    connectOrCreate?: WorkshopCreateOrConnectWithoutEnrollmentsInput
+    upsert?: WorkshopUpsertWithoutEnrollmentsInput
     disconnect?: WorkshopWhereInput | boolean
     delete?: WorkshopWhereInput | boolean
     connect?: WorkshopWhereUniqueInput
-    update?: XOR<XOR<WorkshopUpdateToOneWithWhereWithoutEnrollmentInput, WorkshopUpdateWithoutEnrollmentInput>, WorkshopUncheckedUpdateWithoutEnrollmentInput>
+    update?: XOR<XOR<WorkshopUpdateToOneWithWhereWithoutEnrollmentsInput, WorkshopUpdateWithoutEnrollmentsInput>, WorkshopUncheckedUpdateWithoutEnrollmentsInput>
   }
 
   export type UserUpdateOneRequiredWithoutEnrollmentNestedInput = {
@@ -64861,27 +70756,27 @@ export namespace Prisma {
     update?: XOR<XOR<PaymentUpdateToOneWithWhereWithoutEnrollmentInput, PaymentUpdateWithoutEnrollmentInput>, PaymentUncheckedUpdateWithoutEnrollmentInput>
   }
 
-  export type UserCreateNestedOneWithoutPaymentInput = {
-    create?: XOR<UserCreateWithoutPaymentInput, UserUncheckedCreateWithoutPaymentInput>
-    connectOrCreate?: UserCreateOrConnectWithoutPaymentInput
+  export type UserCreateNestedOneWithoutPaymentsInput = {
+    create?: XOR<UserCreateWithoutPaymentsInput, UserUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPaymentsInput
     connect?: UserWhereUniqueInput
   }
 
-  export type CourseCreateNestedOneWithoutPaymentInput = {
-    create?: XOR<CourseCreateWithoutPaymentInput, CourseUncheckedCreateWithoutPaymentInput>
-    connectOrCreate?: CourseCreateOrConnectWithoutPaymentInput
+  export type CourseCreateNestedOneWithoutPaymentsInput = {
+    create?: XOR<CourseCreateWithoutPaymentsInput, CourseUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutPaymentsInput
     connect?: CourseWhereUniqueInput
   }
 
-  export type LearningPathCreateNestedOneWithoutPaymentInput = {
-    create?: XOR<LearningPathCreateWithoutPaymentInput, LearningPathUncheckedCreateWithoutPaymentInput>
-    connectOrCreate?: LearningPathCreateOrConnectWithoutPaymentInput
+  export type LearningPathCreateNestedOneWithoutPaymentsInput = {
+    create?: XOR<LearningPathCreateWithoutPaymentsInput, LearningPathUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: LearningPathCreateOrConnectWithoutPaymentsInput
     connect?: LearningPathWhereUniqueInput
   }
 
-  export type WorkshopCreateNestedOneWithoutPaymentInput = {
-    create?: XOR<WorkshopCreateWithoutPaymentInput, WorkshopUncheckedCreateWithoutPaymentInput>
-    connectOrCreate?: WorkshopCreateOrConnectWithoutPaymentInput
+  export type WorkshopCreateNestedOneWithoutPaymentsInput = {
+    create?: XOR<WorkshopCreateWithoutPaymentsInput, WorkshopUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: WorkshopCreateOrConnectWithoutPaymentsInput
     connect?: WorkshopWhereUniqueInput
   }
 
@@ -64897,42 +70792,42 @@ export namespace Prisma {
     connect?: EnrollmentWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutPaymentNestedInput = {
-    create?: XOR<UserCreateWithoutPaymentInput, UserUncheckedCreateWithoutPaymentInput>
-    connectOrCreate?: UserCreateOrConnectWithoutPaymentInput
-    upsert?: UserUpsertWithoutPaymentInput
+  export type UserUpdateOneRequiredWithoutPaymentsNestedInput = {
+    create?: XOR<UserCreateWithoutPaymentsInput, UserUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPaymentsInput
+    upsert?: UserUpsertWithoutPaymentsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPaymentInput, UserUpdateWithoutPaymentInput>, UserUncheckedUpdateWithoutPaymentInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPaymentsInput, UserUpdateWithoutPaymentsInput>, UserUncheckedUpdateWithoutPaymentsInput>
   }
 
-  export type CourseUpdateOneWithoutPaymentNestedInput = {
-    create?: XOR<CourseCreateWithoutPaymentInput, CourseUncheckedCreateWithoutPaymentInput>
-    connectOrCreate?: CourseCreateOrConnectWithoutPaymentInput
-    upsert?: CourseUpsertWithoutPaymentInput
+  export type CourseUpdateOneWithoutPaymentsNestedInput = {
+    create?: XOR<CourseCreateWithoutPaymentsInput, CourseUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutPaymentsInput
+    upsert?: CourseUpsertWithoutPaymentsInput
     disconnect?: CourseWhereInput | boolean
     delete?: CourseWhereInput | boolean
     connect?: CourseWhereUniqueInput
-    update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutPaymentInput, CourseUpdateWithoutPaymentInput>, CourseUncheckedUpdateWithoutPaymentInput>
+    update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutPaymentsInput, CourseUpdateWithoutPaymentsInput>, CourseUncheckedUpdateWithoutPaymentsInput>
   }
 
-  export type LearningPathUpdateOneWithoutPaymentNestedInput = {
-    create?: XOR<LearningPathCreateWithoutPaymentInput, LearningPathUncheckedCreateWithoutPaymentInput>
-    connectOrCreate?: LearningPathCreateOrConnectWithoutPaymentInput
-    upsert?: LearningPathUpsertWithoutPaymentInput
+  export type LearningPathUpdateOneWithoutPaymentsNestedInput = {
+    create?: XOR<LearningPathCreateWithoutPaymentsInput, LearningPathUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: LearningPathCreateOrConnectWithoutPaymentsInput
+    upsert?: LearningPathUpsertWithoutPaymentsInput
     disconnect?: LearningPathWhereInput | boolean
     delete?: LearningPathWhereInput | boolean
     connect?: LearningPathWhereUniqueInput
-    update?: XOR<XOR<LearningPathUpdateToOneWithWhereWithoutPaymentInput, LearningPathUpdateWithoutPaymentInput>, LearningPathUncheckedUpdateWithoutPaymentInput>
+    update?: XOR<XOR<LearningPathUpdateToOneWithWhereWithoutPaymentsInput, LearningPathUpdateWithoutPaymentsInput>, LearningPathUncheckedUpdateWithoutPaymentsInput>
   }
 
-  export type WorkshopUpdateOneWithoutPaymentNestedInput = {
-    create?: XOR<WorkshopCreateWithoutPaymentInput, WorkshopUncheckedCreateWithoutPaymentInput>
-    connectOrCreate?: WorkshopCreateOrConnectWithoutPaymentInput
-    upsert?: WorkshopUpsertWithoutPaymentInput
+  export type WorkshopUpdateOneWithoutPaymentsNestedInput = {
+    create?: XOR<WorkshopCreateWithoutPaymentsInput, WorkshopUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: WorkshopCreateOrConnectWithoutPaymentsInput
+    upsert?: WorkshopUpsertWithoutPaymentsInput
     disconnect?: WorkshopWhereInput | boolean
     delete?: WorkshopWhereInput | boolean
     connect?: WorkshopWhereUniqueInput
-    update?: XOR<XOR<WorkshopUpdateToOneWithWhereWithoutPaymentInput, WorkshopUpdateWithoutPaymentInput>, WorkshopUncheckedUpdateWithoutPaymentInput>
+    update?: XOR<XOR<WorkshopUpdateToOneWithWhereWithoutPaymentsInput, WorkshopUpdateWithoutPaymentsInput>, WorkshopUncheckedUpdateWithoutPaymentsInput>
   }
 
   export type EnrollmentUpdateOneWithoutPaymentNestedInput = {
@@ -64955,9 +70850,9 @@ export namespace Prisma {
     update?: XOR<XOR<EnrollmentUpdateToOneWithWhereWithoutPaymentInput, EnrollmentUpdateWithoutPaymentInput>, EnrollmentUncheckedUpdateWithoutPaymentInput>
   }
 
-  export type UserCreateNestedOneWithoutInvoiceInput = {
-    create?: XOR<UserCreateWithoutInvoiceInput, UserUncheckedCreateWithoutInvoiceInput>
-    connectOrCreate?: UserCreateOrConnectWithoutInvoiceInput
+  export type UserCreateNestedOneWithoutInvoicesInput = {
+    create?: XOR<UserCreateWithoutInvoicesInput, UserUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInvoicesInput
     connect?: UserWhereUniqueInput
   }
 
@@ -64975,12 +70870,12 @@ export namespace Prisma {
     connect?: InvoiceItemWhereUniqueInput | InvoiceItemWhereUniqueInput[]
   }
 
-  export type UserUpdateOneRequiredWithoutInvoiceNestedInput = {
-    create?: XOR<UserCreateWithoutInvoiceInput, UserUncheckedCreateWithoutInvoiceInput>
-    connectOrCreate?: UserCreateOrConnectWithoutInvoiceInput
-    upsert?: UserUpsertWithoutInvoiceInput
+  export type UserUpdateOneRequiredWithoutInvoicesNestedInput = {
+    create?: XOR<UserCreateWithoutInvoicesInput, UserUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInvoicesInput
+    upsert?: UserUpsertWithoutInvoicesInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInvoiceInput, UserUpdateWithoutInvoiceInput>, UserUncheckedUpdateWithoutInvoiceInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInvoicesInput, UserUpdateWithoutInvoicesInput>, UserUncheckedUpdateWithoutInvoicesInput>
   }
 
   export type InvoiceItemUpdateManyWithoutInvoiceNestedInput = {
@@ -65557,6 +71452,142 @@ export namespace Prisma {
     update?: XOR<XOR<SocialLinkUpdateToOneWithWhereWithoutCompanySocialLinkInput, SocialLinkUpdateWithoutCompanySocialLinkInput>, SocialLinkUncheckedUpdateWithoutCompanySocialLinkInput>
   }
 
+  export type QuizQuestionCreateNestedManyWithoutQuizInput = {
+    create?: XOR<QuizQuestionCreateWithoutQuizInput, QuizQuestionUncheckedCreateWithoutQuizInput> | QuizQuestionCreateWithoutQuizInput[] | QuizQuestionUncheckedCreateWithoutQuizInput[]
+    connectOrCreate?: QuizQuestionCreateOrConnectWithoutQuizInput | QuizQuestionCreateOrConnectWithoutQuizInput[]
+    createMany?: QuizQuestionCreateManyQuizInputEnvelope
+    connect?: QuizQuestionWhereUniqueInput | QuizQuestionWhereUniqueInput[]
+  }
+
+  export type UserCreateNestedOneWithoutQuizInput = {
+    create?: XOR<UserCreateWithoutQuizInput, UserUncheckedCreateWithoutQuizInput>
+    connectOrCreate?: UserCreateOrConnectWithoutQuizInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type QuizQuestionUncheckedCreateNestedManyWithoutQuizInput = {
+    create?: XOR<QuizQuestionCreateWithoutQuizInput, QuizQuestionUncheckedCreateWithoutQuizInput> | QuizQuestionCreateWithoutQuizInput[] | QuizQuestionUncheckedCreateWithoutQuizInput[]
+    connectOrCreate?: QuizQuestionCreateOrConnectWithoutQuizInput | QuizQuestionCreateOrConnectWithoutQuizInput[]
+    createMany?: QuizQuestionCreateManyQuizInputEnvelope
+    connect?: QuizQuestionWhereUniqueInput | QuizQuestionWhereUniqueInput[]
+  }
+
+  export type QuizQuestionUpdateManyWithoutQuizNestedInput = {
+    create?: XOR<QuizQuestionCreateWithoutQuizInput, QuizQuestionUncheckedCreateWithoutQuizInput> | QuizQuestionCreateWithoutQuizInput[] | QuizQuestionUncheckedCreateWithoutQuizInput[]
+    connectOrCreate?: QuizQuestionCreateOrConnectWithoutQuizInput | QuizQuestionCreateOrConnectWithoutQuizInput[]
+    upsert?: QuizQuestionUpsertWithWhereUniqueWithoutQuizInput | QuizQuestionUpsertWithWhereUniqueWithoutQuizInput[]
+    createMany?: QuizQuestionCreateManyQuizInputEnvelope
+    set?: QuizQuestionWhereUniqueInput | QuizQuestionWhereUniqueInput[]
+    disconnect?: QuizQuestionWhereUniqueInput | QuizQuestionWhereUniqueInput[]
+    delete?: QuizQuestionWhereUniqueInput | QuizQuestionWhereUniqueInput[]
+    connect?: QuizQuestionWhereUniqueInput | QuizQuestionWhereUniqueInput[]
+    update?: QuizQuestionUpdateWithWhereUniqueWithoutQuizInput | QuizQuestionUpdateWithWhereUniqueWithoutQuizInput[]
+    updateMany?: QuizQuestionUpdateManyWithWhereWithoutQuizInput | QuizQuestionUpdateManyWithWhereWithoutQuizInput[]
+    deleteMany?: QuizQuestionScalarWhereInput | QuizQuestionScalarWhereInput[]
+  }
+
+  export type UserUpdateOneWithoutQuizNestedInput = {
+    create?: XOR<UserCreateWithoutQuizInput, UserUncheckedCreateWithoutQuizInput>
+    connectOrCreate?: UserCreateOrConnectWithoutQuizInput
+    upsert?: UserUpsertWithoutQuizInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutQuizInput, UserUpdateWithoutQuizInput>, UserUncheckedUpdateWithoutQuizInput>
+  }
+
+  export type QuizQuestionUncheckedUpdateManyWithoutQuizNestedInput = {
+    create?: XOR<QuizQuestionCreateWithoutQuizInput, QuizQuestionUncheckedCreateWithoutQuizInput> | QuizQuestionCreateWithoutQuizInput[] | QuizQuestionUncheckedCreateWithoutQuizInput[]
+    connectOrCreate?: QuizQuestionCreateOrConnectWithoutQuizInput | QuizQuestionCreateOrConnectWithoutQuizInput[]
+    upsert?: QuizQuestionUpsertWithWhereUniqueWithoutQuizInput | QuizQuestionUpsertWithWhereUniqueWithoutQuizInput[]
+    createMany?: QuizQuestionCreateManyQuizInputEnvelope
+    set?: QuizQuestionWhereUniqueInput | QuizQuestionWhereUniqueInput[]
+    disconnect?: QuizQuestionWhereUniqueInput | QuizQuestionWhereUniqueInput[]
+    delete?: QuizQuestionWhereUniqueInput | QuizQuestionWhereUniqueInput[]
+    connect?: QuizQuestionWhereUniqueInput | QuizQuestionWhereUniqueInput[]
+    update?: QuizQuestionUpdateWithWhereUniqueWithoutQuizInput | QuizQuestionUpdateWithWhereUniqueWithoutQuizInput[]
+    updateMany?: QuizQuestionUpdateManyWithWhereWithoutQuizInput | QuizQuestionUpdateManyWithWhereWithoutQuizInput[]
+    deleteMany?: QuizQuestionScalarWhereInput | QuizQuestionScalarWhereInput[]
+  }
+
+  export type QuizCreateNestedOneWithoutQuestionsInput = {
+    create?: XOR<QuizCreateWithoutQuestionsInput, QuizUncheckedCreateWithoutQuestionsInput>
+    connectOrCreate?: QuizCreateOrConnectWithoutQuestionsInput
+    connect?: QuizWhereUniqueInput
+  }
+
+  export type QuizOptionCreateNestedManyWithoutQuestionInput = {
+    create?: XOR<QuizOptionCreateWithoutQuestionInput, QuizOptionUncheckedCreateWithoutQuestionInput> | QuizOptionCreateWithoutQuestionInput[] | QuizOptionUncheckedCreateWithoutQuestionInput[]
+    connectOrCreate?: QuizOptionCreateOrConnectWithoutQuestionInput | QuizOptionCreateOrConnectWithoutQuestionInput[]
+    createMany?: QuizOptionCreateManyQuestionInputEnvelope
+    connect?: QuizOptionWhereUniqueInput | QuizOptionWhereUniqueInput[]
+  }
+
+  export type QuizOptionUncheckedCreateNestedManyWithoutQuestionInput = {
+    create?: XOR<QuizOptionCreateWithoutQuestionInput, QuizOptionUncheckedCreateWithoutQuestionInput> | QuizOptionCreateWithoutQuestionInput[] | QuizOptionUncheckedCreateWithoutQuestionInput[]
+    connectOrCreate?: QuizOptionCreateOrConnectWithoutQuestionInput | QuizOptionCreateOrConnectWithoutQuestionInput[]
+    createMany?: QuizOptionCreateManyQuestionInputEnvelope
+    connect?: QuizOptionWhereUniqueInput | QuizOptionWhereUniqueInput[]
+  }
+
+  export type QuizUpdateOneRequiredWithoutQuestionsNestedInput = {
+    create?: XOR<QuizCreateWithoutQuestionsInput, QuizUncheckedCreateWithoutQuestionsInput>
+    connectOrCreate?: QuizCreateOrConnectWithoutQuestionsInput
+    upsert?: QuizUpsertWithoutQuestionsInput
+    connect?: QuizWhereUniqueInput
+    update?: XOR<XOR<QuizUpdateToOneWithWhereWithoutQuestionsInput, QuizUpdateWithoutQuestionsInput>, QuizUncheckedUpdateWithoutQuestionsInput>
+  }
+
+  export type QuizOptionUpdateManyWithoutQuestionNestedInput = {
+    create?: XOR<QuizOptionCreateWithoutQuestionInput, QuizOptionUncheckedCreateWithoutQuestionInput> | QuizOptionCreateWithoutQuestionInput[] | QuizOptionUncheckedCreateWithoutQuestionInput[]
+    connectOrCreate?: QuizOptionCreateOrConnectWithoutQuestionInput | QuizOptionCreateOrConnectWithoutQuestionInput[]
+    upsert?: QuizOptionUpsertWithWhereUniqueWithoutQuestionInput | QuizOptionUpsertWithWhereUniqueWithoutQuestionInput[]
+    createMany?: QuizOptionCreateManyQuestionInputEnvelope
+    set?: QuizOptionWhereUniqueInput | QuizOptionWhereUniqueInput[]
+    disconnect?: QuizOptionWhereUniqueInput | QuizOptionWhereUniqueInput[]
+    delete?: QuizOptionWhereUniqueInput | QuizOptionWhereUniqueInput[]
+    connect?: QuizOptionWhereUniqueInput | QuizOptionWhereUniqueInput[]
+    update?: QuizOptionUpdateWithWhereUniqueWithoutQuestionInput | QuizOptionUpdateWithWhereUniqueWithoutQuestionInput[]
+    updateMany?: QuizOptionUpdateManyWithWhereWithoutQuestionInput | QuizOptionUpdateManyWithWhereWithoutQuestionInput[]
+    deleteMany?: QuizOptionScalarWhereInput | QuizOptionScalarWhereInput[]
+  }
+
+  export type QuizOptionUncheckedUpdateManyWithoutQuestionNestedInput = {
+    create?: XOR<QuizOptionCreateWithoutQuestionInput, QuizOptionUncheckedCreateWithoutQuestionInput> | QuizOptionCreateWithoutQuestionInput[] | QuizOptionUncheckedCreateWithoutQuestionInput[]
+    connectOrCreate?: QuizOptionCreateOrConnectWithoutQuestionInput | QuizOptionCreateOrConnectWithoutQuestionInput[]
+    upsert?: QuizOptionUpsertWithWhereUniqueWithoutQuestionInput | QuizOptionUpsertWithWhereUniqueWithoutQuestionInput[]
+    createMany?: QuizOptionCreateManyQuestionInputEnvelope
+    set?: QuizOptionWhereUniqueInput | QuizOptionWhereUniqueInput[]
+    disconnect?: QuizOptionWhereUniqueInput | QuizOptionWhereUniqueInput[]
+    delete?: QuizOptionWhereUniqueInput | QuizOptionWhereUniqueInput[]
+    connect?: QuizOptionWhereUniqueInput | QuizOptionWhereUniqueInput[]
+    update?: QuizOptionUpdateWithWhereUniqueWithoutQuestionInput | QuizOptionUpdateWithWhereUniqueWithoutQuestionInput[]
+    updateMany?: QuizOptionUpdateManyWithWhereWithoutQuestionInput | QuizOptionUpdateManyWithWhereWithoutQuestionInput[]
+    deleteMany?: QuizOptionScalarWhereInput | QuizOptionScalarWhereInput[]
+  }
+
+  export type QuizQuestionCreateNestedOneWithoutOptionsInput = {
+    create?: XOR<QuizQuestionCreateWithoutOptionsInput, QuizQuestionUncheckedCreateWithoutOptionsInput>
+    connectOrCreate?: QuizQuestionCreateOrConnectWithoutOptionsInput
+    connect?: QuizQuestionWhereUniqueInput
+  }
+
+  export type QuizQuestionUpdateOneRequiredWithoutOptionsNestedInput = {
+    create?: XOR<QuizQuestionCreateWithoutOptionsInput, QuizQuestionUncheckedCreateWithoutOptionsInput>
+    connectOrCreate?: QuizQuestionCreateOrConnectWithoutOptionsInput
+    upsert?: QuizQuestionUpsertWithoutOptionsInput
+    connect?: QuizQuestionWhereUniqueInput
+    update?: XOR<XOR<QuizQuestionUpdateToOneWithWhereWithoutOptionsInput, QuizQuestionUpdateWithoutOptionsInput>, QuizQuestionUncheckedUpdateWithoutOptionsInput>
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -65744,40 +71775,6 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedEnumItemTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.ItemType | EnumItemTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumItemTypeFilter<$PrismaModel> | $Enums.ItemType
-  }
-
-  export type NestedEnumItemTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.ItemType | EnumItemTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ItemType[] | ListEnumItemTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumItemTypeWithAggregatesFilter<$PrismaModel> | $Enums.ItemType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumItemTypeFilter<$PrismaModel>
-    _max?: NestedEnumItemTypeFilter<$PrismaModel>
-  }
-
-  export type NestedEnumDiscountTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.DiscountType | EnumDiscountTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.DiscountType[] | ListEnumDiscountTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DiscountType[] | ListEnumDiscountTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumDiscountTypeFilter<$PrismaModel> | $Enums.DiscountType
-  }
-
-  export type NestedEnumDiscountTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.DiscountType | EnumDiscountTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.DiscountType[] | ListEnumDiscountTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DiscountType[] | ListEnumDiscountTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumDiscountTypeWithAggregatesFilter<$PrismaModel> | $Enums.DiscountType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumDiscountTypeFilter<$PrismaModel>
-    _max?: NestedEnumDiscountTypeFilter<$PrismaModel>
-  }
-
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -65805,6 +71802,22 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumenrollmentStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.enrollmentStatus | EnumenrollmentStatusFieldRefInput<$PrismaModel>
     in?: $Enums.enrollmentStatus[] | ListEnumenrollmentStatusFieldRefInput<$PrismaModel>
@@ -65820,6 +71833,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumenrollmentStatusFilter<$PrismaModel>
     _max?: NestedEnumenrollmentStatusFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type SessionCreateWithoutUserInput = {
@@ -65897,6 +71926,9 @@ export namespace Prisma {
   export type LessonProgressCreateWithoutUserInput = {
     id?: string
     completed?: boolean
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    watchedSeconds?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Lesson: LessonCreateNestedOneWithoutLessonProgressInput
@@ -65905,6 +71937,9 @@ export namespace Prisma {
   export type LessonProgressUncheckedCreateWithoutUserInput = {
     id?: string
     completed?: boolean
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    watchedSeconds?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lessonId: string
@@ -65927,9 +71962,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    course?: CourseCreateNestedOneWithoutEnrollmentInput
-    learningPath?: LearningPathCreateNestedOneWithoutEnrollmentInput
-    workshop?: WorkshopCreateNestedOneWithoutEnrollmentInput
+    course?: CourseCreateNestedOneWithoutEnrollmentsInput
+    learningPath?: LearningPathCreateNestedOneWithoutEnrollmentsInput
+    workshop?: WorkshopCreateNestedOneWithoutEnrollmentsInput
     payment?: PaymentCreateNestedOneWithoutEnrollmentInput
   }
 
@@ -65966,9 +72001,9 @@ export namespace Prisma {
     receiptUrl?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
-    course?: CourseCreateNestedOneWithoutPaymentInput
-    learningPath?: LearningPathCreateNestedOneWithoutPaymentInput
-    workshop?: WorkshopCreateNestedOneWithoutPaymentInput
+    course?: CourseCreateNestedOneWithoutPaymentsInput
+    learningPath?: LearningPathCreateNestedOneWithoutPaymentsInput
+    workshop?: WorkshopCreateNestedOneWithoutPaymentsInput
     enrollment?: EnrollmentCreateNestedOneWithoutPaymentInput
   }
 
@@ -66049,9 +72084,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     chapters?: ChapterCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
     category: CategoryCreateNestedOneWithoutCoursesInput
-    Payment?: PaymentCreateNestedManyWithoutCourseInput
+    payments?: PaymentCreateNestedManyWithoutCourseInput
     promotions?: PromotionCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagCreateNestedManyWithoutCourseInput
@@ -66080,8 +72115,8 @@ export namespace Prisma {
     categoryId: string
     deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCourseInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagUncheckedCreateNestedManyWithoutCourseInput
@@ -66126,8 +72161,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathUncheckedCreateWithoutUserInput = {
@@ -66154,8 +72189,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathCreateOrConnectWithoutUserInput = {
@@ -66199,8 +72234,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopUncheckedCreateWithoutUserInput = {
@@ -66234,8 +72269,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopCreateOrConnectWithoutUserInput = {
@@ -66285,6 +72320,42 @@ export namespace Prisma {
 
   export type ResourceCreateManyUserInputEnvelope = {
     data: ResourceCreateManyUserInput | ResourceCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type QuizCreateWithoutUserInput = {
+    id?: string
+    title: string
+    slug: string
+    description?: string | null
+    type?: string | null
+    chapterId?: string | null
+    courseId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    questions?: QuizQuestionCreateNestedManyWithoutQuizInput
+  }
+
+  export type QuizUncheckedCreateWithoutUserInput = {
+    id?: string
+    title: string
+    slug: string
+    description?: string | null
+    type?: string | null
+    chapterId?: string | null
+    courseId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    questions?: QuizQuestionUncheckedCreateNestedManyWithoutQuizInput
+  }
+
+  export type QuizCreateOrConnectWithoutUserInput = {
+    where: QuizWhereUniqueInput
+    create: XOR<QuizCreateWithoutUserInput, QuizUncheckedCreateWithoutUserInput>
+  }
+
+  export type QuizCreateManyUserInputEnvelope = {
+    data: QuizCreateManyUserInput | QuizCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -66376,6 +72447,9 @@ export namespace Prisma {
     NOT?: LessonProgressScalarWhereInput | LessonProgressScalarWhereInput[]
     id?: StringFilter<"LessonProgress"> | string
     completed?: BoolFilter<"LessonProgress"> | boolean
+    startTime?: DateTimeNullableFilter<"LessonProgress"> | Date | string | null
+    endTime?: DateTimeNullableFilter<"LessonProgress"> | Date | string | null
+    watchedSeconds?: IntNullableFilter<"LessonProgress"> | number | null
     createdAt?: DateTimeFilter<"LessonProgress"> | Date | string
     updatedAt?: DateTimeFilter<"LessonProgress"> | Date | string
     userId?: StringFilter<"LessonProgress"> | string
@@ -66633,6 +72707,38 @@ export namespace Prisma {
     userId?: StringFilter<"Resource"> | string
   }
 
+  export type QuizUpsertWithWhereUniqueWithoutUserInput = {
+    where: QuizWhereUniqueInput
+    update: XOR<QuizUpdateWithoutUserInput, QuizUncheckedUpdateWithoutUserInput>
+    create: XOR<QuizCreateWithoutUserInput, QuizUncheckedCreateWithoutUserInput>
+  }
+
+  export type QuizUpdateWithWhereUniqueWithoutUserInput = {
+    where: QuizWhereUniqueInput
+    data: XOR<QuizUpdateWithoutUserInput, QuizUncheckedUpdateWithoutUserInput>
+  }
+
+  export type QuizUpdateManyWithWhereWithoutUserInput = {
+    where: QuizScalarWhereInput
+    data: XOR<QuizUpdateManyMutationInput, QuizUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type QuizScalarWhereInput = {
+    AND?: QuizScalarWhereInput | QuizScalarWhereInput[]
+    OR?: QuizScalarWhereInput[]
+    NOT?: QuizScalarWhereInput | QuizScalarWhereInput[]
+    id?: StringFilter<"Quiz"> | string
+    title?: StringFilter<"Quiz"> | string
+    slug?: StringFilter<"Quiz"> | string
+    description?: StringNullableFilter<"Quiz"> | string | null
+    type?: StringNullableFilter<"Quiz"> | string | null
+    chapterId?: StringNullableFilter<"Quiz"> | string | null
+    courseId?: StringNullableFilter<"Quiz"> | string | null
+    createdAt?: DateTimeFilter<"Quiz"> | Date | string
+    updatedAt?: DateTimeFilter<"Quiz"> | Date | string
+    userId?: StringNullableFilter<"Quiz"> | string | null
+  }
+
   export type UserCreateWithoutSessionsInput = {
     id: string
     name: string
@@ -66650,12 +72756,13 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentCreateNestedManyWithoutUserInput
-    Payment?: PaymentCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    invoices?: InvoiceCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopCreateNestedManyWithoutUserInput
-    Resource?: ResourceCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathCreateNestedManyWithoutUserInput
+    workshops?: WorkshopCreateNestedManyWithoutUserInput
+    resources?: ResourceCreateNestedManyWithoutUserInput
+    quiz?: QuizCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -66675,12 +72782,13 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
-    Resource?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    workshops?: WorkshopUncheckedCreateNestedManyWithoutUserInput
+    resources?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    quiz?: QuizUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -66716,12 +72824,13 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUpdateManyWithoutUserNestedInput
+    resources?: ResourceUpdateManyWithoutUserNestedInput
+    quiz?: QuizUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -66741,12 +72850,13 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
+    resources?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    quiz?: QuizUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -66766,12 +72876,13 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentCreateNestedManyWithoutUserInput
-    Payment?: PaymentCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    invoices?: InvoiceCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopCreateNestedManyWithoutUserInput
-    Resource?: ResourceCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathCreateNestedManyWithoutUserInput
+    workshops?: WorkshopCreateNestedManyWithoutUserInput
+    resources?: ResourceCreateNestedManyWithoutUserInput
+    quiz?: QuizCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -66791,12 +72902,13 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
-    Resource?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    workshops?: WorkshopUncheckedCreateNestedManyWithoutUserInput
+    resources?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    quiz?: QuizUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -66832,12 +72944,13 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUpdateManyWithoutUserNestedInput
+    resources?: ResourceUpdateManyWithoutUserNestedInput
+    quiz?: QuizUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -66857,12 +72970,13 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
+    resources?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    quiz?: QuizUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CategoryCreateWithoutDomainInput = {
@@ -66954,8 +73068,8 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
-    Payment?: PaymentCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
+    payments?: PaymentCreateNestedManyWithoutCourseInput
     promotions?: PromotionCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagCreateNestedManyWithoutCourseInput
@@ -66984,8 +73098,8 @@ export namespace Prisma {
     userId: string
     deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCourseInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagUncheckedCreateNestedManyWithoutCourseInput
@@ -67090,7 +73204,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type UserCreateWithoutLearningPathInput = {
+  export type UserCreateWithoutLearningPathsInput = {
     id: string
     name: string
     email: string
@@ -67108,14 +73222,15 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentCreateNestedManyWithoutUserInput
-    Payment?: PaymentCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    invoices?: InvoiceCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopCreateNestedManyWithoutUserInput
-    Resource?: ResourceCreateNestedManyWithoutUserInput
+    workshops?: WorkshopCreateNestedManyWithoutUserInput
+    resources?: ResourceCreateNestedManyWithoutUserInput
+    quiz?: QuizCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutLearningPathInput = {
+  export type UserUncheckedCreateWithoutLearningPathsInput = {
     id: string
     name: string
     email: string
@@ -67133,16 +73248,17 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
-    Resource?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    workshops?: WorkshopUncheckedCreateNestedManyWithoutUserInput
+    resources?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    quiz?: QuizUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutLearningPathInput = {
+  export type UserCreateOrConnectWithoutLearningPathsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutLearningPathInput, UserUncheckedCreateWithoutLearningPathInput>
+    create: XOR<UserCreateWithoutLearningPathsInput, UserUncheckedCreateWithoutLearningPathsInput>
   }
 
   export type LearningPathTagCreateWithoutLearningPathInput = {
@@ -67165,7 +73281,7 @@ export namespace Prisma {
 
   export type LearningPathItemCreateWithoutLearningPathInput = {
     id?: string
-    type: $Enums.ItemType
+    type: string
     position: number
     course?: CourseCreateNestedOneWithoutLearningPathItemsInput
     workshop?: WorkshopCreateNestedOneWithoutLearningPathItemsInput
@@ -67174,7 +73290,7 @@ export namespace Prisma {
 
   export type LearningPathItemUncheckedCreateWithoutLearningPathInput = {
     id?: string
-    type: $Enums.ItemType
+    type: string
     position: number
     courseId?: string | null
     workshopId?: string | null
@@ -67194,9 +73310,13 @@ export namespace Prisma {
   export type UserProgressCreateWithoutPathInput = {
     id?: string
     userId: string
-    type: $Enums.ItemType
+    type: string
     completed?: boolean
     updatedAt?: Date | string
+    progressPercentage?: number | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    timeSpent?: number | null
     course?: CourseCreateNestedOneWithoutProgressInput
     workshop?: WorkshopCreateNestedOneWithoutProgressInput
   }
@@ -67204,9 +73324,13 @@ export namespace Prisma {
   export type UserProgressUncheckedCreateWithoutPathInput = {
     id?: string
     userId: string
-    type: $Enums.ItemType
+    type: string
     completed?: boolean
     updatedAt?: Date | string
+    progressPercentage?: number | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    timeSpent?: number | null
   }
 
   export type UserProgressCreateOrConnectWithoutPathInput = {
@@ -67278,7 +73402,7 @@ export namespace Prisma {
     code: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     usageLimit?: number | null
     usedCount?: number
     startsAt: Date | string
@@ -67293,7 +73417,7 @@ export namespace Prisma {
     code: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     usageLimit?: number | null
     usedCount?: number
     startsAt: Date | string
@@ -67313,11 +73437,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     startsAt: Date | string
     endsAt: Date | string
     active?: boolean
-    itemType: $Enums.ItemType
+    itemType: string
     course?: CourseCreateNestedOneWithoutPromotionsInput
     workshop?: WorkshopCreateNestedOneWithoutPromotionsInput
   }
@@ -67327,11 +73451,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     startsAt: Date | string
     endsAt: Date | string
     active?: boolean
-    itemType: $Enums.ItemType
+    itemType: string
     courseId?: string | null
     workshopId?: string | null
   }
@@ -67353,8 +73477,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    course?: CourseCreateNestedOneWithoutEnrollmentInput
-    workshop?: WorkshopCreateNestedOneWithoutEnrollmentInput
+    course?: CourseCreateNestedOneWithoutEnrollmentsInput
+    workshop?: WorkshopCreateNestedOneWithoutEnrollmentsInput
     user: UserCreateNestedOneWithoutEnrollmentInput
     payment?: PaymentCreateNestedOneWithoutEnrollmentInput
   }
@@ -67392,9 +73516,9 @@ export namespace Prisma {
     receiptUrl?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
-    user: UserCreateNestedOneWithoutPaymentInput
-    course?: CourseCreateNestedOneWithoutPaymentInput
-    workshop?: WorkshopCreateNestedOneWithoutPaymentInput
+    user: UserCreateNestedOneWithoutPaymentsInput
+    course?: CourseCreateNestedOneWithoutPaymentsInput
+    workshop?: WorkshopCreateNestedOneWithoutPaymentsInput
     enrollment?: EnrollmentCreateNestedOneWithoutPaymentInput
   }
 
@@ -67424,18 +73548,18 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserUpsertWithoutLearningPathInput = {
-    update: XOR<UserUpdateWithoutLearningPathInput, UserUncheckedUpdateWithoutLearningPathInput>
-    create: XOR<UserCreateWithoutLearningPathInput, UserUncheckedCreateWithoutLearningPathInput>
+  export type UserUpsertWithoutLearningPathsInput = {
+    update: XOR<UserUpdateWithoutLearningPathsInput, UserUncheckedUpdateWithoutLearningPathsInput>
+    create: XOR<UserCreateWithoutLearningPathsInput, UserUncheckedCreateWithoutLearningPathsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutLearningPathInput = {
+  export type UserUpdateToOneWithWhereWithoutLearningPathsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutLearningPathInput, UserUncheckedUpdateWithoutLearningPathInput>
+    data: XOR<UserUpdateWithoutLearningPathsInput, UserUncheckedUpdateWithoutLearningPathsInput>
   }
 
-  export type UserUpdateWithoutLearningPathInput = {
+  export type UserUpdateWithoutLearningPathsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -67453,14 +73577,15 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUpdateManyWithoutUserNestedInput
+    resources?: ResourceUpdateManyWithoutUserNestedInput
+    quiz?: QuizUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutLearningPathInput = {
+  export type UserUncheckedUpdateWithoutLearningPathsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -67478,11 +73603,12 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
+    resources?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    quiz?: QuizUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LearningPathTagUpsertWithWhereUniqueWithoutLearningPathInput = {
@@ -67530,7 +73656,7 @@ export namespace Prisma {
     OR?: LearningPathItemScalarWhereInput[]
     NOT?: LearningPathItemScalarWhereInput | LearningPathItemScalarWhereInput[]
     id?: StringFilter<"LearningPathItem"> | string
-    type?: EnumItemTypeFilter<"LearningPathItem"> | $Enums.ItemType
+    type?: StringFilter<"LearningPathItem"> | string
     position?: IntFilter<"LearningPathItem"> | number
     learningPathId?: StringFilter<"LearningPathItem"> | string
     courseId?: StringNullableFilter<"LearningPathItem"> | string | null
@@ -67560,10 +73686,14 @@ export namespace Prisma {
     NOT?: UserProgressScalarWhereInput | UserProgressScalarWhereInput[]
     id?: StringFilter<"UserProgress"> | string
     userId?: StringFilter<"UserProgress"> | string
-    type?: EnumItemTypeFilter<"UserProgress"> | $Enums.ItemType
+    type?: StringFilter<"UserProgress"> | string
     itemId?: StringFilter<"UserProgress"> | string
     completed?: BoolFilter<"UserProgress"> | boolean
     updatedAt?: DateTimeFilter<"UserProgress"> | Date | string
+    progressPercentage?: FloatNullableFilter<"UserProgress"> | number | null
+    startedAt?: DateTimeNullableFilter<"UserProgress"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"UserProgress"> | Date | string | null
+    timeSpent?: IntNullableFilter<"UserProgress"> | number | null
   }
 
   export type LearningPathResourceUpsertWithWhereUniqueWithoutLearningPathInput = {
@@ -67662,7 +73792,7 @@ export namespace Prisma {
     code?: StringFilter<"PromoCode"> | string
     description?: StringNullableFilter<"PromoCode"> | string | null
     discount?: IntFilter<"PromoCode"> | number
-    type?: EnumDiscountTypeFilter<"PromoCode"> | $Enums.DiscountType
+    type?: StringFilter<"PromoCode"> | string
     usageLimit?: IntNullableFilter<"PromoCode"> | number | null
     usedCount?: IntFilter<"PromoCode"> | number
     startsAt?: DateTimeFilter<"PromoCode"> | Date | string
@@ -67694,11 +73824,11 @@ export namespace Prisma {
     title?: StringFilter<"Promotion"> | string
     description?: StringNullableFilter<"Promotion"> | string | null
     discount?: IntFilter<"Promotion"> | number
-    type?: EnumDiscountTypeFilter<"Promotion"> | $Enums.DiscountType
+    type?: StringFilter<"Promotion"> | string
     startsAt?: DateTimeFilter<"Promotion"> | Date | string
     endsAt?: DateTimeFilter<"Promotion"> | Date | string
     active?: BoolFilter<"Promotion"> | boolean
-    itemType?: EnumItemTypeFilter<"Promotion"> | $Enums.ItemType
+    itemType?: StringFilter<"Promotion"> | string
     courseId?: StringNullableFilter<"Promotion"> | string | null
     workshopId?: StringNullableFilter<"Promotion"> | string | null
     learningPathId?: StringNullableFilter<"Promotion"> | string | null
@@ -67752,7 +73882,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutLearningPathInput
+    user?: UserCreateNestedOneWithoutLearningPathsInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressCreateNestedManyWithoutPathInput
     resources?: LearningPathResourceCreateNestedManyWithoutLearningPathInput
@@ -67760,8 +73890,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathUncheckedCreateWithoutContentsInput = {
@@ -67788,8 +73918,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathCreateOrConnectWithoutContentsInput = {
@@ -67815,9 +73945,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
     category: CategoryCreateNestedOneWithoutCoursesInput
-    Payment?: PaymentCreateNestedManyWithoutCourseInput
+    payments?: PaymentCreateNestedManyWithoutCourseInput
     promotions?: PromotionCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagCreateNestedManyWithoutCourseInput
@@ -67846,8 +73976,8 @@ export namespace Prisma {
     categoryId: string
     deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCourseInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagUncheckedCreateNestedManyWithoutCourseInput
@@ -67885,7 +74015,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutWorkshopInput
+    user?: UserCreateNestedOneWithoutWorkshopsInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
@@ -67893,8 +74023,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopUncheckedCreateWithoutLearningPathItemsInput = {
@@ -67928,8 +74058,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopCreateOrConnectWithoutLearningPathItemsInput = {
@@ -67949,7 +74079,7 @@ export namespace Prisma {
     lessonResources?: LessonResourceCreateNestedManyWithoutResourceInput
     workshopResources?: WorkshopResourceCreateNestedManyWithoutResourceInput
     learningPathResources?: LearningPathResourceCreateNestedManyWithoutResourceInput
-    user?: UserCreateNestedOneWithoutResourceInput
+    user?: UserCreateNestedOneWithoutResourcesInput
   }
 
   export type ResourceUncheckedCreateWithoutLearningPathItemsInput = {
@@ -67999,7 +74129,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutLearningPathNestedInput
+    user?: UserUpdateOneWithoutLearningPathsNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUpdateManyWithoutPathNestedInput
     resources?: LearningPathResourceUpdateManyWithoutLearningPathNestedInput
@@ -68007,8 +74137,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUpdateManyWithoutLearningPathNestedInput
   }
 
   export type LearningPathUncheckedUpdateWithoutContentsInput = {
@@ -68035,8 +74165,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
   }
 
   export type CourseUpsertWithoutLearningPathItemsInput = {
@@ -68068,9 +74198,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
-    Payment?: PaymentUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUpdateManyWithoutCourseNestedInput
@@ -68099,8 +74229,8 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUncheckedUpdateManyWithoutCourseNestedInput
@@ -68144,7 +74274,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutWorkshopNestedInput
+    user?: UserUpdateOneWithoutWorkshopsNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
@@ -68152,8 +74282,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopUncheckedUpdateWithoutLearningPathItemsInput = {
@@ -68187,8 +74317,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type ResourceUpsertWithoutLearningPathItemsInput = {
@@ -68214,7 +74344,7 @@ export namespace Prisma {
     lessonResources?: LessonResourceUpdateManyWithoutResourceNestedInput
     workshopResources?: WorkshopResourceUpdateManyWithoutResourceNestedInput
     learningPathResources?: LearningPathResourceUpdateManyWithoutResourceNestedInput
-    user?: UserUpdateOneWithoutResourceNestedInput
+    user?: UserUpdateOneWithoutResourcesNestedInput
   }
 
   export type ResourceUncheckedUpdateWithoutLearningPathItemsInput = {
@@ -68250,11 +74380,12 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentCreateNestedManyWithoutUserInput
-    Payment?: PaymentCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopCreateNestedManyWithoutUserInput
-    Resource?: ResourceCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    invoices?: InvoiceCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathCreateNestedManyWithoutUserInput
+    workshops?: WorkshopCreateNestedManyWithoutUserInput
+    resources?: ResourceCreateNestedManyWithoutUserInput
+    quiz?: QuizCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCoursesInput = {
@@ -68275,11 +74406,12 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
-    Resource?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    workshops?: WorkshopUncheckedCreateNestedManyWithoutUserInput
+    resources?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    quiz?: QuizUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCoursesInput = {
@@ -68322,8 +74454,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    learningPath?: LearningPathCreateNestedOneWithoutEnrollmentInput
-    workshop?: WorkshopCreateNestedOneWithoutEnrollmentInput
+    learningPath?: LearningPathCreateNestedOneWithoutEnrollmentsInput
+    workshop?: WorkshopCreateNestedOneWithoutEnrollmentsInput
     user: UserCreateNestedOneWithoutEnrollmentInput
     payment?: PaymentCreateNestedOneWithoutEnrollmentInput
   }
@@ -68394,9 +74526,9 @@ export namespace Prisma {
     receiptUrl?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
-    user: UserCreateNestedOneWithoutPaymentInput
-    learningPath?: LearningPathCreateNestedOneWithoutPaymentInput
-    workshop?: WorkshopCreateNestedOneWithoutPaymentInput
+    user: UserCreateNestedOneWithoutPaymentsInput
+    learningPath?: LearningPathCreateNestedOneWithoutPaymentsInput
+    workshop?: WorkshopCreateNestedOneWithoutPaymentsInput
     enrollment?: EnrollmentCreateNestedOneWithoutPaymentInput
   }
 
@@ -68431,11 +74563,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     startsAt: Date | string
     endsAt: Date | string
     active?: boolean
-    itemType: $Enums.ItemType
+    itemType: string
     workshop?: WorkshopCreateNestedOneWithoutPromotionsInput
     learningPath?: LearningPathCreateNestedOneWithoutPromotionsInput
   }
@@ -68445,11 +74577,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     startsAt: Date | string
     endsAt: Date | string
     active?: boolean
-    itemType: $Enums.ItemType
+    itemType: string
     workshopId?: string | null
     learningPathId?: string | null
   }
@@ -68469,7 +74601,7 @@ export namespace Prisma {
     code: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     usageLimit?: number | null
     usedCount?: number
     startsAt: Date | string
@@ -68484,7 +74616,7 @@ export namespace Prisma {
     code: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     usageLimit?: number | null
     usedCount?: number
     startsAt: Date | string
@@ -68520,9 +74652,13 @@ export namespace Prisma {
   export type UserProgressCreateWithoutCourseInput = {
     id?: string
     userId: string
-    type: $Enums.ItemType
+    type: string
     completed?: boolean
     updatedAt?: Date | string
+    progressPercentage?: number | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    timeSpent?: number | null
     workshop?: WorkshopCreateNestedOneWithoutProgressInput
     path?: LearningPathCreateNestedOneWithoutProgressInput
   }
@@ -68530,9 +74666,13 @@ export namespace Prisma {
   export type UserProgressUncheckedCreateWithoutCourseInput = {
     id?: string
     userId: string
-    type: $Enums.ItemType
+    type: string
     completed?: boolean
     updatedAt?: Date | string
+    progressPercentage?: number | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    timeSpent?: number | null
   }
 
   export type UserProgressCreateOrConnectWithoutCourseInput = {
@@ -68565,7 +74705,7 @@ export namespace Prisma {
 
   export type LearningPathItemCreateWithoutCourseInput = {
     id?: string
-    type: $Enums.ItemType
+    type: string
     position: number
     learningPath: LearningPathCreateNestedOneWithoutContentsInput
     workshop?: WorkshopCreateNestedOneWithoutLearningPathItemsInput
@@ -68574,7 +74714,7 @@ export namespace Prisma {
 
   export type LearningPathItemUncheckedCreateWithoutCourseInput = {
     id?: string
-    type: $Enums.ItemType
+    type: string
     position: number
     learningPathId: string
     workshopId?: string | null
@@ -68656,11 +74796,12 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUpdateManyWithoutUserNestedInput
+    resources?: ResourceUpdateManyWithoutUserNestedInput
+    quiz?: QuizUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -68681,11 +74822,12 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
+    resources?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    quiz?: QuizUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ChapterUpsertWithWhereUniqueWithoutCourseInput = {
@@ -68964,9 +75106,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
-    enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
     category: CategoryCreateNestedOneWithoutCoursesInput
-    Payment?: PaymentCreateNestedManyWithoutCourseInput
+    payments?: PaymentCreateNestedManyWithoutCourseInput
     promotions?: PromotionCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagCreateNestedManyWithoutCourseInput
@@ -68995,8 +75137,8 @@ export namespace Prisma {
     userId: string
     categoryId: string
     deletedAt?: Date | string | null
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCourseInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagUncheckedCreateNestedManyWithoutCourseInput
@@ -69080,9 +75222,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
-    Payment?: PaymentUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUpdateManyWithoutCourseNestedInput
@@ -69111,8 +75253,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUncheckedUpdateManyWithoutCourseNestedInput
@@ -69182,6 +75324,9 @@ export namespace Prisma {
   export type LessonProgressCreateWithoutLessonInput = {
     id?: string
     completed?: boolean
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    watchedSeconds?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutLessonProgressInput
@@ -69190,6 +75335,9 @@ export namespace Prisma {
   export type LessonProgressUncheckedCreateWithoutLessonInput = {
     id?: string
     completed?: boolean
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    watchedSeconds?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -69292,7 +75440,7 @@ export namespace Prisma {
     resourceId?: StringFilter<"LessonResource"> | string
   }
 
-  export type UserCreateWithoutWorkshopInput = {
+  export type UserCreateWithoutWorkshopsInput = {
     id: string
     name: string
     email: string
@@ -69310,14 +75458,15 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentCreateNestedManyWithoutUserInput
-    Payment?: PaymentCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    invoices?: InvoiceCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathCreateNestedManyWithoutUserInput
-    Resource?: ResourceCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathCreateNestedManyWithoutUserInput
+    resources?: ResourceCreateNestedManyWithoutUserInput
+    quiz?: QuizCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutWorkshopInput = {
+  export type UserUncheckedCreateWithoutWorkshopsInput = {
     id: string
     name: string
     email: string
@@ -69335,16 +75484,17 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
-    Resource?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    resources?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    quiz?: QuizUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutWorkshopInput = {
+  export type UserCreateOrConnectWithoutWorkshopsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutWorkshopInput, UserUncheckedCreateWithoutWorkshopInput>
+    create: XOR<UserCreateWithoutWorkshopsInput, UserUncheckedCreateWithoutWorkshopsInput>
   }
 
   export type WorkshopTagCreateWithoutWorkshopInput = {
@@ -69368,9 +75518,13 @@ export namespace Prisma {
   export type UserProgressCreateWithoutWorkshopInput = {
     id?: string
     userId: string
-    type: $Enums.ItemType
+    type: string
     completed?: boolean
     updatedAt?: Date | string
+    progressPercentage?: number | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    timeSpent?: number | null
     course?: CourseCreateNestedOneWithoutProgressInput
     path?: LearningPathCreateNestedOneWithoutProgressInput
   }
@@ -69378,9 +75532,13 @@ export namespace Prisma {
   export type UserProgressUncheckedCreateWithoutWorkshopInput = {
     id?: string
     userId: string
-    type: $Enums.ItemType
+    type: string
     completed?: boolean
     updatedAt?: Date | string
+    progressPercentage?: number | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    timeSpent?: number | null
   }
 
   export type UserProgressCreateOrConnectWithoutWorkshopInput = {
@@ -69413,7 +75571,7 @@ export namespace Prisma {
 
   export type LearningPathItemCreateWithoutWorkshopInput = {
     id?: string
-    type: $Enums.ItemType
+    type: string
     position: number
     learningPath: LearningPathCreateNestedOneWithoutContentsInput
     course?: CourseCreateNestedOneWithoutLearningPathItemsInput
@@ -69422,7 +75580,7 @@ export namespace Prisma {
 
   export type LearningPathItemUncheckedCreateWithoutWorkshopInput = {
     id?: string
-    type: $Enums.ItemType
+    type: string
     position: number
     learningPathId: string
     courseId?: string | null
@@ -69480,7 +75638,7 @@ export namespace Prisma {
     code: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     usageLimit?: number | null
     usedCount?: number
     startsAt: Date | string
@@ -69495,7 +75653,7 @@ export namespace Prisma {
     code: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     usageLimit?: number | null
     usedCount?: number
     startsAt: Date | string
@@ -69515,11 +75673,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     startsAt: Date | string
     endsAt: Date | string
     active?: boolean
-    itemType: $Enums.ItemType
+    itemType: string
     course?: CourseCreateNestedOneWithoutPromotionsInput
     learningPath?: LearningPathCreateNestedOneWithoutPromotionsInput
   }
@@ -69529,11 +75687,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     startsAt: Date | string
     endsAt: Date | string
     active?: boolean
-    itemType: $Enums.ItemType
+    itemType: string
     courseId?: string | null
     learningPathId?: string | null
   }
@@ -69555,8 +75713,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    course?: CourseCreateNestedOneWithoutEnrollmentInput
-    learningPath?: LearningPathCreateNestedOneWithoutEnrollmentInput
+    course?: CourseCreateNestedOneWithoutEnrollmentsInput
+    learningPath?: LearningPathCreateNestedOneWithoutEnrollmentsInput
     user: UserCreateNestedOneWithoutEnrollmentInput
     payment?: PaymentCreateNestedOneWithoutEnrollmentInput
   }
@@ -69594,9 +75752,9 @@ export namespace Prisma {
     receiptUrl?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
-    user: UserCreateNestedOneWithoutPaymentInput
-    course?: CourseCreateNestedOneWithoutPaymentInput
-    learningPath?: LearningPathCreateNestedOneWithoutPaymentInput
+    user: UserCreateNestedOneWithoutPaymentsInput
+    course?: CourseCreateNestedOneWithoutPaymentsInput
+    learningPath?: LearningPathCreateNestedOneWithoutPaymentsInput
     enrollment?: EnrollmentCreateNestedOneWithoutPaymentInput
   }
 
@@ -69626,18 +75784,18 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserUpsertWithoutWorkshopInput = {
-    update: XOR<UserUpdateWithoutWorkshopInput, UserUncheckedUpdateWithoutWorkshopInput>
-    create: XOR<UserCreateWithoutWorkshopInput, UserUncheckedCreateWithoutWorkshopInput>
+  export type UserUpsertWithoutWorkshopsInput = {
+    update: XOR<UserUpdateWithoutWorkshopsInput, UserUncheckedUpdateWithoutWorkshopsInput>
+    create: XOR<UserCreateWithoutWorkshopsInput, UserUncheckedCreateWithoutWorkshopsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutWorkshopInput = {
+  export type UserUpdateToOneWithWhereWithoutWorkshopsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutWorkshopInput, UserUncheckedUpdateWithoutWorkshopInput>
+    data: XOR<UserUpdateWithoutWorkshopsInput, UserUncheckedUpdateWithoutWorkshopsInput>
   }
 
-  export type UserUpdateWithoutWorkshopInput = {
+  export type UserUpdateWithoutWorkshopsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -69655,14 +75813,15 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUpdateManyWithoutUserNestedInput
+    resources?: ResourceUpdateManyWithoutUserNestedInput
+    quiz?: QuizUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutWorkshopInput = {
+  export type UserUncheckedUpdateWithoutWorkshopsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -69680,11 +75839,12 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    resources?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    quiz?: QuizUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type WorkshopTagUpsertWithWhereUniqueWithoutWorkshopInput = {
@@ -69953,7 +76113,7 @@ export namespace Prisma {
 
   export type LearningPathItemCreateWithoutResourceInput = {
     id?: string
-    type: $Enums.ItemType
+    type: string
     position: number
     learningPath: LearningPathCreateNestedOneWithoutContentsInput
     course?: CourseCreateNestedOneWithoutLearningPathItemsInput
@@ -69962,7 +76122,7 @@ export namespace Prisma {
 
   export type LearningPathItemUncheckedCreateWithoutResourceInput = {
     id?: string
-    type: $Enums.ItemType
+    type: string
     position: number
     learningPathId: string
     courseId?: string | null
@@ -69979,7 +76139,7 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserCreateWithoutResourceInput = {
+  export type UserCreateWithoutResourcesInput = {
     id: string
     name: string
     email: string
@@ -69997,14 +76157,15 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentCreateNestedManyWithoutUserInput
-    Payment?: PaymentCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    invoices?: InvoiceCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathCreateNestedManyWithoutUserInput
+    workshops?: WorkshopCreateNestedManyWithoutUserInput
+    quiz?: QuizCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutResourceInput = {
+  export type UserUncheckedCreateWithoutResourcesInput = {
     id: string
     name: string
     email: string
@@ -70022,16 +76183,17 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    workshops?: WorkshopUncheckedCreateNestedManyWithoutUserInput
+    quiz?: QuizUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutResourceInput = {
+  export type UserCreateOrConnectWithoutResourcesInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutResourceInput, UserUncheckedCreateWithoutResourceInput>
+    create: XOR<UserCreateWithoutResourcesInput, UserUncheckedCreateWithoutResourcesInput>
   }
 
   export type CourseResourceUpsertWithWhereUniqueWithoutResourceInput = {
@@ -70114,18 +76276,18 @@ export namespace Prisma {
     data: XOR<LearningPathItemUpdateManyMutationInput, LearningPathItemUncheckedUpdateManyWithoutResourceInput>
   }
 
-  export type UserUpsertWithoutResourceInput = {
-    update: XOR<UserUpdateWithoutResourceInput, UserUncheckedUpdateWithoutResourceInput>
-    create: XOR<UserCreateWithoutResourceInput, UserUncheckedCreateWithoutResourceInput>
+  export type UserUpsertWithoutResourcesInput = {
+    update: XOR<UserUpdateWithoutResourcesInput, UserUncheckedUpdateWithoutResourcesInput>
+    create: XOR<UserCreateWithoutResourcesInput, UserUncheckedCreateWithoutResourcesInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutResourceInput = {
+  export type UserUpdateToOneWithWhereWithoutResourcesInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutResourceInput, UserUncheckedUpdateWithoutResourceInput>
+    data: XOR<UserUpdateWithoutResourcesInput, UserUncheckedUpdateWithoutResourcesInput>
   }
 
-  export type UserUpdateWithoutResourceInput = {
+  export type UserUpdateWithoutResourcesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -70143,14 +76305,15 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUpdateManyWithoutUserNestedInput
+    quiz?: QuizUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutResourceInput = {
+  export type UserUncheckedUpdateWithoutResourcesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -70168,11 +76331,12 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
+    quiz?: QuizUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LearningPathCreateWithoutResourcesInput = {
@@ -70191,7 +76355,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutLearningPathInput
+    user?: UserCreateNestedOneWithoutLearningPathsInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressCreateNestedManyWithoutPathInput
@@ -70199,8 +76363,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathUncheckedCreateWithoutResourcesInput = {
@@ -70227,8 +76391,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathCreateOrConnectWithoutResourcesInput = {
@@ -70248,7 +76412,7 @@ export namespace Prisma {
     lessonResources?: LessonResourceCreateNestedManyWithoutResourceInput
     workshopResources?: WorkshopResourceCreateNestedManyWithoutResourceInput
     learningPathItems?: LearningPathItemCreateNestedManyWithoutResourceInput
-    user?: UserCreateNestedOneWithoutResourceInput
+    user?: UserCreateNestedOneWithoutResourcesInput
   }
 
   export type ResourceUncheckedCreateWithoutLearningPathResourcesInput = {
@@ -70298,7 +76462,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutLearningPathNestedInput
+    user?: UserUpdateOneWithoutLearningPathsNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUpdateManyWithoutPathNestedInput
@@ -70306,8 +76470,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUpdateManyWithoutLearningPathNestedInput
   }
 
   export type LearningPathUncheckedUpdateWithoutResourcesInput = {
@@ -70334,8 +76498,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
   }
 
   export type ResourceUpsertWithoutLearningPathResourcesInput = {
@@ -70361,7 +76525,7 @@ export namespace Prisma {
     lessonResources?: LessonResourceUpdateManyWithoutResourceNestedInput
     workshopResources?: WorkshopResourceUpdateManyWithoutResourceNestedInput
     learningPathItems?: LearningPathItemUpdateManyWithoutResourceNestedInput
-    user?: UserUpdateOneWithoutResourceNestedInput
+    user?: UserUpdateOneWithoutResourcesNestedInput
   }
 
   export type ResourceUncheckedUpdateWithoutLearningPathResourcesInput = {
@@ -70397,9 +76561,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
     category: CategoryCreateNestedOneWithoutCoursesInput
-    Payment?: PaymentCreateNestedManyWithoutCourseInput
+    payments?: PaymentCreateNestedManyWithoutCourseInput
     promotions?: PromotionCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagCreateNestedManyWithoutCourseInput
@@ -70428,8 +76592,8 @@ export namespace Prisma {
     categoryId: string
     deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCourseInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagUncheckedCreateNestedManyWithoutCourseInput
@@ -70456,7 +76620,7 @@ export namespace Prisma {
     workshopResources?: WorkshopResourceCreateNestedManyWithoutResourceInput
     learningPathResources?: LearningPathResourceCreateNestedManyWithoutResourceInput
     learningPathItems?: LearningPathItemCreateNestedManyWithoutResourceInput
-    user?: UserCreateNestedOneWithoutResourceInput
+    user?: UserCreateNestedOneWithoutResourcesInput
   }
 
   export type ResourceUncheckedCreateWithoutCourseResourcesInput = {
@@ -70508,9 +76672,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
-    Payment?: PaymentUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUpdateManyWithoutCourseNestedInput
@@ -70539,8 +76703,8 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUncheckedUpdateManyWithoutCourseNestedInput
@@ -70573,7 +76737,7 @@ export namespace Prisma {
     workshopResources?: WorkshopResourceUpdateManyWithoutResourceNestedInput
     learningPathResources?: LearningPathResourceUpdateManyWithoutResourceNestedInput
     learningPathItems?: LearningPathItemUpdateManyWithoutResourceNestedInput
-    user?: UserUpdateOneWithoutResourceNestedInput
+    user?: UserUpdateOneWithoutResourcesNestedInput
   }
 
   export type ResourceUncheckedUpdateWithoutCourseResourcesInput = {
@@ -70638,7 +76802,7 @@ export namespace Prisma {
     workshopResources?: WorkshopResourceCreateNestedManyWithoutResourceInput
     learningPathResources?: LearningPathResourceCreateNestedManyWithoutResourceInput
     learningPathItems?: LearningPathItemCreateNestedManyWithoutResourceInput
-    user?: UserCreateNestedOneWithoutResourceInput
+    user?: UserCreateNestedOneWithoutResourcesInput
   }
 
   export type ResourceUncheckedCreateWithoutLessonResourcesInput = {
@@ -70725,7 +76889,7 @@ export namespace Prisma {
     workshopResources?: WorkshopResourceUpdateManyWithoutResourceNestedInput
     learningPathResources?: LearningPathResourceUpdateManyWithoutResourceNestedInput
     learningPathItems?: LearningPathItemUpdateManyWithoutResourceNestedInput
-    user?: UserUpdateOneWithoutResourceNestedInput
+    user?: UserUpdateOneWithoutResourcesNestedInput
   }
 
   export type ResourceUncheckedUpdateWithoutLessonResourcesInput = {
@@ -70766,7 +76930,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutWorkshopInput
+    user?: UserCreateNestedOneWithoutWorkshopsInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     learningPathItems?: LearningPathItemCreateNestedManyWithoutWorkshopInput
@@ -70774,8 +76938,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopUncheckedCreateWithoutResourcesInput = {
@@ -70809,8 +76973,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopCreateOrConnectWithoutResourcesInput = {
@@ -70830,7 +76994,7 @@ export namespace Prisma {
     lessonResources?: LessonResourceCreateNestedManyWithoutResourceInput
     learningPathResources?: LearningPathResourceCreateNestedManyWithoutResourceInput
     learningPathItems?: LearningPathItemCreateNestedManyWithoutResourceInput
-    user?: UserCreateNestedOneWithoutResourceInput
+    user?: UserCreateNestedOneWithoutResourcesInput
   }
 
   export type ResourceUncheckedCreateWithoutWorkshopResourcesInput = {
@@ -70887,7 +77051,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutWorkshopNestedInput
+    user?: UserUpdateOneWithoutWorkshopsNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     learningPathItems?: LearningPathItemUpdateManyWithoutWorkshopNestedInput
@@ -70895,8 +77059,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopUncheckedUpdateWithoutResourcesInput = {
@@ -70930,8 +77094,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type ResourceUpsertWithoutWorkshopResourcesInput = {
@@ -70957,7 +77121,7 @@ export namespace Prisma {
     lessonResources?: LessonResourceUpdateManyWithoutResourceNestedInput
     learningPathResources?: LearningPathResourceUpdateManyWithoutResourceNestedInput
     learningPathItems?: LearningPathItemUpdateManyWithoutResourceNestedInput
-    user?: UserUpdateOneWithoutResourceNestedInput
+    user?: UserUpdateOneWithoutResourcesNestedInput
   }
 
   export type ResourceUncheckedUpdateWithoutWorkshopResourcesInput = {
@@ -70992,12 +77156,13 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentCreateNestedManyWithoutUserInput
-    Payment?: PaymentCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    invoices?: InvoiceCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopCreateNestedManyWithoutUserInput
-    Resource?: ResourceCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathCreateNestedManyWithoutUserInput
+    workshops?: WorkshopCreateNestedManyWithoutUserInput
+    resources?: ResourceCreateNestedManyWithoutUserInput
+    quiz?: QuizCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLessonProgressInput = {
@@ -71017,12 +77182,13 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
-    Resource?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    workshops?: WorkshopUncheckedCreateNestedManyWithoutUserInput
+    resources?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    quiz?: QuizUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLessonProgressInput = {
@@ -71093,12 +77259,13 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUpdateManyWithoutUserNestedInput
+    resources?: ResourceUpdateManyWithoutUserNestedInput
+    quiz?: QuizUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLessonProgressInput = {
@@ -71118,12 +77285,13 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
+    resources?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    quiz?: QuizUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LessonUpsertWithoutLessonProgressInput = {
@@ -71185,9 +77353,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
     category: CategoryCreateNestedOneWithoutCoursesInput
-    Payment?: PaymentCreateNestedManyWithoutCourseInput
+    payments?: PaymentCreateNestedManyWithoutCourseInput
     promotions?: PromotionCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagCreateNestedManyWithoutCourseInput
@@ -71216,8 +77384,8 @@ export namespace Prisma {
     categoryId: string
     deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCourseInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagUncheckedCreateNestedManyWithoutCourseInput
@@ -71255,7 +77423,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutWorkshopInput
+    user?: UserCreateNestedOneWithoutWorkshopsInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
     learningPathItems?: LearningPathItemCreateNestedManyWithoutWorkshopInput
@@ -71263,8 +77431,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopUncheckedCreateWithoutProgressInput = {
@@ -71298,8 +77466,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopCreateOrConnectWithoutProgressInput = {
@@ -71323,7 +77491,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutLearningPathInput
+    user?: UserCreateNestedOneWithoutLearningPathsInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
     resources?: LearningPathResourceCreateNestedManyWithoutLearningPathInput
@@ -71331,8 +77499,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathUncheckedCreateWithoutProgressInput = {
@@ -71359,8 +77527,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathCreateOrConnectWithoutProgressInput = {
@@ -71397,9 +77565,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
-    Payment?: PaymentUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUpdateManyWithoutCourseNestedInput
@@ -71428,8 +77596,8 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUncheckedUpdateManyWithoutCourseNestedInput
@@ -71473,7 +77641,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutWorkshopNestedInput
+    user?: UserUpdateOneWithoutWorkshopsNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
     learningPathItems?: LearningPathItemUpdateManyWithoutWorkshopNestedInput
@@ -71481,8 +77649,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopUncheckedUpdateWithoutProgressInput = {
@@ -71516,8 +77684,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type LearningPathUpsertWithoutProgressInput = {
@@ -71547,7 +77715,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutLearningPathNestedInput
+    user?: UserUpdateOneWithoutLearningPathsNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
     resources?: LearningPathResourceUpdateManyWithoutLearningPathNestedInput
@@ -71555,8 +77723,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUpdateManyWithoutLearningPathNestedInput
   }
 
   export type LearningPathUncheckedUpdateWithoutProgressInput = {
@@ -71583,8 +77751,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
   }
 
   export type CourseTagCreateWithoutTagInput = {
@@ -71707,9 +77875,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
     category: CategoryCreateNestedOneWithoutCoursesInput
-    Payment?: PaymentCreateNestedManyWithoutCourseInput
+    payments?: PaymentCreateNestedManyWithoutCourseInput
     promotions?: PromotionCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableCoursesInput
     progress?: UserProgressCreateNestedManyWithoutCourseInput
@@ -71738,8 +77906,8 @@ export namespace Prisma {
     categoryId: string
     deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCourseInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableCoursesInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutCourseInput
@@ -71810,9 +77978,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
-    Payment?: PaymentUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableCoursesNestedInput
     progress?: UserProgressUpdateManyWithoutCourseNestedInput
@@ -71841,8 +78009,8 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableCoursesNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutCourseNestedInput
@@ -71908,7 +78076,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutWorkshopInput
+    user?: UserCreateNestedOneWithoutWorkshopsInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
     learningPathItems?: LearningPathItemCreateNestedManyWithoutWorkshopInput
@@ -71916,8 +78084,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopUncheckedCreateWithoutTagsInput = {
@@ -71951,8 +78119,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopCreateOrConnectWithoutTagsInput = {
@@ -72021,7 +78189,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutWorkshopNestedInput
+    user?: UserUpdateOneWithoutWorkshopsNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
     learningPathItems?: LearningPathItemUpdateManyWithoutWorkshopNestedInput
@@ -72029,8 +78197,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopUncheckedUpdateWithoutTagsInput = {
@@ -72064,8 +78232,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type TagUpsertWithoutWorkshopTagsInput = {
@@ -72117,7 +78285,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutLearningPathInput
+    user?: UserCreateNestedOneWithoutLearningPathsInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressCreateNestedManyWithoutPathInput
     resources?: LearningPathResourceCreateNestedManyWithoutLearningPathInput
@@ -72125,8 +78293,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathUncheckedCreateWithoutTagsInput = {
@@ -72153,8 +78321,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathCreateOrConnectWithoutTagsInput = {
@@ -72216,7 +78384,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutLearningPathNestedInput
+    user?: UserUpdateOneWithoutLearningPathsNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUpdateManyWithoutPathNestedInput
     resources?: LearningPathResourceUpdateManyWithoutLearningPathNestedInput
@@ -72224,8 +78392,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUpdateManyWithoutLearningPathNestedInput
   }
 
   export type LearningPathUncheckedUpdateWithoutTagsInput = {
@@ -72252,8 +78420,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
   }
 
   export type TagUpsertWithoutLearningPathTagsInput = {
@@ -72307,9 +78475,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
     category: CategoryCreateNestedOneWithoutCoursesInput
-    Payment?: PaymentCreateNestedManyWithoutCourseInput
+    payments?: PaymentCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagCreateNestedManyWithoutCourseInput
     progress?: UserProgressCreateNestedManyWithoutCourseInput
@@ -72338,8 +78506,8 @@ export namespace Prisma {
     categoryId: string
     deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagUncheckedCreateNestedManyWithoutCourseInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutCourseInput
@@ -72377,7 +78545,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutWorkshopInput
+    user?: UserCreateNestedOneWithoutWorkshopsInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
@@ -72385,8 +78553,8 @@ export namespace Prisma {
     objectives?: WorkshopObjectiveCreateNestedManyWithoutWorkshopInput
     prerequisites?: WorkshopPrerequisiteCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableWorkshopsInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopUncheckedCreateWithoutPromotionsInput = {
@@ -72420,8 +78588,8 @@ export namespace Prisma {
     objectives?: WorkshopObjectiveUncheckedCreateNestedManyWithoutWorkshopInput
     prerequisites?: WorkshopPrerequisiteUncheckedCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableWorkshopsInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopCreateOrConnectWithoutPromotionsInput = {
@@ -72445,7 +78613,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutLearningPathInput
+    user?: UserCreateNestedOneWithoutLearningPathsInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressCreateNestedManyWithoutPathInput
@@ -72453,8 +78621,8 @@ export namespace Prisma {
     objectives?: LearningPathObjectiveCreateNestedManyWithoutLearningPathInput
     prerequisites?: LearningPathPrerequisiteCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableLearningPathsInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathUncheckedCreateWithoutPromotionsInput = {
@@ -72481,8 +78649,8 @@ export namespace Prisma {
     objectives?: LearningPathObjectiveUncheckedCreateNestedManyWithoutLearningPathInput
     prerequisites?: LearningPathPrerequisiteUncheckedCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableLearningPathsInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathCreateOrConnectWithoutPromotionsInput = {
@@ -72519,9 +78687,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
-    Payment?: PaymentUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUpdateManyWithoutCourseNestedInput
     progress?: UserProgressUpdateManyWithoutCourseNestedInput
@@ -72550,8 +78718,8 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUncheckedUpdateManyWithoutCourseNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutCourseNestedInput
@@ -72595,7 +78763,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutWorkshopNestedInput
+    user?: UserUpdateOneWithoutWorkshopsNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
@@ -72603,8 +78771,8 @@ export namespace Prisma {
     objectives?: WorkshopObjectiveUpdateManyWithoutWorkshopNestedInput
     prerequisites?: WorkshopPrerequisiteUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableWorkshopsNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopUncheckedUpdateWithoutPromotionsInput = {
@@ -72638,8 +78806,8 @@ export namespace Prisma {
     objectives?: WorkshopObjectiveUncheckedUpdateManyWithoutWorkshopNestedInput
     prerequisites?: WorkshopPrerequisiteUncheckedUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableWorkshopsNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type LearningPathUpsertWithoutPromotionsInput = {
@@ -72669,7 +78837,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutLearningPathNestedInput
+    user?: UserUpdateOneWithoutLearningPathsNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUpdateManyWithoutPathNestedInput
@@ -72677,8 +78845,8 @@ export namespace Prisma {
     objectives?: LearningPathObjectiveUpdateManyWithoutLearningPathNestedInput
     prerequisites?: LearningPathPrerequisiteUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableLearningPathsNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUpdateManyWithoutLearningPathNestedInput
   }
 
   export type LearningPathUncheckedUpdateWithoutPromotionsInput = {
@@ -72705,8 +78873,8 @@ export namespace Prisma {
     objectives?: LearningPathObjectiveUncheckedUpdateManyWithoutLearningPathNestedInput
     prerequisites?: LearningPathPrerequisiteUncheckedUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableLearningPathsNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
   }
 
   export type CourseCreateWithoutPromoCodesInput = {
@@ -72727,9 +78895,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
     category: CategoryCreateNestedOneWithoutCoursesInput
-    Payment?: PaymentCreateNestedManyWithoutCourseInput
+    payments?: PaymentCreateNestedManyWithoutCourseInput
     promotions?: PromotionCreateNestedManyWithoutCourseInput
     tags?: CourseTagCreateNestedManyWithoutCourseInput
     progress?: UserProgressCreateNestedManyWithoutCourseInput
@@ -72758,8 +78926,8 @@ export namespace Prisma {
     categoryId: string
     deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCourseInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
     tags?: CourseTagUncheckedCreateNestedManyWithoutCourseInput
     progress?: UserProgressUncheckedCreateNestedManyWithoutCourseInput
@@ -72797,7 +78965,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutWorkshopInput
+    user?: UserCreateNestedOneWithoutWorkshopsInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
@@ -72805,8 +78973,8 @@ export namespace Prisma {
     objectives?: WorkshopObjectiveCreateNestedManyWithoutWorkshopInput
     prerequisites?: WorkshopPrerequisiteCreateNestedManyWithoutWorkshopInput
     promotions?: PromotionCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopUncheckedCreateWithoutPromoCodesInput = {
@@ -72840,8 +79008,8 @@ export namespace Prisma {
     objectives?: WorkshopObjectiveUncheckedCreateNestedManyWithoutWorkshopInput
     prerequisites?: WorkshopPrerequisiteUncheckedCreateNestedManyWithoutWorkshopInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopCreateOrConnectWithoutPromoCodesInput = {
@@ -72865,7 +79033,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutLearningPathInput
+    user?: UserCreateNestedOneWithoutLearningPathsInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressCreateNestedManyWithoutPathInput
@@ -72873,8 +79041,8 @@ export namespace Prisma {
     objectives?: LearningPathObjectiveCreateNestedManyWithoutLearningPathInput
     prerequisites?: LearningPathPrerequisiteCreateNestedManyWithoutLearningPathInput
     promotions?: PromotionCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathUncheckedCreateWithoutPromoCodesInput = {
@@ -72901,8 +79069,8 @@ export namespace Prisma {
     objectives?: LearningPathObjectiveUncheckedCreateNestedManyWithoutLearningPathInput
     prerequisites?: LearningPathPrerequisiteUncheckedCreateNestedManyWithoutLearningPathInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathCreateOrConnectWithoutPromoCodesInput = {
@@ -72958,7 +79126,7 @@ export namespace Prisma {
     data: XOR<LearningPathUpdateManyMutationInput, LearningPathUncheckedUpdateManyWithoutPromoCodesInput>
   }
 
-  export type CourseCreateWithoutEnrollmentInput = {
+  export type CourseCreateWithoutEnrollmentsInput = {
     id?: string
     title: string
     slug: string
@@ -72977,7 +79145,7 @@ export namespace Prisma {
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
     category: CategoryCreateNestedOneWithoutCoursesInput
-    Payment?: PaymentCreateNestedManyWithoutCourseInput
+    payments?: PaymentCreateNestedManyWithoutCourseInput
     promotions?: PromotionCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagCreateNestedManyWithoutCourseInput
@@ -72988,7 +79156,7 @@ export namespace Prisma {
     prerequisites?: CoursePrerequisiteCreateNestedManyWithoutCourseInput
   }
 
-  export type CourseUncheckedCreateWithoutEnrollmentInput = {
+  export type CourseUncheckedCreateWithoutEnrollmentsInput = {
     id?: string
     title: string
     slug: string
@@ -73007,7 +79175,7 @@ export namespace Prisma {
     categoryId: string
     deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCourseInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagUncheckedCreateNestedManyWithoutCourseInput
@@ -73018,12 +79186,12 @@ export namespace Prisma {
     prerequisites?: CoursePrerequisiteUncheckedCreateNestedManyWithoutCourseInput
   }
 
-  export type CourseCreateOrConnectWithoutEnrollmentInput = {
+  export type CourseCreateOrConnectWithoutEnrollmentsInput = {
     where: CourseWhereUniqueInput
-    create: XOR<CourseCreateWithoutEnrollmentInput, CourseUncheckedCreateWithoutEnrollmentInput>
+    create: XOR<CourseCreateWithoutEnrollmentsInput, CourseUncheckedCreateWithoutEnrollmentsInput>
   }
 
-  export type LearningPathCreateWithoutEnrollmentInput = {
+  export type LearningPathCreateWithoutEnrollmentsInput = {
     id?: string
     title: string
     description: string
@@ -73039,7 +79207,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutLearningPathInput
+    user?: UserCreateNestedOneWithoutLearningPathsInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressCreateNestedManyWithoutPathInput
@@ -73048,10 +79216,10 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentCreateNestedManyWithoutLearningPathInput
   }
 
-  export type LearningPathUncheckedCreateWithoutEnrollmentInput = {
+  export type LearningPathUncheckedCreateWithoutEnrollmentsInput = {
     id?: string
     title: string
     description: string
@@ -73076,15 +79244,15 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
   }
 
-  export type LearningPathCreateOrConnectWithoutEnrollmentInput = {
+  export type LearningPathCreateOrConnectWithoutEnrollmentsInput = {
     where: LearningPathWhereUniqueInput
-    create: XOR<LearningPathCreateWithoutEnrollmentInput, LearningPathUncheckedCreateWithoutEnrollmentInput>
+    create: XOR<LearningPathCreateWithoutEnrollmentsInput, LearningPathUncheckedCreateWithoutEnrollmentsInput>
   }
 
-  export type WorkshopCreateWithoutEnrollmentInput = {
+  export type WorkshopCreateWithoutEnrollmentsInput = {
     id?: string
     title: string
     description: string
@@ -73107,7 +79275,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutWorkshopInput
+    user?: UserCreateNestedOneWithoutWorkshopsInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
@@ -73116,10 +79284,10 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentCreateNestedManyWithoutWorkshopInput
   }
 
-  export type WorkshopUncheckedCreateWithoutEnrollmentInput = {
+  export type WorkshopUncheckedCreateWithoutEnrollmentsInput = {
     id?: string
     title: string
     description: string
@@ -73151,12 +79319,12 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
-  export type WorkshopCreateOrConnectWithoutEnrollmentInput = {
+  export type WorkshopCreateOrConnectWithoutEnrollmentsInput = {
     where: WorkshopWhereUniqueInput
-    create: XOR<WorkshopCreateWithoutEnrollmentInput, WorkshopUncheckedCreateWithoutEnrollmentInput>
+    create: XOR<WorkshopCreateWithoutEnrollmentsInput, WorkshopUncheckedCreateWithoutEnrollmentsInput>
   }
 
   export type UserCreateWithoutEnrollmentInput = {
@@ -73176,12 +79344,13 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
-    Payment?: PaymentCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    invoices?: InvoiceCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopCreateNestedManyWithoutUserInput
-    Resource?: ResourceCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathCreateNestedManyWithoutUserInput
+    workshops?: WorkshopCreateNestedManyWithoutUserInput
+    resources?: ResourceCreateNestedManyWithoutUserInput
+    quiz?: QuizCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEnrollmentInput = {
@@ -73201,12 +79370,13 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
-    Resource?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    workshops?: WorkshopUncheckedCreateNestedManyWithoutUserInput
+    resources?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    quiz?: QuizUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEnrollmentInput = {
@@ -73224,10 +79394,10 @@ export namespace Prisma {
     receiptUrl?: string | null
     createdAt?: Date | string
     deletedAt?: Date | string | null
-    user: UserCreateNestedOneWithoutPaymentInput
-    course?: CourseCreateNestedOneWithoutPaymentInput
-    learningPath?: LearningPathCreateNestedOneWithoutPaymentInput
-    workshop?: WorkshopCreateNestedOneWithoutPaymentInput
+    user: UserCreateNestedOneWithoutPaymentsInput
+    course?: CourseCreateNestedOneWithoutPaymentsInput
+    learningPath?: LearningPathCreateNestedOneWithoutPaymentsInput
+    workshop?: WorkshopCreateNestedOneWithoutPaymentsInput
   }
 
   export type PaymentUncheckedCreateWithoutEnrollmentInput = {
@@ -73251,18 +79421,18 @@ export namespace Prisma {
     create: XOR<PaymentCreateWithoutEnrollmentInput, PaymentUncheckedCreateWithoutEnrollmentInput>
   }
 
-  export type CourseUpsertWithoutEnrollmentInput = {
-    update: XOR<CourseUpdateWithoutEnrollmentInput, CourseUncheckedUpdateWithoutEnrollmentInput>
-    create: XOR<CourseCreateWithoutEnrollmentInput, CourseUncheckedCreateWithoutEnrollmentInput>
+  export type CourseUpsertWithoutEnrollmentsInput = {
+    update: XOR<CourseUpdateWithoutEnrollmentsInput, CourseUncheckedUpdateWithoutEnrollmentsInput>
+    create: XOR<CourseCreateWithoutEnrollmentsInput, CourseUncheckedCreateWithoutEnrollmentsInput>
     where?: CourseWhereInput
   }
 
-  export type CourseUpdateToOneWithWhereWithoutEnrollmentInput = {
+  export type CourseUpdateToOneWithWhereWithoutEnrollmentsInput = {
     where?: CourseWhereInput
-    data: XOR<CourseUpdateWithoutEnrollmentInput, CourseUncheckedUpdateWithoutEnrollmentInput>
+    data: XOR<CourseUpdateWithoutEnrollmentsInput, CourseUncheckedUpdateWithoutEnrollmentsInput>
   }
 
-  export type CourseUpdateWithoutEnrollmentInput = {
+  export type CourseUpdateWithoutEnrollmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -73281,7 +79451,7 @@ export namespace Prisma {
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
-    Payment?: PaymentUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUpdateManyWithoutCourseNestedInput
@@ -73292,7 +79462,7 @@ export namespace Prisma {
     prerequisites?: CoursePrerequisiteUpdateManyWithoutCourseNestedInput
   }
 
-  export type CourseUncheckedUpdateWithoutEnrollmentInput = {
+  export type CourseUncheckedUpdateWithoutEnrollmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -73311,7 +79481,7 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUncheckedUpdateManyWithoutCourseNestedInput
@@ -73322,18 +79492,18 @@ export namespace Prisma {
     prerequisites?: CoursePrerequisiteUncheckedUpdateManyWithoutCourseNestedInput
   }
 
-  export type LearningPathUpsertWithoutEnrollmentInput = {
-    update: XOR<LearningPathUpdateWithoutEnrollmentInput, LearningPathUncheckedUpdateWithoutEnrollmentInput>
-    create: XOR<LearningPathCreateWithoutEnrollmentInput, LearningPathUncheckedCreateWithoutEnrollmentInput>
+  export type LearningPathUpsertWithoutEnrollmentsInput = {
+    update: XOR<LearningPathUpdateWithoutEnrollmentsInput, LearningPathUncheckedUpdateWithoutEnrollmentsInput>
+    create: XOR<LearningPathCreateWithoutEnrollmentsInput, LearningPathUncheckedCreateWithoutEnrollmentsInput>
     where?: LearningPathWhereInput
   }
 
-  export type LearningPathUpdateToOneWithWhereWithoutEnrollmentInput = {
+  export type LearningPathUpdateToOneWithWhereWithoutEnrollmentsInput = {
     where?: LearningPathWhereInput
-    data: XOR<LearningPathUpdateWithoutEnrollmentInput, LearningPathUncheckedUpdateWithoutEnrollmentInput>
+    data: XOR<LearningPathUpdateWithoutEnrollmentsInput, LearningPathUncheckedUpdateWithoutEnrollmentsInput>
   }
 
-  export type LearningPathUpdateWithoutEnrollmentInput = {
+  export type LearningPathUpdateWithoutEnrollmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -73349,7 +79519,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutLearningPathNestedInput
+    user?: UserUpdateOneWithoutLearningPathsNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUpdateManyWithoutPathNestedInput
@@ -73358,10 +79528,10 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUpdateManyWithoutLearningPathNestedInput
   }
 
-  export type LearningPathUncheckedUpdateWithoutEnrollmentInput = {
+  export type LearningPathUncheckedUpdateWithoutEnrollmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -73386,21 +79556,21 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
   }
 
-  export type WorkshopUpsertWithoutEnrollmentInput = {
-    update: XOR<WorkshopUpdateWithoutEnrollmentInput, WorkshopUncheckedUpdateWithoutEnrollmentInput>
-    create: XOR<WorkshopCreateWithoutEnrollmentInput, WorkshopUncheckedCreateWithoutEnrollmentInput>
+  export type WorkshopUpsertWithoutEnrollmentsInput = {
+    update: XOR<WorkshopUpdateWithoutEnrollmentsInput, WorkshopUncheckedUpdateWithoutEnrollmentsInput>
+    create: XOR<WorkshopCreateWithoutEnrollmentsInput, WorkshopUncheckedCreateWithoutEnrollmentsInput>
     where?: WorkshopWhereInput
   }
 
-  export type WorkshopUpdateToOneWithWhereWithoutEnrollmentInput = {
+  export type WorkshopUpdateToOneWithWhereWithoutEnrollmentsInput = {
     where?: WorkshopWhereInput
-    data: XOR<WorkshopUpdateWithoutEnrollmentInput, WorkshopUncheckedUpdateWithoutEnrollmentInput>
+    data: XOR<WorkshopUpdateWithoutEnrollmentsInput, WorkshopUncheckedUpdateWithoutEnrollmentsInput>
   }
 
-  export type WorkshopUpdateWithoutEnrollmentInput = {
+  export type WorkshopUpdateWithoutEnrollmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -73423,7 +79593,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutWorkshopNestedInput
+    user?: UserUpdateOneWithoutWorkshopsNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
@@ -73432,10 +79602,10 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUpdateManyWithoutWorkshopNestedInput
   }
 
-  export type WorkshopUncheckedUpdateWithoutEnrollmentInput = {
+  export type WorkshopUncheckedUpdateWithoutEnrollmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -73467,7 +79637,7 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type UserUpsertWithoutEnrollmentInput = {
@@ -73498,12 +79668,13 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUpdateManyWithoutUserNestedInput
+    resources?: ResourceUpdateManyWithoutUserNestedInput
+    quiz?: QuizUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEnrollmentInput = {
@@ -73523,12 +79694,13 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
+    resources?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    quiz?: QuizUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PaymentUpsertWithoutEnrollmentInput = {
@@ -73552,10 +79724,10 @@ export namespace Prisma {
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneRequiredWithoutPaymentNestedInput
-    course?: CourseUpdateOneWithoutPaymentNestedInput
-    learningPath?: LearningPathUpdateOneWithoutPaymentNestedInput
-    workshop?: WorkshopUpdateOneWithoutPaymentNestedInput
+    user?: UserUpdateOneRequiredWithoutPaymentsNestedInput
+    course?: CourseUpdateOneWithoutPaymentsNestedInput
+    learningPath?: LearningPathUpdateOneWithoutPaymentsNestedInput
+    workshop?: WorkshopUpdateOneWithoutPaymentsNestedInput
   }
 
   export type PaymentUncheckedUpdateWithoutEnrollmentInput = {
@@ -73574,7 +79746,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type UserCreateWithoutPaymentInput = {
+  export type UserCreateWithoutPaymentsInput = {
     id: string
     name: string
     email: string
@@ -73592,14 +79764,15 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceCreateNestedManyWithoutUserInput
+    invoices?: InvoiceCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopCreateNestedManyWithoutUserInput
-    Resource?: ResourceCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathCreateNestedManyWithoutUserInput
+    workshops?: WorkshopCreateNestedManyWithoutUserInput
+    resources?: ResourceCreateNestedManyWithoutUserInput
+    quiz?: QuizCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutPaymentInput = {
+  export type UserUncheckedCreateWithoutPaymentsInput = {
     id: string
     name: string
     email: string
@@ -73617,19 +79790,20 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
-    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
-    Resource?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    workshops?: WorkshopUncheckedCreateNestedManyWithoutUserInput
+    resources?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    quiz?: QuizUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutPaymentInput = {
+  export type UserCreateOrConnectWithoutPaymentsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutPaymentInput, UserUncheckedCreateWithoutPaymentInput>
+    create: XOR<UserCreateWithoutPaymentsInput, UserUncheckedCreateWithoutPaymentsInput>
   }
 
-  export type CourseCreateWithoutPaymentInput = {
+  export type CourseCreateWithoutPaymentsInput = {
     id?: string
     title: string
     slug: string
@@ -73647,7 +79821,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
     category: CategoryCreateNestedOneWithoutCoursesInput
     promotions?: PromotionCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableCoursesInput
@@ -73659,7 +79833,7 @@ export namespace Prisma {
     prerequisites?: CoursePrerequisiteCreateNestedManyWithoutCourseInput
   }
 
-  export type CourseUncheckedCreateWithoutPaymentInput = {
+  export type CourseUncheckedCreateWithoutPaymentsInput = {
     id?: string
     title: string
     slug: string
@@ -73678,7 +79852,7 @@ export namespace Prisma {
     categoryId: string
     deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagUncheckedCreateNestedManyWithoutCourseInput
@@ -73689,12 +79863,12 @@ export namespace Prisma {
     prerequisites?: CoursePrerequisiteUncheckedCreateNestedManyWithoutCourseInput
   }
 
-  export type CourseCreateOrConnectWithoutPaymentInput = {
+  export type CourseCreateOrConnectWithoutPaymentsInput = {
     where: CourseWhereUniqueInput
-    create: XOR<CourseCreateWithoutPaymentInput, CourseUncheckedCreateWithoutPaymentInput>
+    create: XOR<CourseCreateWithoutPaymentsInput, CourseUncheckedCreateWithoutPaymentsInput>
   }
 
-  export type LearningPathCreateWithoutPaymentInput = {
+  export type LearningPathCreateWithoutPaymentsInput = {
     id?: string
     title: string
     description: string
@@ -73710,7 +79884,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutLearningPathInput
+    user?: UserCreateNestedOneWithoutLearningPathsInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressCreateNestedManyWithoutPathInput
@@ -73719,10 +79893,10 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentCreateNestedManyWithoutLearningPathInput
   }
 
-  export type LearningPathUncheckedCreateWithoutPaymentInput = {
+  export type LearningPathUncheckedCreateWithoutPaymentsInput = {
     id?: string
     title: string
     description: string
@@ -73747,15 +79921,15 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
   }
 
-  export type LearningPathCreateOrConnectWithoutPaymentInput = {
+  export type LearningPathCreateOrConnectWithoutPaymentsInput = {
     where: LearningPathWhereUniqueInput
-    create: XOR<LearningPathCreateWithoutPaymentInput, LearningPathUncheckedCreateWithoutPaymentInput>
+    create: XOR<LearningPathCreateWithoutPaymentsInput, LearningPathUncheckedCreateWithoutPaymentsInput>
   }
 
-  export type WorkshopCreateWithoutPaymentInput = {
+  export type WorkshopCreateWithoutPaymentsInput = {
     id?: string
     title: string
     description: string
@@ -73778,7 +79952,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutWorkshopInput
+    user?: UserCreateNestedOneWithoutWorkshopsInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
@@ -73787,10 +79961,10 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentCreateNestedManyWithoutWorkshopInput
   }
 
-  export type WorkshopUncheckedCreateWithoutPaymentInput = {
+  export type WorkshopUncheckedCreateWithoutPaymentsInput = {
     id?: string
     title: string
     description: string
@@ -73822,12 +79996,12 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
-  export type WorkshopCreateOrConnectWithoutPaymentInput = {
+  export type WorkshopCreateOrConnectWithoutPaymentsInput = {
     where: WorkshopWhereUniqueInput
-    create: XOR<WorkshopCreateWithoutPaymentInput, WorkshopUncheckedCreateWithoutPaymentInput>
+    create: XOR<WorkshopCreateWithoutPaymentsInput, WorkshopUncheckedCreateWithoutPaymentsInput>
   }
 
   export type EnrollmentCreateWithoutPaymentInput = {
@@ -73837,9 +80011,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    course?: CourseCreateNestedOneWithoutEnrollmentInput
-    learningPath?: LearningPathCreateNestedOneWithoutEnrollmentInput
-    workshop?: WorkshopCreateNestedOneWithoutEnrollmentInput
+    course?: CourseCreateNestedOneWithoutEnrollmentsInput
+    learningPath?: LearningPathCreateNestedOneWithoutEnrollmentsInput
+    workshop?: WorkshopCreateNestedOneWithoutEnrollmentsInput
     user: UserCreateNestedOneWithoutEnrollmentInput
   }
 
@@ -73861,18 +80035,18 @@ export namespace Prisma {
     create: XOR<EnrollmentCreateWithoutPaymentInput, EnrollmentUncheckedCreateWithoutPaymentInput>
   }
 
-  export type UserUpsertWithoutPaymentInput = {
-    update: XOR<UserUpdateWithoutPaymentInput, UserUncheckedUpdateWithoutPaymentInput>
-    create: XOR<UserCreateWithoutPaymentInput, UserUncheckedCreateWithoutPaymentInput>
+  export type UserUpsertWithoutPaymentsInput = {
+    update: XOR<UserUpdateWithoutPaymentsInput, UserUncheckedUpdateWithoutPaymentsInput>
+    create: XOR<UserCreateWithoutPaymentsInput, UserUncheckedCreateWithoutPaymentsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutPaymentInput = {
+  export type UserUpdateToOneWithWhereWithoutPaymentsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutPaymentInput, UserUncheckedUpdateWithoutPaymentInput>
+    data: XOR<UserUpdateWithoutPaymentsInput, UserUncheckedUpdateWithoutPaymentsInput>
   }
 
-  export type UserUpdateWithoutPaymentInput = {
+  export type UserUpdateWithoutPaymentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -73890,14 +80064,15 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUpdateManyWithoutUserNestedInput
+    resources?: ResourceUpdateManyWithoutUserNestedInput
+    quiz?: QuizUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutPaymentInput = {
+  export type UserUncheckedUpdateWithoutPaymentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -73915,25 +80090,26 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
-    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
+    resources?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    quiz?: QuizUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type CourseUpsertWithoutPaymentInput = {
-    update: XOR<CourseUpdateWithoutPaymentInput, CourseUncheckedUpdateWithoutPaymentInput>
-    create: XOR<CourseCreateWithoutPaymentInput, CourseUncheckedCreateWithoutPaymentInput>
+  export type CourseUpsertWithoutPaymentsInput = {
+    update: XOR<CourseUpdateWithoutPaymentsInput, CourseUncheckedUpdateWithoutPaymentsInput>
+    create: XOR<CourseCreateWithoutPaymentsInput, CourseUncheckedCreateWithoutPaymentsInput>
     where?: CourseWhereInput
   }
 
-  export type CourseUpdateToOneWithWhereWithoutPaymentInput = {
+  export type CourseUpdateToOneWithWhereWithoutPaymentsInput = {
     where?: CourseWhereInput
-    data: XOR<CourseUpdateWithoutPaymentInput, CourseUncheckedUpdateWithoutPaymentInput>
+    data: XOR<CourseUpdateWithoutPaymentsInput, CourseUncheckedUpdateWithoutPaymentsInput>
   }
 
-  export type CourseUpdateWithoutPaymentInput = {
+  export type CourseUpdateWithoutPaymentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -73951,7 +80127,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
     promotions?: PromotionUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableCoursesNestedInput
@@ -73963,7 +80139,7 @@ export namespace Prisma {
     prerequisites?: CoursePrerequisiteUpdateManyWithoutCourseNestedInput
   }
 
-  export type CourseUncheckedUpdateWithoutPaymentInput = {
+  export type CourseUncheckedUpdateWithoutPaymentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
@@ -73982,7 +80158,7 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUncheckedUpdateManyWithoutCourseNestedInput
@@ -73993,18 +80169,18 @@ export namespace Prisma {
     prerequisites?: CoursePrerequisiteUncheckedUpdateManyWithoutCourseNestedInput
   }
 
-  export type LearningPathUpsertWithoutPaymentInput = {
-    update: XOR<LearningPathUpdateWithoutPaymentInput, LearningPathUncheckedUpdateWithoutPaymentInput>
-    create: XOR<LearningPathCreateWithoutPaymentInput, LearningPathUncheckedCreateWithoutPaymentInput>
+  export type LearningPathUpsertWithoutPaymentsInput = {
+    update: XOR<LearningPathUpdateWithoutPaymentsInput, LearningPathUncheckedUpdateWithoutPaymentsInput>
+    create: XOR<LearningPathCreateWithoutPaymentsInput, LearningPathUncheckedCreateWithoutPaymentsInput>
     where?: LearningPathWhereInput
   }
 
-  export type LearningPathUpdateToOneWithWhereWithoutPaymentInput = {
+  export type LearningPathUpdateToOneWithWhereWithoutPaymentsInput = {
     where?: LearningPathWhereInput
-    data: XOR<LearningPathUpdateWithoutPaymentInput, LearningPathUncheckedUpdateWithoutPaymentInput>
+    data: XOR<LearningPathUpdateWithoutPaymentsInput, LearningPathUncheckedUpdateWithoutPaymentsInput>
   }
 
-  export type LearningPathUpdateWithoutPaymentInput = {
+  export type LearningPathUpdateWithoutPaymentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -74020,7 +80196,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutLearningPathNestedInput
+    user?: UserUpdateOneWithoutLearningPathsNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUpdateManyWithoutPathNestedInput
@@ -74029,10 +80205,10 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutLearningPathNestedInput
   }
 
-  export type LearningPathUncheckedUpdateWithoutPaymentInput = {
+  export type LearningPathUncheckedUpdateWithoutPaymentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -74057,21 +80233,21 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
   }
 
-  export type WorkshopUpsertWithoutPaymentInput = {
-    update: XOR<WorkshopUpdateWithoutPaymentInput, WorkshopUncheckedUpdateWithoutPaymentInput>
-    create: XOR<WorkshopCreateWithoutPaymentInput, WorkshopUncheckedCreateWithoutPaymentInput>
+  export type WorkshopUpsertWithoutPaymentsInput = {
+    update: XOR<WorkshopUpdateWithoutPaymentsInput, WorkshopUncheckedUpdateWithoutPaymentsInput>
+    create: XOR<WorkshopCreateWithoutPaymentsInput, WorkshopUncheckedCreateWithoutPaymentsInput>
     where?: WorkshopWhereInput
   }
 
-  export type WorkshopUpdateToOneWithWhereWithoutPaymentInput = {
+  export type WorkshopUpdateToOneWithWhereWithoutPaymentsInput = {
     where?: WorkshopWhereInput
-    data: XOR<WorkshopUpdateWithoutPaymentInput, WorkshopUncheckedUpdateWithoutPaymentInput>
+    data: XOR<WorkshopUpdateWithoutPaymentsInput, WorkshopUncheckedUpdateWithoutPaymentsInput>
   }
 
-  export type WorkshopUpdateWithoutPaymentInput = {
+  export type WorkshopUpdateWithoutPaymentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -74094,7 +80270,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutWorkshopNestedInput
+    user?: UserUpdateOneWithoutWorkshopsNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
@@ -74103,10 +80279,10 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutWorkshopNestedInput
   }
 
-  export type WorkshopUncheckedUpdateWithoutPaymentInput = {
+  export type WorkshopUncheckedUpdateWithoutPaymentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -74138,7 +80314,7 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type EnrollmentUpsertWithoutPaymentInput = {
@@ -74159,9 +80335,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    course?: CourseUpdateOneWithoutEnrollmentNestedInput
-    learningPath?: LearningPathUpdateOneWithoutEnrollmentNestedInput
-    workshop?: WorkshopUpdateOneWithoutEnrollmentNestedInput
+    course?: CourseUpdateOneWithoutEnrollmentsNestedInput
+    learningPath?: LearningPathUpdateOneWithoutEnrollmentsNestedInput
+    workshop?: WorkshopUpdateOneWithoutEnrollmentsNestedInput
     user?: UserUpdateOneRequiredWithoutEnrollmentNestedInput
   }
 
@@ -74178,7 +80354,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type UserCreateWithoutInvoiceInput = {
+  export type UserCreateWithoutInvoicesInput = {
     id: string
     name: string
     email: string
@@ -74196,14 +80372,15 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentCreateNestedManyWithoutUserInput
-    Payment?: PaymentCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
     courses?: CourseCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopCreateNestedManyWithoutUserInput
-    Resource?: ResourceCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathCreateNestedManyWithoutUserInput
+    workshops?: WorkshopCreateNestedManyWithoutUserInput
+    resources?: ResourceCreateNestedManyWithoutUserInput
+    quiz?: QuizCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutInvoiceInput = {
+  export type UserUncheckedCreateWithoutInvoicesInput = {
     id: string
     name: string
     email: string
@@ -74221,16 +80398,17 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
     courses?: CourseUncheckedCreateNestedManyWithoutUserInput
-    LearningPath?: LearningPathUncheckedCreateNestedManyWithoutUserInput
-    Workshop?: WorkshopUncheckedCreateNestedManyWithoutUserInput
-    Resource?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    workshops?: WorkshopUncheckedCreateNestedManyWithoutUserInput
+    resources?: ResourceUncheckedCreateNestedManyWithoutUserInput
+    quiz?: QuizUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutInvoiceInput = {
+  export type UserCreateOrConnectWithoutInvoicesInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutInvoiceInput, UserUncheckedCreateWithoutInvoiceInput>
+    create: XOR<UserCreateWithoutInvoicesInput, UserUncheckedCreateWithoutInvoicesInput>
   }
 
   export type InvoiceItemCreateWithoutInvoiceInput = {
@@ -74263,18 +80441,18 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserUpsertWithoutInvoiceInput = {
-    update: XOR<UserUpdateWithoutInvoiceInput, UserUncheckedUpdateWithoutInvoiceInput>
-    create: XOR<UserCreateWithoutInvoiceInput, UserUncheckedCreateWithoutInvoiceInput>
+  export type UserUpsertWithoutInvoicesInput = {
+    update: XOR<UserUpdateWithoutInvoicesInput, UserUncheckedUpdateWithoutInvoicesInput>
+    create: XOR<UserCreateWithoutInvoicesInput, UserUncheckedCreateWithoutInvoicesInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutInvoiceInput = {
+  export type UserUpdateToOneWithWhereWithoutInvoicesInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutInvoiceInput, UserUncheckedUpdateWithoutInvoiceInput>
+    data: XOR<UserUpdateWithoutInvoicesInput, UserUncheckedUpdateWithoutInvoicesInput>
   }
 
-  export type UserUpdateWithoutInvoiceInput = {
+  export type UserUpdateWithoutInvoicesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -74292,14 +80470,15 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
     courses?: CourseUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUpdateManyWithoutUserNestedInput
+    resources?: ResourceUpdateManyWithoutUserNestedInput
+    quiz?: QuizUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutInvoiceInput = {
+  export type UserUncheckedUpdateWithoutInvoicesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -74317,11 +80496,12 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
     courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
-    LearningPath?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
-    Workshop?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
-    Resource?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
+    resources?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+    quiz?: QuizUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type InvoiceItemUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -74363,7 +80543,7 @@ export namespace Prisma {
     date?: Date | string
     createdAt?: Date | string
     deletedAt?: Date | string | null
-    user: UserCreateNestedOneWithoutInvoiceInput
+    user: UserCreateNestedOneWithoutInvoicesInput
   }
 
   export type InvoiceUncheckedCreateWithoutItemsInput = {
@@ -74403,7 +80583,7 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneRequiredWithoutInvoiceNestedInput
+    user?: UserUpdateOneRequiredWithoutInvoicesNestedInput
   }
 
   export type InvoiceUncheckedUpdateWithoutItemsInput = {
@@ -74640,9 +80820,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
     category: CategoryCreateNestedOneWithoutCoursesInput
-    Payment?: PaymentCreateNestedManyWithoutCourseInput
+    payments?: PaymentCreateNestedManyWithoutCourseInput
     promotions?: PromotionCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagCreateNestedManyWithoutCourseInput
@@ -74671,8 +80851,8 @@ export namespace Prisma {
     categoryId: string
     deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCourseInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagUncheckedCreateNestedManyWithoutCourseInput
@@ -74737,9 +80917,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
-    Payment?: PaymentUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUpdateManyWithoutCourseNestedInput
@@ -74768,8 +80948,8 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUncheckedUpdateManyWithoutCourseNestedInput
@@ -74824,9 +81004,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     user?: UserCreateNestedOneWithoutCoursesInput
     chapters?: ChapterCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentCreateNestedManyWithoutCourseInput
     category: CategoryCreateNestedOneWithoutCoursesInput
-    Payment?: PaymentCreateNestedManyWithoutCourseInput
+    payments?: PaymentCreateNestedManyWithoutCourseInput
     promotions?: PromotionCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagCreateNestedManyWithoutCourseInput
@@ -74855,8 +81035,8 @@ export namespace Prisma {
     categoryId: string
     deletedAt?: Date | string | null
     chapters?: ChapterUncheckedCreateNestedManyWithoutCourseInput
-    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutCourseInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCourseInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutCourseInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableCoursesInput
     tags?: CourseTagUncheckedCreateNestedManyWithoutCourseInput
@@ -74921,9 +81101,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
-    Payment?: PaymentUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUpdateManyWithoutCourseNestedInput
@@ -74952,8 +81132,8 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUncheckedUpdateManyWithoutCourseNestedInput
@@ -75013,7 +81193,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutWorkshopInput
+    user?: UserCreateNestedOneWithoutWorkshopsInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
@@ -75021,8 +81201,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopUncheckedCreateWithoutObjectivesInput = {
@@ -75056,8 +81236,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopCreateOrConnectWithoutObjectivesInput = {
@@ -75120,7 +81300,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutWorkshopNestedInput
+    user?: UserUpdateOneWithoutWorkshopsNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
@@ -75128,8 +81308,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopUncheckedUpdateWithoutObjectivesInput = {
@@ -75163,8 +81343,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type ObjectiveUpsertWithoutWorkshopsInput = {
@@ -75217,7 +81397,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutWorkshopInput
+    user?: UserCreateNestedOneWithoutWorkshopsInput
     tags?: WorkshopTagCreateNestedManyWithoutWorkshopInput
     progress?: UserProgressCreateNestedManyWithoutWorkshopInput
     resources?: WorkshopResourceCreateNestedManyWithoutWorkshopInput
@@ -75225,8 +81405,8 @@ export namespace Prisma {
     objectives?: WorkshopObjectiveCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopUncheckedCreateWithoutPrerequisitesInput = {
@@ -75260,8 +81440,8 @@ export namespace Prisma {
     objectives?: WorkshopObjectiveUncheckedCreateNestedManyWithoutWorkshopInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableWorkshopsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutWorkshopInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutWorkshopInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutWorkshopInput
   }
 
   export type WorkshopCreateOrConnectWithoutPrerequisitesInput = {
@@ -75324,7 +81504,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutWorkshopNestedInput
+    user?: UserUpdateOneWithoutWorkshopsNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
@@ -75332,8 +81512,8 @@ export namespace Prisma {
     objectives?: WorkshopObjectiveUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopUncheckedUpdateWithoutPrerequisitesInput = {
@@ -75367,8 +81547,8 @@ export namespace Prisma {
     objectives?: WorkshopObjectiveUncheckedUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type PrerequisiteUpsertWithoutWorkshopsInput = {
@@ -75414,7 +81594,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutLearningPathInput
+    user?: UserCreateNestedOneWithoutLearningPathsInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressCreateNestedManyWithoutPathInput
@@ -75422,8 +81602,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathUncheckedCreateWithoutObjectivesInput = {
@@ -75450,8 +81630,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathCreateOrConnectWithoutObjectivesInput = {
@@ -75507,7 +81687,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutLearningPathNestedInput
+    user?: UserUpdateOneWithoutLearningPathsNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUpdateManyWithoutPathNestedInput
@@ -75515,8 +81695,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUpdateManyWithoutLearningPathNestedInput
   }
 
   export type LearningPathUncheckedUpdateWithoutObjectivesInput = {
@@ -75543,8 +81723,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
   }
 
   export type ObjectiveUpsertWithoutLearningPathsInput = {
@@ -75590,7 +81770,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user?: UserCreateNestedOneWithoutLearningPathInput
+    user?: UserCreateNestedOneWithoutLearningPathsInput
     tags?: LearningPathTagCreateNestedManyWithoutLearningPathInput
     contents?: LearningPathItemCreateNestedManyWithoutLearningPathInput
     progress?: UserProgressCreateNestedManyWithoutPathInput
@@ -75598,8 +81778,8 @@ export namespace Prisma {
     objectives?: LearningPathObjectiveCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathUncheckedCreateWithoutPrerequisitesInput = {
@@ -75626,8 +81806,8 @@ export namespace Prisma {
     objectives?: LearningPathObjectiveUncheckedCreateNestedManyWithoutLearningPathInput
     promoCodes?: PromoCodeUncheckedCreateNestedManyWithoutApplicableLearningPathsInput
     promotions?: PromotionUncheckedCreateNestedManyWithoutLearningPathInput
-    Enrollment?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
-    Payment?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutLearningPathInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutLearningPathInput
   }
 
   export type LearningPathCreateOrConnectWithoutPrerequisitesInput = {
@@ -75683,7 +81863,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutLearningPathNestedInput
+    user?: UserUpdateOneWithoutLearningPathsNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUpdateManyWithoutPathNestedInput
@@ -75691,8 +81871,8 @@ export namespace Prisma {
     objectives?: LearningPathObjectiveUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUpdateManyWithoutLearningPathNestedInput
   }
 
   export type LearningPathUncheckedUpdateWithoutPrerequisitesInput = {
@@ -75719,8 +81899,8 @@ export namespace Prisma {
     objectives?: LearningPathObjectiveUncheckedUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
   }
 
   export type PrerequisiteUpsertWithoutLearningPathsInput = {
@@ -75978,6 +82158,336 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type QuizQuestionCreateWithoutQuizInput = {
+    id?: string
+    question: string
+    type?: string | null
+    options?: QuizOptionCreateNestedManyWithoutQuestionInput
+  }
+
+  export type QuizQuestionUncheckedCreateWithoutQuizInput = {
+    id?: string
+    question: string
+    type?: string | null
+    options?: QuizOptionUncheckedCreateNestedManyWithoutQuestionInput
+  }
+
+  export type QuizQuestionCreateOrConnectWithoutQuizInput = {
+    where: QuizQuestionWhereUniqueInput
+    create: XOR<QuizQuestionCreateWithoutQuizInput, QuizQuestionUncheckedCreateWithoutQuizInput>
+  }
+
+  export type QuizQuestionCreateManyQuizInputEnvelope = {
+    data: QuizQuestionCreateManyQuizInput | QuizQuestionCreateManyQuizInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserCreateWithoutQuizInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    stripeCustomerId?: string | null
+    role?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    deletedAt?: Date | string | null
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    lessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentCreateNestedManyWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+    invoices?: InvoiceCreateNestedManyWithoutUserInput
+    courses?: CourseCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathCreateNestedManyWithoutUserInput
+    workshops?: WorkshopCreateNestedManyWithoutUserInput
+    resources?: ResourceCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutQuizInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    stripeCustomerId?: string | null
+    role?: string | null
+    banned?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    deletedAt?: Date | string | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    lessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
+    enrollment?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+    courses?: CourseUncheckedCreateNestedManyWithoutUserInput
+    learningPaths?: LearningPathUncheckedCreateNestedManyWithoutUserInput
+    workshops?: WorkshopUncheckedCreateNestedManyWithoutUserInput
+    resources?: ResourceUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutQuizInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutQuizInput, UserUncheckedCreateWithoutQuizInput>
+  }
+
+  export type QuizQuestionUpsertWithWhereUniqueWithoutQuizInput = {
+    where: QuizQuestionWhereUniqueInput
+    update: XOR<QuizQuestionUpdateWithoutQuizInput, QuizQuestionUncheckedUpdateWithoutQuizInput>
+    create: XOR<QuizQuestionCreateWithoutQuizInput, QuizQuestionUncheckedCreateWithoutQuizInput>
+  }
+
+  export type QuizQuestionUpdateWithWhereUniqueWithoutQuizInput = {
+    where: QuizQuestionWhereUniqueInput
+    data: XOR<QuizQuestionUpdateWithoutQuizInput, QuizQuestionUncheckedUpdateWithoutQuizInput>
+  }
+
+  export type QuizQuestionUpdateManyWithWhereWithoutQuizInput = {
+    where: QuizQuestionScalarWhereInput
+    data: XOR<QuizQuestionUpdateManyMutationInput, QuizQuestionUncheckedUpdateManyWithoutQuizInput>
+  }
+
+  export type QuizQuestionScalarWhereInput = {
+    AND?: QuizQuestionScalarWhereInput | QuizQuestionScalarWhereInput[]
+    OR?: QuizQuestionScalarWhereInput[]
+    NOT?: QuizQuestionScalarWhereInput | QuizQuestionScalarWhereInput[]
+    id?: StringFilter<"QuizQuestion"> | string
+    question?: StringFilter<"QuizQuestion"> | string
+    type?: StringNullableFilter<"QuizQuestion"> | string | null
+    quizId?: StringFilter<"QuizQuestion"> | string
+  }
+
+  export type UserUpsertWithoutQuizInput = {
+    update: XOR<UserUpdateWithoutQuizInput, UserUncheckedUpdateWithoutQuizInput>
+    create: XOR<UserCreateWithoutQuizInput, UserUncheckedCreateWithoutQuizInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutQuizInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutQuizInput, UserUncheckedUpdateWithoutQuizInput>
+  }
+
+  export type UserUpdateWithoutQuizInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    lessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUpdateManyWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUpdateManyWithoutUserNestedInput
+    courses?: CourseUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUpdateManyWithoutUserNestedInput
+    resources?: ResourceUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutQuizInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    lessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
+    enrollment?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutUserNestedInput
+    learningPaths?: LearningPathUncheckedUpdateManyWithoutUserNestedInput
+    workshops?: WorkshopUncheckedUpdateManyWithoutUserNestedInput
+    resources?: ResourceUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type QuizCreateWithoutQuestionsInput = {
+    id?: string
+    title: string
+    slug: string
+    description?: string | null
+    type?: string | null
+    chapterId?: string | null
+    courseId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user?: UserCreateNestedOneWithoutQuizInput
+  }
+
+  export type QuizUncheckedCreateWithoutQuestionsInput = {
+    id?: string
+    title: string
+    slug: string
+    description?: string | null
+    type?: string | null
+    chapterId?: string | null
+    courseId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId?: string | null
+  }
+
+  export type QuizCreateOrConnectWithoutQuestionsInput = {
+    where: QuizWhereUniqueInput
+    create: XOR<QuizCreateWithoutQuestionsInput, QuizUncheckedCreateWithoutQuestionsInput>
+  }
+
+  export type QuizOptionCreateWithoutQuestionInput = {
+    id?: string
+    content: string
+    isCorrect?: boolean
+  }
+
+  export type QuizOptionUncheckedCreateWithoutQuestionInput = {
+    id?: string
+    content: string
+    isCorrect?: boolean
+  }
+
+  export type QuizOptionCreateOrConnectWithoutQuestionInput = {
+    where: QuizOptionWhereUniqueInput
+    create: XOR<QuizOptionCreateWithoutQuestionInput, QuizOptionUncheckedCreateWithoutQuestionInput>
+  }
+
+  export type QuizOptionCreateManyQuestionInputEnvelope = {
+    data: QuizOptionCreateManyQuestionInput | QuizOptionCreateManyQuestionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type QuizUpsertWithoutQuestionsInput = {
+    update: XOR<QuizUpdateWithoutQuestionsInput, QuizUncheckedUpdateWithoutQuestionsInput>
+    create: XOR<QuizCreateWithoutQuestionsInput, QuizUncheckedCreateWithoutQuestionsInput>
+    where?: QuizWhereInput
+  }
+
+  export type QuizUpdateToOneWithWhereWithoutQuestionsInput = {
+    where?: QuizWhereInput
+    data: XOR<QuizUpdateWithoutQuestionsInput, QuizUncheckedUpdateWithoutQuestionsInput>
+  }
+
+  export type QuizUpdateWithoutQuestionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    chapterId?: NullableStringFieldUpdateOperationsInput | string | null
+    courseId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutQuizNestedInput
+  }
+
+  export type QuizUncheckedUpdateWithoutQuestionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    chapterId?: NullableStringFieldUpdateOperationsInput | string | null
+    courseId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type QuizOptionUpsertWithWhereUniqueWithoutQuestionInput = {
+    where: QuizOptionWhereUniqueInput
+    update: XOR<QuizOptionUpdateWithoutQuestionInput, QuizOptionUncheckedUpdateWithoutQuestionInput>
+    create: XOR<QuizOptionCreateWithoutQuestionInput, QuizOptionUncheckedCreateWithoutQuestionInput>
+  }
+
+  export type QuizOptionUpdateWithWhereUniqueWithoutQuestionInput = {
+    where: QuizOptionWhereUniqueInput
+    data: XOR<QuizOptionUpdateWithoutQuestionInput, QuizOptionUncheckedUpdateWithoutQuestionInput>
+  }
+
+  export type QuizOptionUpdateManyWithWhereWithoutQuestionInput = {
+    where: QuizOptionScalarWhereInput
+    data: XOR<QuizOptionUpdateManyMutationInput, QuizOptionUncheckedUpdateManyWithoutQuestionInput>
+  }
+
+  export type QuizOptionScalarWhereInput = {
+    AND?: QuizOptionScalarWhereInput | QuizOptionScalarWhereInput[]
+    OR?: QuizOptionScalarWhereInput[]
+    NOT?: QuizOptionScalarWhereInput | QuizOptionScalarWhereInput[]
+    id?: StringFilter<"QuizOption"> | string
+    content?: StringFilter<"QuizOption"> | string
+    isCorrect?: BoolFilter<"QuizOption"> | boolean
+    questionId?: StringFilter<"QuizOption"> | string
+  }
+
+  export type QuizQuestionCreateWithoutOptionsInput = {
+    id?: string
+    question: string
+    type?: string | null
+    quiz: QuizCreateNestedOneWithoutQuestionsInput
+  }
+
+  export type QuizQuestionUncheckedCreateWithoutOptionsInput = {
+    id?: string
+    question: string
+    type?: string | null
+    quizId: string
+  }
+
+  export type QuizQuestionCreateOrConnectWithoutOptionsInput = {
+    where: QuizQuestionWhereUniqueInput
+    create: XOR<QuizQuestionCreateWithoutOptionsInput, QuizQuestionUncheckedCreateWithoutOptionsInput>
+  }
+
+  export type QuizQuestionUpsertWithoutOptionsInput = {
+    update: XOR<QuizQuestionUpdateWithoutOptionsInput, QuizQuestionUncheckedUpdateWithoutOptionsInput>
+    create: XOR<QuizQuestionCreateWithoutOptionsInput, QuizQuestionUncheckedCreateWithoutOptionsInput>
+    where?: QuizQuestionWhereInput
+  }
+
+  export type QuizQuestionUpdateToOneWithWhereWithoutOptionsInput = {
+    where?: QuizQuestionWhereInput
+    data: XOR<QuizQuestionUpdateWithoutOptionsInput, QuizQuestionUncheckedUpdateWithoutOptionsInput>
+  }
+
+  export type QuizQuestionUpdateWithoutOptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    quiz?: QuizUpdateOneRequiredWithoutQuestionsNestedInput
+  }
+
+  export type QuizQuestionUncheckedUpdateWithoutOptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    quizId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type SessionCreateManyUserInput = {
     id: string
     expiresAt: Date | string
@@ -76007,6 +82517,9 @@ export namespace Prisma {
   export type LessonProgressCreateManyUserInput = {
     id?: string
     completed?: boolean
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    watchedSeconds?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lessonId: string
@@ -76123,6 +82636,18 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type QuizCreateManyUserInput = {
+    id?: string
+    title: string
+    slug: string
+    description?: string | null
+    type?: string | null
+    chapterId?: string | null
+    courseId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type SessionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -76204,6 +82729,9 @@ export namespace Prisma {
   export type LessonProgressUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    watchedSeconds?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Lesson?: LessonUpdateOneRequiredWithoutLessonProgressNestedInput
@@ -76212,6 +82740,9 @@ export namespace Prisma {
   export type LessonProgressUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    watchedSeconds?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessonId?: StringFieldUpdateOperationsInput | string
@@ -76220,6 +82751,9 @@ export namespace Prisma {
   export type LessonProgressUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    watchedSeconds?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessonId?: StringFieldUpdateOperationsInput | string
@@ -76232,9 +82766,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    course?: CourseUpdateOneWithoutEnrollmentNestedInput
-    learningPath?: LearningPathUpdateOneWithoutEnrollmentNestedInput
-    workshop?: WorkshopUpdateOneWithoutEnrollmentNestedInput
+    course?: CourseUpdateOneWithoutEnrollmentsNestedInput
+    learningPath?: LearningPathUpdateOneWithoutEnrollmentsNestedInput
+    workshop?: WorkshopUpdateOneWithoutEnrollmentsNestedInput
     payment?: PaymentUpdateOneWithoutEnrollmentNestedInput
   }
 
@@ -76274,9 +82808,9 @@ export namespace Prisma {
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    course?: CourseUpdateOneWithoutPaymentNestedInput
-    learningPath?: LearningPathUpdateOneWithoutPaymentNestedInput
-    workshop?: WorkshopUpdateOneWithoutPaymentNestedInput
+    course?: CourseUpdateOneWithoutPaymentsNestedInput
+    learningPath?: LearningPathUpdateOneWithoutPaymentsNestedInput
+    workshop?: WorkshopUpdateOneWithoutPaymentsNestedInput
     enrollment?: EnrollmentUpdateOneWithoutPaymentNestedInput
   }
 
@@ -76363,9 +82897,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
-    Payment?: PaymentUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUpdateManyWithoutCourseNestedInput
@@ -76394,8 +82928,8 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUncheckedUpdateManyWithoutCourseNestedInput
@@ -76449,8 +82983,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUpdateManyWithoutLearningPathNestedInput
   }
 
   export type LearningPathUncheckedUpdateWithoutUserInput = {
@@ -76477,8 +83011,8 @@ export namespace Prisma {
     prerequisites?: LearningPathPrerequisiteUncheckedUpdateManyWithoutLearningPathNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableLearningPathsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
   }
 
   export type LearningPathUncheckedUpdateManyWithoutUserInput = {
@@ -76530,8 +83064,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopUncheckedUpdateWithoutUserInput = {
@@ -76565,8 +83099,8 @@ export namespace Prisma {
     prerequisites?: WorkshopPrerequisiteUncheckedUpdateManyWithoutWorkshopNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableWorkshopsNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopUncheckedUpdateManyWithoutUserInput = {
@@ -76632,6 +83166,44 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuizUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    chapterId?: NullableStringFieldUpdateOperationsInput | string | null
+    courseId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    questions?: QuizQuestionUpdateManyWithoutQuizNestedInput
+  }
+
+  export type QuizUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    chapterId?: NullableStringFieldUpdateOperationsInput | string | null
+    courseId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    questions?: QuizQuestionUncheckedUpdateManyWithoutQuizNestedInput
+  }
+
+  export type QuizUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    chapterId?: NullableStringFieldUpdateOperationsInput | string | null
+    courseId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CategoryCreateManyDomainInput = {
@@ -76725,8 +83297,8 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
-    Payment?: PaymentUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUpdateManyWithoutCourseNestedInput
@@ -76755,8 +83327,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
     promoCodes?: PromoCodeUncheckedUpdateManyWithoutApplicableCoursesNestedInput
     tags?: CourseTagUncheckedUpdateManyWithoutCourseNestedInput
@@ -76792,7 +83364,7 @@ export namespace Prisma {
 
   export type LearningPathItemCreateManyLearningPathInput = {
     id?: string
-    type: $Enums.ItemType
+    type: string
     position: number
     courseId?: string | null
     workshopId?: string | null
@@ -76802,9 +83374,13 @@ export namespace Prisma {
   export type UserProgressCreateManyPathInput = {
     id?: string
     userId: string
-    type: $Enums.ItemType
+    type: string
     completed?: boolean
     updatedAt?: Date | string
+    progressPercentage?: number | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    timeSpent?: number | null
   }
 
   export type LearningPathResourceCreateManyLearningPathInput = {
@@ -76824,11 +83400,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     startsAt: Date | string
     endsAt: Date | string
     active?: boolean
-    itemType: $Enums.ItemType
+    itemType: string
     courseId?: string | null
     workshopId?: string | null
   }
@@ -76875,7 +83451,7 @@ export namespace Prisma {
 
   export type LearningPathItemUpdateWithoutLearningPathInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
     course?: CourseUpdateOneWithoutLearningPathItemsNestedInput
     workshop?: WorkshopUpdateOneWithoutLearningPathItemsNestedInput
@@ -76884,7 +83460,7 @@ export namespace Prisma {
 
   export type LearningPathItemUncheckedUpdateWithoutLearningPathInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
     courseId?: NullableStringFieldUpdateOperationsInput | string | null
     workshopId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -76893,7 +83469,7 @@ export namespace Prisma {
 
   export type LearningPathItemUncheckedUpdateManyWithoutLearningPathInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
     courseId?: NullableStringFieldUpdateOperationsInput | string | null
     workshopId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -76903,9 +83479,13 @@ export namespace Prisma {
   export type UserProgressUpdateWithoutPathInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progressPercentage?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     course?: CourseUpdateOneWithoutProgressNestedInput
     workshop?: WorkshopUpdateOneWithoutProgressNestedInput
   }
@@ -76913,17 +83493,25 @@ export namespace Prisma {
   export type UserProgressUncheckedUpdateWithoutPathInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progressPercentage?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type UserProgressUncheckedUpdateManyWithoutPathInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progressPercentage?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type LearningPathResourceUpdateWithoutLearningPathInput = {
@@ -76967,7 +83555,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     usageLimit?: NullableIntFieldUpdateOperationsInput | number | null
     usedCount?: IntFieldUpdateOperationsInput | number
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -76982,7 +83570,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     usageLimit?: NullableIntFieldUpdateOperationsInput | number | null
     usedCount?: IntFieldUpdateOperationsInput | number
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -76997,7 +83585,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     usageLimit?: NullableIntFieldUpdateOperationsInput | number | null
     usedCount?: IntFieldUpdateOperationsInput | number
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -77010,11 +83598,11 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    itemType?: StringFieldUpdateOperationsInput | string
     course?: CourseUpdateOneWithoutPromotionsNestedInput
     workshop?: WorkshopUpdateOneWithoutPromotionsNestedInput
   }
@@ -77024,11 +83612,11 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    itemType?: StringFieldUpdateOperationsInput | string
     courseId?: NullableStringFieldUpdateOperationsInput | string | null
     workshopId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -77038,11 +83626,11 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    itemType?: StringFieldUpdateOperationsInput | string
     courseId?: NullableStringFieldUpdateOperationsInput | string | null
     workshopId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -77054,8 +83642,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    course?: CourseUpdateOneWithoutEnrollmentNestedInput
-    workshop?: WorkshopUpdateOneWithoutEnrollmentNestedInput
+    course?: CourseUpdateOneWithoutEnrollmentsNestedInput
+    workshop?: WorkshopUpdateOneWithoutEnrollmentsNestedInput
     user?: UserUpdateOneRequiredWithoutEnrollmentNestedInput
     payment?: PaymentUpdateOneWithoutEnrollmentNestedInput
   }
@@ -77096,9 +83684,9 @@ export namespace Prisma {
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneRequiredWithoutPaymentNestedInput
-    course?: CourseUpdateOneWithoutPaymentNestedInput
-    workshop?: WorkshopUpdateOneWithoutPaymentNestedInput
+    user?: UserUpdateOneRequiredWithoutPaymentsNestedInput
+    course?: CourseUpdateOneWithoutPaymentsNestedInput
+    workshop?: WorkshopUpdateOneWithoutPaymentsNestedInput
     enrollment?: EnrollmentUpdateOneWithoutPaymentNestedInput
   }
 
@@ -77174,11 +83762,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     startsAt: Date | string
     endsAt: Date | string
     active?: boolean
-    itemType: $Enums.ItemType
+    itemType: string
     workshopId?: string | null
     learningPathId?: string | null
   }
@@ -77190,9 +83778,13 @@ export namespace Prisma {
   export type UserProgressCreateManyCourseInput = {
     id?: string
     userId: string
-    type: $Enums.ItemType
+    type: string
     completed?: boolean
     updatedAt?: Date | string
+    progressPercentage?: number | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    timeSpent?: number | null
   }
 
   export type CourseResourceCreateManyCourseInput = {
@@ -77201,7 +83793,7 @@ export namespace Prisma {
 
   export type LearningPathItemCreateManyCourseInput = {
     id?: string
-    type: $Enums.ItemType
+    type: string
     position: number
     learningPathId: string
     workshopId?: string | null
@@ -77249,8 +83841,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    learningPath?: LearningPathUpdateOneWithoutEnrollmentNestedInput
-    workshop?: WorkshopUpdateOneWithoutEnrollmentNestedInput
+    learningPath?: LearningPathUpdateOneWithoutEnrollmentsNestedInput
+    workshop?: WorkshopUpdateOneWithoutEnrollmentsNestedInput
     user?: UserUpdateOneRequiredWithoutEnrollmentNestedInput
     payment?: PaymentUpdateOneWithoutEnrollmentNestedInput
   }
@@ -77291,9 +83883,9 @@ export namespace Prisma {
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneRequiredWithoutPaymentNestedInput
-    learningPath?: LearningPathUpdateOneWithoutPaymentNestedInput
-    workshop?: WorkshopUpdateOneWithoutPaymentNestedInput
+    user?: UserUpdateOneRequiredWithoutPaymentsNestedInput
+    learningPath?: LearningPathUpdateOneWithoutPaymentsNestedInput
+    workshop?: WorkshopUpdateOneWithoutPaymentsNestedInput
     enrollment?: EnrollmentUpdateOneWithoutPaymentNestedInput
   }
 
@@ -77333,11 +83925,11 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    itemType?: StringFieldUpdateOperationsInput | string
     workshop?: WorkshopUpdateOneWithoutPromotionsNestedInput
     learningPath?: LearningPathUpdateOneWithoutPromotionsNestedInput
   }
@@ -77347,11 +83939,11 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    itemType?: StringFieldUpdateOperationsInput | string
     workshopId?: NullableStringFieldUpdateOperationsInput | string | null
     learningPathId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -77361,11 +83953,11 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    itemType?: StringFieldUpdateOperationsInput | string
     workshopId?: NullableStringFieldUpdateOperationsInput | string | null
     learningPathId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -77375,7 +83967,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     usageLimit?: NullableIntFieldUpdateOperationsInput | number | null
     usedCount?: IntFieldUpdateOperationsInput | number
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -77390,7 +83982,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     usageLimit?: NullableIntFieldUpdateOperationsInput | number | null
     usedCount?: IntFieldUpdateOperationsInput | number
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -77405,7 +83997,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     usageLimit?: NullableIntFieldUpdateOperationsInput | number | null
     usedCount?: IntFieldUpdateOperationsInput | number
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -77428,9 +84020,13 @@ export namespace Prisma {
   export type UserProgressUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progressPercentage?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     workshop?: WorkshopUpdateOneWithoutProgressNestedInput
     path?: LearningPathUpdateOneWithoutProgressNestedInput
   }
@@ -77438,17 +84034,25 @@ export namespace Prisma {
   export type UserProgressUncheckedUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progressPercentage?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type UserProgressUncheckedUpdateManyWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progressPercentage?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type CourseResourceUpdateWithoutCourseInput = {
@@ -77465,7 +84069,7 @@ export namespace Prisma {
 
   export type LearningPathItemUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
     learningPath?: LearningPathUpdateOneRequiredWithoutContentsNestedInput
     workshop?: WorkshopUpdateOneWithoutLearningPathItemsNestedInput
@@ -77474,7 +84078,7 @@ export namespace Prisma {
 
   export type LearningPathItemUncheckedUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
     learningPathId?: StringFieldUpdateOperationsInput | string
     workshopId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -77483,7 +84087,7 @@ export namespace Prisma {
 
   export type LearningPathItemUncheckedUpdateManyWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
     learningPathId?: StringFieldUpdateOperationsInput | string
     workshopId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -77573,6 +84177,9 @@ export namespace Prisma {
   export type LessonProgressCreateManyLessonInput = {
     id?: string
     completed?: boolean
+    startTime?: Date | string | null
+    endTime?: Date | string | null
+    watchedSeconds?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -77585,6 +84192,9 @@ export namespace Prisma {
   export type LessonProgressUpdateWithoutLessonInput = {
     id?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    watchedSeconds?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutLessonProgressNestedInput
@@ -77593,6 +84203,9 @@ export namespace Prisma {
   export type LessonProgressUncheckedUpdateWithoutLessonInput = {
     id?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    watchedSeconds?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -77601,6 +84214,9 @@ export namespace Prisma {
   export type LessonProgressUncheckedUpdateManyWithoutLessonInput = {
     id?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
+    startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    watchedSeconds?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -77625,9 +84241,13 @@ export namespace Prisma {
   export type UserProgressCreateManyWorkshopInput = {
     id?: string
     userId: string
-    type: $Enums.ItemType
+    type: string
     completed?: boolean
     updatedAt?: Date | string
+    progressPercentage?: number | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    timeSpent?: number | null
   }
 
   export type WorkshopResourceCreateManyWorkshopInput = {
@@ -77636,7 +84256,7 @@ export namespace Prisma {
 
   export type LearningPathItemCreateManyWorkshopInput = {
     id?: string
-    type: $Enums.ItemType
+    type: string
     position: number
     learningPathId: string
     courseId?: string | null
@@ -77656,11 +84276,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     discount: number
-    type?: $Enums.DiscountType
+    type?: string
     startsAt: Date | string
     endsAt: Date | string
     active?: boolean
-    itemType: $Enums.ItemType
+    itemType: string
     courseId?: string | null
     learningPathId?: string | null
   }
@@ -77708,9 +84328,13 @@ export namespace Prisma {
   export type UserProgressUpdateWithoutWorkshopInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progressPercentage?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     course?: CourseUpdateOneWithoutProgressNestedInput
     path?: LearningPathUpdateOneWithoutProgressNestedInput
   }
@@ -77718,17 +84342,25 @@ export namespace Prisma {
   export type UserProgressUncheckedUpdateWithoutWorkshopInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progressPercentage?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type UserProgressUncheckedUpdateManyWithoutWorkshopInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     completed?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    progressPercentage?: NullableFloatFieldUpdateOperationsInput | number | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type WorkshopResourceUpdateWithoutWorkshopInput = {
@@ -77745,7 +84377,7 @@ export namespace Prisma {
 
   export type LearningPathItemUpdateWithoutWorkshopInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
     learningPath?: LearningPathUpdateOneRequiredWithoutContentsNestedInput
     course?: CourseUpdateOneWithoutLearningPathItemsNestedInput
@@ -77754,7 +84386,7 @@ export namespace Prisma {
 
   export type LearningPathItemUncheckedUpdateWithoutWorkshopInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
     learningPathId?: StringFieldUpdateOperationsInput | string
     courseId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -77763,7 +84395,7 @@ export namespace Prisma {
 
   export type LearningPathItemUncheckedUpdateManyWithoutWorkshopInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
     learningPathId?: StringFieldUpdateOperationsInput | string
     courseId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -77799,7 +84431,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     usageLimit?: NullableIntFieldUpdateOperationsInput | number | null
     usedCount?: IntFieldUpdateOperationsInput | number
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -77814,7 +84446,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     usageLimit?: NullableIntFieldUpdateOperationsInput | number | null
     usedCount?: IntFieldUpdateOperationsInput | number
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -77829,7 +84461,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     usageLimit?: NullableIntFieldUpdateOperationsInput | number | null
     usedCount?: IntFieldUpdateOperationsInput | number
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -77842,11 +84474,11 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    itemType?: StringFieldUpdateOperationsInput | string
     course?: CourseUpdateOneWithoutPromotionsNestedInput
     learningPath?: LearningPathUpdateOneWithoutPromotionsNestedInput
   }
@@ -77856,11 +84488,11 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    itemType?: StringFieldUpdateOperationsInput | string
     courseId?: NullableStringFieldUpdateOperationsInput | string | null
     learningPathId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -77870,11 +84502,11 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     discount?: IntFieldUpdateOperationsInput | number
-    type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
+    type?: StringFieldUpdateOperationsInput | string
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    itemType?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    itemType?: StringFieldUpdateOperationsInput | string
     courseId?: NullableStringFieldUpdateOperationsInput | string | null
     learningPathId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -77886,8 +84518,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    course?: CourseUpdateOneWithoutEnrollmentNestedInput
-    learningPath?: LearningPathUpdateOneWithoutEnrollmentNestedInput
+    course?: CourseUpdateOneWithoutEnrollmentsNestedInput
+    learningPath?: LearningPathUpdateOneWithoutEnrollmentsNestedInput
     user?: UserUpdateOneRequiredWithoutEnrollmentNestedInput
     payment?: PaymentUpdateOneWithoutEnrollmentNestedInput
   }
@@ -77928,9 +84560,9 @@ export namespace Prisma {
     receiptUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneRequiredWithoutPaymentNestedInput
-    course?: CourseUpdateOneWithoutPaymentNestedInput
-    learningPath?: LearningPathUpdateOneWithoutPaymentNestedInput
+    user?: UserUpdateOneRequiredWithoutPaymentsNestedInput
+    course?: CourseUpdateOneWithoutPaymentsNestedInput
+    learningPath?: LearningPathUpdateOneWithoutPaymentsNestedInput
     enrollment?: EnrollmentUpdateOneWithoutPaymentNestedInput
   }
 
@@ -77983,7 +84615,7 @@ export namespace Prisma {
 
   export type LearningPathItemCreateManyResourceInput = {
     id?: string
-    type: $Enums.ItemType
+    type: string
     position: number
     learningPathId: string
     courseId?: string | null
@@ -78040,7 +84672,7 @@ export namespace Prisma {
 
   export type LearningPathItemUpdateWithoutResourceInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
     learningPath?: LearningPathUpdateOneRequiredWithoutContentsNestedInput
     course?: CourseUpdateOneWithoutLearningPathItemsNestedInput
@@ -78049,7 +84681,7 @@ export namespace Prisma {
 
   export type LearningPathItemUncheckedUpdateWithoutResourceInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
     learningPathId?: StringFieldUpdateOperationsInput | string
     courseId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -78058,7 +84690,7 @@ export namespace Prisma {
 
   export type LearningPathItemUncheckedUpdateManyWithoutResourceInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumItemTypeFieldUpdateOperationsInput | $Enums.ItemType
+    type?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
     learningPathId?: StringFieldUpdateOperationsInput | string
     courseId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -78131,9 +84763,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneWithoutCoursesNestedInput
     chapters?: ChapterUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutCourseNestedInput
     category?: CategoryUpdateOneRequiredWithoutCoursesNestedInput
-    Payment?: PaymentUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUpdateManyWithoutCourseNestedInput
     tags?: CourseTagUpdateManyWithoutCourseNestedInput
     progress?: UserProgressUpdateManyWithoutCourseNestedInput
@@ -78162,8 +84794,8 @@ export namespace Prisma {
     categoryId?: StringFieldUpdateOperationsInput | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chapters?: ChapterUncheckedUpdateManyWithoutCourseNestedInput
-    enrollment?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCourseNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutCourseNestedInput
     tags?: CourseTagUncheckedUpdateManyWithoutCourseNestedInput
     progress?: UserProgressUncheckedUpdateManyWithoutCourseNestedInput
@@ -78216,7 +84848,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutWorkshopNestedInput
+    user?: UserUpdateOneWithoutWorkshopsNestedInput
     tags?: WorkshopTagUpdateManyWithoutWorkshopNestedInput
     progress?: UserProgressUpdateManyWithoutWorkshopNestedInput
     resources?: WorkshopResourceUpdateManyWithoutWorkshopNestedInput
@@ -78224,8 +84856,8 @@ export namespace Prisma {
     objectives?: WorkshopObjectiveUpdateManyWithoutWorkshopNestedInput
     prerequisites?: WorkshopPrerequisiteUpdateManyWithoutWorkshopNestedInput
     promotions?: PromotionUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopUncheckedUpdateWithoutPromoCodesInput = {
@@ -78259,8 +84891,8 @@ export namespace Prisma {
     objectives?: WorkshopObjectiveUncheckedUpdateManyWithoutWorkshopNestedInput
     prerequisites?: WorkshopPrerequisiteUncheckedUpdateManyWithoutWorkshopNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutWorkshopNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutWorkshopNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutWorkshopNestedInput
   }
 
   export type WorkshopUncheckedUpdateManyWithoutPromoCodesInput = {
@@ -78305,7 +84937,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneWithoutLearningPathNestedInput
+    user?: UserUpdateOneWithoutLearningPathsNestedInput
     tags?: LearningPathTagUpdateManyWithoutLearningPathNestedInput
     contents?: LearningPathItemUpdateManyWithoutLearningPathNestedInput
     progress?: UserProgressUpdateManyWithoutPathNestedInput
@@ -78313,8 +84945,8 @@ export namespace Prisma {
     objectives?: LearningPathObjectiveUpdateManyWithoutLearningPathNestedInput
     prerequisites?: LearningPathPrerequisiteUpdateManyWithoutLearningPathNestedInput
     promotions?: PromotionUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUpdateManyWithoutLearningPathNestedInput
   }
 
   export type LearningPathUncheckedUpdateWithoutPromoCodesInput = {
@@ -78341,8 +84973,8 @@ export namespace Prisma {
     objectives?: LearningPathObjectiveUncheckedUpdateManyWithoutLearningPathNestedInput
     prerequisites?: LearningPathPrerequisiteUncheckedUpdateManyWithoutLearningPathNestedInput
     promotions?: PromotionUncheckedUpdateManyWithoutLearningPathNestedInput
-    Enrollment?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
-    Payment?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutLearningPathNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutLearningPathNestedInput
   }
 
   export type LearningPathUncheckedUpdateManyWithoutPromoCodesInput = {
@@ -78562,6 +85194,56 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuizQuestionCreateManyQuizInput = {
+    id?: string
+    question: string
+    type?: string | null
+  }
+
+  export type QuizQuestionUpdateWithoutQuizInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    options?: QuizOptionUpdateManyWithoutQuestionNestedInput
+  }
+
+  export type QuizQuestionUncheckedUpdateWithoutQuizInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    options?: QuizOptionUncheckedUpdateManyWithoutQuestionNestedInput
+  }
+
+  export type QuizQuestionUncheckedUpdateManyWithoutQuizInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type QuizOptionCreateManyQuestionInput = {
+    id?: string
+    content: string
+    isCorrect?: boolean
+  }
+
+  export type QuizOptionUpdateWithoutQuestionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isCorrect?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type QuizOptionUncheckedUpdateWithoutQuestionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isCorrect?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type QuizOptionUncheckedUpdateManyWithoutQuestionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isCorrect?: BoolFieldUpdateOperationsInput | boolean
   }
 
 

@@ -1,7 +1,7 @@
 export type ApiResponseType = {
     status: 'error' | 'success';
     message: string;
-   // data?: T;
+    // data?: T;
 }
 
 export type UploaderFileType = "image" | "video" | "file";
@@ -538,19 +538,19 @@ export type  QuizResultType = {
 
 //PAYMENTS
 export type  EnrollmentType = {
-        id: string;
-        amount: number;
-        status: string; // EnrollmentStatusEnum
+    id: string;
+    amount: number;
+    status: string; // EnrollmentStatusEnum
 
-        course?: CourseType;
-        learningPath?: LearningPathType;
-        workshop?: WorkshopType;
-        user: UserType;
-        payment?: PaymentType;
+    course?: CourseType;
+    learningPath?: LearningPathType;
+    workshop?: WorkshopType;
+    user: UserType;
+    payment?: PaymentType;
 
-        updatedAt: string;
-        createdAt: string;
-    }
+    updatedAt: string;
+    createdAt: string;
+}
 
 export type PaymentType = {
     id: string;
@@ -730,25 +730,50 @@ export type CompanySocialLinkType = {
     socialLink?: SocialLinkType;
 }
 
-export const  pageLinksTypes = ["Footer", "Page"];
+export const pageLinksTypes = ["Footer", "Page"];
 
 export type PageType = {
     id: string;
     title: string;
     slug: string;
     content: string;
-    type:string;
+    type: string;
     createdAt: string;
     updatedAt: string;
 }
 
-export type NewsletterSubscription = {
-    id : string;
-    email : string;
-    name? : string;
+export type NewsletterSubscriptionType = {
+    id: string;
+    email: string;
+    name?: string;
     createdAt: string;
     updatedAt: string;
     confirmed: boolean;
+}
+
+
+export type ContactMessageType = {
+    id: string;
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+    status: string; // open, answered, closed
+    createdAt: string;
+    updatedAt: string;
+
+    userId?: string;
+
+    replies: ContactReplyType[]
+}
+
+export type ContactReplyType = {
+    id: string;
+    contactMessageId: string;
+    contactMessage: ContactMessageType;
+    adminId?: string;
+    response: string;
+    createdAt: string;
 }
 
 /*-------------------------------
@@ -756,7 +781,7 @@ OTHERS
 -------------------------------*/
 
 export type TestimonialType = {
-    userId:string
+    userId: string
     text: string;
     rating: number;
     createdAt: string;

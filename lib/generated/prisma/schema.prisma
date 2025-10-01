@@ -962,6 +962,30 @@ model NewsletterSubscription {
   confirmed Boolean  @default(false) // si tu veux faire du double opt-in
 }
 
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  status    String   @default("open") // open, answered, closed
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String?
+
+  replies ContactReply[]
+}
+
+model ContactReply {
+  id               String         @id @default(cuid())
+  contactMessageId String
+  contactMessage   ContactMessage @relation(fields: [contactMessageId], references: [id])
+  adminId          String? // si un admin répond
+  response         String
+  createdAt        DateTime       @default(now())
+}
+
 // model Certificate {
 //   id          String   @id @default(uuid())
 //   name        String

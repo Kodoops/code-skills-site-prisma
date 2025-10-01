@@ -1,8 +1,8 @@
-import { NewsletterSubscription} from "@/lib/db/types";
+import { NewsletterSubscriptionType} from "@/lib/db/types";
 import {prisma} from "@/lib/db/db";
 
 export const getNewsletterList = async ( page: number=1, perPage: number=1 ): Promise<{
-    data: NewsletterSubscription[] | null,
+    data: NewsletterSubscriptionType[] | null,
     totalPages: number,
     currentPage: number,
     perPage: number,

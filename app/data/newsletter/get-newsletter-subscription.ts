@@ -1,7 +1,7 @@
-import {NewsletterSubscription} from "@/lib/db/types";
+import {NewsletterSubscriptionType} from "@/lib/db/types";
 import {prisma} from "@/lib/db/db";
 
-export const getNewsletterSubscription = async (email: string): Promise<NewsletterSubscription | null> => {
+export const getNewsletterSubscription = async (email: string): Promise<NewsletterSubscriptionType | null> => {
 
     const item = await prisma.newsletterSubscription.findUnique({
         where: {

@@ -223,6 +223,14 @@ export const newsletterSchema = z.object({
     confirmed:z.boolean().optional(),
 });
 
+export const contactMessageSchema = z.object({
+    name: z.string().min(2, "Le nom doit contenir au moins 2 caractères"),
+    email: z.string().email("Email invalide"),
+    subject: z.string().min(3, "Sujet trop court"),
+    message: z.string().min(10, "Le message doit contenir au moins 10 caractères"),
+    userId:z.string().optional(),
+});
+
 
 export type LearningPathSchema = z.infer<typeof learningPathSchema>
 export type LearningPathItemSchema = z.infer<typeof learningPathItemSchema>
@@ -248,3 +256,4 @@ export type AttachQuizFormToCourse = z.infer<typeof attachQuizFormToCourse>
 export type TestimonialFormSchema = z.infer<typeof testimonialFormSchema>
 export type PageLinkSchema = z.infer<typeof pageLinkSchema>
 export type NewsletterSchema = z.infer<typeof newsletterSchema>
+export type ContactMessageSchema = z.infer<typeof contactMessageSchema>

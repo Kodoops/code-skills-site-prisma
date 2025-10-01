@@ -15,3 +15,4 @@ export const CATEGORIES_PER_PAGE = 16;
 export const TAGS_PER_PAGE = 36;
 export const FEATURES_PER_PAGE = 12;
 export const QUIZ_PER_PAGE = 12;
+export const NEWSLETTER_PER_PAGE = 20;

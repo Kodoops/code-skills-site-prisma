@@ -1,16 +1,19 @@
 import React from 'react';
-import {Card} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
+import { getStats } from "@/app/data/get-stats";
 
-const Stats = () => {
+const Stats = async () => {
+    const { courses, lessons, quizzes } = await getStats();
+
     return (
         <div className="mt-10 grid w-full max-w-4xl grid-cols-2 gap-4 sm:grid-cols-4">
             {[
-                {k: "+120", v: "Leçons vidéos"},
-                {k: "+30", v: "Formations"},
-                {k: "100%", v: "Pratique"},
-                {k: "FR/AR", v: "Langues"},
+                { k: `+ ${lessons}`, v: "Leçons vidéos" },
+                { k: `+ ${courses}`, v: "Formations" },
+                { k: `+ ${quizzes}`, v: "Exercices / Quiz" },
+                { k: "100%", v: "Pratique" },
             ].map((s) => (
-                <Card key={s.v} className="">
+                <Card key={s.v}>
                     <div className="text-2xl font-extrabold">{s.k}</div>
                     <div className="text-xs text-muted-foreground">{s.v}</div>
                 </Card>

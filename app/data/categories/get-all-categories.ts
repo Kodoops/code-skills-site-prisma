@@ -83,3 +83,36 @@ export async function getPaginatedCategories(current: number = 1, nbrPage: numbe
         totalPages: Math.ceil(total / nbrPage),
     };
 }
+
+export async function getRandomCategories(limit: number = 6): Promise< string[]> {
+
+    // 1. Récupérer tous les IDs
+    const allIds = await prisma.category.findMany({
+        select: { id: true },
+    });
+
+    if (allIds.length === 0) return [];
+
+    // 2. Mélanger et prendre "limit"
+    const shuffled = allIds.sort(() => 0.5 - Math.random()).slice(0, limit);
+    const selectedIds = shuffled.map((c) => c.id);
+
+    // 3. Récupérer les catégories correspondantes
+    const data = await prisma.category.findMany({
+        where: { id: { in: selectedIds } },
+        select: {
+            id: true,
+            title: true,
+            // slug: true,
+            // desc: true,
+            // color: true,
+            // iconName: true,
+            // iconLib: true,
+            // createdAt: true,
+            // updatedAt: true,
+        },
+    });
+
+    // 4. Formatter
+    return data.map(item => (item.title))
+}

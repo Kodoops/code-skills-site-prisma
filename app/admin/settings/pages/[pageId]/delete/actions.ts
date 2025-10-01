@@ -17,7 +17,7 @@ const aj = arcjet
         })
     );
 
-export async function deleteDomain(domainId: string) :Promise<ApiResponseType>{
+export async function deletePage(pageId: string) :Promise<ApiResponseType>{
 
     const session = await requireAdmin();
 
@@ -39,23 +39,23 @@ export async function deleteDomain(domainId: string) :Promise<ApiResponseType>{
             }
         }
 
-        await prisma.domain.delete({
+        await prisma.page.delete({
             where: {
-                id: domainId
+                id: pageId
             },
         })
 
-        revalidatePath(`/admin/domains`)
+        revalidatePath(`/admin/settings/pages`)
 
         return{
             status: "success",
-            message: "Domain deleted successfully"
+            message: "Page deleted successfully"
         }
     }catch(e) {
         console.log(e)
         return{
             status: "error",
-            message: "Failed to delete domain"
+            message: "Failed to delete page"
         }
     }
 

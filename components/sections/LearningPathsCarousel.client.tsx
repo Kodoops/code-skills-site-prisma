@@ -21,8 +21,8 @@ export default function LearningPathsCarouselClient({
             items={items}
             perPage={perPage}
             grid={{ baseCols: 1, smCols: 1, lgCols: 2 }}
-            itemKey={(c) => c.title}
-            renderItem={(c) => (
+            itemKey={(c) => c.id}
+            renderItem={(c, index) => (
 
                 <LearningPathSimpleCard data={c} isEnrolled={alreadyEnrolled.includes(c.id)} />
             )}

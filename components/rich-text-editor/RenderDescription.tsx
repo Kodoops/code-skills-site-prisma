@@ -6,6 +6,7 @@ import {JSONContent} from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
 import parse from "html-react-parser";
+import {cn} from "@/lib/utils";
 
 export function RenderDescription ({json}:{json:JSONContent})  {
 
@@ -14,7 +15,7 @@ export function RenderDescription ({json}:{json:JSONContent})  {
     }, [json]);
 
     return (
-        <div className={"prose  dark:prose-invert prose-li:marker:text-primary"}>
+        <div className={cn("prose  dark:prose-invert prose-li:marker:text-primary max-w-none w-full")}>
             {parse(outPut)}
         </div>
     );

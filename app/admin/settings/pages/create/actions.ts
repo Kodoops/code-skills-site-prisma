@@ -1,6 +1,6 @@
 "use server";
 
-import {SocialLinkSchema, socialLinkSchema} from "@/lib/db/zodSchemas";
+import {pageLinkSchema, PageLinkSchema} from "@/lib/db/zodSchemas";
 import {prisma} from "@/lib/db/db";
 import {ApiResponseType} from "@/lib/db/types";
 import {requireAdmin} from "@/app/data/admin/require-admin";
@@ -17,7 +17,7 @@ const aj = arcjet
         })
     );
 
-export async function createSocialNetwork(values: SocialLinkSchema): Promise<ApiResponseType> {
+export async function createPageLink(values: PageLinkSchema): Promise<ApiResponseType> {
 
     const session = await requireAdmin();
 
@@ -39,7 +39,7 @@ export async function createSocialNetwork(values: SocialLinkSchema): Promise<Api
             }
         }
 
-        const validation = socialLinkSchema.safeParse(values);
+        const validation = pageLinkSchema.safeParse(values);
         if (!validation.success) {
             return {
                 status: "error",
@@ -47,23 +47,26 @@ export async function createSocialNetwork(values: SocialLinkSchema): Promise<Api
             };
         }
 
-        const social = await prisma.socialLink.findFirst({
-            where:{
-                name: validation.data.name,
+        const page = await prisma.page.findFirst({
+            where: {
+                OR: [
+                    { slug: validation.data.slug },
+                    { title: validation.data.title },
+                ],
             },
             select:{
                 id:true
             }
         })
 
-        if(social){
+        if(page){
             return {
                 status: "error",
-                message: "Social network already exists"
+                message: "Page  already exists"
             }
         }
 
-        await prisma.socialLink.create({
+        await prisma.page.create({
             data: {
                 ...validation.data,
             },
@@ -72,12 +75,12 @@ export async function createSocialNetwork(values: SocialLinkSchema): Promise<Api
 
         return {
             status: "success",
-            message: "Social Network created successfully"
+            message: "Page created successfully"
         }
     } catch {
         return {
             status: "error",
-            message: "Failed to create social network"
+            message: "Failed to create page"
         };
     }
 

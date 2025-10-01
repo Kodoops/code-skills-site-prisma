@@ -153,23 +153,6 @@ export function LearningPathSkeletonSimpleCard() {
                 <Skeleton className="w-32 h-6 bg-muted-foreground/10"/>
             </div>
 
-            {/*<Skeleton className="w-1/2 h-10 bg-muted-foreground/10"/>*/}
-            {/*<div className="grid grid-cols-1 md:grid-cols-2 gap-4">*/}
-            {/*    <Skeleton className="max-w-full max-h-24 object-cover rounded-lg aspect-video bg-muted-foreground/10"/>*/}
-            {/*    <Skeleton className="max-w-full max-h-24 object-cover rounded-lg aspect-video bg-muted-foreground/10"/>*/}
-            {/*</div>*/}
-
-            {/*<Skeleton className="w-1/2 h-10 bg-muted-foreground/10"/>*/}
-            {/*<div className="grid grid-cols-1 md:grid-cols-2 gap-4">*/}
-            {/*    <Skeleton className="max-w-full max-h-24 object-cover rounded-lg aspect-video bg-muted-foreground/10"/>*/}
-            {/*    <Skeleton className="max-w-full max-h-24 object-cover rounded-lg aspect-video bg-muted-foreground/10"/>*/}
-            {/*</div>*/}
-            {/*<div className="">*/}
-            {/*    <Skeleton className="w-3/4 h-10 bg-muted-foreground/10"/>*/}
-            {/*    <Skeleton className="w-1/2 h-6 bg-muted-foreground/10"/>*/}
-            {/*    <Skeleton className="w-1/4 h-6 bg-muted-foreground/10"/>*/}
-            {/*    <Skeleton className="w-3/4 h-6 bg-muted-foreground/10"/>*/}
-            {/*</div>*/}
             <Skeleton className="w-full h-10 bg-muted-foreground/10"/>
         </Card>
     )

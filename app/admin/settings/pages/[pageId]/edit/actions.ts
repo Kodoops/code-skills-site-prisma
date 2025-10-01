@@ -17,7 +17,7 @@ const aj = arcjet
         })
     );
 
-export async function createPageLink(values: PageLinkSchema): Promise<ApiResponseType> {
+export async function updatePageLink(values: PageLinkSchema, id:string): Promise<ApiResponseType> {
 
     const session = await requireAdmin();
 
@@ -47,40 +47,35 @@ export async function createPageLink(values: PageLinkSchema): Promise<ApiRespons
             };
         }
 
-        const page = await prisma.page.findFirst({
+        const page = await prisma.page.findUnique({
             where: {
-                OR: [
-                    { slug: validation.data.slug },
-                    { title: validation.data.title },
-                ],
-            },
-            select:{
-                id:true
+                id: id
             }
         })
-
-        if(page){
+        if(!page){
             return {
                 status: "error",
-                message: "Page  already exists"
+                message: "Page not found"
             }
         }
 
-        await prisma.page.create({
-            data: {
-                ...validation.data,
+        await prisma.page.update({
+            where: {
+                id: id
             },
-
-        });
+            data:{
+                ...validation.data,
+            }
+        })
 
         return {
             status: "success",
-            message: "Page created successfully"
+            message: "Page updated successfully"
         }
     } catch {
         return {
             status: "error",
-            message: "Failed to create page"
+            message: "Failed to update page"
         };
     }
 

@@ -847,6 +847,16 @@ model CompanySocialLink {
   @@unique([companyId, socialLinkId], map: "uq_company_socialLink")
 }
 
+model Page {
+  id        String   @id @default(cuid())
+  title     String   @unique
+  slug      String   @unique
+  content   String
+  type      String //PageTypeEnum =>  Footer , Page , etc ...
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 // NEXT STEPS
 //------------------------------
 
@@ -933,6 +943,24 @@ model QuizResult {
 //   quizId String
 //   quiz   Quiz   @relation(fields: [quizId], references: [id])
 // }
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  rating    Int
+  text      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model NewsletterSubscription {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  confirmed Boolean  @default(false) // si tu veux faire du double opt-in
+}
 
 // model Certificate {
 //   id          String   @id @default(uuid())

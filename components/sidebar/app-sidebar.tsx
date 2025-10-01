@@ -34,7 +34,7 @@ import {
   GroupIcon,
   RouteIcon,
   TrafficConeIcon,
-  ToolCaseIcon, BookOpenCheck
+  ToolCaseIcon, BookOpenCheck, Newspaper
 } from "lucide-react";
 import {NavCS} from "@/components/sidebar/nav-cs";
 
@@ -117,6 +117,11 @@ const data = {
       url: "/admin/settings",
       icon: IconSettings,
     },
+    {
+      title: "Newsletter",
+      url: "/admin/newsletter",
+      icon: Newspaper,
+    }
   ],
 }
 

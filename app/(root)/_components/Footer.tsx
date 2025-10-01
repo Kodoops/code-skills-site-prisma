@@ -6,10 +6,12 @@ import NavContent from "@/app/(root)/_components/NavContent";
 import AppLogoText from "@/components/custom-ui/AppLogoText";
 import {getCompanySocialLinks} from "@/app/data/get-company-social-links";
 import {CompanySocialLinks} from "@/app/(root)/_components/CompanySocialLinks";
+import {getPageLinks} from '@/app/data/get-page-links';
 
 const Footer = async () => {
 
     const socials = await getCompanySocialLinks();
+    const links = await getPageLinks("Footer");
 
     return (
         <footer className="border-t border-border py-10">
@@ -39,9 +41,10 @@ const Footer = async () => {
                             </nav>
                         </div>
                         <div className="flex-1">
-                            <h2 className={"text-lg  text-right mb-4 font-semibold text-muted-foreground"}>Restez connecté avec
+                            <h2 className={"text-lg  text-right mb-4 font-semibold text-muted-foreground"}>Restez
+                                connecté avec
                                 nous !</h2>
-                            <CompanySocialLinks links={socials }/>
+                            <CompanySocialLinks links={socials}/>
                         </div>
                     </div>
                 </div>
@@ -50,9 +53,9 @@ const Footer = async () => {
                 <nav className="flex  flex-wrap items-center justify-center gap-4 text-xs  text-muted-foreground/70">
                     <p className="mt-1 text-xs ">© {new Date().getFullYear()} Code&Skills — Tous droits
                         réservés.</p>
-                    <Link href="/" className="hover:text-primary">CGU / CGC</Link>
-                    <Link href="/" className="hover:text-primary">Mentions - légales</Link>
-                    <Link href="/" className="hover:text-primary">Confidentialité</Link>
+                    {links?.map((link, index) => (
+                        <Link key={link.id} href={`/pages/${link.slug}`} className="hover:text-primary">{link.title}</Link>
+                    ))}
                 </nav>
             </Section>
         </footer>

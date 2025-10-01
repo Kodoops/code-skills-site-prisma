@@ -730,17 +730,48 @@ export type CompanySocialLinkType = {
     socialLink?: SocialLinkType;
 }
 
+export const  pageLinksTypes = ["Footer", "Page"];
+
+export type PageType = {
+    id: string;
+    title: string;
+    slug: string;
+    content: string;
+    type:string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export type NewsletterSubscription = {
+    id : string;
+    email : string;
+    name? : string;
+    createdAt: string;
+    updatedAt: string;
+    confirmed: boolean;
+}
+
 /*-------------------------------
 OTHERS
 -------------------------------*/
 
 export type TestimonialType = {
-    name: string;
-    role: string;
+    userId:string
     text: string;
-    rating?: number;
-    avatar?: string;
+    rating: number;
+    createdAt: string;
+    updatedAt: string;
 };
+
+export type TestimonialWithUserType = TestimonialType & {
+    user: {
+        id: string;
+        name: string | null;
+        email: string | null;
+        image?: string | null;
+    };
+};
+
 
 export const colorClasses: Record<string, { bg: string; text: string }> = {
     primary: {bg: "bg-primary/10", text: "text-primary"},

@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db/db";
+import {redirect} from "next/navigation";
 
 export async function getCompanySocialLinks() {
 
@@ -8,7 +9,7 @@ export async function getCompanySocialLinks() {
         }
     });
 
-    if(!company) return null;
+    if(!company) return redirect('/admin/company-infos');
 
     const links = await prisma.company.findUnique({
         where: { id: company?.id },

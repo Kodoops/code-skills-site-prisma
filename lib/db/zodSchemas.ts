@@ -204,6 +204,24 @@ export const objectiveRequisiteSchema = z.object({
     content: z.string().min(3, "Veuillez saisir au moins 3 caractères."),
 });
 
+export const testimonialFormSchema = z.object({
+    rating: z.number().min(1).max(5),
+    text: z.string().min(3, "Veuillez saisir au moins (3) caractères."),
+});
+
+export const pageLinkSchema = z.object({
+    title: z.string().min(3, "Veuillez saisir au moins (3) caractères."),
+    slug: z.string().min(3, "Veuillez saisir au moins (3) caractères."),
+    content: z.string().min(3, "Veuillez saisir au moins (3) caractères."),
+    type: z.string().min(1, "Veuillez saisir au moins (3) caractères."),
+
+});
+
+export const newsletterSchema = z.object({
+    email: z.string().email("Adresse email invalide"),
+    name:z.string().optional(),
+    confirmed:z.boolean().optional(),
+});
 
 
 export type LearningPathSchema = z.infer<typeof learningPathSchema>
@@ -227,3 +245,6 @@ export type QuizSchema = z.infer<typeof quizSchema>
 export type QuizQuestionSchema = z.infer<typeof quizQuestionSchema>
 export type QuizOptionSchema = z.infer<typeof quizOptionSchema>
 export type AttachQuizFormToCourse = z.infer<typeof attachQuizFormToCourse>
+export type TestimonialFormSchema = z.infer<typeof testimonialFormSchema>
+export type PageLinkSchema = z.infer<typeof pageLinkSchema>
+export type NewsletterSchema = z.infer<typeof newsletterSchema>

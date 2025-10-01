@@ -2,8 +2,6 @@ import {SectionCards} from "@/components/sidebar/section-cards"
 
 
 import React, {Suspense} from "react";
-import Link from "next/link";
-import {buttonVariants} from "@/components/ui/button";
 import {adminGetRecentCourses} from "@/app/data/admin/admin-get-recent-courses";
 import EmptyState from "@/components/general/EmptyState";
 import AdminCourseCard, {AdminCourseCardSkeleton} from "@/app/admin/courses/_components/AdminCourseCard";

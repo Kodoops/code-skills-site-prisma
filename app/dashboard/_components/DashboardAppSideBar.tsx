@@ -23,7 +23,7 @@ import {
 import Link from "next/link"
 import AppLogoShape from "@/components/custom-ui/AppLogoShape";
 import AppLogoText from "@/components/custom-ui/AppLogoText";
-import { RouteIcon,ToolCaseIcon, TrafficConeIcon} from "lucide-react";
+import {MessageSquareMoreIcon, NewspaperIcon, RouteIcon, ToolCaseIcon, TrafficConeIcon} from "lucide-react";
 import {NavAccount} from "@/components/sidebar/nav-account";
 import {Separator} from "@/components/ui/separator";
 
@@ -67,7 +67,7 @@ const data = {
     navSecondary: [
         {
             title: "Settings",
-            url: "#",
+            url: "/dashboard/settings",
             icon: IconSettings,
         },
         {
@@ -76,8 +76,18 @@ const data = {
             icon: IconHelp,
         },
         {
-            title: "Search",
-            url: "#",
+            title: "My Testimonial",
+            url: "/dashboard/my-testimonial",
+            icon: MessageSquareMoreIcon,
+        },
+        {
+            title: "Newsletter",
+            url: "/dashboard/my-newsletter",
+            icon: NewspaperIcon,
+        },
+        {
+            title: "/Search",
+            url: "/dashboard/Search",
             icon: IconSearch,
         },
     ],

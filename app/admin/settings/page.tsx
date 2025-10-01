@@ -1,7 +1,7 @@
 import React, {Suspense} from 'react';
 import {Skeleton} from "@/components/ui/skeleton";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
-import {ArrowRightIcon, Cable} from "lucide-react";
+import {ArrowRightIcon, Cable, FileText} from "lucide-react";
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import {buttonVariants} from "@/components/ui/button";
@@ -17,9 +17,15 @@ const SettingsPage = () => {
                     All site settings
                 </p>
             </div>
-            <Suspense fallback={<AdminSettingsSkeleton/>}>
-                <RenderAdminSettings/>
-            </Suspense>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <Suspense fallback={<AdminSettingsSkeleton/>}>
+                  <RenderAdminSettings/>
+              </Suspense>
+
+              <Suspense fallback={<AdminSettingsSkeleton/>}>
+                  <RenderAdminPages/>
+              </Suspense>
+          </div>
         </>
     );
 };
@@ -30,7 +36,6 @@ export default SettingsPage;
 async function RenderAdminSettings() {
 
     return (
-        <div className={"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"}>
             <Card>
                 <CardHeader className="space-y-2 text-center">
                     <Cable className="w-6 h-6 mx-auto"/>
@@ -48,7 +53,6 @@ async function RenderAdminSettings() {
                     </Link>
                 </CardContent>
             </Card>
-        </div>
     )
 }
 
@@ -73,5 +77,28 @@ function AdminSettingsSkeleton() {
                 </Card>
             ))}
         </div>
+    )
+}
+
+async function RenderAdminPages() {
+
+    return (
+        <Card>
+            <CardHeader className="space-y-2 text-center">
+                <FileText className="w-6 h-6 mx-auto"/>
+                <CardTitle>
+                    <p>App Pages</p>
+                </CardTitle>
+                <CardDescription>
+                    manage application pages & links here.
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <Link href="/admin/settings/pages"
+                      className={cn(buttonVariants({className: "w-full"}))}>
+                    Manage App Pages <ArrowRightIcon className={"mr-1 size-4"}/>
+                </Link>
+            </CardContent>
+        </Card>
     )
 }

@@ -4,7 +4,6 @@ import SectionTitle from "@/components/sections/SectionTitle";
 import Section from "@/components/sections/Section";
 import React, {Suspense} from "react";
 import FeaturedCarouselClient from "@/components/sections/FeaturedCarousel.client";
-import { TestimonialType} from "@/lib/db/types";
 import SectionHeader from "@/components/sections/SectionHeader";
 import CategoriesCarouselClient from "@/components/sections/CategoriesCarousel.client";
 import CoursesCarouselClient from "@/components/sections/CoursesCarousel.client";
@@ -12,7 +11,7 @@ import TestimonialCarouselClient from "@/components/sections/TestimonialCarousel
 import BannerPartner from "@/components/sections/BannerPartner";
 import NewsLetterForm from "@/components/sections/NewsLetterForm";
 import {getFeaturedCourses} from "@/app/data/courses/get-featured-courses";
-import {getAllCategories} from "@/app/data/categories/get-all-categories";
+import {getAllCategories, getRandomCategories} from "@/app/data/categories/get-all-categories";
 import {CategoryCardSkeleton} from "@/app/(root)/_components/CategoryCard";
 import AppHero from "@/app/(root)/_components/AppHero";
 import AppLogoText from "@/components/custom-ui/AppLogoText";
@@ -24,29 +23,10 @@ import {getFeaturedLearningPaths} from "@/app/data/learning-path/get-featured-le
 import {getAllEnrolledLearningPathsByUser} from "@/app/data/user/get-enrolled-learning-paths";
 import LearningPathsCarouselClient from "@/components/sections/LearningPathsCarousel.client";
 import {LearningPathSkeletonSimpleCard} from "@/app/(root)/_components/LearningPathSimpleCard";
-
-const TESTIMONIALS: TestimonialType[] = [
-    {
-        name: "Nadia K.", role: "Développeuse frontend", rating: 5,
-        text: "Les parcours sont super bien structurés, j’ai pu passer de débutante à opérationnelle rapidement !"
-    },
-    {
-        name: "Yacine B.", role: "Ingénieur DevOps", rating: 4,
-        text: "Les exercices pratiques et la CI/CD m’ont permis d’automatiser mes projets perso concrètement."
-    },
-    {
-        name: "Sofia M.", role: "Étudiante", rating: 5,
-        text: "Les explications sont claires et motivantes. J’adore le suivi de progression et les badges."
-    },
-    {
-        name: "Yacine B.", role: "Ingénieur DevOps", rating: 4,
-        text: "Les exercices pratiques et la CI/CD m’ont permis d’automatiser mes projets perso concrètement."
-    },
-    {
-        name: "Sofia M.", role: "Étudiante", rating: 5,
-        text: "Les explications sont claires et motivantes. J’adore le suivi de progression et les badges."
-    }
-];
+import {getAllTestimonials} from "../data/testimonials/get-all-testimonials";
+import {TestimonialCardSkeleton} from "@/app/(root)/_components/TestimonialCard";
+import {Card} from "@/components/ui/card";
+import {Skeleton} from "@/components/ui/skeleton";
 
 
 export default async function Home() {
@@ -54,6 +34,7 @@ export default async function Home() {
     return (
         <>
             <AppHero/>
+
 
             {/* CATEGORIES*/}
             <Section className="py-12">
@@ -72,7 +53,7 @@ export default async function Home() {
             <Section className="py-12">
                 <SectionHeader
                     title={"Formations mises en avant"}
-                    btnList={[ "Débutant", "Intermédiaire", "Avancé", "Expert"]}
+                    btnList={["Débutant", "Intermédiaire", "Avancé", "Expert"]}
                     btnListHref={"/courses"}
                     btnLink={"/courses"}
                 />
@@ -113,6 +94,17 @@ export default async function Home() {
                 </Suspense>
             </Section>
 
+
+            {/* PARTNERS / PROMO */}
+            <Section className="py-12">
+
+                <Suspense fallback={<BannerPartnerLoadingSkeletonLayout/>}>
+                    <RenderBannerPartner/>
+                </Suspense>
+
+            </Section>
+
+
             {/* TESTIMONIALS id="testimonials"*/}
             <Section className="py-12">
                 <SectionTitle
@@ -120,33 +112,10 @@ export default async function Home() {
                     subTitle={"Des retours concrets d’apprenants et de pros."}
                 >
                 </SectionTitle>
-                <TestimonialCarouselClient items={TESTIMONIALS}/>
-            </Section>
 
-            {/* PARTNERS / PROMO */}
-            <Section className="py-12">
-                <BannerPartner title={"-30% sur l’abonnement annuel"}
-                               subTitle={"Offre de lancement limitée. Accès illimité aux parcours et nouvelles formations."}
-                               buttons={<>
-
-                                   <Button asChild variant={"secondary"}
-                                           className=" p-6 text-sm font-semibold backdrop-blur transition">
-                                       <Link href={"/signup"}>S’abonner</Link>
-                                   </Button>
-                                   <Button
-                                       asChild
-                                       className="rounded-xl text-white bg-white/20 p-6 text-sm font-semibold backdrop-blur transition hover:bg-white/30">
-                                       <Link href={"/catalogue"}>Voir le catalogue</Link>
-                                   </Button>
-                               </>}
-                >
-                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                        {["AWS", "Stripe", "GitHub", "Docker", "Vercel", "PostgreSQL"].map((p) => (
-                            <div key={p}
-                                 className="flex h-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white/80">{p}</div>
-                        ))}
-                    </div>
-                </BannerPartner>
+                <Suspense fallback={<TestimonialsLoadingSkeletonLayout/>}>
+                    <RenderTestimonials/>
+                </Suspense>
             </Section>
 
             {/* NEWSLETTER id="newsletter"*/}
@@ -170,7 +139,7 @@ async function RenderCourses() {
 
     const data = await getFeaturedCourses();
 
-    const enrolledByUser  = await getAllEnrolledCoursesByUser();
+    const enrolledByUser = await getAllEnrolledCoursesByUser();
 
     const enrolledCourseIds = enrolledByUser.map(enrollment => enrollment?.course?.id);
 
@@ -188,7 +157,7 @@ async function RenderCourses() {
     });
 
     return (
-        <CoursesCarouselClient items={cleaned} perPage={6} alreadyEnrolled = {alreadyEnrolled}/>
+        <CoursesCarouselClient items={cleaned} perPage={6} alreadyEnrolled={alreadyEnrolled}/>
     );
 }
 
@@ -208,7 +177,7 @@ async function RenderLearningPaths() {
 
     const data = await getFeaturedLearningPaths();
 
-    const enrolledByUser  = await getAllEnrolledLearningPathsByUser();
+    const enrolledByUser = await getAllEnrolledLearningPathsByUser();
 
     const enrolledCourseIds = enrolledByUser.map(enrollment => enrollment?.learningPath?.id);
 
@@ -226,7 +195,7 @@ async function RenderLearningPaths() {
     });
 
     return (
-        <LearningPathsCarouselClient items={cleaned} perPage={2} alreadyEnrolled = {alreadyEnrolled}/>
+        <LearningPathsCarouselClient items={cleaned} perPage={2} alreadyEnrolled={alreadyEnrolled}/>
     );
 }
 
@@ -275,5 +244,77 @@ function FeaturesLoadingSkeletonLayout() {
                 <FeatureCardSkeleton key={index}/>
             ))}
         </div>
+    )
+}
+
+async function RenderTestimonials() {
+    const {data, totalPages, perPage, page, total} = await getAllTestimonials(1, 9)
+    return (
+        <TestimonialCarouselClient items={data}/>
+    )
+}
+
+function TestimonialsLoadingSkeletonLayout() {
+    return (
+        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Array.from({length: 3}).map((_, index) => (
+                <TestimonialCardSkeleton key={index}/>
+            ))}
+        </div>
+    )
+}
+
+
+async function RenderBannerPartner() {
+
+    const randomCategories = await getRandomCategories();
+
+    return (
+        <BannerPartner title={"-30% sur l’abonnement annuel"}
+                       subTitle={"Offre de lancement limitée. Accès illimité aux parcours et nouvelles formations."}
+                       buttons={<>
+
+                           <Button asChild variant={"secondary"}
+                                   className=" p-6 text-sm font-semibold backdrop-blur transition">
+                               <Link href={"/subscribe"}>S’abonner</Link>
+                           </Button>
+                           <Button
+                               asChild
+                               className="rounded-xl text-white bg-white/20 p-6 text-sm font-semibold backdrop-blur transition hover:bg-white/30">
+                               <Link href={"/courses"}>Voir le catalogue</Link>
+                           </Button>
+                       </>}
+        >
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {randomCategories.map((p) => (
+                    <div key={p}
+                         className="flex h-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white/80">{p}</div>
+                ))}
+            </div>
+        </BannerPartner>
+    )
+}
+
+
+function BannerPartnerLoadingSkeletonLayout() {
+    return (
+        <Card className=" overflow-hidden rounded-3xl border border-white/10 p-6 ring-1 ring-white/10">
+            <div className="absolute inset-0 opacity-70 bg-muted-foreground/5"/>
+            <div className={` flex  justify-between space-y-1 `}>
+                <div className={`flex flex-col  justify-center space-y-1 flex-1`}>
+                    <Skeleton className="h-8 w-4/5 bg-muted-foreground/10"/>
+                    <Skeleton className="h-4 w-7/8 bg-muted-foreground/10"/>
+                    <div className="mt-4 flex gap-3">
+                        <Skeleton className="h-14 w-32 bg-muted-foreground/10"/>
+                        <Skeleton className="h-14 w-32 bg-muted-foreground/10"/>
+                    </div>
+                </div>
+                <div className=" flex-1 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                    {Array.from({length: 6}).map((_, index) => (
+                        <Skeleton className="h-14 w-32 bg-muted-foreground/10" key={index}/>
+                    ))}
+                </div>
+            </div>
+        </Card>
     )
 }

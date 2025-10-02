@@ -34,7 +34,7 @@ import {
   GroupIcon,
   RouteIcon,
   TrafficConeIcon,
-  ToolCaseIcon, BookOpenCheck, Newspaper
+  ToolCaseIcon, BookOpenCheck, Newspaper, Mails
 } from "lucide-react";
 import {NavCS} from "@/components/sidebar/nav-cs";
 
@@ -113,15 +113,20 @@ const data = {
   ],
   navSecondary: [
     {
-      title: "Settings",
-      url: "/admin/settings",
-      icon: IconSettings,
+      title: "Messages",
+      url: "/admin/messages",
+      icon: Mails,
     },
     {
       title: "Newsletter",
       url: "/admin/newsletter",
       icon: Newspaper,
-    }
+    },
+    {
+      title: "Settings",
+      url: "/admin/settings",
+      icon: IconSettings,
+    },
   ],
 }
 

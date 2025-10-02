@@ -793,7 +793,7 @@ model LearningPathPrerequisite {
 // -----------------------------------
 
 model Feature {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   title     String   @unique(map: "uq_feature_title")
   desc      String
   color     String?
@@ -822,7 +822,7 @@ model Company {
 }
 
 model SocialLink {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   name      String
   // url       String
   iconLib   String // ex: "lucide", "si", "fa", "tabler"
@@ -834,7 +834,7 @@ model SocialLink {
 }
 
 model CompanySocialLink {
-  id           String   @id @default(cuid())
+  id           String   @id @default(uuid())
   companyId    String
   socialLinkId String
   url          String // Lien spécifique de l'entreprise vers ce réseau social
@@ -848,7 +848,7 @@ model CompanySocialLink {
 }
 
 model Page {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   title     String   @unique
   slug      String   @unique
   content   String
@@ -945,7 +945,7 @@ model QuizResult {
 // }
 
 model Testimonial {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   userId    String   @unique
   rating    Int
   text      String
@@ -954,7 +954,7 @@ model Testimonial {
 }
 
 model NewsletterSubscription {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   email     String   @unique
   name      String?
   createdAt DateTime @default(now())
@@ -963,7 +963,7 @@ model NewsletterSubscription {
 }
 
 model ContactMessage {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   name      String
   email     String
   subject   String
@@ -978,9 +978,9 @@ model ContactMessage {
 }
 
 model ContactReply {
-  id               String         @id @default(cuid())
+  id               String         @id @default(uuid())
   contactMessageId String
-  contactMessage   ContactMessage @relation(fields: [contactMessageId], references: [id])
+  contactMessage   ContactMessage @relation(fields: [contactMessageId], references: [id], onDelete: Cascade)
   adminId          String? // si un admin répond
   response         String
   createdAt        DateTime       @default(now())

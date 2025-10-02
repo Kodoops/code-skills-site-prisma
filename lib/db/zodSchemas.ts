@@ -231,6 +231,12 @@ export const contactMessageSchema = z.object({
     userId:z.string().optional(),
 });
 
+export const replyContactMessageSchema = z.object({
+    response: z.string().min(2, "Le message doit contenir au moins 2 caractères"),
+    adminId:z.string().optional(),
+    contactMessageId:z.string().min(1, {message:'Contact Message Id is required'}),
+});
+
 
 export type LearningPathSchema = z.infer<typeof learningPathSchema>
 export type LearningPathItemSchema = z.infer<typeof learningPathItemSchema>
@@ -257,3 +263,4 @@ export type TestimonialFormSchema = z.infer<typeof testimonialFormSchema>
 export type PageLinkSchema = z.infer<typeof pageLinkSchema>
 export type NewsletterSchema = z.infer<typeof newsletterSchema>
 export type ContactMessageSchema = z.infer<typeof contactMessageSchema>
+export type ReplyContactMessageSchema = z.infer<typeof replyContactMessageSchema>

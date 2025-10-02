@@ -23,7 +23,7 @@ import {
 import Link from "next/link"
 import AppLogoShape from "@/components/custom-ui/AppLogoShape";
 import AppLogoText from "@/components/custom-ui/AppLogoText";
-import {MessageSquareMoreIcon, NewspaperIcon, RouteIcon, ToolCaseIcon, TrafficConeIcon} from "lucide-react";
+import {Mails, MessageSquareMoreIcon, NewspaperIcon, RouteIcon, ToolCaseIcon, TrafficConeIcon} from "lucide-react";
 import {NavAccount} from "@/components/sidebar/nav-account";
 import {Separator} from "@/components/ui/separator";
 
@@ -58,6 +58,11 @@ const data = {
 
     ],
     navAccount:[
+        {
+            title: "My Messages",
+            url: "/dashboard/messages",
+            icon: Mails,
+        },
         {
             title: "My Invoices",
             url: "/dashboard/invoices",

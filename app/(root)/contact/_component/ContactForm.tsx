@@ -2,7 +2,6 @@
 
 import React, {useEffect, useTransition} from 'react';
 import {authClient} from "@/lib/providers/auth-client";
-import {useRouter} from "next/navigation";
 import {Resolver, useForm} from "react-hook-form";
 import {contactMessageSchema, ContactMessageSchema} from "@/lib/db/zodSchemas";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -16,11 +15,10 @@ import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/
 import {Loader2, SendIcon} from "lucide-react";
 import {createContactMessage} from "@/app/(root)/contact/action";
 
-const ContactForm = () => {
+const ContactForm = ({ onSuccess }: { onSuccess?: () => void }) => {
     const {data: session} = authClient.useSession();
 
     const [isPending, startTransition] = useTransition();
-    const router = useRouter();
 
     const form = useForm<ContactMessageSchema>({
         resolver: zodResolver(contactMessageSchema) as Resolver<ContactMessageSchema>,
@@ -54,6 +52,7 @@ const ContactForm = () => {
                 });
 
                 form.reset();
+                onSuccess?.(); // 👈 ferme le dialog
             } else {
                 toast.error(result?.message, {
                     style: {

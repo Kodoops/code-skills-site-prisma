@@ -41,7 +41,7 @@ const Pagination = ({ page, totalPages }: PaginationProps) => {
     };
 
     return (
-        <div className="flex flex-wrap justify-center items-center gap-2 mt-12">
+        <div className="flex flex-wrap justify-center items-center gap-2 ">
             <Button
                 onClick={() => goToPage(page - 1)}
                 disabled={page <= 1}

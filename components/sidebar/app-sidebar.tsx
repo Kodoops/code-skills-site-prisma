@@ -34,7 +34,7 @@ import {
   GroupIcon,
   RouteIcon,
   TrafficConeIcon,
-  ToolCaseIcon, BookOpenCheck, Newspaper, Mails
+  ToolCaseIcon, BookOpenCheck, Newspaper, Mails, WalletIcon, CalendarSyncIcon
 } from "lucide-react";
 import {NavCS} from "@/components/sidebar/nav-cs";
 
@@ -111,6 +111,19 @@ const data = {
       icon: SocialLink,
     },
   ],
+  navBilling:[
+    {
+      title: "Plans",
+      url: "/admin/plans",
+      icon: WalletIcon,
+    },
+    {
+      title: "Subscriptions",
+      url: "/admin/subscriptions",
+      icon: CalendarSyncIcon,
+    },
+
+  ],
   navSecondary: [
     {
       title: "Messages",
@@ -164,6 +177,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <Separator className="mt-4"/>
         <span>Organisation</span>
         <NavOrga items={data.navOrga}/>
+        <Separator className="mt-4"/>
+        <span>Subscriptions</span>
+        <NavCS items={data.navBilling}/>
         <Separator className="mt-4"/>
         <span>Code & Skills</span>
         <NavCS items={data.navCS}/>

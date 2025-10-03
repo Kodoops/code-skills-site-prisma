@@ -676,6 +676,43 @@ export type  LearningPathPrerequisiteType = {
 
 }
 
+
+export type SubscriptionPlanType= {
+    id : string;
+    title : string;
+    slug:string;
+    description : string;
+    interval: string;
+    price : number;
+    stripePriceId : string;
+    active  : boolean;
+    currency : string;
+    createdAt: string;
+    updatedAt : string;
+
+    subscriptions : SubscriptionType[]
+
+    selected: boolean ;
+
+    options: string[];
+}
+
+export type SubscriptionType= {
+    id : string;
+    userId: string;
+    user :  UserType ;
+
+    plan :  SubscriptionPlanType
+    planId: string;
+
+    stripeSubId: string; // Id Stripe de la subscription
+    status    : string; //  SubscriptionStatus @default(ACTIVE) ACTIVE | CANCELED | INACTIVE
+    startDate : string;
+    endDate   : string;
+    createdAt  : string;
+    updatedAt   : string;
+}
+
 // -----------------------------------
 // SITE OCNFIG
 // -----------------------------------

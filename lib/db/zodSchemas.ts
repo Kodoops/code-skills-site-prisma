@@ -237,6 +237,17 @@ export const replyContactMessageSchema = z.object({
     contactMessageId:z.string().min(1, {message:'Contact Message Id is required'}),
 });
 
+export const subscriptionPlanSchema = z.object({
+    title: z.string().min(2, "Veuillez saisir au moins (2) caractères."),
+    slug: z.string().min(2, "Veuillez saisir au moins (2) caractères."),
+    description: z.string().min(3, "Veuillez saisir au moins (3) caractères."),
+    interval: z.string().min(2, "Veuillez saisir au moins (2) caractères."),
+    price: z.number("Prix non valide").min(0," 0 Minimum price"),
+    active: z.boolean().optional(),
+    currency:z.string().min(1, {message:'Currency is required'}),
+    selected:z.boolean().optional(),
+});
+
 
 export type LearningPathSchema = z.infer<typeof learningPathSchema>
 export type LearningPathItemSchema = z.infer<typeof learningPathItemSchema>
@@ -264,3 +275,4 @@ export type PageLinkSchema = z.infer<typeof pageLinkSchema>
 export type NewsletterSchema = z.infer<typeof newsletterSchema>
 export type ContactMessageSchema = z.infer<typeof contactMessageSchema>
 export type ReplyContactMessageSchema = z.infer<typeof replyContactMessageSchema>
+export type SubscriptionPlanSchema = z.infer<typeof subscriptionPlanSchema>

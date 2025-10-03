@@ -80,6 +80,17 @@ enum QuestionType {
   TRUE_FALSE
 }
 
+// enum SubscriptionPlan {
+//   MONTHLY
+//   YEARLY
+// }
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELLED
+  EXPIRED
+}
+
 // -----------------------------------
 // ACCOUNT & USER
 // -----------------------------------
@@ -115,7 +126,8 @@ model User {
   quiz          Quiz[]
 
   // Soft delete
-  deletedAt DateTime?
+  deletedAt    DateTime?
+  Subscription Subscription[]
 
   @@unique([email], map: "uq_user_email")
   @@map("user")
@@ -606,6 +618,46 @@ model PromoCode {
 }
 
 // -----------------------------------
+// SUBSCRIPTION
+// -----------------------------------
+
+model SubscriptionPlan {
+  id            String   @id @default(uuid())
+  title         String // ex: Premium Mensuel, Premium Annuel
+  slug          String
+  description   String
+  interval      String // "month" | "year"
+  price         Int // en centimes (1900 = 19€)
+  stripePriceId String? // ID du prix Stripe correspondant
+  active        Boolean  @default(true)
+  currency      String   @default("eur")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  subscriptions Subscription[]
+
+  selected Boolean @default(false)
+
+  options String[]
+}
+
+model Subscription {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  plan   SubscriptionPlan @relation(fields: [planId], references: [id])
+  planId String
+
+  stripeSubId String // Id Stripe de la subscription
+  status      String //  SubscriptionStatus @default(ACTIVE) ACTIVE | CANCELED | INACTIVE
+  startDate   DateTime @default(now())
+  endDate     DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// -----------------------------------
 // PAYMENTS
 // -----------------------------------
 
@@ -943,6 +995,8 @@ model QuizResult {
 //   quizId String
 //   quiz   Quiz   @relation(fields: [quizId], references: [id])
 // }
+
+//  MESSAGES & NEWSLETTERS
 
 model Testimonial {
   id        String   @id @default(uuid())

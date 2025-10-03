@@ -276,7 +276,7 @@ async function RenderBannerPartner() {
 
                            <Button asChild variant={"secondary"}
                                    className=" p-6 text-sm font-semibold backdrop-blur transition">
-                               <Link href={"/subscribe"}>S’abonner</Link>
+                               <Link href={"/subscriptions"}>S’abonner</Link>
                            </Button>
                            <Button
                                asChild

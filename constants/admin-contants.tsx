@@ -7,6 +7,7 @@ export const NBR_MAX_FILE_RESOURCES_TO_UPLOAD = 6;
 export const UPLOADER_FILE_PLACEHOLDER = '/images/upload-placeholder.png'
 
 export const COURSES_PER_PAGE = 4;
+export const PLANS_PER_PAGE = 6;
 export const WORKSHOPS_PER_PAGE = 4;
 export const RESOURCES_PER_PAGE = 8;
 export const LEARNING_PATHS_PER_PAGE = 2;

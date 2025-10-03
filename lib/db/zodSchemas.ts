@@ -248,6 +248,13 @@ export const subscriptionPlanSchema = z.object({
     selected:z.boolean().optional(),
 });
 
+export const contactQuotationSchema = z.object({
+    company: z.string().min(2, "Le nom doit contenir au moins 2 caractères"),
+    email: z.string().email("Email invalide"),
+    employees: z.number().min(5, "au minimum 5 employees ( 0 à 5)"),
+    message: z.string().min(10, "Le message doit contenir au moins 10 caractères"),
+});
+
 
 export type LearningPathSchema = z.infer<typeof learningPathSchema>
 export type LearningPathItemSchema = z.infer<typeof learningPathItemSchema>
@@ -276,3 +283,4 @@ export type NewsletterSchema = z.infer<typeof newsletterSchema>
 export type ContactMessageSchema = z.infer<typeof contactMessageSchema>
 export type ReplyContactMessageSchema = z.infer<typeof replyContactMessageSchema>
 export type SubscriptionPlanSchema = z.infer<typeof subscriptionPlanSchema>
+export type ContactQuotationSchema = z.infer<typeof contactQuotationSchema>

@@ -61,7 +61,7 @@ const SubscriptionPlanCard = ({plan}:AdminPlanCardProps) => {
                         S&apos;inscrire
                     </Link>
                     :
-                    <Link href={`/subscriptions/quotation/${plan.id}`}
+                    <Link href={`/subscriptions/quotation`}
                           className={cn(buttonVariants({className: "btn btn-primary"}))}>
                         Demander un devis
                     </Link>

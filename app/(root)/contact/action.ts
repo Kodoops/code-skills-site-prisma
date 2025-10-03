@@ -1,21 +1,27 @@
 "use server";
 
-import { prisma } from "@/lib/db/db";
-import { ApiResponseType } from "@/lib/db/types";
+import {prisma} from "@/lib/db/db";
+import {ApiResponseType} from "@/lib/db/types";
 import {revalidatePath} from "next/cache";
+import {contactMessageSchema, ContactMessageSchema} from "@/lib/db/zodSchemas";
 
-export async function createContactMessage(data: {
-    name: string;
-    email: string;
-    subject: string;
-    message: string;
-}): Promise<ApiResponseType> {
+
+export async function createContactMessage(data: ContactMessageSchema): Promise<ApiResponseType> {
     try {
+        const validation = contactMessageSchema.safeParse(data);
+        if (!validation.success) {
+            return {
+                status: "error",
+                message: "Invalid form data"
+            };
+        }
 
         // TODO::  Send Message
 
         await prisma.contactMessage.create({
-            data,
+            data: {
+                ...validation.data,
+            }
         });
 
         revalidatePath("/dashboard/messages");
@@ -24,7 +30,8 @@ export async function createContactMessage(data: {
             status: "success",
             message: "Votre message a bien été enregistré ",
         };
-    } catch (e) {
+    } catch
+        (e) {
         console.error(e);
         return {
             status: "error",
@@ -34,7 +41,7 @@ export async function createContactMessage(data: {
 }
 
 
-export async function deleteContactMessage(id:string) {
+export async function deleteContactMessage(id: string) {
     try {
 
         await prisma.contactMessage.delete({
@@ -47,7 +54,7 @@ export async function deleteContactMessage(id:string) {
             status: "success",
             message: "Votre message a bien été supprimé ",
         };
-    }catch (e) {
+    } catch (e) {
         console.log(e)
         return {
             status: "error",
@@ -56,7 +63,7 @@ export async function deleteContactMessage(id:string) {
     }
 }
 
-export async function archiveContactMessage(id:string) {
+export async function archiveContactMessage(id: string) {
     try {
 
         await prisma.contactMessage.update({
@@ -72,7 +79,7 @@ export async function archiveContactMessage(id:string) {
             status: "success",
             message: "Votre message a bien été archivé ",
         };
-    }catch (e) {
+    } catch (e) {
         console.log(e)
         return {
             status: "error",

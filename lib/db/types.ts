@@ -689,11 +689,8 @@ export type SubscriptionPlanType= {
     currency : string;
     createdAt: string;
     updatedAt : string;
-
     subscriptions : SubscriptionType[]
-
     selected: boolean ;
-
     options: string[];
 }
 

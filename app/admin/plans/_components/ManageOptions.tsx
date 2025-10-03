@@ -32,6 +32,7 @@ const ManageOptions = ({ id, options }: { id: string; options?: string[] }) => {
         }
     };
 
+
     const handleRemoveOption = (index: number) => {
         setCurrentOptions((prev) => prev.filter((_, i) => i !== index));
     };

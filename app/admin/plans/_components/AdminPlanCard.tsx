@@ -1,10 +1,9 @@
 import React from 'react';
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
-import {Button, buttonVariants} from "@/components/ui/button";
+import {Button} from "@/components/ui/button";
 import {SubscriptionPlanType} from "@/lib/db/types";
 import {CURRENCY} from '@/lib/constants';
 import Link from 'next/link';
-import {cn} from '@/lib/utils';
 import {Skeleton} from "@/components/ui/skeleton";
 import {
     DropdownMenu,
@@ -13,7 +12,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import {EyeIcon, MoreVerticalIcon, PencilIcon, Trash2Icon} from "lucide-react";
+import {MoreVerticalIcon, PencilIcon, ToggleLeftIcon, ToggleRightIcon, Trash2Icon} from "lucide-react";
 import ManageOptions from "@/app/admin/plans/_components/ManageOptions";
 
 interface AdminPlanCardProps {
@@ -23,7 +22,7 @@ interface AdminPlanCardProps {
 const AdminPlanCard = ({plan}: AdminPlanCardProps) => {
 
     return (
-        <Card className={`relative text-center ${plan.selected && "bg-primary/60"}  `}>
+        <Card className={`relative text-center ${plan.active && plan.selected && "bg-primary/60"}  ${!plan.active  && "bg-destructive/20"} `}>
             {/*    absolute dropdown */}
             <div className="absolute top-2 right-2 z-10">
                 <DropdownMenu>
@@ -38,6 +37,17 @@ const AdminPlanCard = ({plan}: AdminPlanCardProps) => {
                                 <PencilIcon className={"size-4 mr-2"}/>
                                 Edit Plan
                             </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            { !plan.active ? <Link href={`/admin/plans/${plan.id}/active`}>
+                                <ToggleRightIcon className={"size-4 mr-2 text-primary"}/>
+                                Active Plan
+                            </Link>
+                                :
+                                <Link href={`/admin/plans/${plan.id}/inactive`}>
+                            <ToggleLeftIcon className={"size-4 mr-2 text-destructive"}/>
+                            InActive Plan
+                        </Link>}
                         </DropdownMenuItem>
                         <DropdownMenuSeparator/>
                         <DropdownMenuItem asChild>

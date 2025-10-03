@@ -17,7 +17,7 @@ const aj = arcjet
         })
     );
 
-export async function createSubscriptionPlan(values: SubscriptionPlanSchema): Promise<ApiResponseType> {
+export async function updateSubscriptionPlan(id:string, values: SubscriptionPlanSchema): Promise<ApiResponseType> {
 
     const session = await requireAdmin();
 
@@ -47,35 +47,19 @@ export async function createSubscriptionPlan(values: SubscriptionPlanSchema): Pr
             };
         }
 
-        let stripeId= '';
-
-        if(validation.data.price > 0){
-
-            const data = await stripe.products.create({
-                name: validation.data.title,
-                description: validation.data.description,
-                default_price_data: {
-                    currency: validation.data.currency,
-                    unit_amount: validation.data.price, // Price in Cents
-                    recurring: {interval: validation.data.interval === "monthly" ? "month" : "year"},
-                },
-            })
-
-            stripeId = data.default_price as string;
-        }
-
-        await prisma.subscriptionPlan.create({
+        await prisma.subscriptionPlan.update({
+            where:{
+                id: id,
+            },
             data: {
                 title: validation.data.title,
                 slug: validation.data.slug,
                 description: validation.data.description,
                 price: validation.data.price,
-                stripePriceId: stripeId,
                 active:validation.data.active,
                 selected: validation.data.selected,
                 currency: validation.data.currency,
                 interval: validation.data.interval,
-                createdAt: new Date(),
                 updatedAt: new Date(),
             }
         });
@@ -87,7 +71,7 @@ export async function createSubscriptionPlan(values: SubscriptionPlanSchema): Pr
     } catch {
         return {
             status: "error",
-            message: "Failed to create Subscription Plan"
+            message: "Failed to create subscription plan"
         };
     }
 
